@@ -1,18 +1,8 @@
+'use strict'
+
 // https://gist.github.com/wteuber/6241786
 Math.fmod = function (a, b) {
     return Number((a - (Math.floor(a / b) * b)).toPrecision(8))
-}
-
-let MoonCoefficient1 = {
-    D: null,
-    M: null,
-    Mdash: null,
-    F: null
-}
-
-let MoonCoefficient2 = {
-    A: null,
-    B: null
 }
 
 const g_MoonCoefficients1 =
@@ -314,6 +304,22 @@ function getArgumentOfLatitude(JD) {
 class Moon {
     constructor(jd) {
         this.julianDay = jd
+    }
+
+    meanLongitude() {
+        return getMeanLongitude(this.julianDay)
+    }
+
+    meanElongation() {
+        return getMeanElongation(this.julianDay)
+    }
+
+    meanAnomaly() {
+        return getMeanAnomaly(this.julianDay)
+    }
+
+    argumentOfLatitude() {
+        return getArgumentOfLatitude(this.julianDay)
     }
 
     equatorialCoordinates() {

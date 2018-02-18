@@ -23,6 +23,9 @@
     "url": "https://github.com/onekiloparsec/AA.js/issues"
   },
   "homepage": "https://github.com/onekiloparsec/AA.js#readme",
+  "dependencies": {
+    "moment": "^2.20.1"
+  },
   "devDependencies": {
     "jest": "^22.3.0"
   }
