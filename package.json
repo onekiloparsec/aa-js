@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+ssh://git@github.com/onekiloparsec/AA.js.git"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "keywords": [
     "astronomy",
     "algorithms"
