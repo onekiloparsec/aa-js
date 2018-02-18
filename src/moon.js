@@ -287,6 +287,33 @@ function getMeanLongitude(JD) {
     return Math.fmod(218.3164477 + 481267.88123421 * T - 0.0015786 * Tsquared + Tcubed / 538841 - T4 / 65194000, 360)
 }
 
+function getMeanElongation(JD) {
+    const T = (JD - 2451545) / 36525
+    const Tsquared = T * T
+    const Tcubed = Tsquared * T
+    const T4 = Tcubed * T
+    return Math.fmod(297.8501921 + 445267.1114034 * T - 0.0018819 * Tsquared + Tcubed / 545868 - T4 / 113065000, 360)
+}
+
+function getMeanAnomaly(JD) {
+    const T = (JD - 2451545) / 36525
+    const Tsquared = T * T
+    const Tcubed = Tsquared * T
+    const T4 = Tcubed * T
+    return Math.fmod(134.9633964 + 477198.8675055 * T + 0.0087414 * Tsquared + Tcubed / 69699 - T4 / 14712000, 360)
+}
+
+function getArgumentOfLatitude(JD) {
+    const T = (JD - 2451545) / 36525
+    const Tsquared = T * T
+    const Tcubed = Tsquared * T
+    const T4 = Tcubed * T
+    return Math.fmod(93.2720950 + 483202.0175233 * T - 0.0036539 * Tsquared - Tcubed / 3526000 + T4 / 863310000, 360)
+}
+
 module.exports = {
-    getMeanLongitude
+    getMeanLongitude,
+    getMeanElongation,
+    getMeanAnomaly,
+    getArgumentOfLatitude
 }
