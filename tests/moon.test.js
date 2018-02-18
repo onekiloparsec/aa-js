@@ -7,3 +7,8 @@ test('get moon mean longitude', () => {
 test('get moon mean elongation', () => {
     expect(moon.getMeanElongation(245123456)).toBe(175.56631)
 })
+
+test('get moon equatorial coordinates', () => {
+    const m = new moon.Moon(245123456)
+    expect(m.equatorialCoordinates()).toBe('equatorialCoordinates...')
+})

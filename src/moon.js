@@ -311,9 +311,20 @@ function getArgumentOfLatitude(JD) {
     return Math.fmod(93.2720950 + 483202.0175233 * T - 0.0036539 * Tsquared - Tcubed / 3526000 + T4 / 863310000, 360)
 }
 
+class Moon {
+    constructor(jd) {
+        this.julianDay = jd
+    }
+
+    equatorialCoordinates() {
+        return 'equatorialCoordinates...'
+    }
+}
+
 module.exports = {
     getMeanLongitude,
     getMeanElongation,
     getMeanAnomaly,
-    getArgumentOfLatitude
+    getArgumentOfLatitude,
+    Moon
 }
