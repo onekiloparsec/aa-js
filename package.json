@@ -1,0 +1,26 @@
+{
+  "name": "aa.js",
+  "version": "0.1.0",
+  "description": "Astronomical Algorithms for node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/onekiloparsec/AA.js.git"
+  },
+  "keywords": [
+    "astronomy",
+    "algorithms"
+  ],
+  "author": "Cédric Foellmi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/onekiloparsec/AA.js/issues"
+  },
+  "homepage": "https://github.com/onekiloparsec/AA.js#readme",
+  "devDependencies": {
+    "jest": "^22.3.0"
+  }
+}
