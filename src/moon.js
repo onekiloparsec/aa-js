@@ -1,9 +1,9 @@
 'use strict'
 
-// https://gist.github.com/wteuber/6241786
-Math.fmod = function (a, b) {
-    return Number((a - (Math.floor(a / b) * b)).toPrecision(8))
-}
+const constants = require('./constants')
+const earth = require('./earth')
+const nutation = require('./nutation')
+const coordinates = require('./coordinates')
 
 const g_MoonCoefficients1 =
     [
@@ -68,7 +68,7 @@ const g_MoonCoefficients1 =
         [2, 0, 3, 0],
         [2, 0, -1, -2]
     ].map((a) => {
-        return {D: a[0], M: a[1], Mdash: a[2], F: a[4]}
+        return {D: a[0], M: a[1], Mdash: a[2], F: a[3]}
     })
 
 const g_MoonCoefficients2 =
@@ -201,7 +201,7 @@ const g_MoonCoefficients3 =
         [4, -1, 0, -1],
         [2, -2, 0, 1]
     ].map((a) => {
-        return {D: a[0], M: a[1], Mdash: a[2], F: a[4]}
+        return {D: a[0], M: a[1], Mdash: a[2], F: a[3]}
     })
 
 
@@ -301,6 +301,118 @@ function getArgumentOfLatitude(JD) {
     return Math.fmod(93.2720950 + 483202.0175233 * T - 0.0036539 * Tsquared - Tcubed / 3526000 + T4 / 863310000, 360)
 }
 
+function getEclipticLongitude(JD) {
+    const Ldash = getMeanLongitude(JD) * constants.DEGREES_TO_RADIANS
+    const D = getMeanElongation(JD) * constants.DEGREES_TO_RADIANS
+    const M = earth.getSunMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
+    const Mdash = getMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
+    const F = getArgumentOfLatitude(JD) * constants.DEGREES_TO_RADIANS
+    const E = earth.getEccentricity(JD)
+    const Esquared = E * E
+    const T = (JD - 2451545) / 36525
+
+    const A1 = Math.fmod(119.75 + 131.849 * T, 360) * constants.DEGREES_TO_RADIANS
+    const A2 = Math.fmod(53.09 + 479264.290 * T, 360) * constants.DEGREES_TO_RADIANS
+
+    let SigmaL = 0
+    for (let i = 0; i < g_MoonCoefficients1.length; i++) {
+        let ThisSigma = g_MoonCoefficients2[i].A *
+            Math.sin(g_MoonCoefficients1[i].D * D +
+                g_MoonCoefficients1[i].M * M +
+                g_MoonCoefficients1[i].Mdash * Mdash +
+                g_MoonCoefficients1[i].F * F)
+
+        if ((g_MoonCoefficients1[i].M === 1) || (g_MoonCoefficients1[i].M === -1)) {
+            ThisSigma *= E
+        } else if ((g_MoonCoefficients1[i].M === 2) || (g_MoonCoefficients1[i].M === -2)) {
+            ThisSigma *= Esquared
+        }
+
+        SigmaL += ThisSigma
+    }
+
+    //Finally the additive terms
+    SigmaL += 3958 * Math.sin(A1)
+    SigmaL += 1962 * Math.sin(Ldash - F)
+    SigmaL += 318 * Math.sin(A2)
+
+    //And finally apply the nutation in longitude
+    const NutationInLong = nutation.getNutationInLongitude(JD)
+
+    const LdashDegrees = Ldash * constants.RADIANS_TO_DEGREES
+    return Math.fmod(LdashDegrees + SigmaL / 1000000 + NutationInLong / 3600, 360)
+}
+
+function getEclipticLatitude(JD) {
+    const Ldash = getMeanLongitude(JD) * constants.DEGREES_TO_RADIANS
+    const D = getMeanElongation(JD) * constants.DEGREES_TO_RADIANS
+    const M = earth.getSunMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
+    const Mdash = getMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
+    const F = getArgumentOfLatitude(JD) * constants.DEGREES_TO_RADIANS
+    const E = earth.getEccentricity(JD)
+    const Esquared = E * E
+    const T = (JD - 2451545) / 36525
+
+    const A1 = Math.fmod(119.75 + 131.849 * T, 360) * constants.DEGREES_TO_RADIANS
+    const A3 = Math.fmod(313.45 + 481266.484 * T, 360) * constants.DEGREES_TO_RADIANS
+
+    let SigmaB = 0
+    for (let i = 0; i < g_MoonCoefficients3.length; i++) {
+
+        let ThisSigma = g_MoonCoefficients4[i] *
+            Math.sin(g_MoonCoefficients3[i].D * D +
+                g_MoonCoefficients3[i].M * M +
+                g_MoonCoefficients3[i].Mdash * Mdash +
+                g_MoonCoefficients3[i].F * F)
+
+        if ((g_MoonCoefficients3[i].M === 1) || (g_MoonCoefficients3[i].M === -1)) {
+            ThisSigma *= E
+        } else if ((g_MoonCoefficients3[i].M === 2) || (g_MoonCoefficients3[i].M === -2)) {
+            ThisSigma *= Esquared
+        }
+
+        SigmaB += ThisSigma
+    }
+
+    //Finally the additive terms
+    SigmaB -= 2235 * Math.sin(Ldash)
+    SigmaB += 382 * Math.sin(A3)
+    SigmaB += 175 * Math.sin(A1 - F)
+    SigmaB += 175 * Math.sin(A1 + F)
+    SigmaB += 127 * Math.sin(Ldash - Mdash)
+    SigmaB -= 115 * Math.sin(Ldash + Mdash)
+
+    return SigmaB / 1000000
+}
+
+function getRadiusVector(JD) {
+    const D = getMeanElongation(JD) * constants.DEGREES_TO_RADIANS
+    const M = earth.getSunMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
+    const Mdash = getMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
+    const F = getArgumentOfLatitude(JD) * constants.DEGREES_TO_RADIANS
+    const E = earth.getEccentricity(JD)
+    const Esquared = E * E
+
+    let SigmaR = 0
+    for (let i = 0; i < g_MoonCoefficients1.length; i++) {
+        let ThisSigma = g_MoonCoefficients2[i].B *
+            Math.cos(g_MoonCoefficients1[i].D * D +
+                g_MoonCoefficients1[i].M * M +
+                g_MoonCoefficients1[i].Mdash * Mdash +
+                g_MoonCoefficients1[i].F * F)
+
+        if ((g_MoonCoefficients1[i].M === 1) || (g_MoonCoefficients1[i].M === -1)) {
+            ThisSigma *= E
+        } else if ((g_MoonCoefficients1[i].M === 2) || (g_MoonCoefficients1[i].M === -2)) {
+            ThisSigma *= Esquared
+        }
+
+        SigmaR += ThisSigma
+    }
+
+    return 385000.56 + SigmaR / 1000
+}
+
 class Moon {
     constructor(jd) {
         this.julianDay = jd
@@ -322,8 +434,24 @@ class Moon {
         return getArgumentOfLatitude(this.julianDay)
     }
 
+    radiusVector() {
+        return getRadiusVector(this.julianDay)
+    }
+
+    eclipticCoordinates() {
+        return {
+            longitude: getEclipticLongitude(this.julianDay),
+            latitude: getEclipticLatitude(this.julianDay)
+        }
+    }
+
     equatorialCoordinates() {
-        return 'equatorialCoordinates...'
+        console.log(getEclipticLongitude(this.julianDay))
+        return coordinates.transformEclipticToEquatorial(
+            getEclipticLongitude(this.julianDay),
+            getEclipticLatitude(this.julianDay),
+            nutation.getMeanObliquityOfEcliptic(this.julianDay)
+        )
     }
 }
 
