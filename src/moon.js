@@ -446,7 +446,6 @@ class Moon {
     }
 
     equatorialCoordinates() {
-        console.log(getEclipticLongitude(this.julianDay))
         return coordinates.transformEclipticToEquatorial(
             getEclipticLongitude(this.julianDay),
             getEclipticLatitude(this.julianDay),
