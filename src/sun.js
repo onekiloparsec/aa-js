@@ -1,3 +1,5 @@
+'use strict'
+
 const constants = require('./constants')
 const coordinates = require('./coordinates')
 const earth = require('./earth')
@@ -25,7 +27,7 @@ function getGeometricEclipticLatitude(JD) {
 function getGeometricFK5EclipticLongitude(JD) {
     //Convert to the FK5 stystem
     let Longitude = getGeometricEclipticLongitude(JD)
-    const Latitude = GeometricEclipticLatitude(JD)
+    const Latitude = getGeometricEclipticLatitude(JD)
     Longitude += fk5.getCorrectionInLongitude(Longitude, Latitude, JD)
     return Longitude
 }

@@ -4,6 +4,7 @@ const constants = require('./constants')
 const earth = require('./earth')
 const nutation = require('./nutation')
 const coordinates = require('./coordinates')
+const utils = require('./utils')
 
 const g_MoonCoefficients1 =
     [
@@ -274,7 +275,7 @@ function getMeanLongitude(JD) {
     const Tsquared = T * T
     const Tcubed = Tsquared * T
     const T4 = Tcubed * T
-    return Math.fmod(218.3164477 + 481267.88123421 * T - 0.0015786 * Tsquared + Tcubed / 538841 - T4 / 65194000, 360)
+    return utils.MapTo0To360Range(218.3164477 + 481267.88123421 * T - 0.0015786 * Tsquared + Tcubed / 538841 - T4 / 65194000)
 }
 
 function getMeanElongation(JD) {
@@ -282,7 +283,7 @@ function getMeanElongation(JD) {
     const Tsquared = T * T
     const Tcubed = Tsquared * T
     const T4 = Tcubed * T
-    return Math.fmod(297.8501921 + 445267.1114034 * T - 0.0018819 * Tsquared + Tcubed / 545868 - T4 / 113065000, 360)
+    return utils.MapTo0To360Range(297.8501921 + 445267.1114034 * T - 0.0018819 * Tsquared + Tcubed / 545868 - T4 / 113065000)
 }
 
 function getMeanAnomaly(JD) {
@@ -290,7 +291,7 @@ function getMeanAnomaly(JD) {
     const Tsquared = T * T
     const Tcubed = Tsquared * T
     const T4 = Tcubed * T
-    return Math.fmod(134.9633964 + 477198.8675055 * T + 0.0087414 * Tsquared + Tcubed / 69699 - T4 / 14712000, 360)
+    return utils.MapTo0To360Range(134.9633964 + 477198.8675055 * T + 0.0087414 * Tsquared + Tcubed / 69699 - T4 / 14712000)
 }
 
 function getArgumentOfLatitude(JD) {
@@ -298,7 +299,7 @@ function getArgumentOfLatitude(JD) {
     const Tsquared = T * T
     const Tcubed = Tsquared * T
     const T4 = Tcubed * T
-    return Math.fmod(93.2720950 + 483202.0175233 * T - 0.0036539 * Tsquared - Tcubed / 3526000 + T4 / 863310000, 360)
+    return utils.MapTo0To360Range(93.2720950 + 483202.0175233 * T - 0.0036539 * Tsquared - Tcubed / 3526000 + T4 / 863310000)
 }
 
 function getEclipticLongitude(JD) {
@@ -311,8 +312,8 @@ function getEclipticLongitude(JD) {
     const Esquared = E * E
     const T = (JD - 2451545) / 36525
 
-    const A1 = Math.fmod(119.75 + 131.849 * T, 360) * constants.DEGREES_TO_RADIANS
-    const A2 = Math.fmod(53.09 + 479264.290 * T, 360) * constants.DEGREES_TO_RADIANS
+    const A1 = utils.MapTo0To360Range(119.75 + 131.849 * T) * constants.DEGREES_TO_RADIANS
+    const A2 = utils.MapTo0To360Range(53.09 + 479264.290 * T) * constants.DEGREES_TO_RADIANS
 
     let SigmaL = 0
     for (let i = 0; i < g_MoonCoefficients1.length; i++) {
@@ -340,7 +341,7 @@ function getEclipticLongitude(JD) {
     const NutationInLong = nutation.getNutationInLongitude(JD)
 
     const LdashDegrees = Ldash * constants.RADIANS_TO_DEGREES
-    return Math.fmod(LdashDegrees + SigmaL / 1000000 + NutationInLong / 3600, 360)
+    return utils.MapTo0To360Range(LdashDegrees + SigmaL / 1000000 + NutationInLong / 3600)
 }
 
 function getEclipticLatitude(JD) {
@@ -353,8 +354,8 @@ function getEclipticLatitude(JD) {
     const Esquared = E * E
     const T = (JD - 2451545) / 36525
 
-    const A1 = Math.fmod(119.75 + 131.849 * T, 360) * constants.DEGREES_TO_RADIANS
-    const A3 = Math.fmod(313.45 + 481266.484 * T, 360) * constants.DEGREES_TO_RADIANS
+    const A1 = utils.MapTo0To360Range(119.75 + 131.849 * T) * constants.DEGREES_TO_RADIANS
+    const A3 = utils.MapTo0To360Range(313.45 + 481266.484 * T) * constants.DEGREES_TO_RADIANS
 
     let SigmaB = 0
     for (let i = 0; i < g_MoonCoefficients3.length; i++) {

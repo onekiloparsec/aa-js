@@ -1,3 +1,5 @@
+'use strict'
+
 function DMSToDegrees(d, m, s, positive = true) {
     if (!positive) {
         assert(Degrees >= 0)  //All parameters should be non negative if the "bPositive" parameter is false

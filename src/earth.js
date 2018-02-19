@@ -1,3 +1,5 @@
+'use strict'
+
 const constants = require('./constants')
 const utils = require('./utils')
 const coordinates = require('./coordinates')
@@ -412,42 +414,40 @@ function getEclipticLongitude(JD) {
     const rho4 = rhocubed * rho
     const rho5 = rho4 * rho
 
-    const L0 = g_L0EarthCoefficients.reduce((sum, val) => val.A * Math.cos(val.B + val.C * rho))
-    const L1 = g_L1EarthCoefficients.reduce((sum, val) => val.A * Math.cos(val.B + val.C * rho))
-    const L2 = g_L2EarthCoefficients.reduce((sum, val) => val.A * Math.cos(val.B + val.C * rho))
-    const L3 = g_L3EarthCoefficients.reduce((sum, val) => val.A * Math.cos(val.B + val.C * rho))
-    const L4 = g_L4EarthCoefficients.reduce((sum, val) => val.A * Math.cos(val.B + val.C * rho))
-
-    const g5 = g_L5EarthCoefficients[0]
-    const L5 = g5.A * Math.cos(g5.B + g5.C * rho)
+    const L0 = g_L0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const L1 = g_L1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const L2 = g_L2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const L3 = g_L3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const L4 = g_L4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const L5 = g_L5EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
 
     const value = (L0 + L1 * rho + L2 * rhosquared + L3 * rhocubed + L4 * rho4 + L5 * rho5) / 100000000
-    
-    return Math.fmod(value * constants.RADIANS_TO_DEGREES, 360)
+
+    return utils.MapTo0To360Range(value * constants.RADIANS_TO_DEGREES)
 }
 
 function getEclipticLatitude(JD) {
     const rho = (JD - 2451545) / 365250
 
-    const B0 = g_B0EarthCoefficients.reduce((sum, val) => val.A * Math.cos(val.B + val.C * rho))
-    const B1 = g_B1EarthCoefficients.reduce((sum, val) => val.A * Math.cos(val.B + val.C * rho))
+    const B0 = g_B0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const B1 = g_B1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
 
     const value = (B0 + B1 * rho) / 100000000
 
     return utils.MapToMinus90To90Range(value * constants.RADIANS_TO_DEGREES)
 }
 
-function getRadiusVector(double) {
+function getRadiusVector(JD) {
     const rho = (JD - 2451545) / 365250
     const rhosquared = rho * rho
     const rhocubed = rhosquared * rho
     const rho4 = rhocubed * rho
 
-    const R0 = g_R0EarthCoefficients.reduce((sum, val) => val.A * Math.cos(val.B + val.C * rho))
-    const R1 = g_R1EarthCoefficients.reduce((sum, val) => val.A * Math.cos(val.B + val.C * rho))
-    const R2 = g_R2EarthCoefficients.reduce((sum, val) => val.A * Math.cos(val.B + val.C * rho))
-    const R3 = g_R3EarthCoefficients.reduce((sum, val) => val.A * Math.cos(val.B + val.C * rho))
-    const R4 = g_R4EarthCoefficients.reduce((sum, val) => val.A * Math.cos(val.B + val.C * rho))
+    const R0 = g_R0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const R1 = g_R1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const R2 = g_R2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const R3 = g_R3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const R4 = g_R4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
 
     return (R0 + R1 * rho + R2 * rhosquared + R3 * rhocubed + R4 * rho4) / 100000000
 }
@@ -456,7 +456,7 @@ function getSunMeanAnomaly(JD) {
     const T = (JD - 2451545) / 36525
     const Tsquared = T * T
     const Tcubed = Tsquared * T
-    return Math.fmod(357.5291092 + 35999.0502909 * T - 0.0001536 * Tsquared + Tcubed / 24490000, 360)
+    return utils.MapTo0To360Range(357.5291092 + 35999.0502909 * T - 0.0001536 * Tsquared + Tcubed / 24490000)
 }
 
 function getEccentricity(JD) {

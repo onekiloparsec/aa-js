@@ -1,5 +1,8 @@
+'use strict'
+
 const constants = require('./constants')
 const sexagesimal = require('./sexagesimal')
+const utils = require('./utils')
 
 const g_NutationCoefficients =
     [
@@ -85,11 +88,11 @@ function getNutationInLongitude(JD) {
     const Tsquared = T * T
     const Tcubed = Tsquared * T
 
-    const D = Math.fmod(297.85036 + 445267.111480 * T - 0.0019142 * Tsquared + Tcubed / 189474, 360)
-    const M = Math.fmod(357.52772 + 35999.050340 * T - 0.0001603 * Tsquared - Tcubed / 300000, 360)
-    const Mprime = Math.fmod(134.96298 + 477198.867398 * T + 0.0086972 * Tsquared + Tcubed / 56250, 360)
-    const F = Math.fmod(93.27191 + 483202.017538 * T - 0.0036825 * Tsquared + Tcubed / 327270, 360)
-    const omega = Math.fmod(125.04452 - 1934.136261 * T + 0.0020708 * Tsquared + Tcubed / 450000, 360)
+    const D = utils.MapTo0To360Range(297.85036 + 445267.111480 * T - 0.0019142 * Tsquared + Tcubed / 189474)
+    const M = utils.MapTo0To360Range(357.52772 + 35999.050340 * T - 0.0001603 * Tsquared - Tcubed / 300000)
+    const Mprime = utils.MapTo0To360Range(134.96298 + 477198.867398 * T + 0.0086972 * Tsquared + Tcubed / 56250)
+    const F = utils.MapTo0To360Range(93.27191 + 483202.017538 * T - 0.0036825 * Tsquared + Tcubed / 327270)
+    const omega = utils.MapTo0To360Range(125.04452 - 1934.136261 * T + 0.0020708 * Tsquared + Tcubed / 450000)
 
     let value = 0
     for (let i = 0; i < g_NutationCoefficients.length; i++) {
@@ -103,6 +106,31 @@ function getNutationInLongitude(JD) {
 
     return value
 }
+
+function getNutationInObliquity(JD) {
+    const T = (JD - 2451545) / 36525
+    const Tsquared = T * T
+    const Tcubed = Tsquared * T
+
+    const D = utils.MapTo0To360Range(297.85036 + 445267.111480 * T - 0.0019142 * Tsquared + Tcubed / 189474)
+    const M = utils.MapTo0To360Range(357.52772 + 35999.050340 * T - 0.0001603 * Tsquared - Tcubed / 300000)
+    const Mprime = utils.MapTo0To360Range(134.96298 + 477198.867398 * T + 0.0086972 * Tsquared + Tcubed / 56250)
+    const F = utils.MapTo0To360Range(93.27191 + 483202.017538 * T - 0.0036825 * Tsquared + Tcubed / 327270)
+    const omega = utils.MapTo0To360Range(125.04452 - 1934.136261 * T + 0.0020708 * Tsquared + Tcubed / 450000)
+
+    let value = 0
+    for (let i = 0; i < g_NutationCoefficients.length; i++) {
+        const argument = g_NutationCoefficients[i].D * D + g_NutationCoefficients[i].M * M +
+            g_NutationCoefficients[i].Mprime * Mprime + g_NutationCoefficients[i].F * F +
+            g_NutationCoefficients[i].omega * omega
+
+        value += (g_NutationCoefficients[i].coscoeff1 + g_NutationCoefficients[i].coscoeff2 * T) *
+            Math.cos(argument * constants.DEGREES_TO_RADIANS) * 0.0001
+    }
+
+    return value
+}
+
 
 function getMeanObliquityOfEcliptic(JD) {
     const U = (JD - 2451545) / 3652500
@@ -135,6 +163,7 @@ function getTrueObliquityOfEcliptic(JD) {
 
 module.exports = {
     getNutationInLongitude,
+    getNutationInObliquity,
     getMeanObliquityOfEcliptic,
     getTrueObliquityOfEcliptic
 }
