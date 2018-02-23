@@ -16,13 +16,13 @@ function getGeometricEclipticLatitude(JD) {
     return -earth.getEclipticLatitude(JD)
 }
 
-// function getGeometricEclipticLongitudeJ2000(JD) {
-//     return utils.MapTo0To360Range(earth.getEclipticLongitudeJ2000(JD) + 180)
-// }
+function getGeometricEclipticLongitudeJ2000(JD) {
+    return utils.MapTo0To360Range(earth.getEclipticLongitudeJ2000(JD) + 180)
+}
 
-// function getGeometricEclipticLatitudeJ2000(JD) {
-//     return -earth.getEclipticLatitudeJ2000(JD)
-// }
+function getGeometricEclipticLatitudeJ2000(JD) {
+    return -earth.getEclipticLatitudeJ2000(JD)
+}
 
 function getGeometricFK5EclipticLongitude(JD) {
     //Convert to the FK5 stystem
@@ -36,8 +36,7 @@ function getGeometricFK5EclipticLatitude(JD) {
     //Convert to the FK5 stystem
     const Longitude = getGeometricEclipticLongitude(JD)
     let Latitude = getGeometricEclipticLatitude(JD)
-    const SunLatCorrection = fk5.getCorrectionInLatitude(Longitude, JD)
-    Latitude += SunLatCorrection
+    Latitude += fk5.getCorrectionInLatitude(Longitude, JD)
     return Latitude
 }
 
@@ -198,6 +197,13 @@ class Sun {
         }
     }
 
+    eclipticCoordinatesJ2000() {
+        return {
+            longitude: getGeometricEclipticLongitudeJ2000(this.julianDay),
+            latitude: getGeometricEclipticLatitudeJ2000(this.julianDay)
+        }
+    }
+
     apparentEclipticCoordinates() {
         return {
             longitude: getApparentEclipticLongitude(this.julianDay),
@@ -209,6 +215,14 @@ class Sun {
         return coordinates.transformEclipticToEquatorial(
             getGeometricEclipticLongitude(this.julianDay),
             getGeometricEclipticLatitude(this.julianDay),
+            nutation.getMeanObliquityOfEcliptic(this.julianDay)
+        )
+    }
+
+    equatorialCoordinatesJ2000() {
+        return coordinates.transformEclipticToEquatorial(
+            getGeometricEclipticLongitudeJ2000(this.julianDay),
+            getGeometricEclipticLatitudeJ2000(this.julianDay),
             nutation.getMeanObliquityOfEcliptic(this.julianDay)
         )
     }
@@ -225,6 +239,8 @@ class Sun {
 module.exports = {
     getGeometricEclipticLongitude,
     getGeometricEclipticLatitude,
+    getGeometricEclipticLongitudeJ2000,
+    getGeometricEclipticLatitudeJ2000,
     getGeometricFK5EclipticLongitude,
     getGeometricFK5EclipticLatitude,
     getApparentEclipticLongitude,

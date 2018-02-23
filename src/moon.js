@@ -69,7 +69,7 @@ const g_MoonCoefficients1 =
         [2, 0, 3, 0],
         [2, 0, -1, -2]
     ].map((a) => {
-        return {D: a[0], M: a[1], Mdash: a[2], F: a[3]}
+        return { D: a[0], M: a[1], Mdash: a[2], F: a[3] }
     })
 
 const g_MoonCoefficients2 =
@@ -135,7 +135,7 @@ const g_MoonCoefficients2 =
         [294, 0],
         [0, 8752]
     ].map((a) => {
-        return {A: a[0], B: a[1]}
+        return { A: a[0], B: a[1] }
     })
 
 
@@ -202,7 +202,7 @@ const g_MoonCoefficients3 =
         [4, -1, 0, -1],
         [2, -2, 0, 1]
     ].map((a) => {
-        return {D: a[0], M: a[1], Mdash: a[2], F: a[3]}
+        return { D: a[0], M: a[1], Mdash: a[2], F: a[3] }
     })
 
 
@@ -270,7 +270,7 @@ const g_MoonCoefficients4 =
         107
     ]
 
-function getMeanLongitude(JD) {
+function getMeanLongitude (JD) {
     const T = (JD - 2451545) / 36525
     const Tsquared = T * T
     const Tcubed = Tsquared * T
@@ -278,7 +278,7 @@ function getMeanLongitude(JD) {
     return utils.MapTo0To360Range(218.3164477 + 481267.88123421 * T - 0.0015786 * Tsquared + Tcubed / 538841 - T4 / 65194000)
 }
 
-function getMeanElongation(JD) {
+function getMeanElongation (JD) {
     const T = (JD - 2451545) / 36525
     const Tsquared = T * T
     const Tcubed = Tsquared * T
@@ -286,7 +286,7 @@ function getMeanElongation(JD) {
     return utils.MapTo0To360Range(297.8501921 + 445267.1114034 * T - 0.0018819 * Tsquared + Tcubed / 545868 - T4 / 113065000)
 }
 
-function getMeanAnomaly(JD) {
+function getMeanAnomaly (JD) {
     const T = (JD - 2451545) / 36525
     const Tsquared = T * T
     const Tcubed = Tsquared * T
@@ -294,7 +294,7 @@ function getMeanAnomaly(JD) {
     return utils.MapTo0To360Range(134.9633964 + 477198.8675055 * T + 0.0087414 * Tsquared + Tcubed / 69699 - T4 / 14712000)
 }
 
-function getArgumentOfLatitude(JD) {
+function getArgumentOfLatitude (JD) {
     const T = (JD - 2451545) / 36525
     const Tsquared = T * T
     const Tcubed = Tsquared * T
@@ -302,7 +302,7 @@ function getArgumentOfLatitude(JD) {
     return utils.MapTo0To360Range(93.2720950 + 483202.0175233 * T - 0.0036539 * Tsquared - Tcubed / 3526000 + T4 / 863310000)
 }
 
-function getEclipticLongitude(JD) {
+function getEclipticLongitude (JD) {
     const Ldash = getMeanLongitude(JD) * constants.DEGREES_TO_RADIANS
     const D = getMeanElongation(JD) * constants.DEGREES_TO_RADIANS
     const M = earth.getSunMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
@@ -344,7 +344,7 @@ function getEclipticLongitude(JD) {
     return utils.MapTo0To360Range(LdashDegrees + SigmaL / 1000000 + NutationInLong / 3600)
 }
 
-function getEclipticLatitude(JD) {
+function getEclipticLatitude (JD) {
     const Ldash = getMeanLongitude(JD) * constants.DEGREES_TO_RADIANS
     const D = getMeanElongation(JD) * constants.DEGREES_TO_RADIANS
     const M = earth.getSunMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
@@ -386,7 +386,7 @@ function getEclipticLatitude(JD) {
     return SigmaB / 1000000
 }
 
-function getRadiusVector(JD) {
+function getRadiusVector (JD) {
     const D = getMeanElongation(JD) * constants.DEGREES_TO_RADIANS
     const M = earth.getSunMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
     const Mdash = getMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
@@ -414,44 +414,103 @@ function getRadiusVector(JD) {
     return 385000.56 + SigmaR / 1000
 }
 
+function transformRadiusVectorToHorizontalParallax (radiusVector) {
+    return constants.RADIANS_TO_DEGREES * Math.asin(6378.14 / RadiusVector)
+}
+
+function transformHorizontalParallaxToRadiusVector (horizontalParallax) {
+    return 6378.14 / Math.sin(constanys.DEGREES_TO_RADIANS * horizontalParallax)
+}
+
+function getMeanLongitudeAscendingNode (JD) {
+    const T = (JD - 2451545) / 36525
+    const Tsquared = T * T
+    const Tcubed = Tsquared * T
+    const T4 = Tcubed * T
+    return utils.MapTo0To360Range(125.0445479 - 1934.1362891 * T + 0.0020754 * Tsquared + Tcubed / 467441 - T4 / 60616000)
+}
+
+function getMeanLongitudePerigee (JD) {
+    const T = (JD - 2451545) / 36525
+    const Tsquared = T * T
+    const Tcubed = Tsquared * T
+    const T4 = Tcubed * T
+    return utils.MapTo0To360Range(83.3532465 + 4069.0137287 * T - 0.0103200 * Tsquared - Tcubed / 80053 + T4 / 18999000)
+}
+
+function getTrueLongitudeAscendingNode (JD) {
+    let TrueAscendingNode = getMeanLongitudeAscendingNode(JD)
+
+    const D = getMeanElongation(JD) * constants.DEGREES_TO_RADIANS
+    const M = earth.getSunMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
+    const Mdash = getMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
+    const F = getArgumentOfLatitude(JD) * constants.DEGREES_TO_RADIANS
+
+    //Add the principal additive terms
+    TrueAscendingNode -= 1.4979 * Math.sin(2 * (D - F))
+    TrueAscendingNode -= 0.1500 * Math.sin(M)
+    TrueAscendingNode -= 0.1226 * Math.sin(2 * D)
+    TrueAscendingNode += 0.1176 * Math.sin(2 * F)
+    TrueAscendingNode -= 0.0801 * Math.sin(2 * (Mdash - F))
+
+    return utils.MapTo0To360Range(TrueAscendingNode)
+}
+
+
 class Moon {
-    constructor(jd) {
+    constructor (jd) {
         this.julianDay = jd
     }
 
-    meanLongitude() {
+    meanLongitude () {
         return getMeanLongitude(this.julianDay)
     }
 
-    meanElongation() {
+    meanElongation () {
         return getMeanElongation(this.julianDay)
     }
 
-    meanAnomaly() {
+    meanAnomaly () {
         return getMeanAnomaly(this.julianDay)
     }
 
-    argumentOfLatitude() {
+    argumentOfLatitude () {
         return getArgumentOfLatitude(this.julianDay)
     }
 
-    radiusVector() {
+    radiusVector () {
         return getRadiusVector(this.julianDay)
     }
 
-    eclipticCoordinates() {
+    horizontalParallax () {
+        return transformRadiusVectorToHorizontalParallax(this.radiusVector())
+    }
+
+    eclipticCoordinates () {
         return {
             longitude: getEclipticLongitude(this.julianDay),
             latitude: getEclipticLatitude(this.julianDay)
         }
     }
 
-    equatorialCoordinates() {
+    equatorialCoordinates () {
         return coordinates.transformEclipticToEquatorial(
             getEclipticLongitude(this.julianDay),
             getEclipticLatitude(this.julianDay),
             nutation.getMeanObliquityOfEcliptic(this.julianDay)
         )
+    }
+
+    meanLongitudeAscendingNode () {
+        return getMeanLongitudeAscendingNode(this.julianDay)
+    }
+
+    meanLongitudePerigee () {
+        return getMeanLongitudePerigee(this.julianDay)
+    }
+
+    trueLongitudeAscendingNode () {
+        return getTrueLongitudeAscendingNode(this.julianDay)
     }
 }
 
@@ -460,5 +519,11 @@ module.exports = {
     getMeanElongation,
     getMeanAnomaly,
     getArgumentOfLatitude,
+    getRadiusVector,
+    transformRadiusVectorToHorizontalParallax,
+    transformHorizontalParallaxToRadiusVector,
+    getMeanLongitudeAscendingNode,
+    getMeanLongitudePerigee,
+    getTrueLongitudeAscendingNode,
     Moon
 }

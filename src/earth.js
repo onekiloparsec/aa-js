@@ -452,6 +452,42 @@ function getRadiusVector(JD) {
     return (R0 + R1 * rho + R2 * rhosquared + R3 * rhocubed + R4 * rho4) / 100000000
 }
 
+function getEclipticLongitudeJ2000(JD) {
+
+    const rho = (JD - 2451545) / 365250;
+    const rhosquared = rho*rho;
+    const rhocubed = rhosquared*rho;
+    const rho4 = rhocubed*rho;
+
+    const L0 = g_L0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const L1 = g_L1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const L2 = g_L2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const L3 = g_L3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const L4 = g_L4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+
+    const value = (L0 + L1*rho + L2*rhosquared + L3*rhocubed + L4*rho4) / 100000000;
+
+    return utils.MapTo0To360Range(value * constants.RADIANS_TO_DEGREES)
+}
+
+function getEclipticLatitudeJ2000(JD) {
+
+    const rho = (JD - 2451545) / 365250;
+    const rhosquared = rho*rho;
+    const rhocubed = rhosquared*rho;
+    const rho4 = rhocubed*rho;
+
+    const B0 = g_B0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const B1 = g_B1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const B2 = g_B2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const B3 = g_B3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+    const B4 = g_B4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+
+    const value = (B0 + B1*rho + B2*rhosquared + B3*rhocubed + B4*rho4) / 100000000;
+
+    return utils.MapToMinus90To90Range(value * constants.RADIANS_TO_DEGREES)
+}
+
 function getSunMeanAnomaly(JD) {
     const T = (JD - 2451545) / 36525
     const Tsquared = T * T
@@ -482,10 +518,25 @@ class Earth {
         }
     }
 
+    eclipticCoordinatesJ2000() {
+        return {
+            longitude: getEclipticLongitudeJ2000(this.julianDay),
+            latitude: getEclipticLatitudeJ2000(this.julianDay)
+        }
+    }
+
     equatorialCoordinates() {
         return coordinates.transformEclipticToEquatorial(
             getEclipticLongitude(this.julianDay),
             getEclipticLatitude(this.julianDay),
+            nutation.getMeanObliquityOfEcliptic(this.julianDay)
+        )
+    }
+
+    equatorialCoordinatesJ2000() {
+        return coordinates.transformEclipticToEquatorial(
+            getEclipticLongitudeJ2000(this.julianDay),
+            getEclipticLatitudeJ2000(this.julianDay),
             nutation.getMeanObliquityOfEcliptic(this.julianDay)
         )
     }
@@ -494,6 +545,8 @@ class Earth {
 module.exports = {
     getEclipticLongitude,
     getEclipticLatitude,
+    getEclipticLongitudeJ2000,
+    getEclipticLatitudeJ2000,
     getRadiusVector,
     getSunMeanAnomaly,
     getEccentricity,
