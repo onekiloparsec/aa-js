@@ -1,6 +1,6 @@
 // https://gist.github.com/wteuber/6241786
 Math.fmod = function (a, b) {
-    return Number((a - (Math.floor(a / b) * b)).toPrecision(8))
+  return Number((a - (Math.floor(a / b) * b)).toPrecision(8))
 }
 
 const DEGREES_TO_RADIANS = 0.017453292519943295769236907684886
@@ -10,11 +10,11 @@ const HOURS_TO_RADIANS = 0.26179938779914943653855361527329
 const HOURS_TO_DEGREES = 15
 const DEGREES_TO_HOURS = 0.06666666666666666666666666666666666
 
-module.exports = {
-    DEGREES_TO_RADIANS,
-    RADIANS_TO_DEGREES,
-    RADIANS_TO_HOURS,
-    HOURS_TO_RADIANS,
-    HOURS_TO_DEGREES,
-    DEGREES_TO_HOURS
+export default {
+  DEGREES_TO_RADIANS,
+  RADIANS_TO_DEGREES,
+  RADIANS_TO_HOURS,
+  HOURS_TO_RADIANS,
+  HOURS_TO_DEGREES,
+  DEGREES_TO_HOURS
 }
