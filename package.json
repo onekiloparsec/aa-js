@@ -1,5 +1,5 @@
 {
-  "name": "aa",
+  "name": "aa.js",
   "version": "0.3.0",
   "description": "Astronomical Algorithms for node.js",
   "main": "dist/aa.common.js",
