@@ -12,13 +12,11 @@
 AA.js
 ============
 
-Astronomical Algorithms in javascript...
+Astronomical Algorithms in javascript.
 
-I developed quite a bit in javascript nowadays. So I thought I could try to put the AA algorithms 
-in an npm module. Wouldn't be cool?
+AA.js is the port in javascript of the C++ implementation of Astronomical Algorithms by J.P. Naughter, called [AA+](http://www.naughter.com/aa.html), based on the reference text book by Jean Meeus.
 
-In the meantime, if you are looking for the Swift version, check it out, it's awesome:
- [SwiftAA](https://github.com/onekiloparsec/SwiftAA)
+I am the author of the Swift version too. It's called [SwiftAA](https://github.com/onekiloparsec/SwiftAA).
 
 
 
