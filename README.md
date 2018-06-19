@@ -16,6 +16,8 @@ Astronomical Algorithms in javascript.
 
 AA.js is the port in javascript of the C++ implementation of Astronomical Algorithms by J.P. Naughter, called [AA+](http://www.naughter.com/aa.html), based on the reference text book by Jean Meeus.
 
+AA.js is the backbone of scientific algorithms used in [arcsecond.io](https://www.arcsecond.io).
+
 I am the author of the Swift version too. It's called [SwiftAA](https://github.com/onekiloparsec/SwiftAA).
 
 
