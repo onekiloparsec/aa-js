@@ -54,18 +54,17 @@ function createBundle ({ name, env, format }) {
     const options = Object.assign({}, bundleOptions)
     if (format) options.format = format
     const code = bundle.generate(options).code
-    const libName = name.replace('.js', '')
 
-    if (/min$/.test(libName)) {
+    if (/min$/.test(name)) {
       const minified = uglify.minify(code, {
         output: {
           preamble: banner,
           ascii_only: true // eslint-disable-line camelcase
         }
       }).code
-      return write(`dist/${libName}.js`, minified)
+      return write(`dist/${name}.js`, minified)
     } else {
-      return write(`dist/${libName}.js`, code)
+      return write(`dist/${name}.js`, code)
     }
   }).catch(logError)
 }
