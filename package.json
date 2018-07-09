@@ -1,12 +1,12 @@
 {
-  "name": "aa",
+  "name": "astronomical-algorithms",
   "version": "0.5.1",
   "description": "Astronomical Algorithms for node.js",
-  "main": "dist/aa.common.js",
-  "module": "dist/aa.esm.js",
-  "browser": "dist/aa.js",
-  "unpkg": "dist/aa.js",
-  "style": "dist/aa.css",
+  "main": "dist/astronomical-algorithms.common.js",
+  "module": "dist/astronomical-algorithms.esm.js",
+  "browser": "dist/astronomical-algorithms.js",
+  "unpkg": "dist/astronomical-algorithms.js",
+  "style": "dist/astronomical-algorithms.css",
   "files": [
     "dist",
     "src"
