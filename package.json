@@ -1,12 +1,7 @@
 {
-  "name": "aa",
+  "name": "aa.js",
   "version": "0.3.4",
   "description": "Astronomical Algorithms for node.js",
-  "main": "dist/aa.common.js",
-  "module": "dist/aa.esm.js",
-  "browser": "dist/aa.js",
-  "unpkg": "dist/aa.js",
-  "style": "dist/aa.css",
   "files": [
     "dist",
     "src"
