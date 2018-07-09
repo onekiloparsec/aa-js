@@ -1,6 +1,6 @@
 {
   "name": "aa.js",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Astronomical Algorithms for node.js",
   "main": "dist/aa.common.js",
   "module": "dist/aa.esm.js",
