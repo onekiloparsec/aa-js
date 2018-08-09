@@ -12,21 +12,35 @@ function getRiseSetTransitTimes (JD, targetCoordinates, siteCoordinates, altitud
   return 0
 }
 
+function getRAInHours (targetCoordinates) {
+  let ra = targetCoordinates.right_ascension
+  if (targetCoordinates['right_ascension_units'] && targetCoordinates['right_ascension_units'].toLowerCase().substring(0, 3) === 'deg') {
+    ra = ra / 15
+  }
+  return ra
+}
+
+// "Transit" has 2 meanings here !
+// If transitJD is undefined, the altitude of the transit to the local meridian will be computed.
+// If transitJD is provided, it is assumed to be the JD of which we want the local altitude.
+// It can be that of a transit... or not.
 function getTransitAltitude (targetCoordinates, siteCoordinates, transitJD = undefined) {
   // See AA. P.93 eq. 13.6 (and p.92 for H).
   let cosH = 1
   if (transitJD !== undefined && transitJD !== null) {
     const lmst = new jd.JulianDay(transitJD).getLocalSiderealTime(siteCoordinates.longitude)
-    cosH = Math.cos((lmst - targetCoordinates.right_ascension) * constants.HOURS_TO_RADIANS)
+    const ra = this.getRAInHours(targetCoordinates)
+    cosH = Math.cos((lmst - ra) * constants.HOURS_TO_RADIANS)
   }
   const sinPhi = Math.sin(siteCoordinates.latitude * constants.DEGREES_TO_RADIANS)
-  const sinDelta = Math.sin(targetCoordinates.declination * constants.EGREES_TO_RADIANS)
+  const sinDelta = Math.sin(targetCoordinates.declination * constants.DEGREES_TO_RADIANS)
   const cosPhi = Math.cos(siteCoordinates.latitude * constants.DEGREES_TO_RADIANS)
   const cosDelta = Math.cos(targetCoordinates.declination * constants.DEGREES_TO_RADIANS)
   return Math.asin(sinPhi * sinDelta + cosPhi * cosDelta * cosH) * constants.RADIANS_TO_DEGREES
 }
 
 export default {
+  getRAInHours,
   getRiseSetTransitTimes,
   getTransitAltitude
 }
