@@ -1,5 +1,6 @@
 'use strict'
 import constants from './constants'
+import { JulianDay } from './julianday'
 
 function getRiseSetTransitTimes (JD, targetCoordinates, siteCoordinates, altitude = 0) {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
@@ -11,13 +12,18 @@ function getRiseSetTransitTimes (JD, targetCoordinates, siteCoordinates, altitud
   return 0
 }
 
-function getTransitAltitude (targetCoordinates, siteCoordinates) {
-  // See AA. P.93 eq. 13.6 when H = 0
+function getTransitAltitude (targetCoordinates, siteCoordinates, transitJD = undefined) {
+  // See AA. P.93 eq. 13.6 (and p.92 for H).
+  let cosH = 1
+  if (transitJD !== undefined && transitJD !== null) {
+    const lmst = new JulianDay(transitJD).getLocalSiderealTime(siteCoordinates.longitude)
+    cosH = Math.cos((lmst - targetCoordinates.right_ascension) * constants.HOURS_TO_RADIANS)
+  }
   const sinPhi = Math.sin(siteCoordinates.latitude * constants.DEGREES_TO_RADIANS)
-  const sinDelta = Math.sin(targetCoordinates.declination * constants.DEGREES_TO_RADIANS)
+  const sinDelta = Math.sin(targetCoordinates.declination * constants.EGREES_TO_RADIANS)
   const cosPhi = Math.cos(siteCoordinates.latitude * constants.DEGREES_TO_RADIANS)
   const cosDelta = Math.cos(targetCoordinates.declination * constants.DEGREES_TO_RADIANS)
-  return Math.asin(sinPhi * sinDelta + cosPhi * cosDelta) * constants.RADIANS_TO_DEGREES
+  return Math.asin(sinPhi * sinDelta + cosPhi * cosDelta * cosH) * constants.RADIANS_TO_DEGREES
 }
 
 export default {

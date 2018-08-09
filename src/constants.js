@@ -3,6 +3,10 @@ Math.fmod = function (a, b) {
   return Number((a - (Math.floor(a / b) * b)).toPrecision(8))
 }
 
+Math.isNumber = function (v) {
+  return !isNaN(parseFloat(v)) && isFinite(v)
+}
+
 const DEGREES_TO_RADIANS = 0.017453292519943295769236907684886
 const RADIANS_TO_DEGREES = 57.295779513082320876798154814105
 const RADIANS_TO_HOURS = 3.8197186342054880584532103209403
