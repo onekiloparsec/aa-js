@@ -1,15 +1,52 @@
 'use strict'
 import constants from './constants'
-import jd from './julianday'
+import julianday from './julianday'
 
-function getRiseSetTransitTimes (JD, targetCoordinates, siteCoordinates, altitude = 0) {
+function getRiseSetTransitTimes (jdValue, targetCoordinates, siteCoordinates, altitude = 0) {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
 
-  // const alpha0 = targetCoordinates.right_ascension || targetCoordinates.alpha
-  // const delta0 = targetCoordinates.declination || targetCoordinates.delta
+  const jd = julianday.JulianDay(jdValue).getMidnightJulianDay()
 
-  return 0
+  const result = {
+    isRiseValid: false,
+    isSetValid: false,
+    isTransitValid: false,
+    isIsTransitAboveHorizon: false,
+    hoursRise: 0, // Expressed in UT
+    hoursSet: 0, // Expressed in UT
+    hoursTransit: 0 // Expressed in UT
+  }
+
+  // Calculate the Greenwhich sidereal time
+  let theta0 = jd.getLocalSiderealTime(0)
+  theta0 *= 15 // Express it as degrees
+
+  // Convert values to radians
+  const Delta2Rad = targetCoordinates.declination * constants.DEGREES_TO_RADIANS
+  const LatitudeRad = siteCoordinates.latitude * constants.DEGREES_TO_RADIANS
+
+  // Convert the standard latitude to radians
+  const h0Rad = altitude * constants.DEGREES_TO_RADIANS
+
+  // Calculate cosH0. See AA Eq.15.1, p.102
+  let cosH0 = (Math.sin(h0Rad) - Math.sin(LatitudeRad) * Math.sin(Delta2Rad)) / (Math.cos(LatitudeRad) * Math.cos(Delta2Rad))
+  if (cosH0 < -1) {
+    cosH0 += 1
+  } else if (cosH0 > 1) {
+    cosH0 -= 1
+  }
+
+  const H0 = Math.acos(cosH0) * constants.RADIANS_TO_DEGREES
+  const m0 = (targetCoordinates.right_ascension + siteCoordinates.longitude - theta0) / 360
+  const m1 = m0 - H0 / 360
+  const m2 = m0 + H0 / 360
+
+  result.hoursRise = jd.value + m1
+  result.hoursSet = jd.value + m2
+  result.hoursTransit = jd.value + m0
+
+  return result
 }
 
 function getRAInHours (targetCoordinates) {
