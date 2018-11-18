@@ -65,7 +65,7 @@ function getTransitAltitude (targetCoordinates, siteCoordinates, transitJD = und
   // See AA. P.93 eq. 13.6 (and p.92 for H).
   let cosH = 1
   if (transitJD !== undefined && transitJD !== null) {
-    const lmst = new jd.JulianDay(transitJD).getLocalSiderealTime(siteCoordinates.longitude)
+    const lmst = julianday.getLocalSiderealTime(transitJD, siteCoordinates.longitude)
     const ra = this.getRAInHours(targetCoordinates)
     cosH = Math.cos((lmst - ra) * constants.HOURS_TO_RADIANS)
   }
