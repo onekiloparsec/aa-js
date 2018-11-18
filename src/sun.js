@@ -207,27 +207,27 @@ class Sun {
   }
 
   equatorialCoordinates () {
-    return coordinates.transformEclipticToEquatorial(
-      getGeometricEclipticLongitude(this.julianDay),
-      getGeometricEclipticLatitude(this.julianDay),
-      nutation.getMeanObliquityOfEcliptic(this.julianDay)
-    )
+    return coordinates.transformEclipticToEquatorial({
+      Lambda: getGeometricEclipticLongitude(this.julianDay),
+      Beta: getGeometricEclipticLatitude(this.julianDay),
+      Epsilon: nutation.getMeanObliquityOfEcliptic(this.julianDay)
+    })
   }
 
   equatorialCoordinatesJ2000 () {
-    return coordinates.transformEclipticToEquatorial(
-      getGeometricEclipticLongitudeJ2000(this.julianDay),
-      getGeometricEclipticLatitudeJ2000(this.julianDay),
-      nutation.getMeanObliquityOfEcliptic(this.julianDay)
-    )
+    return coordinates.transformEclipticToEquatorial({
+      Lambda: getGeometricEclipticLongitudeJ2000(this.julianDay),
+      Beta: getGeometricEclipticLatitudeJ2000(this.julianDay),
+      Epsilon: nutation.getMeanObliquityOfEcliptic(this.julianDay)
+    })
   }
 
   apparentEquatorialCoordinates () {
-    return coordinates.transformEclipticToEquatorial(
-      getApparentEclipticLongitude(this.julianDay),
-      getApparentEclipticLatitude(this.julianDay),
-      nutation.getTrueObliquityOfEcliptic(this.julianDay)
-    )
+    return coordinates.transformEclipticToEquatorial({
+      Lambda: getApparentEclipticLongitude(this.julianDay),
+      Beta: getApparentEclipticLatitude(this.julianDay),
+      Epsilon: nutation.getTrueObliquityOfEcliptic(this.julianDay)
+    })
   }
 }
 

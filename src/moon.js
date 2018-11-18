@@ -490,11 +490,11 @@ class Moon {
   }
 
   equatorialCoordinates () {
-    return coordinates.transformEclipticToEquatorial(
-      getEclipticLongitude(this.julianDay),
-      getEclipticLatitude(this.julianDay),
-      nutation.getMeanObliquityOfEcliptic(this.julianDay)
-    )
+    return coordinates.transformEclipticToEquatorial({
+      Lambda: getEclipticLongitude(this.julianDay),
+      Beta: getEclipticLatitude(this.julianDay),
+      Epsilon: nutation.getMeanObliquityOfEcliptic(this.julianDay)
+    })
   }
 
   meanLongitudeAscendingNode () {
