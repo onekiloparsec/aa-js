@@ -23,11 +23,11 @@ function transformEclipticToEquatorial ({ Lambda, Beta, Epsilon }) {
   return { rightAscension: rightAscension, declination: declination }
 }
 
-function getHorizontalAltitude ({ julianDay, targetCoords, siteCoords }) {
-  if (!arguments || !julianDay || !targetCoords || !siteCoords) { return -1 }
+function getHorizontalAltitude ({ julianDayValue, targetCoords, siteCoords }) {
+  if (!arguments || !julianDayValue || !targetCoords || !siteCoords) { return -1 }
 
   const ra = targetCoords.right_ascension / 15.0 || targetCoords.rightAscension
-  const lmst = julianday.getLocalSiderealTime(julianDay, siteCoords.longitude)
+  const lmst = julianday.getLocalSiderealTime(julianDayValue, siteCoords.longitude)
   const hourAngle = lmst - ra
 
   const cosdec = Math.cos(targetCoords.declination * constants.DEGREES_TO_RADIANS)
@@ -39,11 +39,11 @@ function getHorizontalAltitude ({ julianDay, targetCoords, siteCoords }) {
   return Math.asin(sinlat * sindec + coslat * cosdec * cosha) * constants.RADIANS_TO_DEGREES
 }
 
-function getHorizontalAzimuth ({ julianDay, targetCoords, siteCoords }) {
-  if (!julianDay || !targetCoords || !siteCoords) { return -1 }
+function getHorizontalAzimuth ({ julianDayValue, targetCoords, siteCoords }) {
+  if (!julianDayValue || !targetCoords || !siteCoords) { return -1 }
 
   const ra = targetCoords.right_ascension / 15.0 || targetCoords.rightAscension
-  const lmst = julianday.getLocalSiderealTime(julianDay, siteCoords.longitude)
+  const lmst = julianday.getLocalSiderealTime(julianDayValue, siteCoords.longitude)
   const hourAngle = lmst - ra
 
   const sinha = Math.sin(hourAngle * constants.DEGREES_TO_RADIANS)
@@ -89,8 +89,8 @@ function transformHorizontalToMapPoint ({ skyCoords, center, radius, validate = 
   return { x: Math.round(center.x + x), y: Math.round(center.y - y) }
 }
 
-function transformHorizontalToEquatorial ({ julianDay, skyCoords, siteCoords }) {
-  if (!julianDay || !skyCoords || !siteCoords) { return null }
+function transformHorizontalToEquatorial ({ julianDayValue, skyCoords, siteCoords }) {
+  if (!julianDayValue || !skyCoords || !siteCoords) { return null }
 
   const sinA = Math.sin(skyCoords.azimuth * constants.DEGREES_TO_RADIANS)
   const cosA = Math.cos(skyCoords.azimuth * constants.DEGREES_TO_RADIANS)
@@ -106,7 +106,7 @@ function transformHorizontalToEquatorial ({ julianDay, skyCoords, siteCoords }) 
 
   const HA = Math.atan2(sinA, cosA * sinlat + tanh * coslat) * constants.RADIANS_TO_HOURS
 
-  const lmst = julianday.getLocalSiderealTime(julianDay, siteCoords.longitude)
+  const lmst = julianday.getLocalSiderealTime(julianDayValue, siteCoords.longitude)
   let alpha = lmst - HA
 
   alpha = Math.fmod(alpha + 24.0, 24.0)
