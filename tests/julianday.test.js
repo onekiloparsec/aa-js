@@ -16,5 +16,5 @@ test('build julianday with jd value', () => {
 test('julianday provide correct sidereal time', () => {
   // See AA page 88, Example 12.1a. APRIL = Month 3, not 4!
   const UTCDate = new Date(Date.UTC(1987, 3, 10))
-  expect(new julianday.JulianDay(UTCDate).getLocalSiderealTime(0)).toBeCloseTo(13.1795463333, 6)
+  expect(new julianday.JulianDay(UTCDate).localSiderealTime(0)).toBeCloseTo(13.1795463333, 6)
 })
