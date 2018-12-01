@@ -80,10 +80,11 @@ function transformMapPointToHorizontal ({ point, center, radius }) {
   }
 }
 
-function transformHorizontalToMapPoint ({ skyCoords, center, radius, validate = true }) {
+function transformHorizontalToMapPoint ({ skyCoords, center, radius, validate }) {
+  const validateValue = validate || true
   const x = (90.0 - skyCoords.altitude) * Math.cos((skyCoords.azimuth - 90.0) * constants.DEGREES_TO_RADIANS) / 90.0 * radius
   const y = (90.0 - skyCoords.altitude) * Math.sin((skyCoords.azimuth - 90.0) * constants.DEGREES_TO_RADIANS) / 90.0 * radius
-  if (validate && (x > radius || y > radius || skyCoords.altitude < 0.0)) {
+  if (validateValue && (x > radius || y > radius || skyCoords.altitude < 0.0)) {
     return { x: 0, y: 0 }
   }
   return { x: Math.round(center.x + x), y: Math.round(center.y - y) }
