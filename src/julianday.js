@@ -11,6 +11,17 @@ function getDate (julianDayValue) {
   return new Date((julianDayValue + 0.5 - J1970) * dayMs)
 }
 
+function getJulianDay (...args) {
+  if (args.length === 0) {
+    args[0] = new Date()
+  }
+  if (args[0] instanceof Date) {
+    return moment(args[0]).toDate().valueOf() / dayMs - 0.5 + J1970
+  } else if (Math.isNumber(args[0])) {
+    return parseFloat(args[0])
+  }
+}
+
 function getLocalSiderealTime (julianDayValue, longitude) {
   // Equ 12.1
   const t = (julianDayValue - 2451545) / 36525
@@ -35,14 +46,7 @@ function getJulianDayMidnight (julianDayValue) {
 
 class JulianDay {
   constructor (...args) {
-    if (args.length === 0) {
-      args[0] = new Date()
-    }
-    if (args[0] instanceof Date) {
-      this.value = moment(args[0]).toDate().valueOf() / dayMs - 0.5 + J1970
-    } else if (Math.isNumber(args[0])) {
-      this.value = parseFloat(args[0])
-    }
+    this.value = getJulianDay(...args)
   }
 
   toDate () {
@@ -66,6 +70,7 @@ export default {
   J1970,
   J2000,
   getDate,
+  getJulianDay,
   getLocalSiderealTime,
   getModifiedJulianDay,
   getJulianDayMidnight,
