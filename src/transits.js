@@ -26,7 +26,7 @@ function getRiseSetTransitTimes (jdValue, targetCoordinates, siteCoordinates, al
   const Delta2Rad = targetCoordinates.declination * constants.DEGREES_TO_RADIANS
   const LatitudeRad = siteCoordinates.latitude * constants.DEGREES_TO_RADIANS
 
-  // Convert the standard latitude to radians
+  // Convert the standard altitude to radians
   const h0Rad = altitude * constants.DEGREES_TO_RADIANS
 
   // Calculate cosH0. See AA Eq.15.1, p.102
