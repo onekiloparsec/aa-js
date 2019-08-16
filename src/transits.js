@@ -6,7 +6,7 @@ function getRiseSetTransitTimes (jdValue, targetCoordinates, siteCoordinates, al
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
 
-  const jd = julianday.JulianDay(jdValue).midnightJulianDay()
+  const jd = (new julianday.JulianDay(jdValue)).midnightJulianDay()
 
   const result = {
     isRiseValid: false,
