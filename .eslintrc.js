@@ -4,9 +4,11 @@ module.exports = {
   parserOptions: {
     sourceType: 'module'
   },
-  extends: 'vue',
+  extends: 'eslint:recommended',
   // add your custom rules here
   'rules': {
+    'semi': ['error', 'never'],
+    'quotes': ['error', 'single'],
     // allow async-await
     'generator-star-spacing': 0,
     // allow debugger during development
@@ -15,5 +17,8 @@ module.exports = {
   globals: {
     requestAnimationFrame: true,
     performance: true
+  },
+  'env': {
+    'node': true
   }
 }
