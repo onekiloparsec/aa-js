@@ -5,7 +5,7 @@ import utils from './utils'
 
 // See AA. p 101
 const STANDARD_ALTITUDE_STARS = -0.5667
-const STANDARD_ALTITUDE_SUN = -0.5667
+const STANDARD_ALTITUDE_SUN = -0.8333
 
 function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinates, altitude = STANDARD_ALTITUDE_STARS) {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
