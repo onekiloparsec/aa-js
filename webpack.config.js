@@ -1,10 +1,12 @@
+const path = require('path')
+
 module.exports = {
   entry: './src/index.js',
   output: {
-    path: __dirname + '/lib',
+    path: path.resolve('dist'),
     filename: 'index.js',
-    library: 'astronomical-algorithms',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    library: 'astronomical-algorithms'
   },
   externals: {
     moment: 'moment'
@@ -17,5 +19,8 @@ module.exports = {
         use: ['babel-loader']
       }
     ]
+  },
+  resolve: {
+    extensions: ['.js']
   }
 }
