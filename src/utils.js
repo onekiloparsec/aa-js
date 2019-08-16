@@ -20,7 +20,16 @@ function MapToMinus90To90Range (Degrees) {
   return fResult
 }
 
+function MapTo0To1Range (fraction) {
+  let fResult = Math.fmod(fraction, 1)
+  if (fResult < 0) {
+    fResult += 1
+  }
+  return fResult
+}
+
 export default {
   MapTo0To360Range,
-  MapToMinus90To90Range
+  MapToMinus90To90Range,
+  MapTo0To1Range
 }
