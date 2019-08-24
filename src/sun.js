@@ -44,11 +44,11 @@ function getApparentEclipticLongitude (JD) {
   let Longitude = getGeometricFK5EclipticLongitude(JD)
 
   // Apply the correction in longitude due to nutation
-  Longitude += sexagesimal.DMSToDegrees(0, 0, nutation.getNutationInLongitude(JD))
+  Longitude += sexagesimal.getDecimal(0, 0, nutation.getNutationInLongitude(JD))
 
   // Apply the correction in longitude due to aberration
   const R = earth.getRadiusVector(JD)
-  Longitude -= sexagesimal.DMSToDegrees(0, 0, 20.4898 / R)
+  Longitude -= sexagesimal.getDecimal(0, 0, 20.4898 / R)
 
   return Longitude
 }

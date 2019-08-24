@@ -143,21 +143,21 @@ function getMeanObliquityOfEcliptic (JD) {
   const U9 = U8 * U
   const U10 = U9 * U
 
-  return sexagesimal.DMSToDegrees(23, 26, 21.448) -
-    sexagesimal.DMSToDegrees(0, 0, 4680.93) * U -
-    sexagesimal.DMSToDegrees(0, 0, 1.55) * Usquared +
-    sexagesimal.DMSToDegrees(0, 0, 1999.25) * Ucubed -
-    sexagesimal.DMSToDegrees(0, 0, 51.38) * U4 -
-    sexagesimal.DMSToDegrees(0, 0, 249.67) * U5 -
-    sexagesimal.DMSToDegrees(0, 0, 39.05) * U6 +
-    sexagesimal.DMSToDegrees(0, 0, 7.12) * U7 +
-    sexagesimal.DMSToDegrees(0, 0, 27.87) * U8 +
-    sexagesimal.DMSToDegrees(0, 0, 5.79) * U9 +
-    sexagesimal.DMSToDegrees(0, 0, 2.45) * U10
+  return sexagesimal.getDecimal(23, 26, 21.448) -
+    sexagesimal.getDecimal(0, 0, 4680.93) * U -
+    sexagesimal.getDecimal(0, 0, 1.55) * Usquared +
+    sexagesimal.getDecimal(0, 0, 1999.25) * Ucubed -
+    sexagesimal.getDecimal(0, 0, 51.38) * U4 -
+    sexagesimal.getDecimal(0, 0, 249.67) * U5 -
+    sexagesimal.getDecimal(0, 0, 39.05) * U6 +
+    sexagesimal.getDecimal(0, 0, 7.12) * U7 +
+    sexagesimal.getDecimal(0, 0, 27.87) * U8 +
+    sexagesimal.getDecimal(0, 0, 5.79) * U9 +
+    sexagesimal.getDecimal(0, 0, 2.45) * U10
 }
 
 function getTrueObliquityOfEcliptic (JD) {
-  return getMeanObliquityOfEcliptic(JD) + sexagesimal.DMSToDegrees(0, 0, getNutationInObliquity(JD))
+  return getMeanObliquityOfEcliptic(JD) + sexagesimal.getDecimal(0, 0, getNutationInObliquity(JD))
 }
 
 export default {

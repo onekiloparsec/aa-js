@@ -1,6 +1,6 @@
 'use strict'
 
-function DMSToDegrees (d, m, s, positive = true) {
+function getDecimal (d, m, s, positive = true) {
   // if (!positive) {
   //   assert(Degrees >= 0)  // All parameters should be non negative if the "bPositive" parameter is false
   //   assert(Minutes >= 0)
@@ -15,5 +15,5 @@ function DMSToDegrees (d, m, s, positive = true) {
 }
 
 export default {
-  DMSToDegrees
+  getDecimal
 }
