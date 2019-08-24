@@ -1,6 +1,5 @@
 import coordinates from '../src/coordinates'
 import sexagesimal from '../src/sexagesimal'
-import constants from '../src/constants'
 import julianday from '../src/julianday'
 
 test('get altitude', () => {
