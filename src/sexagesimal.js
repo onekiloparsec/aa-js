@@ -14,6 +14,21 @@ function getDecimal (d, m, s, positive = true) {
   }
 }
 
+function getSexagesimal (decimal) {
+  const degrees = Math.floor(decimal)
+  const fractionDegrees = decimal - degrees
+  const fractionMinutes = fractionDegrees * 60
+  const minutes = Math.floor(fractionMinutes)
+  const seconds = (fractionMinutes - minutes) * 60
+
+  return {
+    radix: degrees,
+    minutes: minutes,
+    seconds: seconds
+  }
+}
+
 export default {
-  getDecimal
+  getDecimal,
+  getSexagesimal
 }
