@@ -56,32 +56,33 @@ test('circumpolar transit', () => {
   expect(results.isCircumpolar).toBeTruthy()
   expect(results.isTransitAboveHorizon).toBeTruthy()
   expect(results.isTransitAboveAltitude).toBeTruthy()
-  expect(results.julianDayValueRise).toBeUndefined()
-  expect(results.julianDayValueSet).toBeUndefined()
+  expect(results.utcRise).toBeUndefined()
+  expect(results.utcSet).toBeUndefined()
 })
 
 
-test('above horizon transit', () => {
-  const siteCoordinates = {latitude: -5, longitude: 0}
-  // HD 5980
+// See AA p 103
+test('approximate Venus on 1988 March 20 at Boston', () => {
+  const siteCoordinates = {latitude: 42.3333, longitude: -71.0833}
+
   const targetCoordinates = {
     'system': 'ICRS',
-    'right_ascension': 14.86,
+    'right_ascension': 41.73129,
     'right_ascension_units': 'degrees',
-    'declination': -72.16,
+    'declination': 18.44092,
     'declination_units': 'degrees',
     'epoch': 2451545.0
   }
 
-  const date = new Date(2019, 8, 15)
+  const date = new Date(1988, 3, 20)
   const results = transits.getRiseSetTransitJulianDays(julianday.getJulianDay(date), targetCoordinates, siteCoordinates)
+
   expect(results.isCircumpolar).toBeFalsy()
   expect(results.isTransitAboveHorizon).toBeTruthy()
   expect(results.isTransitAboveAltitude).toBeTruthy()
-  expect(results.julianDayValueRise).toBeDefined()
-  expect(results.julianDayValueSet).toBeDefined()
-  expect(results.julianDayValueRise < results.julianDayValueTransit).toBeTruthy()
-  expect(results.julianDayValueTransit < results.julianDayValueSet).toBeTruthy()
-  expect(results.julianDayValueTransit - results.julianDayValueRise < 1).toBeTruthy()
-  expect(results.julianDayValueSet - results.julianDayValueTransit < 1).toBeTruthy()
+  expect(results.utcRise).toBeCloseTo(12.4, 0.1)
+  expect(results.utcTransit).toBeCloseTo(19.6, 0.1)
+  expect(results.utcSet).toBeCloseTo(2.9, 0.1)
+  expect(results.julianDayRise < results.julianDayTransit).toBeTruthy()
+  expect(results.julianDayTransit < results.julianDaySet).toBeTruthy()
 })

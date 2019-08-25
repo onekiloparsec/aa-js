@@ -1,4 +1,5 @@
 'use strict'
+import moment from 'moment'
 import constants from './constants'
 import julianday from './julianday'
 
@@ -10,12 +11,13 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
 
-  let jdMidnight = (new julianday.JulianDay(jdValue)).midnightJulianDay()
-
   const result = {
     utcRise: undefined,
     utcTransit: undefined,
     utcSet: undefined,
+    julianDayRise: undefined,
+    julianDayTransit: undefined,
+    julianDaySet: undefined,
     transitAltitude: undefined,
     isTransitAboveHorizon: undefined,
     isTransitAboveAltitude: undefined, // for when altitude is not that of horizon
@@ -23,7 +25,7 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   }
 
   // Calculate the Greenwhich sidereal time in degrees
-  let Theta0 = jdMidnight.localSiderealTime(0) * constants.HOURS_TO_DEGREES
+  let Theta0 = julianday.getLocalSiderealTime(jdValue, 0) * constants.HOURS_TO_DEGREES
 
   const sinh0 = Math.sin(altitude * constants.DEGREES_TO_RADIANS)
   const sinPhi = Math.sin(siteCoordinates.latitude * constants.DEGREES_TO_RADIANS)
@@ -38,10 +40,13 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   result.isTransitAboveAltitude = (result.transitAltitude > altitude)
 
   // Algorithms in AA use Positive West longitudes. The formula (15.2, p102):
-  // const m0 = (alpha2 - Longitude - Theta0) / 360
+  // const m0 = (alpha2 + Longitude - Theta0) / 360
   // thus becomes:
-  const m0 = Math.fmod((targetCoordinates.right_ascension + siteCoordinates.longitude - Theta0) / 360, 1)
+  const m0 = Math.fmod((targetCoordinates.right_ascension - siteCoordinates.longitude - Theta0) / 360, 1)
   result.utcTransit = m0 * 24
+
+  const utcMoment = moment.utc(julianday.getDate(jdValue))
+  result.julianDayTransit = julianday.getJulianDay(utcMoment.clone().hours(result.utcTransit).toDate())
 
   // Calculate cosH0. See AA Eq.15.1, p.102
   let cosH0 = (sinh0 - sinPhi * sinDelta) / (cosPhi * cosDelta)
@@ -51,6 +56,15 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
     const H0 = Math.acos(cosH0) * constants.RADIANS_TO_DEGREES
     result.utcRise = Math.fmod(m0 - H0 / 360, 1) * 24
     result.utcSet = Math.fmod(m0 + H0 / 360, 1) * 24
+    result.julianDayRise = julianday.getJulianDay(utcMoment.clone().hours(result.utcRise).toDate())
+    result.julianDaySet = julianday.getJulianDay(utcMoment.clone().hours(result.utcSet).toDate())
+  }
+
+  if (result.julianDayRise > result.julianDayTransit) {
+    result.julianDayRise -= 1
+  }
+  if (result.julianDaySet < result.julianDayTransit) {
+    result.julianDaySet += 1
   }
 
   return result
