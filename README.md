@@ -12,6 +12,8 @@
 AA.js
 ============
 
+[![Build Status](https://travis-ci.org/onekiloparsec/AA.js.svg?branch=master)](https://travis-ci.org/onekiloparsec/AA.js)
+
 Astronomical Algorithms in JavaScript.
 
 Other implementations: [Swift (SwiftAA)](https://github.com/onekiloparsec/SwiftAA), [C# (AASharp)](https://github.com/jsauve/AASharp).
