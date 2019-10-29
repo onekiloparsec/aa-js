@@ -4,7 +4,7 @@ import julianday from '../src/julianday'
 describe('transits of exoplanets', () => {
   it('get transit for H = 0', () => {
     // Roughly: La Silla (Chile)
-    const siteCoordinates = {latitude: -30, longitude: -70}
+    const siteCoordinates = { latitude: -30, longitude: -70 }
     // Corot 10 b
     const targetCoordinates = {
       'system': 'ICRS',
@@ -22,7 +22,7 @@ describe('transits of exoplanets', () => {
 
   it('get transit for a given transit time', () => {
     // Roughly: La Silla (Chile)
-    const siteCoordinates = {latitude: -30, longitude: -70}
+    const siteCoordinates = { latitude: -30, longitude: -70 }
     // Corot 10 b
     const targetCoordinates = {
       'system': 'ICRS',
@@ -41,7 +41,7 @@ describe('transits of exoplanets', () => {
 
 
 test('circumpolar transit', () => {
-  const siteCoordinates = {latitude: -70, longitude: 0}
+  const siteCoordinates = { latitude: -70, longitude: 0 }
   // Fake very low target
   const targetCoordinates = {
     'system': 'ICRS',
@@ -63,7 +63,7 @@ test('circumpolar transit', () => {
 
 // See AA p 103
 test('approximate Venus on 1988 March 20 at Boston', () => {
-  const siteCoordinates = {latitude: 42.3333, longitude: -71.0833}
+  const siteCoordinates = { latitude: 42.3333, longitude: -71.0833 }
 
   const targetCoordinates = {
     'system': 'ICRS',
@@ -74,7 +74,7 @@ test('approximate Venus on 1988 March 20 at Boston', () => {
     'epoch': 2451545.0
   }
 
-  const date = new Date(1988, 3, 20)
+  const date = new Date(Date.UTC(1988, 2, 20))
   const results = transits.getRiseSetTransitJulianDays(julianday.getJulianDay(date), targetCoordinates, siteCoordinates)
 
   expect(results.isCircumpolar).toBeFalsy()
