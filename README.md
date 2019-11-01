@@ -25,4 +25,21 @@ AA.js is the backbone of scientific algorithms used in [arcsecond.io](https://ww
 I am the author of the Swift version too. It's called [SwiftAA](https://github.com/onekiloparsec/SwiftAA).
 
 
+Installation 
+================
 
+`npm install astronomical-algorithms`
+
+
+Usage 
+================
+
+```
+import { julianday, moon } from 'astronomical-algorithms'
+
+...
+
+const jd = julianday.getJulianDay(new Date()),
+const moonObject = new moon.Moon(jd)
+const coords = moonObject.equatorialCoordinates()
+```
