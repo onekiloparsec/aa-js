@@ -37,20 +37,8 @@
     "url": "https://github.com/onekiloparsec/AA.js/issues"
   },
   "homepage": "https://github.com/onekiloparsec/AA.js#readme",
-  "dependencies": {
+  "peerDependencies": {
     "moment": "^2.24.0"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json"
-    ],
-    "transform": {
-      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
-    },
-    "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/src/$1"
-    }
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
