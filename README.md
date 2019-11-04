@@ -8,6 +8,9 @@
 <a href="https://github.com/onekiloparsec/FITSImporter">FITSImporter</a> &bull; 
 <a href="https://github.com/onekiloparsec/ObjCFITSIO">ObjCFITSIO</a> 
 </p>
+<p align="center">
+<a href="https://www.patreon.com/bePatron?u=2743110" data-patreon-widget-type="become-patron-button">Become a Patron!</a><!-- <script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script> -->
+</p>
 
 AA.js
 ============
