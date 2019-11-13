@@ -33,6 +33,10 @@
   ],
   "author": "Cédric Foellmi",
   "license": "MIT",
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/onekiloparsec"
+  },
   "bugs": {
     "url": "https://github.com/onekiloparsec/AA.js/issues"
   },
