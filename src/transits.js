@@ -48,7 +48,7 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   const utcMoment = moment.utc(julianday.getDate(jdValue))
   const hourTransit = Math.floor(result.utcTransit)
   const minuteTransit = result.utcTransit - hourTransit
-  result.julianDayTransit = julianday.getJulianDay(utcMoment.clone().hours(hourTransit).minutes(minuteTransit).toDate())
+  result.julianDayTransit = julianday.getJulianDay(utcMoment.clone().hours(hourTransit).minutes(minuteTransit * 60).toDate())
 
   // Calculate cosH0. See AA Eq.15.1, p.102
   let cosH0 = (sinh0 - sinPhi * sinDelta) / (cosPhi * cosDelta)
@@ -63,9 +63,9 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
     const minuteRise = result.utcRise - hourRise
     const hourSet = Math.floor(result.utcSet)
     const minuteSet = result.utcSet - hourSet
-
-    result.julianDayRise = julianday.getJulianDay(utcMoment.clone().hours(hourRise).minutes(minuteRise).toDate())
-    result.julianDaySet = julianday.getJulianDay(utcMoment.clone().hours(hourSet).minutes(minuteSet).toDate())
+    
+    result.julianDayRise = julianday.getJulianDay(utcMoment.clone().hours(hourRise).minutes(minuteRise * 60).toDate())
+    result.julianDaySet = julianday.getJulianDay(utcMoment.clone().hours(hourSet).minutes(minuteSet * 60).toDate())
   }
 
   if (result.julianDayRise > result.julianDayTransit) {
