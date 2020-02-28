@@ -1,4 +1,4 @@
-import constants from './constants'
+import { DEGREES_TO_RADIANS } from './constants'
 import sexagesimal from './sexagesimal'
 
 function getCorrectionInLongitude (Longitude, Latitude, JD) {
@@ -6,8 +6,8 @@ function getCorrectionInLongitude (Longitude, Latitude, JD) {
   let Ldash = (Longitude - 1.397 * T - 0.00031 * T * T)
 
   // Convert to radians
-  Ldash = Ldash * constants.DEGREES_TO_RADIANS
-  Latitude = Latitude * constants.DEGREES_TO_RADIANS
+  Ldash = Ldash * DEGREES_TO_RADIANS
+  Latitude = Latitude * DEGREES_TO_RADIANS
 
   const value = -0.09033 + 0.03916 * (Math.cos(Ldash) + Math.sin(Ldash)) * Math.tan(Latitude)
   return sexagesimal.getDecimal(0, 0, value)
@@ -18,7 +18,7 @@ function getCorrectionInLatitude (Longitude, JD) {
   let Ldash = Longitude - 1.397 * T - 0.00031 * T * T
 
   // Convert to radians
-  Ldash = Ldash * constants.DEGREES_TO_RADIANS
+  Ldash = Ldash * DEGREES_TO_RADIANS
 
   const value = 0.03916 * (Math.cos(Ldash) - Math.sin(Ldash))
   return sexagesimal.getDecimal(0, 0, value)

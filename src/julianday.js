@@ -1,7 +1,7 @@
 'use strict'
 
 import moment from 'moment'
-import constants from './constants'
+import { DEGREES_TO_HOURS } from './constants'
 
 const J1970 = 2440588
 const J2000 = 2451545
@@ -33,7 +33,7 @@ function getLocalSiderealTime (julianDayValue, longitude) {
     gmst = gmst + 360
   }
 
-  return Math.fmod((gmst + longitude) * constants.DEGREES_TO_HOURS + 24, 24)
+  return Math.fmod((gmst + longitude) * DEGREES_TO_HOURS + 24, 24)
 }
 
 function getModifiedJulianDay (julianDayValue) {

@@ -1,6 +1,6 @@
 'use strict'
 
-import constants from './constants'
+import { DEGREES_TO_RADIANS } from './constants'
 import coordinates from './coordinates'
 import earth from './earth'
 import fk5 from './fk5'
@@ -155,27 +155,27 @@ function getVariationGeometricEclipticLongitude (JD) {
   const tau3 = tau2 * tau
 
   const deltaLambda = 3548.193 +
-    118.568 * Math.sin(constants.DEGREES_TO_RADIANS(87.5287 + 359993.7286 * tau)) +
-    2.476 * Math.sin(constants.DEGREES_TO_RADIANS(85.0561 + 719987.4571 * tau)) +
-    1.376 * Math.sin(constants.DEGREES_TO_RADIANS(27.8502 + 4452671.1152 * tau)) +
-    0.119 * Math.sin(constants.DEGREES_TO_RADIANS(73.1375 + 450368.8564 * tau)) +
-    0.114 * Math.sin(constants.DEGREES_TO_RADIANS(337.2264 + 329644.6718 * tau)) +
-    0.086 * Math.sin(constants.DEGREES_TO_RADIANS(222.5400 + 659289.3436 * tau)) +
-    0.078 * Math.sin(constants.DEGREES_TO_RADIANS(162.8136 + 9224659.7915 * tau)) +
-    0.054 * Math.sin(constants.DEGREES_TO_RADIANS(82.5823 + 1079981.1857 * tau)) +
-    0.052 * Math.sin(constants.DEGREES_TO_RADIANS(171.5189 + 225184.4282 * tau)) +
-    0.034 * Math.sin(constants.DEGREES_TO_RADIANS(30.3214 + 4092677.3866 * tau)) +
-    0.033 * Math.sin(constants.DEGREES_TO_RADIANS(119.8105 + 337181.4711 * tau)) +
-    0.023 * Math.sin(constants.DEGREES_TO_RADIANS(247.5418 + 299295.6151 * tau)) +
-    0.023 * Math.sin(constants.DEGREES_TO_RADIANS(325.1526 + 315559.5560 * tau)) +
-    0.021 * Math.sin(constants.DEGREES_TO_RADIANS(155.1241 + 675553.2846 * tau)) +
-    7.311 * tau * Math.sin(constants.DEGREES_TO_RADIANS(333.4515 + 359993.7286 * tau)) +
-    0.305 * tau * Math.sin(constants.DEGREES_TO_RADIANS(330.9814 + 719987.4571 * tau)) +
-    0.010 * tau * Math.sin(constants.DEGREES_TO_RADIANS(328.5170 + 1079981.1857 * tau)) +
-    0.309 * tau2 * Math.sin(constants.DEGREES_TO_RADIANS(241.4518 + 359993.7286 * tau)) +
-    0.021 * tau2 * Math.sin(constants.DEGREES_TO_RADIANS(205.0482 + 719987.4571 * tau)) +
-    0.004 * tau2 * Math.sin(constants.DEGREES_TO_RADIANS(297.8610 + 4452671.1152 * tau)) +
-    0.010 * tau3 * Math.sin(constants.DEGREES_TO_RADIANS(154.7066 + 359993.7286 * tau))
+    118.568 * Math.sin(DEGREES_TO_RADIANS(87.5287 + 359993.7286 * tau)) +
+    2.476 * Math.sin(DEGREES_TO_RADIANS(85.0561 + 719987.4571 * tau)) +
+    1.376 * Math.sin(DEGREES_TO_RADIANS(27.8502 + 4452671.1152 * tau)) +
+    0.119 * Math.sin(DEGREES_TO_RADIANS(73.1375 + 450368.8564 * tau)) +
+    0.114 * Math.sin(DEGREES_TO_RADIANS(337.2264 + 329644.6718 * tau)) +
+    0.086 * Math.sin(DEGREES_TO_RADIANS(222.5400 + 659289.3436 * tau)) +
+    0.078 * Math.sin(DEGREES_TO_RADIANS(162.8136 + 9224659.7915 * tau)) +
+    0.054 * Math.sin(DEGREES_TO_RADIANS(82.5823 + 1079981.1857 * tau)) +
+    0.052 * Math.sin(DEGREES_TO_RADIANS(171.5189 + 225184.4282 * tau)) +
+    0.034 * Math.sin(DEGREES_TO_RADIANS(30.3214 + 4092677.3866 * tau)) +
+    0.033 * Math.sin(DEGREES_TO_RADIANS(119.8105 + 337181.4711 * tau)) +
+    0.023 * Math.sin(DEGREES_TO_RADIANS(247.5418 + 299295.6151 * tau)) +
+    0.023 * Math.sin(DEGREES_TO_RADIANS(325.1526 + 315559.5560 * tau)) +
+    0.021 * Math.sin(DEGREES_TO_RADIANS(155.1241 + 675553.2846 * tau)) +
+    7.311 * tau * Math.sin(DEGREES_TO_RADIANS(333.4515 + 359993.7286 * tau)) +
+    0.305 * tau * Math.sin(DEGREES_TO_RADIANS(330.9814 + 719987.4571 * tau)) +
+    0.010 * tau * Math.sin(DEGREES_TO_RADIANS(328.5170 + 1079981.1857 * tau)) +
+    0.309 * tau2 * Math.sin(DEGREES_TO_RADIANS(241.4518 + 359993.7286 * tau)) +
+    0.021 * tau2 * Math.sin(DEGREES_TO_RADIANS(205.0482 + 719987.4571 * tau)) +
+    0.004 * tau2 * Math.sin(DEGREES_TO_RADIANS(297.8610 + 4452671.1152 * tau)) +
+    0.010 * tau3 * Math.sin(DEGREES_TO_RADIANS(154.7066 + 359993.7286 * tau))
 
   return deltaLambda
 }
