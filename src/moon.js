@@ -1,6 +1,6 @@
 'use strict'
 
-import constants from './constants'
+import { DEGREES_TO_RADIANS, RADIANS_TO_DEGREES } from './constants'
 import earth from './earth'
 import nutation from './nutation'
 import coordinates from './coordinates'
@@ -301,17 +301,17 @@ function getArgumentOfLatitude (JD) {
 }
 
 function getEclipticLongitude (JD) {
-  const Ldash = getMeanLongitude(JD) * constants.DEGREES_TO_RADIANS
-  const D = getMeanElongation(JD) * constants.DEGREES_TO_RADIANS
-  const M = earth.getSunMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
-  const Mdash = getMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
-  const F = getArgumentOfLatitude(JD) * constants.DEGREES_TO_RADIANS
+  const Ldash = getMeanLongitude(JD) * DEGREES_TO_RADIANS
+  const D = getMeanElongation(JD) * DEGREES_TO_RADIANS
+  const M = earth.getSunMeanAnomaly(JD) * DEGREES_TO_RADIANS
+  const Mdash = getMeanAnomaly(JD) * DEGREES_TO_RADIANS
+  const F = getArgumentOfLatitude(JD) * DEGREES_TO_RADIANS
   const E = earth.getEccentricity(JD)
   const Esquared = E * E
   const T = (JD - 2451545) / 36525
 
-  const A1 = utils.MapTo0To360Range(119.75 + 131.849 * T) * constants.DEGREES_TO_RADIANS
-  const A2 = utils.MapTo0To360Range(53.09 + 479264.290 * T) * constants.DEGREES_TO_RADIANS
+  const A1 = utils.MapTo0To360Range(119.75 + 131.849 * T) * DEGREES_TO_RADIANS
+  const A2 = utils.MapTo0To360Range(53.09 + 479264.290 * T) * DEGREES_TO_RADIANS
 
   let SigmaL = 0
   for (let i = 0; i < gMoonCoefficients1.length; i++) {
@@ -338,22 +338,22 @@ function getEclipticLongitude (JD) {
   // And finally apply the nutation in longitude
   const NutationInLong = nutation.getNutationInLongitude(JD)
 
-  const LdashDegrees = Ldash * constants.RADIANS_TO_DEGREES
+  const LdashDegrees = Ldash * RADIANS_TO_DEGREES
   return utils.MapTo0To360Range(LdashDegrees + SigmaL / 1000000 + NutationInLong / 3600)
 }
 
 function getEclipticLatitude (JD) {
-  const Ldash = getMeanLongitude(JD) * constants.DEGREES_TO_RADIANS
-  const D = getMeanElongation(JD) * constants.DEGREES_TO_RADIANS
-  const M = earth.getSunMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
-  const Mdash = getMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
-  const F = getArgumentOfLatitude(JD) * constants.DEGREES_TO_RADIANS
+  const Ldash = getMeanLongitude(JD) * DEGREES_TO_RADIANS
+  const D = getMeanElongation(JD) * DEGREES_TO_RADIANS
+  const M = earth.getSunMeanAnomaly(JD) * DEGREES_TO_RADIANS
+  const Mdash = getMeanAnomaly(JD) * DEGREES_TO_RADIANS
+  const F = getArgumentOfLatitude(JD) * DEGREES_TO_RADIANS
   const E = earth.getEccentricity(JD)
   const Esquared = E * E
   const T = (JD - 2451545) / 36525
 
-  const A1 = utils.MapTo0To360Range(119.75 + 131.849 * T) * constants.DEGREES_TO_RADIANS
-  const A3 = utils.MapTo0To360Range(313.45 + 481266.484 * T) * constants.DEGREES_TO_RADIANS
+  const A1 = utils.MapTo0To360Range(119.75 + 131.849 * T) * DEGREES_TO_RADIANS
+  const A3 = utils.MapTo0To360Range(313.45 + 481266.484 * T) * DEGREES_TO_RADIANS
 
   let SigmaB = 0
   for (let i = 0; i < gMoonCoefficients3.length; i++) {
@@ -384,10 +384,10 @@ function getEclipticLatitude (JD) {
 }
 
 function getRadiusVector (JD) {
-  const D = getMeanElongation(JD) * constants.DEGREES_TO_RADIANS
-  const M = earth.getSunMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
-  const Mdash = getMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
-  const F = getArgumentOfLatitude(JD) * constants.DEGREES_TO_RADIANS
+  const D = getMeanElongation(JD) * DEGREES_TO_RADIANS
+  const M = earth.getSunMeanAnomaly(JD) * DEGREES_TO_RADIANS
+  const Mdash = getMeanAnomaly(JD) * DEGREES_TO_RADIANS
+  const F = getArgumentOfLatitude(JD) * DEGREES_TO_RADIANS
   const E = earth.getEccentricity(JD)
   const Esquared = E * E
 
@@ -412,11 +412,11 @@ function getRadiusVector (JD) {
 }
 
 function transformRadiusVectorToHorizontalParallax (radiusVector) {
-  return constants.RADIANS_TO_DEGREES * Math.asin(6378.14 / radiusVector)
+  return RADIANS_TO_DEGREES * Math.asin(6378.14 / radiusVector)
 }
 
 function transformHorizontalParallaxToRadiusVector (horizontalParallax) {
-  return 6378.14 / Math.sin(constants.DEGREES_TO_RADIANS * horizontalParallax)
+  return 6378.14 / Math.sin(DEGREES_TO_RADIANS * horizontalParallax)
 }
 
 function getMeanLongitudeAscendingNode (JD) {
@@ -438,10 +438,10 @@ function getMeanLongitudePerigee (JD) {
 function getTrueLongitudeAscendingNode (JD) {
   let TrueAscendingNode = getMeanLongitudeAscendingNode(JD)
 
-  const D = getMeanElongation(JD) * constants.DEGREES_TO_RADIANS
-  const M = earth.getSunMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
-  const Mdash = getMeanAnomaly(JD) * constants.DEGREES_TO_RADIANS
-  const F = getArgumentOfLatitude(JD) * constants.DEGREES_TO_RADIANS
+  const D = getMeanElongation(JD) * DEGREES_TO_RADIANS
+  const M = earth.getSunMeanAnomaly(JD) * DEGREES_TO_RADIANS
+  const Mdash = getMeanAnomaly(JD) * DEGREES_TO_RADIANS
+  const F = getArgumentOfLatitude(JD) * DEGREES_TO_RADIANS
 
   // Add the principal additive terms
   TrueAscendingNode -= 1.4979 * Math.sin(2 * (D - F))

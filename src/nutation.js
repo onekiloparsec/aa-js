@@ -1,6 +1,6 @@
 'use strict'
 
-import constants from './constants'
+import { DEGREES_TO_RADIANS } from './constants'
 import sexagesimal from './sexagesimal'
 import utils from './utils'
 
@@ -101,7 +101,7 @@ function getNutationInLongitude (JD) {
       gNutationCoefficients[i].omega * omega
 
     value += (gNutationCoefficients[i].sincoeff1 + gNutationCoefficients[i].sincoeff2 * T) *
-      Math.sin(argument * constants.DEGREES_TO_RADIANS) * 0.0001
+      Math.sin(argument * DEGREES_TO_RADIANS) * 0.0001
   }
 
   return value
@@ -125,7 +125,7 @@ function getNutationInObliquity (JD) {
       gNutationCoefficients[i].omega * omega
 
     value += (gNutationCoefficients[i].coscoeff1 + gNutationCoefficients[i].coscoeff2 * T) *
-      Math.cos(argument * constants.DEGREES_TO_RADIANS) * 0.0001
+      Math.cos(argument * DEGREES_TO_RADIANS) * 0.0001
   }
 
   return value

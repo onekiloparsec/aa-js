@@ -1,6 +1,6 @@
 import moon from '../src/moon'
 import julianday from '../src/julianday'
-import constants from '../src/constants'
+import { DEGREES_TO_HOURS } from '../src/constants'
 
 test('get moon mean longitude', () => {
   expect(moon.getMeanLongitude(245123456)).toBe(182.125250)
@@ -15,7 +15,7 @@ test('get moon equatorial coordinates', () => {
   const jd = new julianday.JulianDay(UTCDate)
   const m = new moon.Moon(jd.value)
   const equ = m.equatorialCoordinates()
-  expect(equ.rightAscension).toBeCloseTo(134.688470 * constants.DEGREES_TO_HOURS)
+  expect(equ.rightAscension).toBeCloseTo(134.688470 * DEGREES_TO_HOURS)
   expect(equ.declination).toBeCloseTo(13.768368)
 })
 

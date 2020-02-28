@@ -1,6 +1,6 @@
 'use strict'
 import moment from 'moment'
-import constants from './constants'
+import { DEGREES_TO_RADIANS, HOURS_TO_DEGREES, RADIANS_TO_DEGREES, HOURS_TO_RADIANS } from './constants'
 import julianday from './julianday'
 
 // See AA. p 101
@@ -25,16 +25,16 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   }
 
   // Calculate the Greenwhich sidereal time in degrees
-  let Theta0 = julianday.getLocalSiderealTime(jdValue, 0) * constants.HOURS_TO_DEGREES
+  let Theta0 = julianday.getLocalSiderealTime(jdValue, 0) * HOURS_TO_DEGREES
 
-  const sinh0 = Math.sin(altitude * constants.DEGREES_TO_RADIANS)
-  const sinPhi = Math.sin(siteCoordinates.latitude * constants.DEGREES_TO_RADIANS)
-  const sinDelta = Math.sin(targetCoordinates.declination * constants.DEGREES_TO_RADIANS)
-  const cosPhi = Math.cos(siteCoordinates.latitude * constants.DEGREES_TO_RADIANS)
-  const cosDelta = Math.cos(targetCoordinates.declination * constants.DEGREES_TO_RADIANS)
+  const sinh0 = Math.sin(altitude * DEGREES_TO_RADIANS)
+  const sinPhi = Math.sin(siteCoordinates.latitude * DEGREES_TO_RADIANS)
+  const sinDelta = Math.sin(targetCoordinates.declination * DEGREES_TO_RADIANS)
+  const cosPhi = Math.cos(siteCoordinates.latitude * DEGREES_TO_RADIANS)
+  const cosDelta = Math.cos(targetCoordinates.declination * DEGREES_TO_RADIANS)
 
   // Equ 13.6, AA p93, with cosH = 1, that is H (hour angle) = 0
-  result.transitAltitude = Math.asin(sinPhi * sinDelta + cosPhi * cosDelta) * constants.RADIANS_TO_DEGREES
+  result.transitAltitude = Math.asin(sinPhi * sinDelta + cosPhi * cosDelta) * RADIANS_TO_DEGREES
 
   result.isTransitAboveHorizon = (result.transitAltitude > STANDARD_ALTITUDE_STARS)
   result.isTransitAboveAltitude = (result.transitAltitude > altitude)
@@ -46,18 +46,26 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   result.utcTransit = m0 * 24
 
   const utcMoment = moment.utc(julianday.getDate(jdValue))
-  result.julianDayTransit = julianday.getJulianDay(utcMoment.clone().hours(result.utcTransit).toDate())
+  const hourTransit = Math.floor(result.utcTransit)
+  const minuteTransit = result.utcTransit - hourTransit
+  result.julianDayTransit = julianday.getJulianDay(utcMoment.clone().hours(hourTransit).minutes(minuteTransit * 60).toDate())
 
   // Calculate cosH0. See AA Eq.15.1, p.102
   let cosH0 = (sinh0 - sinPhi * sinDelta) / (cosPhi * cosDelta)
   result.isCircumpolar = (Math.abs(cosH0) > 1)
 
   if (!result.isCircumpolar) {
-    const H0 = Math.acos(cosH0) * constants.RADIANS_TO_DEGREES
+    const H0 = Math.acos(cosH0) * RADIANS_TO_DEGREES
     result.utcRise = Math.fmod(m0 - H0 / 360, 1) * 24
     result.utcSet = Math.fmod(m0 + H0 / 360, 1) * 24
-    result.julianDayRise = julianday.getJulianDay(utcMoment.clone().hours(result.utcRise).toDate())
-    result.julianDaySet = julianday.getJulianDay(utcMoment.clone().hours(result.utcSet).toDate())
+
+    const hourRise = Math.floor(result.utcRise)
+    const minuteRise = result.utcRise - hourRise
+    const hourSet = Math.floor(result.utcSet)
+    const minuteSet = result.utcSet - hourSet
+
+    result.julianDayRise = julianday.getJulianDay(utcMoment.clone().hours(hourRise).minutes(minuteRise * 60).toDate())
+    result.julianDaySet = julianday.getJulianDay(utcMoment.clone().hours(hourSet).minutes(minuteSet * 60).toDate())
   }
 
   if (result.julianDayRise > result.julianDayTransit) {
@@ -66,6 +74,7 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   if (result.julianDaySet < result.julianDayTransit) {
     result.julianDaySet += 1
   }
+
 
   return result
 }
@@ -88,13 +97,13 @@ function getTransitAltitude (targetCoordinates, siteCoordinates, transitJD = und
   if (transitJD !== undefined && transitJD !== null) {
     const lmst = julianday.getLocalSiderealTime(transitJD, siteCoordinates.longitude)
     const ra = this.getRAInHours(targetCoordinates)
-    cosH = Math.cos((lmst - ra) * constants.HOURS_TO_RADIANS)
+    cosH = Math.cos((lmst - ra) * HOURS_TO_RADIANS)
   }
-  const sinPhi = Math.sin(siteCoordinates.latitude * constants.DEGREES_TO_RADIANS)
-  const sinDelta = Math.sin(targetCoordinates.declination * constants.DEGREES_TO_RADIANS)
-  const cosPhi = Math.cos(siteCoordinates.latitude * constants.DEGREES_TO_RADIANS)
-  const cosDelta = Math.cos(targetCoordinates.declination * constants.DEGREES_TO_RADIANS)
-  return Math.asin(sinPhi * sinDelta + cosPhi * cosDelta * cosH) * constants.RADIANS_TO_DEGREES
+  const sinPhi = Math.sin(siteCoordinates.latitude * DEGREES_TO_RADIANS)
+  const sinDelta = Math.sin(targetCoordinates.declination * DEGREES_TO_RADIANS)
+  const cosPhi = Math.cos(siteCoordinates.latitude * DEGREES_TO_RADIANS)
+  const cosDelta = Math.cos(targetCoordinates.declination * DEGREES_TO_RADIANS)
+  return Math.asin(sinPhi * sinDelta + cosPhi * cosDelta * cosH) * RADIANS_TO_DEGREES
 }
 
 export default {
