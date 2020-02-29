@@ -7,6 +7,7 @@ test('get age of the Universe (Gyr)', () => {
 })
 
 test('get age of the Universe at redshift (Gyr)', () => {
+  expect(cosmology.getUniverseAgeAtRedshift(69.6, 0.286, 0.714, 0)).toBeCloseTo(13.721, 3)
   expect(cosmology.getUniverseAgeAtRedshift(69.6, 0.286, 0.714, 0.1)).toBeCloseTo(12.411, 3)
   expect(cosmology.getUniverseAgeAtRedshift(69.6, 0.286, 0.714, 1)).toBeCloseTo(5.903, 3)
   expect(cosmology.getUniverseAgeAtRedshift(69.6, 0.286, 0.714, 2)).toBeCloseTo(3.316, 3)
@@ -17,6 +18,7 @@ test('get age of the Universe at redshift (Gyr)', () => {
 })
 
 test('get light travel time (Gyr)', () => {
+  expect(cosmology.getLightTravelTime(69.6, 0.286, 0.714, 0)).toEqual(0)
   expect(cosmology.getLightTravelTime(69.6, 0.286, 0.714, 0.1)).toBeCloseTo(1.310, 3)
   expect(cosmology.getLightTravelTime(69.6, 0.286, 0.714, 1)).toBeCloseTo(7.817, 3)
   expect(cosmology.getLightTravelTime(69.6, 0.286, 0.714, 2)).toBeCloseTo(10.404, 3)
@@ -27,6 +29,7 @@ test('get light travel time (Gyr)', () => {
 })
 
 test('get comoving radial distance (Mpc)', () => {
+  expect(cosmology.getComovingRadialDistance(69.6, 0.286, 0.714, 0)).toEqual(0)
   expect(cosmology.getComovingRadialDistance(69.6, 0.286, 0.714, 0.1)).toBeCloseTo(421.3, 1)
   expect(cosmology.getComovingRadialDistance(69.6, 0.286, 0.714, 1)).toBeCloseTo(3350.7, 1)
   expect(cosmology.getComovingRadialDistance(69.6, 0.286, 0.714, 2)).toBeCloseTo(5273.0, 1)
@@ -38,6 +41,7 @@ test('get comoving radial distance (Mpc)', () => {
 })
 
 test('get comoving volume within redshift', () => {
+  expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 0)).toEqual(0)
   expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 0.1)).toBeCloseTo(0.313, 3)
   expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 1)).toBeCloseTo(157.569, 3)
   expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 2)).toBeCloseTo(614.103, 3)
@@ -46,4 +50,15 @@ test('get comoving volume within redshift', () => {
   expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 10)).toBeCloseTo(3768.718, 3)
   expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 100)).toBeCloseTo(8972.731, 3)
   expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 1000)).toBeCloseTo(11337.247, 3)
+})
+
+test('get angular size distance (Mpc)', () => {
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 0)).toEqual(0)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 0.1)).toBeCloseTo(383.0, 1)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 1)).toBeCloseTo(1675.3, 1)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 2)).toBeCloseTo(1757.6, 1)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 3)).toBeCloseTo(1620.3, 1)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 10)).toBeCloseTo(877.6, 1)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 100)).toBeCloseTo(127.6, 1)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 1000)).toBeCloseTo(13.92, 2)
 })

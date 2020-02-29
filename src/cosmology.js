@@ -120,22 +120,6 @@ function getComovingRadialDistance (H0, WM, WV, z) {
   return (SPEED_OF_LIGHT / H0) * DCMR
 }
 
-function getTangentialComovingDistance (WK, DCMR) {
-  const x = Math.sqrt(Math.abs(WK)) * DCMR
-  if (x > 0.1) {
-    const ratio = (WK > 0) ? 0.5 * (Math.exp(x) - Math.exp(-x)) / x : Math.sin(x) / x
-    return ratio * DCMR
-  }
-
-  let y = x * x
-  // statement below fixed 13-Aug-03 to correct sign error in expansion
-  if (WK < 0) {
-    y = -y
-  }
-  const ratio = 1 + y / 6 + y * y / 120
-  return ratio * DCMR
-}
-
 function getComovingVolume (WK, DCMR) {
   const x = Math.sqrt(Math.abs(WK)) * DCMR
   if (x > 0.1) {
@@ -171,6 +155,41 @@ function getComovingVolumeWithinRedshift (H0, WM, WV, z) {
   return 4 * Math.PI * Math.pow(0.001 * SPEED_OF_LIGHT / H0, 3) * VCM
 }
 
+function getTangentialComovingDistance (H0, WM, WV, z) {
+  let az = 1.0 / (1 + 1.0 * z)
+  let WR = getOmegaR(H0)
+  let WK = getOmegaK(H0, WM, WV)
+
+  let DCMR = 0.0
+// do integral over a=1/(1+z) from az to 1 in n steps, midpoint rule
+  for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
+    let a = az + (1 - az) * (i + 0.5) / INTEGRAL_POINTS_NUMBER
+    let adot = Math.sqrt(WK + (WM / a) + (WR / (a * a)) + (WV * a * a))
+    DCMR = DCMR + 1 / (a * adot)
+  }
+  DCMR = (1 - az) * DCMR / INTEGRAL_POINTS_NUMBER
+
+  let ratio = 1.00
+  let x = Math.sqrt(Math.abs(WK)) * DCMR
+  if (x > 0.1) {
+    ratio = (WK > 0) ? 0.5 * (Math.exp(x) - Math.exp(-x)) / x : Math.sin(x) / x
+    return ratio * DCMR
+  }
+
+  let y = x * x
+// statement below fixed 13-Aug-03 to correct sign error in expansion
+  if (WK < 0) y = -y
+  ratio = 1 + y / 6 + y * y / 120
+  return ratio * DCMR
+}
+
+function getAngularSizeDistance (H0, WM, WV, z) {
+  let az = 1.0 / (1 + 1.0 * z)
+  let DA = az * getTangentialComovingDistance(H0, WM, WV, z)
+  // Mpc
+  return (SPEED_OF_LIGHT / H0) * DA
+}
+
 export default {
   getOmegaR,
   getOmegaK,
@@ -180,7 +199,8 @@ export default {
   getComovingRadialDistance,
   getComovingVolume,
   getComovingVolumeWithinRedshift,
-  getTangentialComovingDistance
+  getTangentialComovingDistance,
+  getAngularSizeDistance
 }
 
 
