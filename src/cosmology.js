@@ -12,6 +12,8 @@
 // http://www.astro.ucla.edu/~wright/cosmo_01.htm
 // ************************************************************************************
 
+import { SPEED_OF_LIGHT } from './constants'
+
 const Tyr = 977.8 // coefficent for converting 1/H into Gyr
 const INTEGRAL_POINTS_NUMBER = 2000
 
@@ -66,39 +68,6 @@ function getOmegaR (H0) {
 function getOmegaK (H0, WM, WV) {
   const WR = getOmegaR(H0)
   return 1 - WM - WR - WV
-}
-
-function getTangentialComovingDistance (WK, DCMR) {
-  const x = Math.sqrt(Math.abs(WK)) * DCMR
-  if (x > 0.1) {
-    const ratio = (WK > 0) ? 0.5 * (Math.exp(x) - Math.exp(-x)) / x : Math.sin(x) / x
-    return ratio * DCMR
-  }
-
-  let y = x * x
-  // statement below fixed 13-Aug-03 to correct sign error in expansion
-  if (WK < 0) {
-    y = -y
-  }
-  const ratio = 1 + y / 6 + y * y / 120
-  return ratio * DCMR
-}
-
-function getComovingVolume (WK, DCMR) {
-  const x = Math.sqrt(Math.abs(WK)) * DCMR
-  if (x > 0.1) {
-    const ratio = (WK > 0) ? (0.125 * (Math.exp(2 * x) - Math.exp(-2 * x)) - x / 2) / (x * x * x / 3) :
-      (x / 2 - Math.sin(2 * x) / 4) / (x * x * x / 3)
-    return ratio * DCMR * DCMR * DCMR / 3
-  }
-
-  let y = x * x
-  // statement below fixed 13-Aug-03 to correct sign error in expansion
-  if (WK < 0) {
-    y = -y
-  }
-  const ratio = 1 + y / 5 + (2 / 105) * y * y
-  return ratio * DCMR * DCMR * DCMR / 3
 }
 
 function getUniverseAge (H0, WM, WV) {
@@ -172,14 +141,67 @@ function getLightTravelTime (H0, WM, WV, z) {
   return (Tyr / H0) * DTT
 }
 
+function getComovingRadialDistance (H0, WM, WV, z) {
+  let DCMR = 0.0
+  let az = 1.0 / (1 + 1.0 * z)
+  let WR = getOmegaR(H0)
+  let WK = getOmegaK(H0, WM, WV)
+
+// do integral over a=1/(1+z) from az to 1 in n steps, midpoint rule
+  for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
+    let a = az + (1 - az) * (i + 0.5) / INTEGRAL_POINTS_NUMBER
+    let adot = Math.sqrt(WK + (WM / a) + (WR / (a * a)) + (WV * a * a))
+    DCMR = DCMR + 1 / (a * adot)
+  }
+
+  DCMR = (1 - az) * DCMR / INTEGRAL_POINTS_NUMBER
+
+  // Mpc
+  return (SPEED_OF_LIGHT / H0) * DCMR
+}
+
+function getTangentialComovingDistance (WK, DCMR) {
+  const x = Math.sqrt(Math.abs(WK)) * DCMR
+  if (x > 0.1) {
+    const ratio = (WK > 0) ? 0.5 * (Math.exp(x) - Math.exp(-x)) / x : Math.sin(x) / x
+    return ratio * DCMR
+  }
+
+  let y = x * x
+  // statement below fixed 13-Aug-03 to correct sign error in expansion
+  if (WK < 0) {
+    y = -y
+  }
+  const ratio = 1 + y / 6 + y * y / 120
+  return ratio * DCMR
+}
+
+function getComovingVolume (WK, DCMR) {
+  const x = Math.sqrt(Math.abs(WK)) * DCMR
+  if (x > 0.1) {
+    const ratio = (WK > 0) ? (0.125 * (Math.exp(2 * x) - Math.exp(-2 * x)) - x / 2) / (x * x * x / 3) :
+      (x / 2 - Math.sin(2 * x) / 4) / (x * x * x / 3)
+    return ratio * DCMR * DCMR * DCMR / 3
+  }
+
+  let y = x * x
+  // statement below fixed 13-Aug-03 to correct sign error in expansion
+  if (WK < 0) {
+    y = -y
+  }
+  const ratio = 1 + y / 5 + (2 / 105) * y * y
+  return ratio * DCMR * DCMR * DCMR / 3
+}
+
 export default {
   getOmegaR,
   getOmegaK,
-  getTangentialComovingDistance,
-  getComovingVolume,
   getUniverseAge,
   getUniverseAgeAtRedshift,
-  getLightTravelTime
+  getLightTravelTime,
+  getComovingRadialDistance,
+  getTangentialComovingDistance,
+  getComovingVolume
 }
 
 // function getUniverseAge
