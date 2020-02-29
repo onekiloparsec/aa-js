@@ -4,9 +4,12 @@
 // by Ned Wright
 // 25 Jul 1999
 // Copyright Edward L. Wright, all rights reserved.
-// define global variables and functions
 //
 // Adapted/modernized by Stuart Lowe @ dotAstronomy 2012, Heidelberg
+//
+// Corrected and covered by unit tests by Cédric Foellmi @onekiloparsec
+// (https://github.com/onekiloparsec) February 2020
+//
 // ************************************************************************************
 // See also Ned Wright's cosmology tutorial:
 // http://www.astro.ucla.edu/~wright/cosmo_01.htm
@@ -16,49 +19,6 @@ import { SPEED_OF_LIGHT } from './constants'
 
 const Tyr = 977.8 // coefficent for converting 1/H into Gyr
 const INTEGRAL_POINTS_NUMBER = 2000
-
-const defaultValues = {
-  n: 1000,	// number of points in integrals
-  nda: 1,	// number of digits in angular size distance
-  H0: 71,	// Hubble constant
-  WM: 0.27,	// Omega(matter)
-  WV: 0.73,	// Omega(vacuum) or lambda
-  WR: 0,	// Omega(radiation)
-  WK: 0,	// Omega curvaturve: 1-Omega(total)
-  z: 3.0,	// redshift of the object
-  h: 0.71,	// H0/100
-  c: 299792.458, // velocity of light in km/sec
-  DTT: 0.5,	// time from z to now in units of 1/H0
-  DTT_Gyr: 0.0,	// value of DTT in Gyr
-  age: 0.5,	// age of Universe in units of 1/H0
-  age_Gyr: 0.0,	// value of age in Gyr
-  zage: 0.1,	// age of Universe at redshift z in units of 1/H0
-  zage_Gyr: 0.0,	// value of zage in Gyr
-  DCMR: 0.0,	// comoving radial distance in units of c/H0
-  DCMR_Mpc: 0.0,
-  DCMR_Gyr: 0.0,
-  DA: 0.0,	// angular size distance
-  DA_Mpc: 0.0,
-  DA_Gyr: 0.0,
-  kpc_DA: 0.0,
-  DL: 0.0,	// luminosity distance
-  DL_Mpc: 0.0,
-  DL_Gyr: 0.0,	// DL in units of billions of light years
-  V_Gpc: 0.0,
-  a: 1.0,	// 1/(1+z), the scale factor of the Universe
-  az: 0.5	// 1/(1+z(object));
-}
-
-// entry point for the input form to pass values back to this script
-// Cosmos.prototype.setValues = function (H0, WM, WV, z) {
-//   const H0 = H0
-//   const h = H0 / 100
-//   const WM = WM
-//   const WV = WV
-//   const z = z
-//   const WR = 4.165E-5 / (h * h)	// includes 3 massless neutrino species, T0 = 2.72528
-//   const WK = 1 - WM - WR - WV
-// }
 
 function getOmegaR (H0) {
   const h = H0 / 100
@@ -204,30 +164,7 @@ export default {
   getComovingVolume
 }
 
-// function getUniverseAge
-//   let zage = az * age / n
-//
-//   // correction for annihilations of particles not present now like e+/e-
-//   // added 13-Aug-03 based on T_vs_t.f
-//   let lpz = Math.log((1 + 1.0 * z)) / Math.log(10.0)
-//   let dzage = 0
-//   if (lpz > 7.500) dzage = 0.002 * (lpz - 7.500)
-//   if (lpz > 8.000) dzage = 0.014 * (lpz - 8.000) + 0.001
-//   if (lpz > 8.500) dzage = 0.040 * (lpz - 8.500) + 0.008
-//   if (lpz > 9.000) dzage = 0.020 * (lpz - 9.000) + 0.028
-//   if (lpz > 9.500) dzage = 0.019 * (lpz - 9.500) + 0.039
-//   if (lpz > 10.000) dzage = 0.048
-//   if (lpz > 10.775) dzage = 0.035 * (lpz - 10.775) + 0.048
-//   if (lpz > 11.851) dzage = 0.069 * (lpz - 11.851) + 0.086
-//   if (lpz > 12.258) dzage = 0.461 * (lpz - 12.258) + 0.114
-//   if (lpz > 12.382) dzage = 0.024 * (lpz - 12.382) + 0.171
-//   if (lpz > 13.055) dzage = 0.013 * (lpz - 13.055) + 0.188
-//   if (lpz > 14.081) dzage = 0.013 * (lpz - 14.081) + 0.201
-//   if (lpz > 15.107) dzage = 0.214
-//
-//   return (Tyr / H0) * zage * Math.pow(10.0, dzage)
-// }
-//
+
 // export const getAllValues = function (H0, WM, WV, z) {
 //   const h = H0 / 100
 //   const WR = 4.165E-5 / (h * h)	// includes 3 massless neutrino species, T0 = 2.72528
