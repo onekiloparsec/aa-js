@@ -153,13 +153,33 @@ function getUniverseAgeAtRedshift (H0, WM, WV, z) {
   return (Tyr / H0) * zage * Math.pow(10.0, dzage)
 }
 
+function getLightTravelTime (H0, WM, WV, z) {
+  let DTT = 0.0
+  let az = 1.0 / (1 + 1.0 * z)
+  let WR = getOmegaR(H0)
+  let WK = getOmegaK(H0, WM, WV)
+
+// do integral over a=1/(1+z) from az to 1 in n steps, midpoint rule
+  for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
+    let a = az + (1 - az) * (i + 0.5) / INTEGRAL_POINTS_NUMBER
+    let adot = Math.sqrt(WK + (WM / a) + (WR / (a * a)) + (WV * a * a))
+    DTT = DTT + 1 / adot
+  }
+
+  DTT = (1 - az) * DTT / INTEGRAL_POINTS_NUMBER
+
+  // Gyr
+  return (Tyr / H0) * DTT
+}
+
 export default {
   getOmegaR,
   getOmegaK,
   getTangentialComovingDistance,
   getComovingVolume,
   getUniverseAge,
-  getUniverseAgeAtRedshift
+  getUniverseAgeAtRedshift,
+  getLightTravelTime
 }
 
 // function getUniverseAge
