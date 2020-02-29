@@ -62,3 +62,26 @@ test('get angular size distance (Mpc)', () => {
   expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 100)).toBeCloseTo(127.6, 1)
   expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 1000)).toBeCloseTo(13.92, 2)
 })
+
+test('get luminosity distance (Mpc)', () => {
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 0)).toEqual(0)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 0.1)).toBeCloseTo(383.0, 1)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 1)).toBeCloseTo(1675.3, 1)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 2)).toBeCloseTo(1757.6, 1)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 3)).toBeCloseTo(1620.3, 1)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 10)).toBeCloseTo(877.6, 1)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 100)).toBeCloseTo(127.6, 1)
+  expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 1000)).toBeCloseTo(13.92, 2)
+})
+
+test('get luminosity distance (Mpc)', () => {
+  expect(cosmology.getLuminosityDistance(69.6, 0.286, 0.714, 0)).toEqual(0)
+  expect(cosmology.getLuminosityDistance(69.6, 0.286, 0.714, 0.1)).toBeCloseTo(463.4, 1)
+  expect(cosmology.getLuminosityDistance(69.6, 0.286, 0.714, 1)).toBeCloseTo(6701.2, 1)
+  expect(cosmology.getLuminosityDistance(69.6, 0.286, 0.714, 2)).toBeCloseTo(15818.5, 1)
+  expect(cosmology.getLuminosityDistance(69.6, 0.286, 0.714, 3)).toBeCloseTo(25924.3, 1)
+  expect(cosmology.getLuminosityDistance(69.6, 0.286, 0.714, 10)).toBeCloseTo(106188.0, 1)
+  // The two below aren't exactly the same as in Ned Wright web page results, but he uses a strange rounding implementation.
+  expect(cosmology.getLuminosityDistance(69.6, 0.286, 0.714, 100)).toBeCloseTo(1301867, 0)
+  expect(cosmology.getLuminosityDistance(69.6, 0.286, 0.714, 1000)).toBeCloseTo(13948729, 0)
+})

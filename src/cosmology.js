@@ -190,6 +190,18 @@ function getAngularSizeDistance (H0, WM, WV, z) {
   return (SPEED_OF_LIGHT / H0) * DA
 }
 
+function getAngularSizeScale (H0, WM, WV, z) {
+  let DA = getAngularSizeDistance(H0, WM, WV, z)
+  let DA_Mpc = (SPEED_OF_LIGHT / H0) * DA
+  return DA_Mpc / 206.264806
+}
+
+function getLuminosityDistance (H0, WM, WV, z) {
+  let az = 1.0 / (1 + 1.0 * z)
+  let DA = getAngularSizeDistance(H0, WM, WV, z)
+  return DA / (az * az)
+}
+
 export default {
   getOmegaR,
   getOmegaK,
@@ -200,46 +212,7 @@ export default {
   getComovingVolume,
   getComovingVolumeWithinRedshift,
   getTangentialComovingDistance,
-  getAngularSizeDistance
+  getAngularSizeDistance,
+  getAngularSizeScale,
+  getLuminosityDistance
 }
-
-
-// export const getAllValues = function (H0, WM, WV, z) {
-//   const h = H0 / 100
-//   const WR = 4.165E-5 / (h * h)	// includes 3 massless neutrino species, T0 = 2.72528
-//   const WK = 1 - WM - WR - WV
-//   let az = 1.0 / (1 + 1.0 * z)
-//   let age = 0
-//   for (let i = 0; i < n; i++) {
-//     const a = az * (i + 0.5) / n
-//     const adot = Math.sqrt(WK + (WM / a) + (WR / (a * a)) + (WV * a * a))
-//     const age = age + 1 / adot
-//   }
-//
-//   const DTT = 0.0
-//   const DCMR = 0.0
-//   // do integral over a=1/(1+z) from az to 1 in n steps, midpoint rule
-//   for (let i = 0; i < n; i++) {
-//     const a = az + (1 - az) * (i + 0.5) / n
-//     const adot = Math.sqrt(WK + (WM / a) + (WR / (a * a)) + (WV * a * a))
-//     const DTT = DTT + 1 / adot
-//     const DCMR = DCMR + 1 / (a * adot)
-//   }
-//
-//   const DTT = (1 - az) * DTT / n
-//   const DCMR = (1 - az) * DCMR / n
-//   // const age = DTT + zage
-//   // const age_Gyr = age * (Tyr / H0)
-//   const DTT_Gyr = (Tyr / H0) * DTT
-//   const DCMR_Gyr = (Tyr / H0) * DCMR
-//   const DCMR_Mpc = (c / H0) * DCMR
-//   const DA = az * DCMT()
-//   const DA_Mpc = (c / H0) * DA
-//   const kpc_DA = DA_Mpc / 206.264806
-//   const DA_Gyr = (Tyr / H0) * DA
-//   const DL = DA / (az * az)
-//   const DL_Mpc = (c / H0) * DL
-//   const DL_Gyr = (Tyr / H0) * DL
-//   const V_Gpc = 4 * Math.PI * Math.pow(0.001 * c / H0, 3) * VCM()
-//
-// }
