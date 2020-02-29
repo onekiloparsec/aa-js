@@ -13,7 +13,7 @@
 // ************************************************************************************
 
 const Tyr = 977.8 // coefficent for converting 1/H into Gyr
-const INTEGRAL_POINTS_NUMBER = 1000
+const INTEGRAL_POINTS_NUMBER = 2000
 
 const defaultValues = {
   n: 1000,	// number of points in integrals
@@ -127,8 +127,9 @@ function getUniverseAge (H0, WM, WV) {
     const adot = Math.sqrt(WK + (WM / a) + (WR / (a * a)) + (WV * a * a))
     age = age + 1 / adot
   }
+  age = age / INTEGRAL_POINTS_NUMBER
 
-  return age * (Tyr / H0) / 1000
+  return age * (Tyr / H0)
 }
 
 function getUniverseAgeAtRedshift (H0, WM, WV, z) {
