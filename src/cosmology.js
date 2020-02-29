@@ -153,6 +153,24 @@ function getComovingVolume (WK, DCMR) {
   return ratio * DCMR * DCMR * DCMR / 3
 }
 
+function getComovingVolumeWithinRedshift (H0, WM, WV, z) {
+  let az = 1.0 / (1 + 1.0 * z)
+  let WR = getOmegaR(H0)
+  let WK = getOmegaK(H0, WM, WV)
+  let DCMR = 0.0
+// do integral over a=1/(1+z) from az to 1 in n steps, midpoint rule
+  for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
+    let a = az + (1 - az) * (i + 0.5) / INTEGRAL_POINTS_NUMBER
+    let adot = Math.sqrt(WK + (WM / a) + (WR / (a * a)) + (WV * a * a))
+    DCMR = DCMR + 1 / (a * adot)
+  }
+  DCMR = (1 - az) * DCMR / INTEGRAL_POINTS_NUMBER
+  let VCM = getComovingVolume(WK, DCMR)
+
+  // Gpc^3
+  return 4 * Math.PI * Math.pow(0.001 * SPEED_OF_LIGHT / H0, 3) * VCM
+}
+
 export default {
   getOmegaR,
   getOmegaK,
@@ -160,8 +178,9 @@ export default {
   getUniverseAgeAtRedshift,
   getLightTravelTime,
   getComovingRadialDistance,
-  getTangentialComovingDistance,
-  getComovingVolume
+  getComovingVolume,
+  getComovingVolumeWithinRedshift,
+  getTangentialComovingDistance
 }
 
 

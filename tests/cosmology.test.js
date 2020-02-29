@@ -36,3 +36,14 @@ test('get comoving radial distance (Mpc)', () => {
   expect(cosmology.getComovingRadialDistance(69.6, 0.286, 0.714, 100)).toBeCloseTo(12891.42, 1)
   expect(cosmology.getComovingRadialDistance(69.6, 0.286, 0.714, 1000)).toBeCloseTo(13936.88, 1)
 })
+
+test('get comoving volume within redshift', () => {
+  expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 0.1)).toBeCloseTo(0.313, 3)
+  expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 1)).toBeCloseTo(157.569, 3)
+  expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 2)).toBeCloseTo(614.103, 3)
+  expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 3)).toBeCloseTo(1140.389, 3)
+  // The three below aren't exactly the same as in Ned Wright web page results, but he uses a strange rounding implementation.
+  expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 10)).toBeCloseTo(3768.718, 3)
+  expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 100)).toBeCloseTo(8972.731, 3)
+  expect(cosmology.getComovingVolumeWithinRedshift(69.6, 0.286, 0.714, 1000)).toBeCloseTo(11337.247, 3)
+})
