@@ -47,21 +47,6 @@ const defaultValues = {
   az: 0.5	// 1/(1+z(object));
 }
 
-const stround = function (x, m) {
-  // rounds to m digits and makes a string
-  var tenn = 1
-  var i = 0
-  for (i = 0; i !== m; i++) tenn = tenn * 10
-
-  var y = Math.round(Math.abs(x) * tenn)
-  var str = ' ' + y
-  while (m > str.length - 2) str = ' 0' + str.substring(1, str.length)
-  str = str.substring(0, str.length - m) + '.' +
-    str.substring(str.length - m, str.length)
-  if (x < 0) str = ' -' + str.substring(1, str.length)
-  return str
-}
-
 // entry point for the input form to pass values back to this script
 // Cosmos.prototype.setValues = function (H0, WM, WV, z) {
 //   const H0 = H0
