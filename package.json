@@ -1,6 +1,6 @@
 {
   "name": "astronomical-algorithms",
-  "version": "0.12.1",
+  "version": "0.12.2",
   "description": "Astronomical Algorithms for node.js",
   "main": "dist/astronomical-algorithms.common.js",
   "module": "dist/astronomical-algorithms.esm.js",
