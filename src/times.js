@@ -1,6 +1,12 @@
 'use strict'
 import dates from './dates'
 
+// Note: Javascript Implementation of the Astronomical Algorithms found in the
+// C++ reference implementation called AA+, by J.P. Naughter.
+// Implementation will be validated by unit tests extracted from Jean Meus'
+// textbook.
+
+
 const gDeltaTValues =
   [
 // All the initial values are observed values from 1 February 1973 to 1 June 2017 as taken from http:// maia.usno.navy.mil/ser7/deltat.data
