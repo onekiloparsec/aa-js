@@ -1,24 +1,24 @@
 import {
-  ONE_PARSEC_IN_UA,
-  ONE_PARSEC_IN_LIGHTYEAR,
+   PC2UA,
+   PC2LY,
   ONE_UA_IN_KILOMETERS,
   SPEED_OF_LIGHT
 } from './constants'
 
 function getParallaxFromParsec (parsec) {
-  return Math.atan(1. / (parsec * ONE_PARSEC_IN_UA)) * 3600.0 * 180.0 / Math.PI
+  return Math.atan(1. / (parsec *  PC2UA)) * 3600.0 * 180.0 / Math.PI
 }
 
 function getParsecFromParallax (arcseconds) {
-  return 1. / Math.tan(arcseconds / 3600.0 * Math.PI / 180.) / ONE_PARSEC_IN_UA
+  return 1. / Math.tan(arcseconds / 3600.0 * Math.PI / 180.) /  PC2UA
 }
 
 function getAstronomicalUnitsFromParsec (pc) {
-  return pc * ONE_PARSEC_IN_UA
+  return pc *  PC2UA
 }
 
 function getParsecFromAstronomicalUnits (AU) {
-  return AU / ONE_PARSEC_IN_UA
+  return AU /  PC2UA
 }
 
 function getKilometersFromParsec (pc) {
@@ -30,11 +30,11 @@ function getParsecFromKilometers (km) {
 }
 
 function getLightYearsFromParsec (pc) {
-  return pc * ONE_PARSEC_IN_LIGHTYEAR
+  return pc *  PC2LY
 }
 
 function getParsecFromLightYears (ly) {
-  return ly / ONE_PARSEC_IN_LIGHTYEAR
+  return ly /  PC2LY
 }
 
 function getDistanceModulusFromParsec (pc, visualAbsorption = 0) {
