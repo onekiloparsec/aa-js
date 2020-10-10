@@ -7,23 +7,19 @@ Math.isNumber = function (v) {
   return !isNaN(parseFloat(v)) && isFinite(v)
 }
 
-export const DEGREES_TO_RADIANS = 0.017453292519943295769236907684886
-export const RADIANS_TO_DEGREES = 57.295779513082320876798154814105
-export const RADIANS_TO_HOURS = 3.8197186342054880584532103209403
-export const HOURS_TO_RADIANS = 0.26179938779914943653855361527329
-export const HOURS_TO_DEGREES = 15
-export const DEGREES_TO_HOURS = 0.06666666666666666666666666666666666
+export const J1970 = 2440588.0
+export const J2000 = 2451545.0
+
+export const DEG2RAD = 0.017453292519943295769236907684886
+export const RAD2DEG = 57.295779513082320876798154814105
+export const RAD2H = 3.8197186342054880584532103209403
+export const H2RAD = 0.26179938779914943653855361527329
+export const H2DEG = 15.0
+export const DEG2H = 0.06666666666666666666666666666666666
 
 export const SPEED_OF_LIGHT = 299792.458
 export const SPEED_OF_LIGHT_MS = 299792458.0
 export const SPEED_OF_LIGHT_APPROX_MS = 300000000.0
-
-export const ONE_RAD_IN_DEGREES = 57.29577951308232
-export const ONE_RAD_IN_HOURS = 3.8197186342054881					// = 180/pi * 24/360
-export const ONE_DEG_IN_RADIANS = 0.017453292519943295					// = pi/180
-export const ONE_DEG_IN_HOURS = 0.06666666666666666666666666666		// = 24/360
-export const ONE_HOUR_IN_RADIANS = 0.26179938779914941					// = 360/24 * pi/180
-export const ONE_ARCSEC_IN_RADIANS = 4.8481368110953598e-06				// = pi/(180*3600)
 
 export const SIDEREAL_OVER_SOLAR_RATE = 1.0027379093	// Sidereal / solar rate.
 export const AVERAGE_JULIAN_YEAR = 365.25		// See Observer's handbook (1999 - RAS of Canada).
@@ -70,8 +66,8 @@ export const ONE_UA_IN_KILOMETERS = 149597870.691
  km or 93 million miles).
 */
 
-export const ONE_PARSEC_IN_UA = 206264.80624548031 // = 1.0/tan(1./3600.0*M_PI/180.);
-export const ONE_PARSEC_IN_LIGHTYEAR = 3.263797724738089 // = pc*ua/SPEED_OF_LIGHT/(ONE_DAY_INSECONDS*365.0)
+export const PC2UA = 206264.80624548031 // = 1.0/tan(1./3600.0*M_PI/180.);
+export const PC2LY = 3.263797724738089 // = pc*ua/SPEED_OF_LIGHT/(ONE_DAY_INSECONDS*365.0)
 
 //http://physics.nist.gov/cuu/index.html
 export const PLANCK_CONSTANT = 6.62606957e-34 // Joule * seconds;
@@ -80,10 +76,10 @@ export const BOLTZMANN_CONSTANT = 1.3806488e-23 // Joule/Kelvin
 // http://nssdc.gsfc.nasa.gov/planetary/factsheet/
 // http://solarscience.msfc.nasa.gov
 
-export const ONE_SOLAR_MASS = 1.98855e30 // kg;
-export const ONE_MASS_OF_JUPITER = 1.8990e27 // kg;
-export const ONE_MASS_OF_NEPTUNE = 1.0243e26 // kg;
-export const ONE_MASS_OF_EARTH = 5.9736e24 // kg;
+export const MSUN = 1.98855e30 // kg;
+export const MJUP = 1.8990e27 // kg;
+export const MNEP = 1.0243e26 // kg;
+export const MEARTH = 5.9736e24 // kg;
 
 export const ONE_MASS_OF_JUPITER_IN_NEPTUNE_MASS = 18.539490383676657
 export const ONE_MASS_OF_JUPITER_IN_EARTH_MASS = 317.8987545198875
@@ -97,3 +93,15 @@ export const ONE_EARTH_RADIUS_IN_KILOMETERS = 6378.137//
 export const HUBBLE_CONSTANT = 72.0
 
 export const ABSOLUTE_ZERO_TEMPERATURE_CELSIUS = -273.15
+
+// export const SUN_EXTENDED_EVENTS_ALTITUDES = [
+//   [-0.833, 'sunrise', 'sunset'],
+//   [-0.3, 'sunriseEnd', 'sunsetStart'],
+//   [-6, 'dawn', 'dusk'],
+//   [-12, 'nauticalDawn', 'nauticalDusk'],
+//   [-18, 'nightEnd', 'night'],
+//   [6, 'goldenHourEnd', 'goldenHour']
+// ]
+
+export const SUN_EVENTS_ALTITUDES = [-0.833, -6, -12, -18]
+export const SUN_EXTENDED_EVENTS_ALTITUDES = [6, -0.3, -0.833, -6, -12, -18]
