@@ -465,11 +465,11 @@ function getEclipticCoordinates (JD) {
 }
 
 function getEquatorialCoordinates (JD) {
-  return coordinates.transformEclipticToEquatorial({
-    Lambda: getEclipticLongitude(JD),
-    Beta: getEclipticLatitude(JD),
-    Epsilon: nutation.getMeanObliquityOfEcliptic(JD)
-  })
+  return coordinates.transformEclipticToEquatorial(
+    getEclipticLongitude(JD),
+    getEclipticLatitude(JD),
+    nutation.getMeanObliquityOfEcliptic(JD)
+  )
 }
 
 export default {
