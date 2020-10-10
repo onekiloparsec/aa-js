@@ -9,7 +9,7 @@ module.exports = {
     library: 'astronomical-algorithms'
   },
   externals: {
-    moment: 'moment'
+    dayjs: 'dayjs'
   },
   module: {
     rules: [
