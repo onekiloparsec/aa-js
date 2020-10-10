@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
 import julianday from './julianday'
-import { DEGREES_TO_RADIANS, HOURS_TO_DEGREES, HOURS_TO_RADIANS, RADIANS_TO_DEGREES } from './constants'
+import { DEG2RAD, H2DEG, H2RAD, RAD2DEG } from './constants'
 
 dayjs.extend(utc)
 
@@ -10,6 +10,7 @@ dayjs.extend(utc)
 const STANDARD_ALTITUDE_STARS = -0.5667
 // const STANDARD_ALTITUDE_SUN = -0.8333
 //
+
 function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinates, altitude = STANDARD_ALTITUDE_STARS) {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
@@ -28,16 +29,16 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   }
 
   // Calculate the Greenwhich sidereal time in degrees
-  let Theta0 = julianday.getLocalSiderealTime(jdValue, 0) * HOURS_TO_DEGREES
+  let Theta0 = julianday.getLocalSiderealTime(jdValue, 0) * H2DEG
 
-  const sinh0 = Math.sin(altitude * DEGREES_TO_RADIANS)
-  const sinPhi = Math.sin(siteCoordinates.latitude * DEGREES_TO_RADIANS)
-  const sinDelta = Math.sin(targetCoordinates.declination * DEGREES_TO_RADIANS)
-  const cosPhi = Math.cos(siteCoordinates.latitude * DEGREES_TO_RADIANS)
-  const cosDelta = Math.cos(targetCoordinates.declination * DEGREES_TO_RADIANS)
+  const sinh0 = Math.sin(altitude * DEG2RAD)
+  const sinPhi = Math.sin(siteCoordinates.latitude * DEG2RAD)
+  const sinDelta = Math.sin(targetCoordinates.declination * DEG2RAD)
+  const cosPhi = Math.cos(siteCoordinates.latitude * DEG2RAD)
+  const cosDelta = Math.cos(targetCoordinates.declination * DEG2RAD)
 
   // Equ 13.6, AA p93, with cosH = 1, that is H (hour angle) = 0
-  result.transitAltitude = Math.asin(sinPhi * sinDelta + cosPhi * cosDelta) * RADIANS_TO_DEGREES
+  result.transitAltitude = Math.asin(sinPhi * sinDelta + cosPhi * cosDelta) * RAD2DEG
 
   result.isTransitAboveHorizon = (result.transitAltitude > STANDARD_ALTITUDE_STARS)
   result.isTransitAboveAltitude = (result.transitAltitude > altitude)
@@ -58,7 +59,7 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   result.isCircumpolar = (Math.abs(cosH0) > 1)
 
   if (!result.isCircumpolar) {
-    const H0 = Math.acos(cosH0) * RADIANS_TO_DEGREES
+    const H0 = Math.acos(cosH0) * RAD2DEG
     result.utcRise = Math.fmod(m0 - H0 / 360, 1) * 24
     result.utcSet = Math.fmod(m0 + H0 / 360, 1) * 24
 
@@ -77,7 +78,6 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   if (result.julianDaySet < result.julianDayTransit) {
     result.julianDaySet += 1
   }
-
 
   return result
 }
@@ -100,13 +100,13 @@ function getTransitAltitude (targetCoordinates, siteCoordinates, transitJD = und
   if (transitJD !== undefined && transitJD !== null) {
     const lmst = julianday.getLocalSiderealTime(transitJD, siteCoordinates.longitude)
     const ra = this.getRAInHours(targetCoordinates)
-    cosH = Math.cos((lmst - ra) * HOURS_TO_RADIANS)
+    cosH = Math.cos((lmst - ra) * H2RAD)
   }
-  const sinPhi = Math.sin(siteCoordinates.latitude * DEGREES_TO_RADIANS)
-  const sinDelta = Math.sin(targetCoordinates.declination * DEGREES_TO_RADIANS)
-  const cosPhi = Math.cos(siteCoordinates.latitude * DEGREES_TO_RADIANS)
-  const cosDelta = Math.cos(targetCoordinates.declination * DEGREES_TO_RADIANS)
-  return Math.asin(sinPhi * sinDelta + cosPhi * cosDelta * cosH) * RADIANS_TO_DEGREES
+  const sinPhi = Math.sin(siteCoordinates.latitude * DEG2RAD)
+  const sinDelta = Math.sin(targetCoordinates.declination * DEG2RAD)
+  const cosPhi = Math.cos(siteCoordinates.latitude * DEG2RAD)
+  const cosDelta = Math.cos(targetCoordinates.declination * DEG2RAD)
+  return Math.asin(sinPhi * sinDelta + cosPhi * cosDelta * cosH) * RAD2DEG
 }
 
 export default {

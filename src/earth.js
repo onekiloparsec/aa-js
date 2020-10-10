@@ -3,7 +3,7 @@
 import coordinates from './coordinates'
 import nutation from './nutation'
 import utils from './utils'
-import { RADIANS_TO_DEGREES } from './constants'
+import { RAD2DEG } from './constants'
 
 const gL0EarthCoefficients =
   [
@@ -421,7 +421,7 @@ function getEclipticLongitude (JD) {
 
   const value = (L0 + L1 * rho + L2 * rhosquared + L3 * rhocubed + L4 * rho4 + L5 * rho5) / 100000000
 
-  return utils.MapTo0To360Range(value * RADIANS_TO_DEGREES)
+  return utils.MapTo0To360Range(value * RAD2DEG)
 }
 
 function getEclipticLatitude (JD) {
@@ -432,7 +432,7 @@ function getEclipticLatitude (JD) {
 
   const value = (B0 + B1 * rho) / 100000000
 
-  return utils.MapToMinus90To90Range(value * RADIANS_TO_DEGREES)
+  return utils.MapToMinus90To90Range(value * RAD2DEG)
 }
 
 function getRadiusVector (JD) {
@@ -464,7 +464,7 @@ function getEclipticLongitudeJ2000 (JD) {
 
   const value = (L0 + L1 * rho + L2 * rhosquared + L3 * rhocubed + L4 * rho4) / 100000000
 
-  return utils.MapTo0To360Range(value * RADIANS_TO_DEGREES)
+  return utils.MapTo0To360Range(value * RAD2DEG)
 }
 
 function getEclipticLatitudeJ2000 (JD) {
@@ -481,7 +481,7 @@ function getEclipticLatitudeJ2000 (JD) {
 
   const value = (B0 + B1 * rho + B2 * rhosquared + B3 * rhocubed + B4 * rho4) / 100000000
 
-  return utils.MapToMinus90To90Range(value * RADIANS_TO_DEGREES)
+  return utils.MapToMinus90To90Range(value * RAD2DEG)
 }
 
 /**
