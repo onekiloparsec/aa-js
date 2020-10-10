@@ -120,19 +120,20 @@ function getEquatorialCoordinates (JD) {
 }
 
 function getEquatorialCoordinatesJ2000 (JD) {
-  return coordinates.transformEclipticToEquatorial({
-    Lambda: getGeometricEclipticLongitudeJ2000(JD),
-    Beta: getGeometricEclipticLatitudeJ2000(JD),
-    Epsilon: nutation.getMeanObliquityOfEcliptic(JD)
-  })
+  return coordinates.transformEclipticToEquatorial(
+    getGeometricEclipticLongitudeJ2000(JD),
+    getGeometricEclipticLatitudeJ2000(JD),
+    nutation.getMeanObliquityOfEcliptic(JD)
+  )
 }
 
 function getApparentEquatorialCoordinates (JD) {
-  return coordinates.transformEclipticToEquatorial({
-    Lambda: getApparentEclipticLongitude(JD),
-    Beta: getApparentEclipticLatitude(JD),
-    Epsilon: nutation.getTrueObliquityOfEcliptic(JD)
-  })
+  return coordinates.transformEclipticToEquatorial(
+    getApparentEclipticLongitude(JD),
+    getApparentEclipticLatitude(JD),
+    nutation.getTrueObliquityOfEcliptic(JD)
+  )
+}
 }
 
 export default {
