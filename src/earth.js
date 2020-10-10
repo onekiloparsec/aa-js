@@ -484,6 +484,11 @@ function getEclipticLatitudeJ2000 (JD) {
   return utils.MapToMinus90To90Range(value * RADIANS_TO_DEGREES)
 }
 
+/**
+ * Computes the eccentricity of the orbit
+ * @param  {Number} JD The julian day
+ * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
+ */
 function getSunMeanAnomaly (JD) {
   const T = (JD - 2451545) / 36525
   const Tsquared = T * T
@@ -491,6 +496,11 @@ function getSunMeanAnomaly (JD) {
   return utils.MapTo0To360Range(357.5291092 + 35999.0502909 * T - 0.0001536 * Tsquared + Tcubed / 24490000)
 }
 
+/**
+ * Computes the eccentricity of the orbit
+ * @param  {Number} JD The julian day
+ * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
+ */
 function getEccentricity (JD) {
   const T = (JD - 2451545) / 36525
   const Tsquared = T * T
