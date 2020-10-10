@@ -1,6 +1,6 @@
 'use strict'
 
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { DEGREES_TO_HOURS } from './constants'
 
 const J1970 = 2440588
@@ -16,7 +16,7 @@ function getJulianDay (...args) {
     args[0] = new Date()
   }
   if (args[0] instanceof Date) {
-    return moment(args[0]).toDate().valueOf() / dayMs - 0.5 + J1970
+    return dayjs(args[0]).toDate().valueOf() / dayMs - 0.5 + J1970
   } else if (Math.isNumber(args[0])) {
     return parseFloat(args[0])
   }

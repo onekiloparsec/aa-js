@@ -1,7 +1,10 @@
-'use strict'
-import moment from 'moment'
-import { DEGREES_TO_RADIANS, HOURS_TO_DEGREES, RADIANS_TO_DEGREES, HOURS_TO_RADIANS } from './constants'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+
 import julianday from './julianday'
+import { DEGREES_TO_RADIANS, HOURS_TO_DEGREES, HOURS_TO_RADIANS, RADIANS_TO_DEGREES } from './constants'
+
+dayjs.extend(utc)
 
 // See AA. p 101
 const STANDARD_ALTITUDE_STARS = -0.5667
@@ -45,10 +48,10 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   const m0 = Math.fmod((targetCoordinates.right_ascension - siteCoordinates.longitude - Theta0) / 360, 1)
   result.utcTransit = m0 * 24
 
-  const utcMoment = moment.utc(julianday.getDate(jdValue))
+  const utcMoment = dayjs.utc(julianday.getDate(jdValue))
   const hourTransit = Math.floor(result.utcTransit)
   const minuteTransit = result.utcTransit - hourTransit
-  result.julianDayTransit = julianday.getJulianDay(utcMoment.clone().hours(hourTransit).minutes(minuteTransit * 60).toDate())
+  result.julianDayTransit = julianday.getJulianDay(utcMoment.hour(hourTransit).minute(minuteTransit * 60).toDate())
 
   // Calculate cosH0. See AA Eq.15.1, p.102
   let cosH0 = (sinh0 - sinPhi * sinDelta) / (cosPhi * cosDelta)
@@ -64,8 +67,8 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
     const hourSet = Math.floor(result.utcSet)
     const minuteSet = result.utcSet - hourSet
 
-    result.julianDayRise = julianday.getJulianDay(utcMoment.clone().hours(hourRise).minutes(minuteRise * 60).toDate())
-    result.julianDaySet = julianday.getJulianDay(utcMoment.clone().hours(hourSet).minutes(minuteSet * 60).toDate())
+    result.julianDayRise = julianday.getJulianDay(utcMoment.hour(hourRise).minute(minuteRise * 60).toDate())
+    result.julianDaySet = julianday.getJulianDay(utcMoment.hour(hourSet).minute(minuteSet * 60).toDate())
   }
 
   if (result.julianDayRise > result.julianDayTransit) {
