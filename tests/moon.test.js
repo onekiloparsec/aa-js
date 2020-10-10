@@ -12,9 +12,8 @@ test('get moon mean elongation', () => {
 
 test('get moon equatorial coordinates', () => {
   const UTCDate = new Date(Date.UTC(1992, 3, 12))
-  const jd = new julianday.JulianDay(UTCDate)
-  const m = new moon.Moon(jd.value)
-  const equ = m.equatorialCoordinates()
+  const jd = julianday.getJulianDay(UTCDate)
+  const equ = moon.getEquatorialCoordinates(jd)
   expect(equ.rightAscension).toBeCloseTo(134.688470 * DEGREES_TO_HOURS)
   expect(equ.declination).toBeCloseTo(13.768368)
 })

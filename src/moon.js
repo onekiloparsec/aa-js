@@ -453,61 +453,23 @@ function getTrueLongitudeAscendingNode (JD) {
   return utils.MapTo0To360Range(TrueAscendingNode)
 }
 
-class Moon {
-  constructor (jd) {
-    this.julianDay = jd
-  }
+function getHorizontalParallax (JD) {
+  return transformRadiusVectorToHorizontalParallax(getRadiusVector(JD))
+}
 
-  meanLongitude () {
-    return getMeanLongitude(this.julianDay)
+function getEclipticCoordinates (JD) {
+  return {
+    longitude: getEclipticLongitude(JD),
+    latitude: getEclipticLatitude(JD)
   }
+}
 
-  meanElongation () {
-    return getMeanElongation(this.julianDay)
-  }
-
-  meanAnomaly () {
-    return getMeanAnomaly(this.julianDay)
-  }
-
-  argumentOfLatitude () {
-    return getArgumentOfLatitude(this.julianDay)
-  }
-
-  radiusVector () {
-    return getRadiusVector(this.julianDay)
-  }
-
-  horizontalParallax () {
-    return transformRadiusVectorToHorizontalParallax(this.radiusVector())
-  }
-
-  eclipticCoordinates () {
-    return {
-      longitude: getEclipticLongitude(this.julianDay),
-      latitude: getEclipticLatitude(this.julianDay)
-    }
-  }
-
-  equatorialCoordinates () {
-    return coordinates.transformEclipticToEquatorial({
-      Lambda: getEclipticLongitude(this.julianDay),
-      Beta: getEclipticLatitude(this.julianDay),
-      Epsilon: nutation.getMeanObliquityOfEcliptic(this.julianDay)
-    })
-  }
-
-  meanLongitudeAscendingNode () {
-    return getMeanLongitudeAscendingNode(this.julianDay)
-  }
-
-  meanLongitudePerigee () {
-    return getMeanLongitudePerigee(this.julianDay)
-  }
-
-  trueLongitudeAscendingNode () {
-    return getTrueLongitudeAscendingNode(this.julianDay)
-  }
+function getEquatorialCoordinates (JD) {
+  return coordinates.transformEclipticToEquatorial({
+    Lambda: getEclipticLongitude(JD),
+    Beta: getEclipticLatitude(JD),
+    Epsilon: nutation.getMeanObliquityOfEcliptic(JD)
+  })
 }
 
 export default {
@@ -521,5 +483,7 @@ export default {
   getMeanLongitudeAscendingNode,
   getMeanLongitudePerigee,
   getTrueLongitudeAscendingNode,
-  Moon
+  getHorizontalParallax,
+  getEclipticCoordinates,
+  getEquatorialCoordinates
 }

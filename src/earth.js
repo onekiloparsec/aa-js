@@ -1,9 +1,9 @@
 'use strict'
 
-import { RADIANS_TO_DEGREES } from './constants'
-import utils from './utils'
 import coordinates from './coordinates'
 import nutation from './nutation'
+import utils from './utils'
+import { RADIANS_TO_DEGREES } from './constants'
 
 const gL0EarthCoefficients =
   [
@@ -507,44 +507,34 @@ function getEccentricity (JD) {
   return 1 - 0.002516 * T - 0.0000074 * Tsquared
 }
 
-class Earth {
-  constructor (jd) {
-    this.julianDay = jd
+function getEclipticCoordinates (JD) {
+  return {
+    longitude: getEclipticLongitude(JD),
+    latitude: getEclipticLatitude(JD)
   }
+}
 
-  radiusVector () {
-    return getRadiusVector(this.julianDay)
+function getEclipticCoordinatesJ2000 (JD) {
+  return {
+    longitude: getEclipticLongitudeJ2000(JD),
+    latitude: getEclipticLatitudeJ2000(JD)
   }
+}
 
-  eclipticCoordinates () {
-    return {
-      longitude: getEclipticLongitude(this.julianDay),
-      latitude: getEclipticLatitude(this.julianDay)
-    }
-  }
+function getEquatorialCoordinates (JD) {
+  return coordinates.transformEclipticToEquatorial(
+    getEclipticLongitude(JD),
+    getEclipticLatitude(JD),
+    nutation.getMeanObliquityOfEcliptic(JD)
+  )
+}
 
-  eclipticCoordinatesJ2000 () {
-    return {
-      longitude: getEclipticLongitudeJ2000(this.julianDay),
-      latitude: getEclipticLatitudeJ2000(this.julianDay)
-    }
-  }
-
-  equatorialCoordinates () {
-    return coordinates.transformEclipticToEquatorial(
-      getEclipticLongitude(this.julianDay),
-      getEclipticLatitude(this.julianDay),
-      nutation.getMeanObliquityOfEcliptic(this.julianDay)
-    )
-  }
-
-  equatorialCoordinatesJ2000 () {
-    return coordinates.transformEclipticToEquatorial(
-      getEclipticLongitudeJ2000(this.julianDay),
-      getEclipticLatitudeJ2000(this.julianDay),
-      nutation.getMeanObliquityOfEcliptic(this.julianDay)
-    )
-  }
+function getEquatorialCoordinatesJ2000 (JD) {
+  return coordinates.transformEclipticToEquatorial(
+    getEclipticLongitudeJ2000(JD),
+    getEclipticLatitudeJ2000(JD),
+    nutation.getMeanObliquityOfEcliptic(JD)
+  )
 }
 
 export default {
@@ -555,5 +545,8 @@ export default {
   getRadiusVector,
   getSunMeanAnomaly,
   getEccentricity,
-  Earth
+  getEclipticCoordinates,
+  getEclipticCoordinatesJ2000,
+  getEquatorialCoordinates,
+  getEquatorialCoordinatesJ2000
 }

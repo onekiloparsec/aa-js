@@ -1,14 +1,14 @@
 import earth from '../src/earth'
 
 test('get earth ecliptic coordinates', () => {
-  const e = new earth.Earth(2448908.5)
-  const ecl = e.eclipticCoordinates()
+  const jd = 2448908.5
+  const ecl = earth.getEclipticCoordinates(jd)
   expect(ecl.longitude).toBeCloseTo(19.907371990723732)
   expect(ecl.latitude).toBeCloseTo(-0.00017901250407703628)
 })
 
 test('get earth radius vector', () => {
-  const e = new earth.Earth(2448908.5)
-  expect(e.radiusVector()).toBeCloseTo(0.99760774951494113)
+  const jd = 2448908.5
+  expect(earth.getRadiusVector(jd)).toBeCloseTo(0.99760774951494113)
 })
 

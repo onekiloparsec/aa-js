@@ -180,55 +180,49 @@ function getVariationGeometricEclipticLongitude (JD) {
   return deltaLambda
 }
 
-class Sun {
-  constructor (jd) {
-    this.julianDay = jd
+function getEclipticCoordinates (JD) {
+  return {
+    longitude: getGeometricEclipticLongitude(JD),
+    latitude: getGeometricEclipticLatitude(JD)
   }
+}
 
-  eclipticCoordinates () {
-    return {
-      longitude: getGeometricEclipticLongitude(this.julianDay),
-      latitude: getGeometricEclipticLatitude(this.julianDay)
-    }
+function getEclipticCoordinatesJ2000 (JD) {
+  return {
+    longitude: getGeometricEclipticLongitudeJ2000(JD),
+    latitude: getGeometricEclipticLatitudeJ2000(JD)
   }
+}
 
-  eclipticCoordinatesJ2000 () {
-    return {
-      longitude: getGeometricEclipticLongitudeJ2000(this.julianDay),
-      latitude: getGeometricEclipticLatitudeJ2000(this.julianDay)
-    }
+function getApparentEclipticCoordinates (JD) {
+  return {
+    longitude: getApparentEclipticLongitude(JD),
+    latitude: getApparentEclipticLatitude(JD)
   }
+}
 
-  apparentEclipticCoordinates () {
-    return {
-      longitude: getApparentEclipticLongitude(this.julianDay),
-      latitude: getApparentEclipticLatitude(this.julianDay)
-    }
-  }
+function getEquatorialCoordinates (JD) {
+  return coordinates.transformEclipticToEquatorial({
+    Lambda: getGeometricEclipticLongitude(JD),
+    Beta: getGeometricEclipticLatitude(JD),
+    Epsilon: nutation.getMeanObliquityOfEcliptic(JD)
+  })
+}
 
-  equatorialCoordinates () {
-    return coordinates.transformEclipticToEquatorial({
-      Lambda: getGeometricEclipticLongitude(this.julianDay),
-      Beta: getGeometricEclipticLatitude(this.julianDay),
-      Epsilon: nutation.getMeanObliquityOfEcliptic(this.julianDay)
-    })
-  }
+function getEquatorialCoordinatesJ2000 (JD) {
+  return coordinates.transformEclipticToEquatorial({
+    Lambda: getGeometricEclipticLongitudeJ2000(JD),
+    Beta: getGeometricEclipticLatitudeJ2000(JD),
+    Epsilon: nutation.getMeanObliquityOfEcliptic(JD)
+  })
+}
 
-  equatorialCoordinatesJ2000 () {
-    return coordinates.transformEclipticToEquatorial({
-      Lambda: getGeometricEclipticLongitudeJ2000(this.julianDay),
-      Beta: getGeometricEclipticLatitudeJ2000(this.julianDay),
-      Epsilon: nutation.getMeanObliquityOfEcliptic(this.julianDay)
-    })
-  }
-
-  apparentEquatorialCoordinates () {
-    return coordinates.transformEclipticToEquatorial({
-      Lambda: getApparentEclipticLongitude(this.julianDay),
-      Beta: getApparentEclipticLatitude(this.julianDay),
-      Epsilon: nutation.getTrueObliquityOfEcliptic(this.julianDay)
-    })
-  }
+function getApparentEquatorialCoordinates (JD) {
+  return coordinates.transformEclipticToEquatorial({
+    Lambda: getApparentEclipticLongitude(JD),
+    Beta: getApparentEclipticLatitude(JD),
+    Epsilon: nutation.getTrueObliquityOfEcliptic(JD)
+  })
 }
 
 export default {
@@ -241,5 +235,10 @@ export default {
   getApparentEclipticLongitude,
   getApparentEclipticLatitude,
   getVariationGeometricEclipticLongitude,
-  Sun
+  getEclipticCoordinates,
+  getEclipticCoordinatesJ2000,
+  getApparentEclipticCoordinates,
+  getEquatorialCoordinates,
+  getEquatorialCoordinatesJ2000,
+  getApparentEquatorialCoordinates
 }

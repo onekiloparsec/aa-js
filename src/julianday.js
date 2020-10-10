@@ -44,28 +44,6 @@ function getJulianDayMidnight (julianDayValue) {
   return Math.floor(julianDayValue - 0.5) + 0.5
 }
 
-class JulianDay {
-  constructor (...args) {
-    this.value = getJulianDay(...args)
-  }
-
-  toDate () {
-    return getDate(this.value)
-  }
-
-  modifiedJulianDayValue () {
-    return getModifiedJulianDay(this.value)
-  }
-
-  localSiderealTime (longitude) {
-    return getLocalSiderealTime(this.value, longitude)
-  }
-
-  midnightJulianDay () {
-    return new JulianDay(getJulianDayMidnight(this.value))
-  }
-}
-
 export default {
   J1970,
   J2000,
@@ -73,6 +51,5 @@ export default {
   getJulianDay,
   getLocalSiderealTime,
   getModifiedJulianDay,
-  getJulianDayMidnight,
-  JulianDay
+  getJulianDayMidnight
 }
