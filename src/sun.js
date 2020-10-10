@@ -134,6 +134,63 @@ function getApparentEquatorialCoordinates (JD) {
     nutation.getTrueObliquityOfEcliptic(JD)
   )
 }
+
+// low-accuracy implementation inspired from SunCalc
+function getEventJulianDays (jd, lat, lng, condensed = true) {
+  var J0 = 0.0009
+
+  function julianCycle (d, lw) {
+    return Math.round(d - J0 - lw / (2 * Math.PI))
+  }
+
+  function approxTransit (Ht, lw, n) {
+    return J0 + (Ht + lw) / (2 * Math.PI) + n
+  }
+
+  function solarTransitJD (ds, M, L) {
+    return J2000 + ds + 0.0053 * Math.sin(M) - 0.0069 * Math.sin(2 * L)
+  }
+
+  function hourAngle (h, phi, d) {
+    return Math.acos((Math.sin(h) - Math.sin(phi) * Math.sin(d)) / (Math.cos(phi) * Math.cos(d)))
+  }
+
+// returns set time for the given sun altitude
+  function getSetJD (h, lw, phi, dec, n, M, L) {
+    const w = hourAngle(h, phi, dec)
+    const a = approxTransit(w, lw, n)
+    return solarTransitJD(a, M, L)
+  }
+
+  const lw = DEG2RAD * -lng
+  const phi = DEG2RAD * lat
+
+  const d = jd - J2000
+  const n = julianCycle(d, lw)
+  const ds = approxTransit(0, lw, n)
+
+  const M = earth.getSunMeanAnomaly(ds)
+  const L = getApparentEclipticLongitude(M)
+  const jdNoon = solarTransitJD(ds, M, L)
+
+  const dec = coordinates.getDeclinationFromEcliptic(L, 0, nutation.getTrueObliquityOfEcliptic(jdNoon))
+
+  const riseEvents = [], setEvents = []
+  riseEvents.push(jdNoon)
+  setEvents.push(jdNoon + 0.5)
+
+  const altitudes = (condensed) ? SUN_EVENTS_ALTITUDES : SUN_EXTENDED_EVENTS_ALTITUDES
+  for (let i = 0; i < altitudes; i += 1) {
+    const alt = altitudes[i]
+
+    let jdSet = getSetJD(alt * DEG2RAD, lw, phi, dec, n, M, L)
+    let jdRise = jdNoon - (jdSet - jdNoon)
+
+    riseEvents.push(jdRise)
+    setEvents.unshift(jdSet)
+  }
+
+  return [...riseEvents, ...setEvents]
 }
 
 export default {
@@ -151,5 +208,6 @@ export default {
   getApparentEclipticCoordinates,
   getEquatorialCoordinates,
   getEquatorialCoordinatesJ2000,
-  getApparentEquatorialCoordinates
+  getApparentEquatorialCoordinates,
+  getEventJulianDays
 }
