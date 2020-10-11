@@ -5,7 +5,7 @@ import * as moon from './moon'
 import sun from './sun'
 import nutation from './nutation'
 import transits from './transits'
-import distances from './distances'
+import * as distances from './distances'
 import cosmology from './cosmology'
 import times from './times'
 
