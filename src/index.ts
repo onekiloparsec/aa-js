@@ -1,4 +1,4 @@
-import coordinates from './coordinates'
+import * as coordinates from './coordinates'
 import earth from './earth'
 import julianday from './julianday'
 import moon from './moon'
