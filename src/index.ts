@@ -1,7 +1,7 @@
 import * as coordinates from './coordinates'
 import earth from './earth'
 import julianday from './julianday'
-import moon from './moon'
+import * as moon from './moon'
 import sun from './sun'
 import nutation from './nutation'
 import transits from './transits'
