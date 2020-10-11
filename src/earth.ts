@@ -1,8 +1,6 @@
-'use strict'
-
-import coordinates from './coordinates'
+import { EclipticCoordinates, EquatorialCoordinates, transformEclipticToEquatorial } from './coordinates'
 import nutation from './nutation'
-import utils from './utils'
+import { MapTo0To360Range, MapToMinus90To90Range } from './utils'
 import { RAD2DEG } from './constants'
 
 const gL0EarthCoefficients =
@@ -405,7 +403,7 @@ const gB4EarthCoefficientsJ2000 =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-function eclipticLongitude (JD) {
+export function eclipticLongitude(JD: number): number {
   const rho = (JD - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -421,10 +419,10 @@ function eclipticLongitude (JD) {
 
   const value = (L0 + L1 * rho + L2 * rhosquared + L3 * rhocubed + L4 * rho4 + L5 * rho5) / 100000000
 
-  return utils.MapTo0To360Range(value * RAD2DEG)
+  return MapTo0To360Range(value * RAD2DEG)
 }
 
-function eclipticLatitude (JD) {
+export function eclipticLatitude(JD: number): number {
   const rho = (JD - 2451545) / 365250
 
   const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
@@ -432,10 +430,10 @@ function eclipticLatitude (JD) {
 
   const value = (B0 + B1 * rho) / 100000000
 
-  return utils.MapToMinus90To90Range(value * RAD2DEG)
+  return MapToMinus90To90Range(value * RAD2DEG)
 }
 
-function radiusVector (JD) {
+export function radiusVector(JD: number): number {
   const rho = (JD - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -450,7 +448,7 @@ function radiusVector (JD) {
   return (R0 + R1 * rho + R2 * rhosquared + R3 * rhocubed + R4 * rho4) / 100000000
 }
 
-function eclipticLongitudeJ2000 (JD) {
+export function eclipticLongitudeJ2000(JD: number): number {
   const rho = (JD - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -464,10 +462,10 @@ function eclipticLongitudeJ2000 (JD) {
 
   const value = (L0 + L1 * rho + L2 * rhosquared + L3 * rhocubed + L4 * rho4) / 100000000
 
-  return utils.MapTo0To360Range(value * RAD2DEG)
+  return MapTo0To360Range(value * RAD2DEG)
 }
 
-function eclipticLatitudeJ2000 (JD) {
+export function eclipticLatitudeJ2000(JD: number): number {
   const rho = (JD - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -481,7 +479,7 @@ function eclipticLatitudeJ2000 (JD) {
 
   const value = (B0 + B1 * rho + B2 * rhosquared + B3 * rhocubed + B4 * rho4) / 100000000
 
-  return utils.MapToMinus90To90Range(value * RAD2DEG)
+  return MapToMinus90To90Range(value * RAD2DEG)
 }
 
 /**
@@ -489,11 +487,11 @@ function eclipticLatitudeJ2000 (JD) {
  * @param  {Number} JD The julian day
  * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
  */
-function sunMeanAnomaly (JD) {
+export function sunMeanAnomaly(JD: number): number {
   const T = (JD - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
-  return utils.MapTo0To360Range(357.5291092 + 35999.0502909 * T - 0.0001536 * Tsquared + Tcubed / 24490000)
+  return MapTo0To360Range(357.5291092 + 35999.0502909 * T - 0.0001536 * Tsquared + Tcubed / 24490000)
 }
 
 /**
@@ -501,52 +499,38 @@ function sunMeanAnomaly (JD) {
  * @param  {Number} JD The julian day
  * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
  */
-function eccentricity (JD) {
+export function eccentricity(JD: number): number {
   const T = (JD - 2451545) / 36525
   const Tsquared = T * T
   return 1 - 0.002516 * T - 0.0000074 * Tsquared
 }
 
-function eclipticCoordinates (JD) {
+export function eclipticCoordinates(JD: number): EclipticCoordinates {
   return {
     longitude: eclipticLongitude(JD),
     latitude: eclipticLatitude(JD)
   }
 }
 
-function eclipticCoordinatesJ2000 (JD) {
+export function eclipticCoordinatesJ2000(JD: number): EclipticCoordinates {
   return {
     longitude: eclipticLongitudeJ2000(JD),
     latitude: eclipticLatitudeJ2000(JD)
   }
 }
 
-function equatorialCoordinates (JD) {
-  return coordinates.transformEclipticToEquatorial(
+export function equatorialCoordinates(JD: number): EquatorialCoordinates {
+  return transformEclipticToEquatorial(
     eclipticLongitude(JD),
     eclipticLatitude(JD),
     nutation.meanObliquityOfEcliptic(JD)
   )
 }
 
-function equatorialCoordinatesJ2000 (JD) {
-  return coordinates.transformEclipticToEquatorial(
+export function equatorialCoordinatesJ2000(JD: number): EquatorialCoordinates {
+  return transformEclipticToEquatorial(
     eclipticLongitudeJ2000(JD),
     eclipticLatitudeJ2000(JD),
     nutation.meanObliquityOfEcliptic(JD)
   )
-}
-
-export default {
-  eclipticLongitude,
-  eclipticLatitude,
-  eclipticLongitudeJ2000,
-  eclipticLatitudeJ2000,
-  radiusVector,
-  sunMeanAnomaly,
-  eccentricity,
-  eclipticCoordinates,
-  eclipticCoordinatesJ2000,
-  equatorialCoordinates,
-  equatorialCoordinatesJ2000
 }
