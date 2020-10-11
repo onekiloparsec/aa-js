@@ -1,12 +1,3 @@
-// https://gist.github.com/wteuber/6241786
-Math.fmod = function (a, b) {
-  return Number((a - (Math.floor(a / b) * b)).toPrecision(8))
-}
-
-Math.isNumber = function (v) {
-  return !isNaN(parseFloat(v)) && isFinite(v)
-}
-
 export const J1970 = 2440588.0
 export const J2000 = 2451545.0
 

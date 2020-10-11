@@ -1,3 +1,12 @@
+// https://gist.github.com/wteuber/6241786
+function fmod (a, b) {
+  return Number((a - (Math.floor(a / b) * b)).toPrecision(8))
+}
+
+function isNumber (v) {
+  return !isNaN(parseFloat(v)) && isFinite(v)
+}
+
 function MapTo0To360Range (Degrees) {
   let fResult = Math.fmod(Degrees, 360)
   if (fResult < 0) {
@@ -28,7 +37,9 @@ function MapTo0To1Range (fraction) {
   return fResult
 }
 
-export default {
+export {
+  fmod,
+  isNumber,
   MapTo0To360Range,
   MapToMinus90To90Range,
   MapTo0To1Range
