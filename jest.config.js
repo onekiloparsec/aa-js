@@ -1,15 +1,23 @@
 module.exports = {
   'moduleFileExtensions': [
     'js',
-    'json'
+    'json',
+    'ts'
   ],
+  globals: {
+    'ts-jest': {
+      tsConfigFile: 'tsconfig.json'
+    }
+  },
   'transform': {
-    '^.+\\.js$': '<rootDir>/node_modules/babel-jest'
+    '^.+\\.(ts|tsx)$': 'ts-jest',
+    '^.+\\.(js|jsx)$': 'babel-jest'
   },
   transformIgnorePatterns: [
     '<rootDir>/node_modules/dayjs'
   ],
   'moduleNameMapper': {
     '^@/(.*)$': '<rootDir>/src/$1'
-  }
+  },
+  testEnvironment: 'node'
 }

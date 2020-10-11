@@ -1,4 +1,4 @@
-import cosmology from '../src/cosmology'
+import * as cosmology from '../src/cosmology'
 
 test('get age of the Universe (Gyr)', () => {
   expect(cosmology.universeAge(59.6, 0.286, 0.714)).toBeCloseTo(16.021, 3)

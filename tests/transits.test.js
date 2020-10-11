@@ -1,5 +1,5 @@
 import transits from '../src/transits'
-import julianday from '../src/julianday'
+import * as julianday from '../src/julianday'
 
 describe('transits of exoplanets', () => {
   it('get transit for H = 0', () => {
@@ -52,7 +52,7 @@ test('circumpolar transit', () => {
     'epoch': 2451545.0
   }
 
-  const results = transits.riseSetTransitJulianDays(julianday.julianDay(), targetCoordinates, siteCoordinates)
+  const results = transits.riseSetTransitJulianDays(julianday.getJulianDay(), targetCoordinates, siteCoordinates)
   expect(results.isCircumpolar).toBeTruthy()
   expect(results.isTransitAboveHorizon).toBeTruthy()
   expect(results.isTransitAboveAltitude).toBeTruthy()
@@ -75,7 +75,7 @@ test('approximate Venus on 1988 March 20 at Boston', () => {
   }
 
   const date = new Date(Date.UTC(1988, 2, 20))
-  const results = transits.riseSetTransitJulianDays(julianday.julianDay(date), targetCoordinates, siteCoordinates)
+  const results = transits.riseSetTransitJulianDays(julianday.getJulianDay(date), targetCoordinates, siteCoordinates)
 
   expect(results.isCircumpolar).toBeFalsy()
   expect(results.isTransitAboveHorizon).toBeTruthy()

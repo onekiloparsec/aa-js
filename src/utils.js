@@ -8,7 +8,7 @@ function isNumber (v) {
 }
 
 function MapTo0To360Range (Degrees) {
-  let fResult = Math.fmod(Degrees, 360)
+  let fResult = fmod(Degrees, 360)
   if (fResult < 0) {
     fResult += 360
   }

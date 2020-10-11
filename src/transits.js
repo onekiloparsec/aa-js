@@ -1,8 +1,9 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
-import julianday from './julianday'
+import * as julianday from './julianday'
 import { DEG2RAD, H2DEG, H2RAD, RAD2DEG } from './constants'
+import { fmod } from './utils'
 
 dayjs.extend(utc)
 
@@ -46,13 +47,13 @@ function riseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinates, 
   // Algorithms in AA use Positive West longitudes. The formula (15.2, p102):
   // const m0 = (alpha2 + Longitude - Theta0) / 360
   // thus becomes:
-  const m0 = Math.fmod((targetCoordinates.right_ascension - siteCoordinates.longitude - Theta0) / 360, 1)
+  const m0 = fmod((targetCoordinates.right_ascension - siteCoordinates.longitude - Theta0) / 360, 1)
   result.utcTransit = m0 * 24
 
-  const utcMoment = dayjs.utc(julianday.date(jdValue))
+  const utcMoment = dayjs.utc(julianday.getDate(jdValue))
   const hourTransit = Math.floor(result.utcTransit)
   const minuteTransit = result.utcTransit - hourTransit
-  result.julianDayTransit = julianday.julianDay(utcMoment.hour(hourTransit).minute(minuteTransit * 60).toDate())
+  result.julianDayTransit = julianday.getJulianDay(utcMoment.hour(hourTransit).minute(minuteTransit * 60).toDate())
 
   // Calculate cosH0. See AA Eq.15.1, p.102
   let cosH0 = (sinh0 - sinPhi * sinDelta) / (cosPhi * cosDelta)
@@ -60,16 +61,16 @@ function riseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinates, 
 
   if (!result.isCircumpolar) {
     const H0 = Math.acos(cosH0) * RAD2DEG
-    result.utcRise = Math.fmod(m0 - H0 / 360, 1) * 24
-    result.utcSet = Math.fmod(m0 + H0 / 360, 1) * 24
+    result.utcRise = fmod(m0 - H0 / 360, 1) * 24
+    result.utcSet = fmod(m0 + H0 / 360, 1) * 24
 
     const hourRise = Math.floor(result.utcRise)
     const minuteRise = result.utcRise - hourRise
     const hourSet = Math.floor(result.utcSet)
     const minuteSet = result.utcSet - hourSet
 
-    result.julianDayRise = julianday.julianDay(utcMoment.hour(hourRise).minute(minuteRise * 60).toDate())
-    result.julianDaySet = julianday.julianDay(utcMoment.hour(hourSet).minute(minuteSet * 60).toDate())
+    result.julianDayRise = julianday.getJulianDay(utcMoment.hour(hourRise).minute(minuteRise * 60).toDate())
+    result.julianDaySet = julianday.getJulianDay(utcMoment.hour(hourSet).minute(minuteSet * 60).toDate())
   }
 
   if (result.julianDayRise > result.julianDayTransit) {

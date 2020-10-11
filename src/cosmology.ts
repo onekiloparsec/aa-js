@@ -20,17 +20,17 @@ import { SPEED_OF_LIGHT } from './constants'
 const Tyr = 977.8 // coefficent for converting 1/H into Gyr
 const INTEGRAL_POINTS_NUMBER = 2000
 
-function omegaR (H0) {
+export function omegaR(H0: number): number {
   const h = H0 / 100
   return 4.165E-5 / (h * h)	// includes 3 massless neutrino species, T0 = 2.72528
 }
 
-function omegaK (H0, WM, WV) {
+export function omegaK(H0: number, WM: number, WV: number): number {
   const WR = omegaR(H0)
   return 1 - WM - WR - WV
 }
 
-function universeAge (H0, WM, WV) {
+export function universeAge(H0: number, WM: number, WV: number): number {
   let az = 1.0
   let WR = omegaR(H0)
   let WK = omegaK(H0, WM, WV)
@@ -46,7 +46,7 @@ function universeAge (H0, WM, WV) {
   return age * (Tyr / H0)
 }
 
-function universeAgeAtRedshift (H0, WM, WV, z) {
+export function universeAgeAtRedshift(H0: number, WM: number, WV: number, z: number): number {
   let az = 1.0 / (1 + z)
   let WR = omegaR(H0)
   let WK = omegaK(H0, WM, WV)
@@ -62,7 +62,7 @@ function universeAgeAtRedshift (H0, WM, WV, z) {
 
   // correction for annihilations of particles not present now like e+/e-
   // added 13-Aug-03 based on T_vs_t.f
-  var lpz = Math.log((1 + 1.0 * z)) / Math.log(10.0)
+  var lpz = Math.log((1 + z)) / Math.log(10.0)
   var dzage = 0
   if (lpz > 7.500) dzage = 0.002 * (lpz - 7.500)
   if (lpz > 8.000) dzage = 0.014 * (lpz - 8.000) + 0.001
@@ -82,9 +82,9 @@ function universeAgeAtRedshift (H0, WM, WV, z) {
   return (Tyr / H0) * zage * Math.pow(10.0, dzage)
 }
 
-function lightTravelTime (H0, WM, WV, z) {
+export function lightTravelTime(H0: number, WM: number, WV: number, z: number): number {
   let DTT = 0.0
-  let az = 1.0 / (1 + 1.0 * z)
+  let az = 1.0 / (1 + z)
   let WR = omegaR(H0)
   let WK = omegaK(H0, WM, WV)
 
@@ -101,9 +101,9 @@ function lightTravelTime (H0, WM, WV, z) {
   return (Tyr / H0) * DTT
 }
 
-function getComovingRadialDistance (H0, WM, WV, z) {
+export function getComovingRadialDistance(H0: number, WM: number, WV: number, z: number): number {
   let DCMR = 0.0
-  let az = 1.0 / (1 + 1.0 * z)
+  let az = 1.0 / (1 + z)
   let WR = omegaR(H0)
   let WK = omegaK(H0, WM, WV)
 
@@ -120,7 +120,7 @@ function getComovingRadialDistance (H0, WM, WV, z) {
   return (SPEED_OF_LIGHT / H0) * DCMR
 }
 
-function getComovingVolume (WK, DCMR) {
+export function getComovingVolume(WK: number, DCMR: number): number {
   const x = Math.sqrt(Math.abs(WK)) * DCMR
   if (x > 0.1) {
     const ratio = (WK > 0) ? (0.125 * (Math.exp(2 * x) - Math.exp(-2 * x)) - x / 2) / (x * x * x / 3) :
@@ -137,8 +137,8 @@ function getComovingVolume (WK, DCMR) {
   return ratio * DCMR * DCMR * DCMR / 3
 }
 
-function getComovingVolumeWithinRedshift (H0, WM, WV, z) {
-  let az = 1.0 / (1 + 1.0 * z)
+export function getComovingVolumeWithinRedshift(H0: number, WM: number, WV: number, z: number): number {
+  let az = 1.0 / (1 + z)
   let WR = omegaR(H0)
   let WK = omegaK(H0, WM, WV)
   let DCMR = 0.0
@@ -155,8 +155,8 @@ function getComovingVolumeWithinRedshift (H0, WM, WV, z) {
   return 4 * Math.PI * Math.pow(0.001 * SPEED_OF_LIGHT / H0, 3) * VCM
 }
 
-function tangentialComovingDistance (H0, WM, WV, z) {
-  let az = 1.0 / (1 + 1.0 * z)
+export function tangentialComovingDistance(H0: number, WM: number, WV: number, z: number): number {
+  let az = 1.0 / (1 + z)
   let WR = omegaR(H0)
   let WK = omegaK(H0, WM, WV)
 
@@ -183,36 +183,21 @@ function tangentialComovingDistance (H0, WM, WV, z) {
   return ratio * DCMR
 }
 
-function angularSizeDistance (H0, WM, WV, z) {
-  let az = 1.0 / (1 + 1.0 * z)
+export function angularSizeDistance(H0: number, WM: number, WV: number, z: number): number {
+  let az = 1.0 / (1 + z)
   let DA = az * tangentialComovingDistance(H0, WM, WV, z)
   // Mpc
   return (SPEED_OF_LIGHT / H0) * DA
 }
 
-function angularSizeScale (H0, WM, WV, z) {
+export function angularSizeScale(H0: number, WM: number, WV: number, z: number): number {
   let DA = angularSizeDistance(H0, WM, WV, z)
   let DA_Mpc = (SPEED_OF_LIGHT / H0) * DA
   return DA_Mpc / 206.264806
 }
 
-function luminosityDistance (H0, WM, WV, z) {
-  let az = 1.0 / (1 + 1.0 * z)
+export function luminosityDistance(H0: number, WM: number, WV: number, z: number) {
+  let az = 1.0 / (1 + z)
   let DA = angularSizeDistance(H0, WM, WV, z)
   return DA / (az * az)
-}
-
-export default {
-  omegaR,
-  omegaK,
-  universeAge,
-  universeAgeAtRedshift,
-  lightTravelTime,
-  getComovingRadialDistance,
-  getComovingVolume,
-  getComovingVolumeWithinRedshift,
-  tangentialComovingDistance,
-  angularSizeDistance,
-  angularSizeScale,
-  luminosityDistance
 }

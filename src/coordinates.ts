@@ -1,6 +1,6 @@
 import { DEG2H, DEG2RAD, H2RAD, RAD2DEG, RAD2H } from './constants'
 import { fmod } from './utils'
-import julianday from './julianday'
+import * as julianday from './julianday'
 
 const sin = Math.sin
 const cos = Math.cos

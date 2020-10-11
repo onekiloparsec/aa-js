@@ -1,5 +1,5 @@
-import moon from '../src/moon'
-import julianday from '../src/julianday'
+import * as moon from '../src/moon'
+import * as julianday from '../src/julianday'
 import { DEG2H } from '../src/constants'
 
 test('get moon mean longitude', () => {
@@ -12,7 +12,7 @@ test('get moon mean elongation', () => {
 
 test('get moon equatorial coordinates', () => {
   const UTCDate = new Date(Date.UTC(1992, 3, 12))
-  const jd = julianday.julianDay(UTCDate)
+  const jd = julianday.getJulianDay(UTCDate)
   const equ = moon.equatorialCoordinates(jd)
   expect(equ.rightAscension).toBeCloseTo(134.688470 * DEG2H)
   expect(equ.declination).toBeCloseTo(13.768368)

@@ -1,7 +1,7 @@
 import { DEG2RAD, J2000, SUN_EVENTS_ALTITUDES, SUN_EXTENDED_EVENTS_ALTITUDES } from './constants'
 import * as coordinates from './coordinates'
 import { EclipticCoordinates, EquatorialCoordinates } from './coordinates'
-import earth from './earth'
+import * as earth from './earth'
 import fk5 from './fk5'
 import nutation from './nutation'
 import sexagesimal from './sexagesimal'

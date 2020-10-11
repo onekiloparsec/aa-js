@@ -1,5 +1,5 @@
 import { DEG2RAD, RAD2DEG } from './constants'
-import earth from './earth'
+import * as earth from './earth'
 import nutation from './nutation'
 import { EclipticCoordinates, EquatorialCoordinates, transformEclipticToEquatorial } from './coordinates'
 import { MapTo0To360Range } from './utils'
