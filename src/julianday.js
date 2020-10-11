@@ -1,22 +1,19 @@
 'use strict'
 
 import dayjs from 'dayjs'
-import { DEG2H } from './constants'
+import { DAYMS, DEG2H, J1970 } from './constants'
 
-const J1970 = 2440588
-const J2000 = 2451545
-const dayMs = 1000 * 60 * 60 * 24
 
-function date (julianDayValue) {
-  return new Date((julianDayValue + 0.5 - J1970) * dayMs)
+function getDate (jd) {
+  return new Date((jd + 0.5 - J1970) * DAYMS)
 }
 
-function julianDay (...args) {
+function getJulianDay (...args) {
   if (args.length === 0) {
     args[0] = new Date()
   }
   if (args[0] instanceof Date) {
-    return dayjs(args[0]).toDate().valueOf() / dayMs - 0.5 + J1970
+    return dayjs(args[0]).toDate().valueOf() / DAYMS - 0.5 + J1970
   } else if (Math.isNumber(args[0])) {
     return parseFloat(args[0])
   }
@@ -45,10 +42,8 @@ function julianDayMidnight (julianDayValue) {
 }
 
 export default {
-  J1970,
-  J2000,
-  date,
-  julianDay,
+  getDate,
+  getJulianDay,
   localSiderealTime,
   modifiedJulianDay,
   julianDayMidnight
