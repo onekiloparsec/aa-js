@@ -1,7 +1,5 @@
-'use strict'
-
 import { DEG2RAD } from './constants'
-import sexagesimal from './sexagesimal'
+import { getDecimal } from './sexagesimal'
 import { MapTo0To360Range } from './utils'
 
 const gNutationCoefficients =
@@ -83,8 +81,8 @@ const gNutationCoefficients =
     }
   })
 
-function nutationInLongitude (JD) {
-  const T = (JD - 2451545) / 36525
+export function nutationInLongitude(jd: number): number {
+  const T = (jd - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
 
@@ -107,8 +105,8 @@ function nutationInLongitude (JD) {
   return value
 }
 
-function nutationInObliquity (JD) {
-  const T = (JD - 2451545) / 36525
+export function nutationInObliquity(jd: number): number {
+  const T = (jd - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
 
@@ -131,8 +129,8 @@ function nutationInObliquity (JD) {
   return value
 }
 
-function meanObliquityOfEcliptic (JD) {
-  const U = (JD - 2451545) / 3652500
+export function meanObliquityOfEcliptic(jd: number): number {
+  const U = (jd - 2451545) / 3652500
   const Usquared = U * U
   const Ucubed = Usquared * U
   const U4 = Ucubed * U
@@ -143,26 +141,20 @@ function meanObliquityOfEcliptic (JD) {
   const U9 = U8 * U
   const U10 = U9 * U
 
-  return sexagesimal.decimal(23, 26, 21.448) -
-    sexagesimal.decimal(0, 0, 4680.93) * U -
-    sexagesimal.decimal(0, 0, 1.55) * Usquared +
-    sexagesimal.decimal(0, 0, 1999.25) * Ucubed -
-    sexagesimal.decimal(0, 0, 51.38) * U4 -
-    sexagesimal.decimal(0, 0, 249.67) * U5 -
-    sexagesimal.decimal(0, 0, 39.05) * U6 +
-    sexagesimal.decimal(0, 0, 7.12) * U7 +
-    sexagesimal.decimal(0, 0, 27.87) * U8 +
-    sexagesimal.decimal(0, 0, 5.79) * U9 +
-    sexagesimal.decimal(0, 0, 2.45) * U10
+  return getDecimal(23, 26, 21.448) -
+    getDecimal(0, 0, 4680.93) * U -
+    getDecimal(0, 0, 1.55) * Usquared +
+    getDecimal(0, 0, 1999.25) * Ucubed -
+    getDecimal(0, 0, 51.38) * U4 -
+    getDecimal(0, 0, 249.67) * U5 -
+    getDecimal(0, 0, 39.05) * U6 +
+    getDecimal(0, 0, 7.12) * U7 +
+    getDecimal(0, 0, 27.87) * U8 +
+    getDecimal(0, 0, 5.79) * U9 +
+    getDecimal(0, 0, 2.45) * U10
 }
 
-function trueObliquityOfEcliptic (JD) {
-  return meanObliquityOfEcliptic(JD) + sexagesimal.decimal(0, 0, nutationInObliquity(JD))
+export function trueObliquityOfEcliptic(jd: number): number {
+  return meanObliquityOfEcliptic(jd) + getDecimal(0, 0, nutationInObliquity(jd))
 }
 
-export default {
-  nutationInLongitude,
-  nutationInObliquity,
-  meanObliquityOfEcliptic,
-  trueObliquityOfEcliptic
-}

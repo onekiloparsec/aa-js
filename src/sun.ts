@@ -2,65 +2,65 @@ import { DEG2RAD, J2000, SUN_EVENTS_ALTITUDES, SUN_EXTENDED_EVENTS_ALTITUDES } f
 import * as coordinates from './coordinates'
 import { EclipticCoordinates, EquatorialCoordinates } from './coordinates'
 import * as earth from './earth'
-import fk5 from './fk5'
-import nutation from './nutation'
-import sexagesimal from './sexagesimal'
+import * as fk5 from './fk5'
+import * as nutation from './nutation'
+import { getDecimal } from './sexagesimal'
 import { MapTo0To360Range } from './utils'
 
 const sin = Math.sin
 
-export function geometricEclipticLongitude(JD: number): number {
-  return MapTo0To360Range(earth.eclipticLongitude(JD) + 180)
+export function geometricEclipticLongitude(jd: number): number {
+  return MapTo0To360Range(earth.eclipticLongitude(jd) + 180)
 }
 
-export function geometricEclipticLatitude(JD: number): number {
-  return -earth.eclipticLatitude(JD)
+export function geometricEclipticLatitude(jd: number): number {
+  return -earth.eclipticLatitude(jd)
 }
 
-export function geometricEclipticLongitudeJ2000(JD: number): number {
-  return MapTo0To360Range(earth.eclipticLongitudeJ2000(JD) + 180)
+export function geometricEclipticLongitudeJ2000(jd: number): number {
+  return MapTo0To360Range(earth.eclipticLongitudeJ2000(jd) + 180)
 }
 
-export function geometricEclipticLatitudeJ2000(JD: number): number {
-  return -earth.eclipticLatitudeJ2000(JD)
+export function geometricEclipticLatitudeJ2000(jd: number): number {
+  return -earth.eclipticLatitudeJ2000(jd)
 }
 
-export function geometricFK5EclipticLongitude(JD: number): number {
+export function geometricFK5EclipticLongitude(jd: number): number {
   // Convert to the FK5 stystem
-  let Longitude = geometricEclipticLongitude(JD)
-  const Latitude = geometricEclipticLatitude(JD)
-  Longitude += fk5.getCorrectionInLongitude(Longitude, Latitude, JD)
+  let Longitude = geometricEclipticLongitude(jd)
+  const Latitude = geometricEclipticLatitude(jd)
+  Longitude += fk5.getCorrectionInLongitude(Longitude, Latitude, jd)
   return Longitude
 }
 
-export function geometricFK5EclipticLatitude(JD: number): number {
+export function geometricFK5EclipticLatitude(jd: number): number {
   // Convert to the FK5 stystem
-  const Longitude = geometricEclipticLongitude(JD)
-  let Latitude = geometricEclipticLatitude(JD)
-  Latitude += fk5.getCorrectionInLatitude(Longitude, JD)
+  const Longitude = geometricEclipticLongitude(jd)
+  let Latitude = geometricEclipticLatitude(jd)
+  Latitude += fk5.getCorrectionInLatitude(jd, Longitude)
   return Latitude
 }
 
-export function apparentEclipticLongitude(JD: number): number {
-  let Longitude = geometricFK5EclipticLongitude(JD)
+export function apparentEclipticLongitude(jd: number): number {
+  let Longitude = geometricFK5EclipticLongitude(jd)
 
   // Apply the correction in longitude due to nutation
-  Longitude += sexagesimal.decimal(0, 0, nutation.nutationInLongitude(JD))
+  Longitude += getDecimal(0, 0, nutation.nutationInLongitude(jd))
 
   // Apply the correction in longitude due to aberration
-  const R = earth.radiusVector(JD)
-  Longitude -= sexagesimal.decimal(0, 0, 20.4898 / R)
+  const R = earth.radiusVector(jd)
+  Longitude -= getDecimal(0, 0, 20.4898 / R)
 
   return Longitude
 }
 
-export function apparentEclipticLatitude(JD: number): number {
-  return geometricFK5EclipticLatitude(JD)
+export function apparentEclipticLatitude(jd: number): number {
+  return geometricFK5EclipticLatitude(jd)
 }
 
-export function variationGeometricEclipticLongitude(JD: number): number {
+export function variationGeometricEclipticLongitude(jd: number): number {
   // D is the number of days since the epoch
-  const D = JD - 2451545.00
+  const D = jd - 2451545.00
   const tau = (D / 365250)
   const tau2 = tau * tau
   const tau3 = tau2 * tau
@@ -91,48 +91,48 @@ export function variationGeometricEclipticLongitude(JD: number): number {
   return deltaLambda
 }
 
-export function eclipticCoordinates(JD: number): EclipticCoordinates {
+export function eclipticCoordinates(jd: number): EclipticCoordinates {
   return {
-    longitude: geometricEclipticLongitude(JD),
-    latitude: geometricEclipticLatitude(JD)
+    longitude: geometricEclipticLongitude(jd),
+    latitude: geometricEclipticLatitude(jd)
   }
 }
 
-export function eclipticCoordinatesJ2000(JD: number): EclipticCoordinates {
+export function eclipticCoordinatesJ2000(jd: number): EclipticCoordinates {
   return {
-    longitude: geometricEclipticLongitudeJ2000(JD),
-    latitude: geometricEclipticLatitudeJ2000(JD)
+    longitude: geometricEclipticLongitudeJ2000(jd),
+    latitude: geometricEclipticLatitudeJ2000(jd)
   }
 }
 
-export function apparentEclipticCoordinates(JD: number): EclipticCoordinates {
+export function apparentEclipticCoordinates(jd: number): EclipticCoordinates {
   return {
-    longitude: apparentEclipticLongitude(JD),
-    latitude: apparentEclipticLatitude(JD)
+    longitude: apparentEclipticLongitude(jd),
+    latitude: apparentEclipticLatitude(jd)
   }
 }
 
-export function equatorialCoordinates(JD: number): EquatorialCoordinates {
+export function equatorialCoordinates(jd: number): EquatorialCoordinates {
   return coordinates.transformEclipticToEquatorial(
-    geometricEclipticLongitude(JD),
-    geometricEclipticLatitude(JD),
-    nutation.meanObliquityOfEcliptic(JD)
+    geometricEclipticLongitude(jd),
+    geometricEclipticLatitude(jd),
+    nutation.meanObliquityOfEcliptic(jd)
   )
 }
 
-export function equatorialCoordinatesJ2000(JD: number): EquatorialCoordinates {
+export function equatorialCoordinatesJ2000(jd: number): EquatorialCoordinates {
   return coordinates.transformEclipticToEquatorial(
-    geometricEclipticLongitudeJ2000(JD),
-    geometricEclipticLatitudeJ2000(JD),
-    nutation.meanObliquityOfEcliptic(JD)
+    geometricEclipticLongitudeJ2000(jd),
+    geometricEclipticLatitudeJ2000(jd),
+    nutation.meanObliquityOfEcliptic(jd)
   )
 }
 
-export function apparentEquatorialCoordinates(JD: number): EquatorialCoordinates {
+export function apparentEquatorialCoordinates(jd: number): EquatorialCoordinates {
   return coordinates.transformEclipticToEquatorial(
-    apparentEclipticLongitude(JD),
-    apparentEclipticLatitude(JD),
-    nutation.trueObliquityOfEcliptic(JD)
+    apparentEclipticLongitude(jd),
+    apparentEclipticLatitude(jd),
+    nutation.trueObliquityOfEcliptic(jd)
   )
 }
 
