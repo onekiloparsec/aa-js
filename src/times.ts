@@ -1,5 +1,4 @@
-'use strict'
-import dates from './dates'
+import * as dates from './dates'
 
 // Note: Javascript Implementation of the Astronomical Algorithms found in the
 // C++ reference implementation called AA+, by J.P. Naughter.
@@ -608,30 +607,30 @@ const gLeapSecondCoefficients = //  Cumulative leap second values from 1 Jan 196
 
 // // // // // // // // // // // // // // // // //  Implementation // // // // // // // // // // // // // // /
 
-function deltaT (JD) {
+export function getDeltaT (jd: number): number {
   // What will be the return value from the method
   let Delta = 0
 
   // Determine if we can use the lookup table
   const nLookupElements = gDeltaTValues.length
-  if ((JD >= gDeltaTValues[0].JD) && (JD < gDeltaTValues[nLookupElements - 1].JD)) {
+  if ((jd >= gDeltaTValues[0].JD) && (jd < gDeltaTValues[nLookupElements - 1].JD)) {
     // Find the index in the lookup table which contains the JD value closest to the JD input parameter
     let bFound = false
     let nFoundIndex = 0
     while (!bFound) {
       // assert(nFoundIndex < nLookupElements)
-      bFound = (gDeltaTValues[nFoundIndex].JD > JD)
+      bFound = (gDeltaTValues[nFoundIndex].JD > jd)
 
       // Prepare for the next loop
       if (!bFound) {
         ++nFoundIndex
       } else {
         // Now do a simple linear interpolation of the DeltaT values from the lookup table
-        Delta = (JD - gDeltaTValues[nFoundIndex - 1].JD) / (gDeltaTValues[nFoundIndex].JD - gDeltaTValues[nFoundIndex - 1].JD) * (gDeltaTValues[nFoundIndex].DeltaT - gDeltaTValues[nFoundIndex - 1].DeltaT) + gDeltaTValues[nFoundIndex - 1].DeltaT
+        Delta = (jd - gDeltaTValues[nFoundIndex - 1].JD) / (gDeltaTValues[nFoundIndex].JD - gDeltaTValues[nFoundIndex - 1].JD) * (gDeltaTValues[nFoundIndex].DeltaT - gDeltaTValues[nFoundIndex - 1].DeltaT) + gDeltaTValues[nFoundIndex - 1].DeltaT
       }
     }
   } else {
-    const y = dates.fractionalYear(JD)
+    const y = dates.fractionalYear(jd)
 
     // Use the polynomial expressions from Espenak & Meeus 2006. References: http:// eclipse.gsfc.nasa.gov/SEcat5/deltatpoly.html and
     // http:// www.staff.science.uu.nl/~gent0113/deltat/deltat_old.htm (Espenak & Meeus 2006 section)
@@ -728,21 +727,21 @@ function deltaT (JD) {
   return Delta
 }
 
-function getCumulativeLeapSeconds (JD) {
+export function getCumulativeLeapSeconds (jd: number): number {
   // What will be the return value from the method
   let LeapSeconds = 0
 
   const nLookupElements = gLeapSecondCoefficients.length
-  if (JD >= gLeapSecondCoefficients[0].JD) {
+  if (jd >= gLeapSecondCoefficients[0].JD) {
     // Find the index in the lookup table which contains the JD value closest to the JD input parameter
     let bContinue = true
     let nIndex = 1
     while (bContinue) {
       if (nIndex >= nLookupElements) {
-        LeapSeconds = gLeapSecondCoefficients[nLookupElements - 1].LeapSeconds + (JD - 2400000.5 - gLeapSecondCoefficients[nLookupElements - 1].BaseMJD) * gLeapSecondCoefficients[nLookupElements - 1].Coefficient
+        LeapSeconds = gLeapSecondCoefficients[nLookupElements - 1].LeapSeconds + (jd - 2400000.5 - gLeapSecondCoefficients[nLookupElements - 1].BaseMJD) * gLeapSecondCoefficients[nLookupElements - 1].Coefficient
         bContinue = false
-      } else if (JD < gLeapSecondCoefficients[nIndex].JD) {
-        LeapSeconds = gLeapSecondCoefficients[nIndex - 1].LeapSeconds + (JD - 2400000.5 - gLeapSecondCoefficients[nIndex - 1].BaseMJD) * gLeapSecondCoefficients[nIndex - 1].Coefficient
+      } else if (jd < gLeapSecondCoefficients[nIndex].JD) {
+        LeapSeconds = gLeapSecondCoefficients[nIndex - 1].LeapSeconds + (jd - 2400000.5 - gLeapSecondCoefficients[nIndex - 1].BaseMJD) * gLeapSecondCoefficients[nIndex - 1].Coefficient
         bContinue = false
       }
 
@@ -756,63 +755,52 @@ function getCumulativeLeapSeconds (JD) {
   return LeapSeconds
 }
 
-function transformTT2UTC (JD) {
+export function transformTT2UTC (jd: number): number {
   // Outside of the range 1 January 1961 to 500 days after the last leap second,
   // we implement TT2UTC as TT2UT1
   const nLookupElements = gLeapSecondCoefficients.length
-  if ((JD < gLeapSecondCoefficients[0].JD) || (JD > (gLeapSecondCoefficients[nLookupElements - 1].JD + 500))) {
-    return transformTT2UT1(JD)
+  if ((jd < gLeapSecondCoefficients[0].JD) || (jd > (gLeapSecondCoefficients[nLookupElements - 1].JD + 500))) {
+    return transformTT2UT1(jd)
   }
 
-  const DT = deltaT(JD)
-  const UT1 = JD - (DT / 86400.0)
-  const LeapSeconds = getCumulativeLeapSeconds(JD)
+  const DT = getDeltaT(jd)
+  const UT1 = jd - (DT / 86400.0)
+  const LeapSeconds = getCumulativeLeapSeconds(jd)
   return ((DT - LeapSeconds - 32.184) / 86400.0) + UT1
 }
 
-function transformUTC2TT (JD) {
+export function transformUTC2TT (jd: number): number {
   // Outside of the range 1 January 1961 to 500 days after the last leap second,
   // we implement TT2UTC as TT2UT1
   const nLookupElements = gLeapSecondCoefficients.length
-  if ((JD < gLeapSecondCoefficients[0].JD) || (JD > (gLeapSecondCoefficients[nLookupElements - 1].JD + 500))) {
-    return transformUT12TT(JD)
+  if ((jd < gLeapSecondCoefficients[0].JD) || (jd > (gLeapSecondCoefficients[nLookupElements - 1].JD + 500))) {
+    return transformUT12TT(jd)
   }
 
-  const DT = deltaT(JD)
-  const LeapSeconds = getCumulativeLeapSeconds(JD)
-  const UT1 = JD - ((DT - LeapSeconds - 32.184) / 86400.0)
+  const DT = getDeltaT(jd)
+  const LeapSeconds = getCumulativeLeapSeconds(jd)
+  const UT1 = jd - ((DT - LeapSeconds - 32.184) / 86400.0)
   return UT1 + (DT / 86400.0)
 }
 
-function transformTT2TAI (JD) {
-  return JD - (32.184 / 86400.0)
+export function transformTT2TAI (jd: number): number {
+  return jd - (32.184 / 86400.0)
 }
 
-function transformTAI2TT (JD) {
-  return JD + (32.184 / 86400.0)
+export function transformTAI2TT (jd: number): number {
+  return jd + (32.184 / 86400.0)
 }
 
-function transformTT2UT1 (JD) {
-  return JD - (deltaT(JD) / 86400.0)
+export function transformTT2UT1 (jd: number): number {
+  return jd - (getDeltaT(jd) / 86400.0)
 }
 
-function transformUT12TT (JD) {
-  return JD + (deltaT(JD) / 86400.0)
+export function transformUT12TT (jd: number): number {
+  return jd + (getDeltaT(jd) / 86400.0)
 }
 
-function transformUT1MinusUTC (JD) {
-  const JDUTC = JD + ((deltaT(JD) - getCumulativeLeapSeconds(JD) - 32.184) / 86400)
-  return (JD - JDUTC) * 86400
+export function transformUT1MinusUTC (jd: number): number {
+  const JDUTC = jd + ((getDeltaT(jd) - getCumulativeLeapSeconds(jd) - 32.184) / 86400)
+  return (jd - JDUTC) * 86400
 }
 
-export default {
-  deltaT,
-  getCumulativeLeapSeconds,
-  transformTT2UTC,
-  transformUTC2TT,
-  transformTT2TAI,
-  transformTAI2TT,
-  transformTT2UT1,
-  transformUT12TT,
-  transformUT1MinusUTC
-}
