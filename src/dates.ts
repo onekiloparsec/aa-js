@@ -1,4 +1,4 @@
-import julianday from './julianday'
+import * as julianday from './julianday'
 
 export function isDateAfterPapalReform(year: number, Month: number, Day: number): boolean {
   return ((year > 1582) || ((year === 1582) && (Month > 10)) || ((year === 1582) && (Month === 10) && (Day >= 15)))
@@ -38,7 +38,7 @@ export function isLeapYear(year: number, isGregorianCalendar: boolean = true): b
 }
 
 export function fractionalYear(jd: number, isGregorianCalendar: boolean = true): number {
-  const year = julianday.date(jd).getFullYear()
+  const year = julianday.getDate(jd).getFullYear()
   const daysInYear = (isLeapYear(year, isGregorianCalendar)) ? 366 : 365
   return year + ((jd - getFullScaleJulianDay(year, 1, 1)) / daysInYear)
 }

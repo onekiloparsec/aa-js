@@ -1,5 +1,5 @@
 import { EclipticCoordinates, EquatorialCoordinates, transformEclipticToEquatorial } from './coordinates'
-import nutation from './nutation'
+import * as nutation from './nutation'
 import { MapTo0To360Range, MapToMinus90To90Range } from './utils'
 import { RAD2DEG } from './constants'
 
