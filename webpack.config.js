@@ -1,26 +1,24 @@
 const path = require('path')
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './src/index.ts',
   output: {
     path: path.resolve('dist'),
-    filename: 'index.js',
+    filename: 'bundle.js',
     libraryTarget: 'umd',
     library: 'astronomical-algorithms'
   },
+  devtool: 'source-map',
   externals: {
     dayjs: 'dayjs'
   },
   module: {
     rules: [
-      {
-        test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
-      }
+      { test: /\.tsx?$/, loader: 'ts-loader' },
+      { test: /\.js$/, loader: 'source-map-loader' }
     ]
   },
   resolve: {
-    extensions: ['.js']
+    extensions: ['.js', '.ts']
   }
 }
