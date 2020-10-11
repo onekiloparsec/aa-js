@@ -1,6 +1,6 @@
 'use strict'
 
-function getDecimal (d, m, s, positive = true) {
+function decimal (d, m, s, positive = true) {
   // if (!positive) {
   //   assert(Degrees >= 0)  // All parameters should be non negative if the "bPositive" parameter is false
   //   assert(Minutes >= 0)
@@ -14,7 +14,7 @@ function getDecimal (d, m, s, positive = true) {
   }
 }
 
-function getSexagesimal (decimal) {
+function sexagesimal (decimal) {
   const degrees = Math.floor(decimal)
   const fractionDegrees = decimal - degrees
   const fractionMinutes = fractionDegrees * 60
@@ -29,6 +29,6 @@ function getSexagesimal (decimal) {
 }
 
 export default {
-  getDecimal,
-  getSexagesimal
+  decimal,
+  sexagesimal
 }

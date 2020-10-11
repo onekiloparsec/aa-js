@@ -20,20 +20,20 @@ import { SPEED_OF_LIGHT } from './constants'
 const Tyr = 977.8 // coefficent for converting 1/H into Gyr
 const INTEGRAL_POINTS_NUMBER = 2000
 
-function getOmegaR (H0) {
+function omegaR (H0) {
   const h = H0 / 100
   return 4.165E-5 / (h * h)	// includes 3 massless neutrino species, T0 = 2.72528
 }
 
-function getOmegaK (H0, WM, WV) {
-  const WR = getOmegaR(H0)
+function omegaK (H0, WM, WV) {
+  const WR = omegaR(H0)
   return 1 - WM - WR - WV
 }
 
-function getUniverseAge (H0, WM, WV) {
+function universeAge (H0, WM, WV) {
   let az = 1.0
-  let WR = getOmegaR(H0)
-  let WK = getOmegaK(H0, WM, WV)
+  let WR = omegaR(H0)
+  let WK = omegaK(H0, WM, WV)
 
   let age = 0
   for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
@@ -46,10 +46,10 @@ function getUniverseAge (H0, WM, WV) {
   return age * (Tyr / H0)
 }
 
-function getUniverseAgeAtRedshift (H0, WM, WV, z) {
+function universeAgeAtRedshift (H0, WM, WV, z) {
   let az = 1.0 / (1 + z)
-  let WR = getOmegaR(H0)
-  let WK = getOmegaK(H0, WM, WV)
+  let WR = omegaR(H0)
+  let WK = omegaK(H0, WM, WV)
 
   let age = 0
   for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
@@ -82,11 +82,11 @@ function getUniverseAgeAtRedshift (H0, WM, WV, z) {
   return (Tyr / H0) * zage * Math.pow(10.0, dzage)
 }
 
-function getLightTravelTime (H0, WM, WV, z) {
+function lightTravelTime (H0, WM, WV, z) {
   let DTT = 0.0
   let az = 1.0 / (1 + 1.0 * z)
-  let WR = getOmegaR(H0)
-  let WK = getOmegaK(H0, WM, WV)
+  let WR = omegaR(H0)
+  let WK = omegaK(H0, WM, WV)
 
 // do integral over a=1/(1+z) from az to 1 in n steps, midpoint rule
   for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
@@ -104,8 +104,8 @@ function getLightTravelTime (H0, WM, WV, z) {
 function getComovingRadialDistance (H0, WM, WV, z) {
   let DCMR = 0.0
   let az = 1.0 / (1 + 1.0 * z)
-  let WR = getOmegaR(H0)
-  let WK = getOmegaK(H0, WM, WV)
+  let WR = omegaR(H0)
+  let WK = omegaK(H0, WM, WV)
 
 // do integral over a=1/(1+z) from az to 1 in n steps, midpoint rule
   for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
@@ -139,8 +139,8 @@ function getComovingVolume (WK, DCMR) {
 
 function getComovingVolumeWithinRedshift (H0, WM, WV, z) {
   let az = 1.0 / (1 + 1.0 * z)
-  let WR = getOmegaR(H0)
-  let WK = getOmegaK(H0, WM, WV)
+  let WR = omegaR(H0)
+  let WK = omegaK(H0, WM, WV)
   let DCMR = 0.0
 // do integral over a=1/(1+z) from az to 1 in n steps, midpoint rule
   for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
@@ -155,10 +155,10 @@ function getComovingVolumeWithinRedshift (H0, WM, WV, z) {
   return 4 * Math.PI * Math.pow(0.001 * SPEED_OF_LIGHT / H0, 3) * VCM
 }
 
-function getTangentialComovingDistance (H0, WM, WV, z) {
+function tangentialComovingDistance (H0, WM, WV, z) {
   let az = 1.0 / (1 + 1.0 * z)
-  let WR = getOmegaR(H0)
-  let WK = getOmegaK(H0, WM, WV)
+  let WR = omegaR(H0)
+  let WK = omegaK(H0, WM, WV)
 
   let DCMR = 0.0
 // do integral over a=1/(1+z) from az to 1 in n steps, midpoint rule
@@ -183,36 +183,36 @@ function getTangentialComovingDistance (H0, WM, WV, z) {
   return ratio * DCMR
 }
 
-function getAngularSizeDistance (H0, WM, WV, z) {
+function angularSizeDistance (H0, WM, WV, z) {
   let az = 1.0 / (1 + 1.0 * z)
-  let DA = az * getTangentialComovingDistance(H0, WM, WV, z)
+  let DA = az * tangentialComovingDistance(H0, WM, WV, z)
   // Mpc
   return (SPEED_OF_LIGHT / H0) * DA
 }
 
-function getAngularSizeScale (H0, WM, WV, z) {
-  let DA = getAngularSizeDistance(H0, WM, WV, z)
+function angularSizeScale (H0, WM, WV, z) {
+  let DA = angularSizeDistance(H0, WM, WV, z)
   let DA_Mpc = (SPEED_OF_LIGHT / H0) * DA
   return DA_Mpc / 206.264806
 }
 
-function getLuminosityDistance (H0, WM, WV, z) {
+function luminosityDistance (H0, WM, WV, z) {
   let az = 1.0 / (1 + 1.0 * z)
-  let DA = getAngularSizeDistance(H0, WM, WV, z)
+  let DA = angularSizeDistance(H0, WM, WV, z)
   return DA / (az * az)
 }
 
 export default {
-  getOmegaR,
-  getOmegaK,
-  getUniverseAge,
-  getUniverseAgeAtRedshift,
-  getLightTravelTime,
+  omegaR,
+  omegaK,
+  universeAge,
+  universeAgeAtRedshift,
+  lightTravelTime,
   getComovingRadialDistance,
   getComovingVolume,
   getComovingVolumeWithinRedshift,
-  getTangentialComovingDistance,
-  getAngularSizeDistance,
-  getAngularSizeScale,
-  getLuminosityDistance
+  tangentialComovingDistance,
+  angularSizeDistance,
+  angularSizeScale,
+  luminosityDistance
 }

@@ -1,5 +1,3 @@
-'use strict'
-
 import { DEG2RAD, J2000, SUN_EVENTS_ALTITUDES, SUN_EXTENDED_EVENTS_ALTITUDES } from './constants'
 import coordinates from './coordinates'
 import earth from './earth'
@@ -8,56 +6,56 @@ import nutation from './nutation'
 import sexagesimal from './sexagesimal'
 import utils from './utils'
 
-function getGeometricEclipticLongitude (JD) {
-  return utils.MapTo0To360Range(earth.getEclipticLongitude(JD) + 180)
+function geometricEclipticLongitude (JD) {
+  return utils.MapTo0To360Range(earth.eclipticLongitude(JD) + 180)
 }
 
-function getGeometricEclipticLatitude (JD) {
-  return -earth.getEclipticLatitude(JD)
+function geometricEclipticLatitude (JD) {
+  return -earth.eclipticLatitude(JD)
 }
 
-function getGeometricEclipticLongitudeJ2000 (JD) {
-  return utils.MapTo0To360Range(earth.getEclipticLongitudeJ2000(JD) + 180)
+function geometricEclipticLongitudeJ2000 (JD) {
+  return utils.MapTo0To360Range(earth.eclipticLongitudeJ2000(JD) + 180)
 }
 
-function getGeometricEclipticLatitudeJ2000 (JD) {
-  return -earth.getEclipticLatitudeJ2000(JD)
+function geometricEclipticLatitudeJ2000 (JD) {
+  return -earth.eclipticLatitudeJ2000(JD)
 }
 
-function getGeometricFK5EclipticLongitude (JD) {
+function geometricFK5EclipticLongitude (JD) {
   // Convert to the FK5 stystem
-  let Longitude = getGeometricEclipticLongitude(JD)
-  const Latitude = getGeometricEclipticLatitude(JD)
+  let Longitude = geometricEclipticLongitude(JD)
+  const Latitude = geometricEclipticLatitude(JD)
   Longitude += fk5.getCorrectionInLongitude(Longitude, Latitude, JD)
   return Longitude
 }
 
-function getGeometricFK5EclipticLatitude (JD) {
+function geometricFK5EclipticLatitude (JD) {
   // Convert to the FK5 stystem
-  const Longitude = getGeometricEclipticLongitude(JD)
-  let Latitude = getGeometricEclipticLatitude(JD)
+  const Longitude = geometricEclipticLongitude(JD)
+  let Latitude = geometricEclipticLatitude(JD)
   Latitude += fk5.getCorrectionInLatitude(Longitude, JD)
   return Latitude
 }
 
-function getApparentEclipticLongitude (JD) {
-  let Longitude = getGeometricFK5EclipticLongitude(JD)
+function apparentEclipticLongitude (JD) {
+  let Longitude = geometricFK5EclipticLongitude(JD)
 
   // Apply the correction in longitude due to nutation
-  Longitude += sexagesimal.getDecimal(0, 0, nutation.getNutationInLongitude(JD))
+  Longitude += sexagesimal.decimal(0, 0, nutation.nutationInLongitude(JD))
 
   // Apply the correction in longitude due to aberration
-  const R = earth.getRadiusVector(JD)
-  Longitude -= sexagesimal.getDecimal(0, 0, 20.4898 / R)
+  const R = earth.radiusVector(JD)
+  Longitude -= sexagesimal.decimal(0, 0, 20.4898 / R)
 
   return Longitude
 }
 
-function getApparentEclipticLatitude (JD) {
-  return getGeometricFK5EclipticLatitude(JD)
+function apparentEclipticLatitude (JD) {
+  return geometricFK5EclipticLatitude(JD)
 }
 
-function getVariationGeometricEclipticLongitude (JD) {
+function variationGeometricEclipticLongitude (JD) {
   // D is the number of days since the epoch
   const D = JD - 2451545.00
   const tau = (D / 365250)
@@ -90,53 +88,53 @@ function getVariationGeometricEclipticLongitude (JD) {
   return deltaLambda
 }
 
-function getEclipticCoordinates (JD) {
+function eclipticCoordinates (JD) {
   return {
-    longitude: getGeometricEclipticLongitude(JD),
-    latitude: getGeometricEclipticLatitude(JD)
+    longitude: geometricEclipticLongitude(JD),
+    latitude: geometricEclipticLatitude(JD)
   }
 }
 
-function getEclipticCoordinatesJ2000 (JD) {
+function eclipticCoordinatesJ2000 (JD) {
   return {
-    longitude: getGeometricEclipticLongitudeJ2000(JD),
-    latitude: getGeometricEclipticLatitudeJ2000(JD)
+    longitude: geometricEclipticLongitudeJ2000(JD),
+    latitude: geometricEclipticLatitudeJ2000(JD)
   }
 }
 
-function getApparentEclipticCoordinates (JD) {
+function apparentEclipticCoordinates (JD) {
   return {
-    longitude: getApparentEclipticLongitude(JD),
-    latitude: getApparentEclipticLatitude(JD)
+    longitude: apparentEclipticLongitude(JD),
+    latitude: apparentEclipticLatitude(JD)
   }
 }
 
-function getEquatorialCoordinates (JD) {
+function equatorialCoordinates (JD) {
   return coordinates.transformEclipticToEquatorial({
-    Lambda: getGeometricEclipticLongitude(JD),
-    Beta: getGeometricEclipticLatitude(JD),
-    Epsilon: nutation.getMeanObliquityOfEcliptic(JD)
+    Lambda: geometricEclipticLongitude(JD),
+    Beta: geometricEclipticLatitude(JD),
+    Epsilon: nutation.meanObliquityOfEcliptic(JD)
   })
 }
 
-function getEquatorialCoordinatesJ2000 (JD) {
+function equatorialCoordinatesJ2000 (JD) {
   return coordinates.transformEclipticToEquatorial(
-    getGeometricEclipticLongitudeJ2000(JD),
-    getGeometricEclipticLatitudeJ2000(JD),
-    nutation.getMeanObliquityOfEcliptic(JD)
+    geometricEclipticLongitudeJ2000(JD),
+    geometricEclipticLatitudeJ2000(JD),
+    nutation.meanObliquityOfEcliptic(JD)
   )
 }
 
-function getApparentEquatorialCoordinates (JD) {
+function apparentEquatorialCoordinates (JD) {
   return coordinates.transformEclipticToEquatorial(
-    getApparentEclipticLongitude(JD),
-    getApparentEclipticLatitude(JD),
-    nutation.getTrueObliquityOfEcliptic(JD)
+    apparentEclipticLongitude(JD),
+    apparentEclipticLatitude(JD),
+    nutation.trueObliquityOfEcliptic(JD)
   )
 }
 
 // low-accuracy implementation inspired from SunCalc
-function getEventJulianDays (jd, lat, lng, condensed = true) {
+function eventJulianDays (jd, lat, lng, condensed = true) {
   var J0 = 0.0009
 
   function julianCycle (d, lw) {
@@ -156,7 +154,7 @@ function getEventJulianDays (jd, lat, lng, condensed = true) {
   }
 
 // returns set time for the given sun altitude
-  function getSetJD (h, lw, phi, dec, n, M, L) {
+  function setJD (h, lw, phi, dec, n, M, L) {
     const w = hourAngle(h, phi, dec)
     const a = approxTransit(w, lw, n)
     return solarTransitJD(a, M, L)
@@ -169,11 +167,11 @@ function getEventJulianDays (jd, lat, lng, condensed = true) {
   const n = julianCycle(d, lw)
   const ds = approxTransit(0, lw, n)
 
-  const M = earth.getSunMeanAnomaly(ds)
-  const L = getApparentEclipticLongitude(M)
+  const M = earth.sunMeanAnomaly(ds)
+  const L = apparentEclipticLongitude(M)
   const jdNoon = solarTransitJD(ds, M, L)
 
-  const dec = coordinates.getDeclinationFromEcliptic(L, 0, nutation.getTrueObliquityOfEcliptic(jdNoon))
+  const dec = coordinates.declinationFromEcliptic(L, 0, nutation.trueObliquityOfEcliptic(jdNoon))
 
   const riseEvents = [], setEvents = []
   riseEvents.push(jdNoon)
@@ -183,7 +181,7 @@ function getEventJulianDays (jd, lat, lng, condensed = true) {
   for (let i = 0; i < altitudes; i += 1) {
     const alt = altitudes[i]
 
-    let jdSet = getSetJD(alt * DEG2RAD, lw, phi, dec, n, M, L)
+    let jdSet = setJD(alt * DEG2RAD, lw, phi, dec, n, M, L)
     let jdRise = jdNoon - (jdSet - jdNoon)
 
     riseEvents.push(jdRise)
@@ -194,20 +192,20 @@ function getEventJulianDays (jd, lat, lng, condensed = true) {
 }
 
 export default {
-  getGeometricEclipticLongitude,
-  getGeometricEclipticLatitude,
-  getGeometricEclipticLongitudeJ2000,
-  getGeometricEclipticLatitudeJ2000,
-  getGeometricFK5EclipticLongitude,
-  getGeometricFK5EclipticLatitude,
-  getApparentEclipticLongitude,
-  getApparentEclipticLatitude,
-  getVariationGeometricEclipticLongitude,
-  getEclipticCoordinates,
-  getEclipticCoordinatesJ2000,
-  getApparentEclipticCoordinates,
-  getEquatorialCoordinates,
-  getEquatorialCoordinatesJ2000,
-  getApparentEquatorialCoordinates,
-  getEventJulianDays
+  geometricEclipticLongitude,
+  geometricEclipticLatitude,
+  geometricEclipticLongitudeJ2000,
+  geometricEclipticLatitudeJ2000,
+  geometricFK5EclipticLongitude,
+  geometricFK5EclipticLatitude,
+  apparentEclipticLongitude,
+  apparentEclipticLatitude,
+  variationGeometricEclipticLongitude,
+  eclipticCoordinates,
+  eclipticCoordinatesJ2000,
+  apparentEclipticCoordinates,
+  equatorialCoordinates,
+  equatorialCoordinatesJ2000,
+  apparentEquatorialCoordinates,
+  eventJulianDays
 }

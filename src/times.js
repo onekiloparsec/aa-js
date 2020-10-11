@@ -608,7 +608,7 @@ const gLeapSecondCoefficients = //  Cumulative leap second values from 1 Jan 196
 
 // // // // // // // // // // // // // // // // //  Implementation // // // // // // // // // // // // // // /
 
-function getDeltaT (JD) {
+function deltaT (JD) {
   // What will be the return value from the method
   let Delta = 0
 
@@ -631,7 +631,7 @@ function getDeltaT (JD) {
       }
     }
   } else {
-    const y = dates.getFractionalYear(JD)
+    const y = dates.fractionalYear(JD)
 
     // Use the polynomial expressions from Espenak & Meeus 2006. References: http:// eclipse.gsfc.nasa.gov/SEcat5/deltatpoly.html and
     // http:// www.staff.science.uu.nl/~gent0113/deltat/deltat_old.htm (Espenak & Meeus 2006 section)
@@ -764,7 +764,7 @@ function transformTT2UTC (JD) {
     return transformTT2UT1(JD)
   }
 
-  const DT = getDeltaT(JD)
+  const DT = deltaT(JD)
   const UT1 = JD - (DT / 86400.0)
   const LeapSeconds = getCumulativeLeapSeconds(JD)
   return ((DT - LeapSeconds - 32.184) / 86400.0) + UT1
@@ -778,7 +778,7 @@ function transformUTC2TT (JD) {
     return transformUT12TT(JD)
   }
 
-  const DT = getDeltaT(JD)
+  const DT = deltaT(JD)
   const LeapSeconds = getCumulativeLeapSeconds(JD)
   const UT1 = JD - ((DT - LeapSeconds - 32.184) / 86400.0)
   return UT1 + (DT / 86400.0)
@@ -793,20 +793,20 @@ function transformTAI2TT (JD) {
 }
 
 function transformTT2UT1 (JD) {
-  return JD - (getDeltaT(JD) / 86400.0)
+  return JD - (deltaT(JD) / 86400.0)
 }
 
 function transformUT12TT (JD) {
-  return JD + (getDeltaT(JD) / 86400.0)
+  return JD + (deltaT(JD) / 86400.0)
 }
 
 function transformUT1MinusUTC (JD) {
-  const JDUTC = JD + ((getDeltaT(JD) - getCumulativeLeapSeconds(JD) - 32.184) / 86400)
+  const JDUTC = JD + ((deltaT(JD) - getCumulativeLeapSeconds(JD) - 32.184) / 86400)
   return (JD - JDUTC) * 86400
 }
 
 export default {
-  getDeltaT,
+  deltaT,
   getCumulativeLeapSeconds,
   transformTT2UTC,
   transformUTC2TT,

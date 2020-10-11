@@ -10,7 +10,7 @@ function getCorrectionInLongitude (Longitude, Latitude, JD) {
   Latitude = Latitude * DEG2RAD
 
   const value = -0.09033 + 0.03916 * (Math.cos(Ldash) + Math.sin(Ldash)) * Math.tan(Latitude)
-  return sexagesimal.getDecimal(0, 0, value)
+  return sexagesimal.decimal(0, 0, value)
 }
 
 function getCorrectionInLatitude (Longitude, JD) {
@@ -21,7 +21,7 @@ function getCorrectionInLatitude (Longitude, JD) {
   Ldash = Ldash * DEG2RAD
 
   const value = 0.03916 * (Math.cos(Ldash) - Math.sin(Ldash))
-  return sexagesimal.getDecimal(0, 0, value)
+  return sexagesimal.decimal(0, 0, value)
 }
 
 export default {

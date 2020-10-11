@@ -11,7 +11,7 @@ const STANDARD_ALTITUDE_STARS = -0.5667
 // const STANDARD_ALTITUDE_SUN = -0.8333
 //
 
-function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinates, altitude = STANDARD_ALTITUDE_STARS) {
+function riseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinates, altitude = STANDARD_ALTITUDE_STARS) {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
 
@@ -29,7 +29,7 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   }
 
   // Calculate the Greenwhich sidereal time in degrees
-  let Theta0 = julianday.getLocalSiderealTime(jdValue, 0) * H2DEG
+  let Theta0 = julianday.localSiderealTime(jdValue, 0) * H2DEG
 
   const sinh0 = Math.sin(altitude * DEG2RAD)
   const sinPhi = Math.sin(siteCoordinates.latitude * DEG2RAD)
@@ -49,10 +49,10 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   const m0 = Math.fmod((targetCoordinates.right_ascension - siteCoordinates.longitude - Theta0) / 360, 1)
   result.utcTransit = m0 * 24
 
-  const utcMoment = dayjs.utc(julianday.getDate(jdValue))
+  const utcMoment = dayjs.utc(julianday.date(jdValue))
   const hourTransit = Math.floor(result.utcTransit)
   const minuteTransit = result.utcTransit - hourTransit
-  result.julianDayTransit = julianday.getJulianDay(utcMoment.hour(hourTransit).minute(minuteTransit * 60).toDate())
+  result.julianDayTransit = julianday.julianDay(utcMoment.hour(hourTransit).minute(minuteTransit * 60).toDate())
 
   // Calculate cosH0. See AA Eq.15.1, p.102
   let cosH0 = (sinh0 - sinPhi * sinDelta) / (cosPhi * cosDelta)
@@ -68,8 +68,8 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
     const hourSet = Math.floor(result.utcSet)
     const minuteSet = result.utcSet - hourSet
 
-    result.julianDayRise = julianday.getJulianDay(utcMoment.hour(hourRise).minute(minuteRise * 60).toDate())
-    result.julianDaySet = julianday.getJulianDay(utcMoment.hour(hourSet).minute(minuteSet * 60).toDate())
+    result.julianDayRise = julianday.julianDay(utcMoment.hour(hourRise).minute(minuteRise * 60).toDate())
+    result.julianDaySet = julianday.julianDay(utcMoment.hour(hourSet).minute(minuteSet * 60).toDate())
   }
 
   if (result.julianDayRise > result.julianDayTransit) {
@@ -82,7 +82,7 @@ function getRiseSetTransitJulianDays (jdValue, targetCoordinates, siteCoordinate
   return result
 }
 
-function getRAInHours (targetCoordinates) {
+function rAInHours (targetCoordinates) {
   let ra = targetCoordinates.right_ascension
   if (targetCoordinates['right_ascension_units'] && targetCoordinates['right_ascension_units'].toLowerCase().substring(0, 3) === 'deg') {
     ra = ra / 15
@@ -94,12 +94,12 @@ function getRAInHours (targetCoordinates) {
 // If transitJD is undefined, the altitude of the transit to the local meridian will be computed.
 // If transitJD is provided, it is assumed to be the JD of which we want the local altitude.
 // It can be that of a transit... or not.
-function getTransitAltitude (targetCoordinates, siteCoordinates, transitJD = undefined) {
+function transitAltitude (targetCoordinates, siteCoordinates, transitJD = undefined) {
   // See AA. P.93 eq. 13.6 (and p.92 for H).
   let cosH = 1
   if (transitJD !== undefined && transitJD !== null) {
-    const lmst = julianday.getLocalSiderealTime(transitJD, siteCoordinates.longitude)
-    const ra = this.getRAInHours(targetCoordinates)
+    const lmst = julianday.localSiderealTime(transitJD, siteCoordinates.longitude)
+    const ra = this.rAInHours(targetCoordinates)
     cosH = Math.cos((lmst - ra) * H2RAD)
   }
   const sinPhi = Math.sin(siteCoordinates.latitude * DEG2RAD)
@@ -110,7 +110,7 @@ function getTransitAltitude (targetCoordinates, siteCoordinates, transitJD = und
 }
 
 export default {
-  getRAInHours,
-  getRiseSetTransitJulianDays,
-  getTransitAltitude
+  rAInHours,
+  riseSetTransitJulianDays,
+  transitAltitude
 }

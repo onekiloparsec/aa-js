@@ -44,7 +44,7 @@ import { julianday, moon } from 'astronomical-algorithms'
 
 ...
 
-const jd = julianday.getJulianDay(new Date()),
+const jd = julianday.julianDay(new Date()),
 const moonObject = new moon.Moon(jd)
 const coords = moonObject.equatorialCoordinates()
 ```

@@ -253,9 +253,9 @@ function isLeapYear (Year, bGregorianCalendar = true) {
 // //   return JD - DateToJD(Year, 1, 1, bGregorianCalendar) + 1;
 // // }
 
-function getFractionalYear (jdValue, bGregorianCalendar = true) {
+function fractionalYear (jdValue, bGregorianCalendar = true) {
   const JD = jd.JulianDay(jdValue)
-  const Year = JD.toDate().getFullYear()
+  const Year = JD.toDate().fullYear()
   const DaysInYear = (isLeapYear(Year, bGregorianCalendar)) ? 366 : 365
   return Year + ((jdValue - makeDateToJD(Year, 1, 1)) / DaysInYear)
 }
@@ -318,5 +318,5 @@ export default {
   isJulianDayAfterPapalReform,
   makeDateToJD,
   isLeapYear,
-  getFractionalYear
+  fractionalYear
 }

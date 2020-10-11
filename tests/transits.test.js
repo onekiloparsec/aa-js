@@ -16,7 +16,7 @@ describe('transits of exoplanets', () => {
     }
     // const tzero_primary_transit = 2454273.3436
 
-    const alt = transits.getTransitAltitude(targetCoordinates, siteCoordinates)
+    const alt = transits.transitAltitude(targetCoordinates, siteCoordinates)
     expect(alt).toBeCloseTo(59.2538889, 5)
   })
 
@@ -34,7 +34,7 @@ describe('transits of exoplanets', () => {
     }
     const tzeroPrimaryTransit = 2454273.3436
 
-    const alt = transits.getTransitAltitude(targetCoordinates, siteCoordinates, tzeroPrimaryTransit)
+    const alt = transits.transitAltitude(targetCoordinates, siteCoordinates, tzeroPrimaryTransit)
     expect(alt).toBeCloseTo(-47.615535, 5)
   })
 })
@@ -52,7 +52,7 @@ test('circumpolar transit', () => {
     'epoch': 2451545.0
   }
 
-  const results = transits.getRiseSetTransitJulianDays(julianday.getJulianDay(), targetCoordinates, siteCoordinates)
+  const results = transits.riseSetTransitJulianDays(julianday.julianDay(), targetCoordinates, siteCoordinates)
   expect(results.isCircumpolar).toBeTruthy()
   expect(results.isTransitAboveHorizon).toBeTruthy()
   expect(results.isTransitAboveAltitude).toBeTruthy()
@@ -75,7 +75,7 @@ test('approximate Venus on 1988 March 20 at Boston', () => {
   }
 
   const date = new Date(Date.UTC(1988, 2, 20))
-  const results = transits.getRiseSetTransitJulianDays(julianday.getJulianDay(date), targetCoordinates, siteCoordinates)
+  const results = transits.riseSetTransitJulianDays(julianday.julianDay(date), targetCoordinates, siteCoordinates)
 
   expect(results.isCircumpolar).toBeFalsy()
   expect(results.isTransitAboveHorizon).toBeTruthy()

@@ -7,11 +7,11 @@ const J1970 = 2440588
 const J2000 = 2451545
 const dayMs = 1000 * 60 * 60 * 24
 
-function getDate (julianDayValue) {
+function date (julianDayValue) {
   return new Date((julianDayValue + 0.5 - J1970) * dayMs)
 }
 
-function getJulianDay (...args) {
+function julianDay (...args) {
   if (args.length === 0) {
     args[0] = new Date()
   }
@@ -22,7 +22,7 @@ function getJulianDay (...args) {
   }
 }
 
-function getLocalSiderealTime (julianDayValue, longitude) {
+function localSiderealTime (julianDayValue, longitude) {
   // Equ 12.1
   const t = (julianDayValue - 2451545) / 36525
 
@@ -36,20 +36,20 @@ function getLocalSiderealTime (julianDayValue, longitude) {
   return Math.fmod((gmst + longitude) * DEG2H + 24, 24)
 }
 
-function getModifiedJulianDay (julianDayValue) {
+function modifiedJulianDay (julianDayValue) {
   return julianDayValue - 2400000.5
 }
 
-function getJulianDayMidnight (julianDayValue) {
+function julianDayMidnight (julianDayValue) {
   return Math.floor(julianDayValue - 0.5) + 0.5
 }
 
 export default {
   J1970,
   J2000,
-  getDate,
-  getJulianDay,
-  getLocalSiderealTime,
-  getModifiedJulianDay,
-  getJulianDayMidnight
+  date,
+  julianDay,
+  localSiderealTime,
+  modifiedJulianDay,
+  julianDayMidnight
 }

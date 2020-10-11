@@ -405,7 +405,7 @@ const gB4EarthCoefficientsJ2000 =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-function getEclipticLongitude (JD) {
+function eclipticLongitude (JD) {
   const rho = (JD - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -424,7 +424,7 @@ function getEclipticLongitude (JD) {
   return utils.MapTo0To360Range(value * RAD2DEG)
 }
 
-function getEclipticLatitude (JD) {
+function eclipticLatitude (JD) {
   const rho = (JD - 2451545) / 365250
 
   const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
@@ -435,7 +435,7 @@ function getEclipticLatitude (JD) {
   return utils.MapToMinus90To90Range(value * RAD2DEG)
 }
 
-function getRadiusVector (JD) {
+function radiusVector (JD) {
   const rho = (JD - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -450,7 +450,7 @@ function getRadiusVector (JD) {
   return (R0 + R1 * rho + R2 * rhosquared + R3 * rhocubed + R4 * rho4) / 100000000
 }
 
-function getEclipticLongitudeJ2000 (JD) {
+function eclipticLongitudeJ2000 (JD) {
   const rho = (JD - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -467,7 +467,7 @@ function getEclipticLongitudeJ2000 (JD) {
   return utils.MapTo0To360Range(value * RAD2DEG)
 }
 
-function getEclipticLatitudeJ2000 (JD) {
+function eclipticLatitudeJ2000 (JD) {
   const rho = (JD - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -489,7 +489,7 @@ function getEclipticLatitudeJ2000 (JD) {
  * @param  {Number} JD The julian day
  * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
  */
-function getSunMeanAnomaly (JD) {
+function sunMeanAnomaly (JD) {
   const T = (JD - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
@@ -501,52 +501,52 @@ function getSunMeanAnomaly (JD) {
  * @param  {Number} JD The julian day
  * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
  */
-function getEccentricity (JD) {
+function eccentricity (JD) {
   const T = (JD - 2451545) / 36525
   const Tsquared = T * T
   return 1 - 0.002516 * T - 0.0000074 * Tsquared
 }
 
-function getEclipticCoordinates (JD) {
+function eclipticCoordinates (JD) {
   return {
-    longitude: getEclipticLongitude(JD),
-    latitude: getEclipticLatitude(JD)
+    longitude: eclipticLongitude(JD),
+    latitude: eclipticLatitude(JD)
   }
 }
 
-function getEclipticCoordinatesJ2000 (JD) {
+function eclipticCoordinatesJ2000 (JD) {
   return {
-    longitude: getEclipticLongitudeJ2000(JD),
-    latitude: getEclipticLatitudeJ2000(JD)
+    longitude: eclipticLongitudeJ2000(JD),
+    latitude: eclipticLatitudeJ2000(JD)
   }
 }
 
-function getEquatorialCoordinates (JD) {
+function equatorialCoordinates (JD) {
   return coordinates.transformEclipticToEquatorial(
-    getEclipticLongitude(JD),
-    getEclipticLatitude(JD),
-    nutation.getMeanObliquityOfEcliptic(JD)
+    eclipticLongitude(JD),
+    eclipticLatitude(JD),
+    nutation.meanObliquityOfEcliptic(JD)
   )
 }
 
-function getEquatorialCoordinatesJ2000 (JD) {
+function equatorialCoordinatesJ2000 (JD) {
   return coordinates.transformEclipticToEquatorial(
-    getEclipticLongitudeJ2000(JD),
-    getEclipticLatitudeJ2000(JD),
-    nutation.getMeanObliquityOfEcliptic(JD)
+    eclipticLongitudeJ2000(JD),
+    eclipticLatitudeJ2000(JD),
+    nutation.meanObliquityOfEcliptic(JD)
   )
 }
 
 export default {
-  getEclipticLongitude,
-  getEclipticLatitude,
-  getEclipticLongitudeJ2000,
-  getEclipticLatitudeJ2000,
-  getRadiusVector,
-  getSunMeanAnomaly,
-  getEccentricity,
-  getEclipticCoordinates,
-  getEclipticCoordinatesJ2000,
-  getEquatorialCoordinates,
-  getEquatorialCoordinatesJ2000
+  eclipticLongitude,
+  eclipticLatitude,
+  eclipticLongitudeJ2000,
+  eclipticLatitudeJ2000,
+  radiusVector,
+  sunMeanAnomaly,
+  eccentricity,
+  eclipticCoordinates,
+  eclipticCoordinatesJ2000,
+  equatorialCoordinates,
+  equatorialCoordinatesJ2000
 }
