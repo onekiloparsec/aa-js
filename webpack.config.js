@@ -13,7 +13,7 @@ module.exports = {
     umdNamedDefine: true,
     globalObject: 'this'
   },
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   externals: {
     dayjs: 'dayjs'
   },
