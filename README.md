@@ -1,5 +1,5 @@
 <h3 align="center">
-<img src="http://onekiloparsec.dev/wp-content/uploads/2020/06/1kpcAstroComponents.png" width="100%" />
+<img src="http://onekiloparsec.dev/wp-content/uploads/2020/10/1kpcAstroComponents.png" width="100%" />
 </h3>
 <p align="center">
 <a href="https://github.com/onekiloparsec/SwiftAA">SwiftAA</a> &bull;
@@ -45,6 +45,9 @@ import { julianday, moon } from 'astronomical-algorithms'
 ...
 
 const jd = julianday.getJulianDay(new Date()),
-const moonObject = new moon.Moon(jd)
-const coords = moonObject.equatorialCoordinates()
+const coords = moon.equatorialCoordinates(jd)
 ```
+
+Documentation 
+================
+Very much in progress for now, sorry.
