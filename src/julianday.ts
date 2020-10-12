@@ -9,12 +9,33 @@ export function getDate(jd: number): Date {
 
 export function getJulianDay(...args): number {
   if (args.length === 0) {
-    args[0] = new Date()
-  }
-  if (args[0] instanceof Date) {
-    return dayjs(args[0]).toDate().valueOf() / DAYMS - 0.5 + J1970
-  } else if (isNumber(args[0])) {
-    return parseFloat(args[0])
+    return new Date().valueOf() / DAYMS - 0.5 + J1970
+  } else if (args.length === 1) {
+    const value = args[0]
+    if (value instanceof Date) {
+      // @ts-ignore
+      return dayjs(value).toDate().valueOf() / DAYMS - 0.5 + J1970
+    } else if (value instanceof String) {
+      // @ts-ignore
+      return dayjs(value).toDate().valueOf() / DAYMS - 0.5 + J1970
+    } else if (isNumber(value)) {
+      // @ts-ignore
+      const year = Math.floor(value)
+      // @ts-ignore
+      const month = Math.floor(value - year) * 12 // the month is 0-indexed
+      // @ts-ignore
+      const day = Math.floor(((value - year) * 12 - month) * 365)
+      const UTCDate = new Date(Date.UTC(year, month, day))
+      return UTCDate.valueOf() / DAYMS - 0.5 + J1970
+    }
+  } else if (args.length === 2) {
+    const UTCDate = new Date(Date.UTC(args[0], args[1], 0))
+    return UTCDate.valueOf() / DAYMS - 0.5 + J1970
+  } else if (args.length === 3) {
+    const UTCDate = new Date(Date.UTC(args[0], args[1], args[2]))
+    return UTCDate.valueOf() / DAYMS - 0.5 + J1970
+  } else {
+    return null
   }
 }
 

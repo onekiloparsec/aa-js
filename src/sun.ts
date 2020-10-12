@@ -8,6 +8,9 @@ import { getDecimal } from './sexagesimal'
 import { MapTo0To360Range } from './utils'
 
 const sin = Math.sin
+const cos = Math.cos
+const acos = Math.acos
+const asin = Math.asin
 
 export function geometricEclipticLongitude(jd: number): number {
   return MapTo0To360Range(earth.eclipticLongitude(jd) + 180)
@@ -138,7 +141,8 @@ export function apparentEquatorialCoordinates(jd: number): EquatorialCoordinates
 
 // low-accuracy implementation inspired from SunCalc
 export function allEventJulianDays(jd: number, lat: number, lng: number, condensed: boolean = true) {
-  var J0 = 0.0009
+  const J0 = 0.0009
+  var e = DEG2RAD * 23.4397 // obliquity of the Earth
 
   function julianCycle(d, lw) {
     return Math.round(d - J0 - lw / (2 * Math.PI))
@@ -153,8 +157,23 @@ export function allEventJulianDays(jd: number, lat: number, lng: number, condens
   }
 
   function hourAngle(h, phi, d) {
-    return Math.acos((sin(h) - sin(phi) * sin(d)) / (Math.cos(phi) * Math.cos(d)))
+    return acos((sin(h) - sin(phi) * sin(d)) / (cos(phi) * cos(d)))
   }
+
+  function solarMeanAnomaly(d) {
+    return DEG2RAD * (357.5291 + 0.98560028 * d)
+  }
+
+  function eclipticLongitude(M) {
+    const C = DEG2RAD * (1.9148 * sin(M) + 0.02 * sin(2 * M) + 0.0003 * sin(3 * M)) // equation of center
+    const P = DEG2RAD * 102.9372 // perihelion of the Earth
+    return M + C + P + Math.PI
+  }
+
+  function declination(l, b) {
+    return asin(sin(b) * cos(e) + cos(b) * sin(e) * sin(l))
+  }
+
 
 // returns set time for the given sun altitude
   function setJD(h, lw, phi, dec, n, M, L) {
@@ -170,26 +189,32 @@ export function allEventJulianDays(jd: number, lat: number, lng: number, condens
   const n = julianCycle(d, lw)
   const ds = approxTransit(0, lw, n)
 
-  const M = earth.sunMeanAnomaly(ds)
-  const L = apparentEclipticLongitude(M)
-  const jdNoon = solarTransitJD(ds, M, L)
+  const M = solarMeanAnomaly(ds)
+  const L = eclipticLongitude(M)
+  let jdNoon = solarTransitJD(ds, M, L)
 
-  const dec = coordinates.declinationFromEcliptic(L, 0, nutation.trueObliquityOfEcliptic(jdNoon))
+  const dec = declination(L, 0)
 
-  const riseEvents = [], setEvents = []
-  riseEvents.push(jdNoon)
-  setEvents.push(jdNoon + 0.5)
+  const setEvents = [], riseEvents = []
+  setEvents.push(jdNoon)
+  riseEvents.push(jdNoon + 1)
 
   const altitudes = (condensed) ? SUN_EVENTS_ALTITUDES : SUN_EXTENDED_EVENTS_ALTITUDES
   for (let i = 0; i < altitudes.length; i += 1) {
     const alt = altitudes[i]
 
     let jdSet = setJD(alt * DEG2RAD, lw, phi, dec, n, M, L)
-    let jdRise = jdNoon - (jdSet - jdNoon)
+    let jdRise = jdNoon - (jdSet - jdNoon) + 1
 
-    riseEvents.push(jdRise)
-    setEvents.unshift(jdSet)
+    setEvents.push(jdSet)
+    riseEvents.unshift(jdRise)
   }
 
-  return [...riseEvents, ...setEvents]
+  const results = [...setEvents, ...riseEvents]
+
+  if (jdNoon > jd) {
+    return results.map(jd => jd - 1)
+  } else {
+    return results
+  }
 }
