@@ -7,7 +7,7 @@ export function getDate(jd: number): Date {
   return new Date((jd + 0.5 - J1970) * DAYMS)
 }
 
-export function getJulianDay(...args): number {
+export function getJulianDay(...args: any[]): number | undefined {
   if (args.length === 0) {
     return new Date().valueOf() / DAYMS - 0.5 + J1970
   } else if (args.length === 1) {
@@ -34,8 +34,6 @@ export function getJulianDay(...args): number {
   } else if (args.length === 3) {
     const UTCDate = new Date(Date.UTC(args[0], args[1], args[2]))
     return UTCDate.valueOf() / DAYMS - 0.5 + J1970
-  } else {
-    return null
   }
 }
 

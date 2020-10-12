@@ -19,22 +19,33 @@ const acos = Math.acos
 const abs = Math.abs
 const floor = Math.floor
 
-export function riseSetTransitJulianDays(jd, ra, dec, lat, lng, alt = STANDARD_ALTITUDE_STARS) {
+export interface RiseSetTransit {
+  utcRise: number | undefined,
+  utcTransit: number | undefined,
+  utcSet: number | undefined,
+  julianDayRise: number | undefined,
+  julianDayTransit: number | undefined,
+  julianDaySet: number | undefined,
+  transitAltitude: number | undefined,
+  isTransitAboveHorizon: boolean,
+  isTransitAboveAltitude: boolean, // for when altitude is not that of horizon
+  isCircumpolar: boolean // no transit, no rise
+}
+
+export function riseSetTransitJulianDays(jd: number, ra: number, dec: number, lat: number, lng: number, alt: number = STANDARD_ALTITUDE_STARS): RiseSetTransit {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
 
-  const result = {
-    utcRise: undefined,
-    utcTransit: undefined,
-    utcSet: undefined,
-    julianDayRise: undefined,
-    julianDayTransit: undefined,
-    julianDaySet: undefined,
-    transitAltitude: undefined,
-    isTransitAboveHorizon: undefined,
-    isTransitAboveAltitude: undefined, // for when altitude is not that of horizon
-    isCircumpolar: undefined // no transit, no rise, no set
-  }
+  let utcRise
+  let utcTransit
+  let utcSet
+  let julianDayRise
+  let julianDayTransit
+  let julianDaySet
+  let transitAltitude
+  let isTransitAboveHorizon
+  let isTransitAboveAltitude
+  let isCircumpolar
 
   // Calculate the Greenwhich sidereal time in degrees
   let Theta0 = julianday.localSiderealTime(jd, 0) * H2DEG
@@ -46,55 +57,66 @@ export function riseSetTransitJulianDays(jd, ra, dec, lat, lng, alt = STANDARD_A
   const cosDelta = cos(dec * DEG2RAD)
 
   // Equ 13.6, AA p93, with cosH = 1, that is H (hour angle) = 0
-  result.transitAltitude = asin(sinPhi * sinDelta + cosPhi * cosDelta) * RAD2DEG
+  transitAltitude = asin(sinPhi * sinDelta + cosPhi * cosDelta) * RAD2DEG
 
-  result.isTransitAboveHorizon = (result.transitAltitude > STANDARD_ALTITUDE_STARS)
-  result.isTransitAboveAltitude = (result.transitAltitude > alt)
+  isTransitAboveHorizon = (transitAltitude > STANDARD_ALTITUDE_STARS)
+  isTransitAboveAltitude = (transitAltitude > alt)
 
   // Algorithms in AA use Positive West longitudes. The formula (15.2, p102):
   // const m0 = (alpha2 + Longitude - Theta0) / 360
   // thus becomes:
   const m0 = fmod((ra * H2DEG - lng - Theta0) / 360, 1)
-  result.utcTransit = m0 * 24
+  utcTransit = m0 * 24
 
   const utcMoment = dayjs.utc(julianday.getDate(jd))
-  const hourTransit = floor(result.utcTransit)
-  const minuteTransit = result.utcTransit - hourTransit
-  result.julianDayTransit = julianday.getJulianDay(utcMoment.hour(hourTransit).minute(minuteTransit * 60).toDate())
+  const hourTransit = floor(utcTransit)
+  const minuteTransit = utcTransit - hourTransit
+  julianDayTransit = julianday.getJulianDay(utcMoment.hour(hourTransit).minute(minuteTransit * 60).toDate())
 
   // Calculate cosH0. See AA Eq.15.1, p.102
   let cosH0 = (sinh0 - sinPhi * sinDelta) / (cosPhi * cosDelta)
-  result.isCircumpolar = (abs(cosH0) > 1)
+  isCircumpolar = (abs(cosH0) > 1)
 
-  if (!result.isCircumpolar) {
+  if (!isCircumpolar) {
     const H0 = acos(cosH0) * RAD2DEG
-    result.utcRise = fmod(m0 - H0 / 360, 1) * 24
-    result.utcSet = fmod(m0 + H0 / 360, 1) * 24
+    utcRise = fmod(m0 - H0 / 360, 1) * 24
+    utcSet = fmod(m0 + H0 / 360, 1) * 24
 
-    const hourRise = floor(result.utcRise)
-    const minuteRise = result.utcRise - hourRise
-    const hourSet = floor(result.utcSet)
-    const minuteSet = result.utcSet - hourSet
+    const hourRise = floor(utcRise)
+    const minuteRise = utcRise - hourRise
+    const hourSet = floor(utcSet)
+    const minuteSet = utcSet - hourSet
 
-    result.julianDayRise = julianday.getJulianDay(utcMoment.hour(hourRise).minute(minuteRise * 60).toDate())
-    result.julianDaySet = julianday.getJulianDay(utcMoment.hour(hourSet).minute(minuteSet * 60).toDate())
+    julianDayRise = julianday.getJulianDay(utcMoment.hour(hourRise).minute(minuteRise * 60).toDate())
+    julianDaySet = julianday.getJulianDay(utcMoment.hour(hourSet).minute(minuteSet * 60).toDate())
   }
 
-  if (result.julianDayRise > result.julianDayTransit) {
-    result.julianDayRise -= 1
+  if (julianDayRise && julianDayTransit && julianDayRise > julianDayTransit) {
+    julianDayRise -= 1
   }
-  if (result.julianDaySet < result.julianDayTransit) {
-    result.julianDaySet += 1
+  if (julianDaySet && julianDayTransit && julianDaySet < julianDayTransit) {
+    julianDaySet += 1
   }
 
-  return result
+  return {
+    utcRise,
+    utcTransit,
+    utcSet,
+    julianDayRise,
+    julianDayTransit,
+    julianDaySet,
+    transitAltitude,
+    isTransitAboveHorizon,
+    isTransitAboveAltitude,
+    isCircumpolar
+  }
 }
 
 // "Transit" has 2 meanings here !
 // If transitJD is undefined, the altitude of the transit to the local meridian will be computed.
 // If transitJD is provided, it is assumed to be the JD of which we want the local altitude.
 // It can be that of a transit... or not.
-export function transitAltitude(ra, dec, lat, lng, transitJD = undefined) {
+export function transitAltitude(ra: number, dec: number, lat: number, lng: number, transitJD: number | undefined = undefined) {
   // See AA. P.93 eq. 13.6 (and p.92 for H).
   let cosH = 1
   if (transitJD !== undefined && transitJD !== null) {
