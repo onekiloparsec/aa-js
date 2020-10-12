@@ -1,12 +1,14 @@
 const path = require('path')
+const webpack = require('webpack')
 
 module.exports = {
   entry: './src/index.ts',
   output: {
     path: path.resolve('dist'),
-    filename: 'bundle.js',
+    filename: '[name].js',
     libraryTarget: 'umd',
-    library: 'astronomical-algorithms'
+    library: 'astronomical-algorithms',
+    umdNamedDefine: true
   },
   devtool: 'source-map',
   externals: {
@@ -18,6 +20,13 @@ module.exports = {
       { test: /\.js$/, loader: 'source-map-loader' }
     ]
   },
+  plugins: [
+    new webpack.optimize.UglifyJsPlugin({
+      minimize: true,
+      sourceMap: true,
+      include: /\.min\.js$/
+    })
+  ],
   resolve: {
     extensions: ['.js', '.ts']
   }

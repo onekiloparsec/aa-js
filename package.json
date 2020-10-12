@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "clean": "rimraf dist",
-    "build": "webpack --config ./webpack.config.js --mode=production",
+    "build": "tsc && webpack --config ./webpack.config.js --mode=production",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "lint": "npm run lint:js",
