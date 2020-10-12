@@ -20,13 +20,15 @@ module.exports = {
       { test: /\.js$/, loader: 'source-map-loader' }
     ]
   },
-  plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      minimize: true,
-      sourceMap: true,
-      include: /\.min\.js$/
-    })
-  ],
+  optimization: {
+    minimizer: [
+      new webpack.optimize.UglifyJsPlugin({
+        minimize: true,
+        sourceMap: true,
+        include: /\.min\.js$/
+      })
+    ]
+  },
   resolve: {
     extensions: ['.js', '.ts']
   }
