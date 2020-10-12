@@ -1,13 +1,17 @@
 const path = require('path')
 
 module.exports = {
-  entry: './src/index.ts',
+  target: 'web',
+  entry: {
+    index: './src/index.ts'
+  },
   output: {
     path: path.resolve('dist'),
     filename: '[name].js',
     libraryTarget: 'umd',
     library: 'astronomical-algorithms',
-    umdNamedDefine: true
+    umdNamedDefine: true,
+    globalObject: 'this'
   },
   devtool: 'source-map',
   externals: {
