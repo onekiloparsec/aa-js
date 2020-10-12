@@ -13,13 +13,13 @@ module.exports = {
     umdNamedDefine: true,
     globalObject: 'this'
   },
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   externals: {
     dayjs: 'dayjs'
   },
   module: {
     rules: [
-      { test: /\.tsx?$/, loader: 'ts-loader' },
+      { test: /\.tsx?$/, loader: 'ts-loader', exclude: /node_modules/ },
       { test: /\.js$/, loader: 'source-map-loader' }
     ]
   },
@@ -27,6 +27,6 @@ module.exports = {
     minimize: true
   },
   resolve: {
-    extensions: ['.js', '.ts']
+    extensions: ['.ts', '.tsx', '.js']
   }
 }

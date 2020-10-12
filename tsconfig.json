@@ -2,27 +2,16 @@
   "compilerOptions": {
     "outDir": "./dist",
     "allowJs": true,
+    "sourceMap": true,
     "moduleResolution": "node",
     "declaration": true,
-    "emitDeclarationOnly": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "strict": true,
-    "noEmit": false,
-    "target": "es6",
-    "module": "commonjs",
-    "lib": [
-      "es6",
-      "es5",
-      "dom",
-      "es2017"
-    ]
+    "target": "es5",
+    "module": "es6"
   },
   "include": [
     "./src/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
   ]
 }
