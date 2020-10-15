@@ -40,12 +40,12 @@ Usage
 ================
 
 ```
-import { julianday, moon } from 'astronomical-algorithms'
+import aa from 'astronomical-algorithms'
 
 ...
 
-const jd = julianday.getJulianDay(new Date()),
-const coords = moon.equatorialCoordinates(jd)
+const jd = aa.julianday.getJulianDay(new Date()),
+const coords = aa.moon.equatorialCoordinates(jd)
 ```
 
 Documentation 
