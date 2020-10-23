@@ -103,3 +103,4 @@ export type Degree = number;
 export type Hour = number;
 export type Pixel = number;
 export type JulianDay = number;
+export type ArcSecond = number;
