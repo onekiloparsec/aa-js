@@ -12,7 +12,7 @@ test('get sun apparent equatorial coordinates (AA p.165)', () => {
 test('get all sun events julian days', () => {
   for (let m = 0; m < 12; m++) {
     const jd = julianday.getJulianDay(2020, m, 1)
-    const jds = sun.allEventJulianDays(jd, -29.455, 72.34)
+    const jds = sun.allEventJulianDays(jd, 72.34, -29.455)
     expect(jds.length).toEqual(10)
     for (let i = 0; i < jds.length; i++) {
       expect(jds[i]).toBeGreaterThan(2458000.5)
