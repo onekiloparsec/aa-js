@@ -101,7 +101,7 @@ export function lightTravelTime(H0: number, WM: number, WV: number, z: number): 
   return (Tyr / H0) * DTT
 }
 
-export function getComovingRadialDistance(H0: number, WM: number, WV: number, z: number): number {
+export function comovingRadialDistance(H0: number, WM: number, WV: number, z: number): number {
   let DCMR = 0.0
   let az = 1.0 / (1 + z)
   let WR = omegaR(H0)
@@ -120,7 +120,7 @@ export function getComovingRadialDistance(H0: number, WM: number, WV: number, z:
   return (SPEED_OF_LIGHT / H0) * DCMR
 }
 
-export function getComovingVolume(WK: number, DCMR: number): number {
+export function comovingVolume(WK: number, DCMR: number): number {
   const x = Math.sqrt(Math.abs(WK)) * DCMR
   if (x > 0.1) {
     const ratio = (WK > 0) ? (0.125 * (Math.exp(2 * x) - Math.exp(-2 * x)) - x / 2) / (x * x * x / 3) :
@@ -137,7 +137,7 @@ export function getComovingVolume(WK: number, DCMR: number): number {
   return ratio * DCMR * DCMR * DCMR / 3
 }
 
-export function getComovingVolumeWithinRedshift(H0: number, WM: number, WV: number, z: number): number {
+export function comovingVolumeWithinRedshift(H0: number, WM: number, WV: number, z: number): number {
   let az = 1.0 / (1 + z)
   let WR = omegaR(H0)
   let WK = omegaK(H0, WM, WV)
@@ -149,7 +149,7 @@ export function getComovingVolumeWithinRedshift(H0: number, WM: number, WV: numb
     DCMR = DCMR + 1 / (a * adot)
   }
   DCMR = (1 - az) * DCMR / INTEGRAL_POINTS_NUMBER
-  let VCM = getComovingVolume(WK, DCMR)
+  let VCM = comovingVolume(WK, DCMR)
 
   // Gpc^3
   return 4 * Math.PI * Math.pow(0.001 * SPEED_OF_LIGHT / H0, 3) * VCM
