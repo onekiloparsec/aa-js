@@ -1,13 +1,13 @@
 import dayjs from 'dayjs'
-import { DAYMS, DEG2H, J1970 } from './constants'
+import { DAYMS, DEG2H, J1970, JulianDay, Degree, Hour } from './constants'
 import { fmod, isNumber } from './utils'
 
 
-export function getDate(jd: number): Date {
+export function getDate(jd: JulianDay): Date {
   return new Date((jd + 0.5 - J1970) * DAYMS)
 }
 
-export function getJulianDay(...args: any[]): number | undefined {
+export function getJulianDay(...args: any[]): JulianDay | undefined {
   if (args.length === 0) {
     return new Date().valueOf() / DAYMS - 0.5 + J1970
   } else if (args.length === 1) {
@@ -37,7 +37,7 @@ export function getJulianDay(...args: any[]): number | undefined {
   }
 }
 
-export function localSiderealTime(jd: number, lng: number): number {
+export function localSiderealTime(jd: JulianDay, lng: Degree): Hour {
   // Equ 12.1
   const t = (jd - 2451545) / 36525
 
@@ -51,10 +51,10 @@ export function localSiderealTime(jd: number, lng: number): number {
   return fmod((gmst + lng) * DEG2H + 24, 24)
 }
 
-export function modifiedJulianDay(jd: number): number {
+export function modifiedJulianDay(jd: JulianDay): number {
   return jd - 2400000.5
 }
 
-export function julianDayMidnight(jd: number): number {
+export function julianDayMidnight(jd: JulianDay): JulianDay {
   return Math.floor(jd - 0.5) + 0.5
 }

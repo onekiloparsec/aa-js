@@ -1,4 +1,6 @@
 // https://gist.github.com/wteuber/6241786
+import { Degree } from "./constants";
+
 export function fmod(a: number, b: number): number {
   return Number((a - (Math.floor(a / b) * b)).toPrecision(8))
 }
@@ -7,7 +9,7 @@ export function isNumber(v: any): boolean {
   return !isNaN(parseFloat(v)) && isFinite(v)
 }
 
-export function MapTo0To360Range(Degrees: number): number {
+export function MapTo0To360Range(Degrees: Degree): Degree {
   let fResult = fmod(Degrees, 360)
   if (fResult < 0) {
     fResult += 360
@@ -15,7 +17,7 @@ export function MapTo0To360Range(Degrees: number): number {
   return fResult
 }
 
-export function MapToMinus90To90Range(Degrees: number): number {
+export function MapToMinus90To90Range(Degrees: Degree): Degree {
   let fResult = MapTo0To360Range(Degrees)
 
   if (fResult > 270) {

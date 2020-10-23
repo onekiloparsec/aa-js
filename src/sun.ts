@@ -1,4 +1,4 @@
-import { DEG2RAD, J2000, SUN_EVENTS_ALTITUDES, SUN_EXTENDED_EVENTS_ALTITUDES } from './constants'
+import { DEG2RAD, Degree, J2000, JulianDay, SUN_EVENTS_ALTITUDES, SUN_EXTENDED_EVENTS_ALTITUDES } from './constants'
 import * as coordinates from './coordinates'
 import { EclipticCoordinates, EquatorialCoordinates } from './coordinates'
 import * as earth from './earth'
@@ -12,23 +12,23 @@ const cos = Math.cos
 const acos = Math.acos
 const asin = Math.asin
 
-export function geometricEclipticLongitude(jd: number): number {
+export function geometricEclipticLongitude(jd: JulianDay): Degree {
   return MapTo0To360Range(earth.eclipticLongitude(jd) + 180)
 }
 
-export function geometricEclipticLatitude(jd: number): number {
+export function geometricEclipticLatitude(jd: JulianDay): Degree {
   return -earth.eclipticLatitude(jd)
 }
 
-export function geometricEclipticLongitudeJ2000(jd: number): number {
+export function geometricEclipticLongitudeJ2000(jd: JulianDay): Degree {
   return MapTo0To360Range(earth.eclipticLongitudeJ2000(jd) + 180)
 }
 
-export function geometricEclipticLatitudeJ2000(jd: number): number {
+export function geometricEclipticLatitudeJ2000(jd: JulianDay): Degree {
   return -earth.eclipticLatitudeJ2000(jd)
 }
 
-export function geometricFK5EclipticLongitude(jd: number): number {
+export function geometricFK5EclipticLongitude(jd: JulianDay): Degree {
   // Convert to the FK5 stystem
   let Longitude = geometricEclipticLongitude(jd)
   const Latitude = geometricEclipticLatitude(jd)
@@ -36,7 +36,7 @@ export function geometricFK5EclipticLongitude(jd: number): number {
   return Longitude
 }
 
-export function geometricFK5EclipticLatitude(jd: number): number {
+export function geometricFK5EclipticLatitude(jd: JulianDay): Degree {
   // Convert to the FK5 stystem
   const Longitude = geometricEclipticLongitude(jd)
   let Latitude = geometricEclipticLatitude(jd)
@@ -44,7 +44,7 @@ export function geometricFK5EclipticLatitude(jd: number): number {
   return Latitude
 }
 
-export function apparentEclipticLongitude(jd: number): number {
+export function apparentEclipticLongitude(jd: JulianDay): Degree {
   let Longitude = geometricFK5EclipticLongitude(jd)
 
   // Apply the correction in longitude due to nutation
@@ -57,11 +57,11 @@ export function apparentEclipticLongitude(jd: number): number {
   return Longitude
 }
 
-export function apparentEclipticLatitude(jd: number): number {
+export function apparentEclipticLatitude(jd: JulianDay): Degree {
   return geometricFK5EclipticLatitude(jd)
 }
 
-export function variationGeometricEclipticLongitude(jd: number): number {
+export function variationGeometricEclipticLongitude(jd: JulianDay): Degree {
   // D is the number of days since the epoch
   const D = jd - 2451545.00
   const tau = (D / 365250)
@@ -94,28 +94,28 @@ export function variationGeometricEclipticLongitude(jd: number): number {
   return deltaLambda
 }
 
-export function eclipticCoordinates(jd: number): EclipticCoordinates {
+export function eclipticCoordinates(jd: JulianDay): EclipticCoordinates {
   return {
     longitude: geometricEclipticLongitude(jd),
     latitude: geometricEclipticLatitude(jd)
   }
 }
 
-export function eclipticCoordinatesJ2000(jd: number): EclipticCoordinates {
+export function eclipticCoordinatesJ2000(jd: JulianDay): EclipticCoordinates {
   return {
     longitude: geometricEclipticLongitudeJ2000(jd),
     latitude: geometricEclipticLatitudeJ2000(jd)
   }
 }
 
-export function apparentEclipticCoordinates(jd: number): EclipticCoordinates {
+export function apparentEclipticCoordinates(jd: JulianDay): EclipticCoordinates {
   return {
     longitude: apparentEclipticLongitude(jd),
     latitude: apparentEclipticLatitude(jd)
   }
 }
 
-export function equatorialCoordinates(jd: number): EquatorialCoordinates {
+export function equatorialCoordinates(jd: JulianDay): EquatorialCoordinates {
   return coordinates.transformEclipticToEquatorial(
     geometricEclipticLongitude(jd),
     geometricEclipticLatitude(jd),
@@ -123,7 +123,7 @@ export function equatorialCoordinates(jd: number): EquatorialCoordinates {
   )
 }
 
-export function equatorialCoordinatesJ2000(jd: number): EquatorialCoordinates {
+export function equatorialCoordinatesJ2000(jd: JulianDay): EquatorialCoordinates {
   return coordinates.transformEclipticToEquatorial(
     geometricEclipticLongitudeJ2000(jd),
     geometricEclipticLatitudeJ2000(jd),
@@ -131,7 +131,7 @@ export function equatorialCoordinatesJ2000(jd: number): EquatorialCoordinates {
   )
 }
 
-export function apparentEquatorialCoordinates(jd: number): EquatorialCoordinates {
+export function apparentEquatorialCoordinates(jd: JulianDay): EquatorialCoordinates {
   return coordinates.transformEclipticToEquatorial(
     apparentEclipticLongitude(jd),
     apparentEclipticLatitude(jd),
@@ -140,7 +140,7 @@ export function apparentEquatorialCoordinates(jd: number): EquatorialCoordinates
 }
 
 // low-accuracy implementation inspired from SunCalc
-export function allEventJulianDays(jd: number, lat: number, lng: number, condensed: boolean = true): number[] {
+export function allEventJulianDays(jd: JulianDay, lng: Degree, lat: Degree, condensed: boolean = true): JulianDay[] {
   const J0 = 0.0009
   var e = DEG2RAD * 23.4397 // obliquity of the Earth
 

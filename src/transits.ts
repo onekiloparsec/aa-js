@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
 import * as julianday from './julianday'
-import { DEG2RAD, H2DEG, H2RAD, RAD2DEG } from './constants'
+import { DEG2RAD, Degree, H2DEG, H2RAD, Hour, JulianDay, RAD2DEG } from './constants'
 import { fmod } from './utils'
 
 dayjs.extend(utc)
@@ -20,19 +20,19 @@ const abs = Math.abs
 const floor = Math.floor
 
 export interface RiseSetTransit {
-  utcRise: number | undefined,
-  utcTransit: number | undefined,
-  utcSet: number | undefined,
-  julianDayRise: number | undefined,
-  julianDayTransit: number | undefined,
-  julianDaySet: number | undefined,
-  transitAltitude: number | undefined,
+  utcRise: Hour | undefined,
+  utcTransit: Hour | undefined,
+  utcSet: Hour | undefined,
+  julianDayRise: JulianDay | undefined,
+  julianDayTransit: JulianDay | undefined,
+  julianDaySet: JulianDay | undefined,
+  transitAltitude: Degree | undefined,
   isTransitAboveHorizon: boolean,
   isTransitAboveAltitude: boolean, // for when altitude is not that of horizon
   isCircumpolar: boolean // no transit, no rise
 }
 
-export function riseSetTransitJulianDays(jd: number, ra: number, dec: number, lat: number, lng: number, alt: number = STANDARD_ALTITUDE_STARS): RiseSetTransit {
+export function riseSetTransitJulianDays(jd: JulianDay, ra: Hour, dec: Degree, lng: Degree, lat: Degree, alt: Degree = STANDARD_ALTITUDE_STARS): RiseSetTransit {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
 
@@ -116,7 +116,7 @@ export function riseSetTransitJulianDays(jd: number, ra: number, dec: number, la
 // If transitJD is undefined, the altitude of the transit to the local meridian will be computed.
 // If transitJD is provided, it is assumed to be the JD of which we want the local altitude.
 // It can be that of a transit... or not.
-export function transitAltitude(ra: number, dec: number, lat: number, lng: number, transitJD: number | undefined = undefined) {
+export function transitAltitude(ra: Hour, dec: Degree, lng: Degree, lat: Degree, transitJD: JulianDay | undefined = undefined): Degree {
   // See AA. P.93 eq. 13.6 (and p.92 for H).
   let cosH = 1
   if (transitJD !== undefined && transitJD !== null) {

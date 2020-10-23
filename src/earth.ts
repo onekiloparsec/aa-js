@@ -1,7 +1,7 @@
 import { EclipticCoordinates, EquatorialCoordinates, transformEclipticToEquatorial } from './coordinates'
 import * as nutation from './nutation'
 import { MapTo0To360Range, MapToMinus90To90Range } from './utils'
-import { RAD2DEG } from './constants'
+import { Degree, JulianDay, RAD2DEG } from './constants'
 
 const gL0EarthCoefficients =
   [
@@ -403,7 +403,7 @@ const gB4EarthCoefficientsJ2000 =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-export function eclipticLongitude(JD: number): number {
+export function eclipticLongitude(JD: JulianDay): Degree {
   const rho = (JD - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -422,7 +422,7 @@ export function eclipticLongitude(JD: number): number {
   return MapTo0To360Range(value * RAD2DEG)
 }
 
-export function eclipticLatitude(JD: number): number {
+export function eclipticLatitude(JD: JulianDay): Degree {
   const rho = (JD - 2451545) / 365250
 
   const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
@@ -433,7 +433,7 @@ export function eclipticLatitude(JD: number): number {
   return MapToMinus90To90Range(value * RAD2DEG)
 }
 
-export function radiusVector(JD: number): number {
+export function radiusVector(JD: JulianDay): Degree {
   const rho = (JD - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -448,7 +448,7 @@ export function radiusVector(JD: number): number {
   return (R0 + R1 * rho + R2 * rhosquared + R3 * rhocubed + R4 * rho4) / 100000000
 }
 
-export function eclipticLongitudeJ2000(JD: number): number {
+export function eclipticLongitudeJ2000(JD: JulianDay): Degree {
   const rho = (JD - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -465,7 +465,7 @@ export function eclipticLongitudeJ2000(JD: number): number {
   return MapTo0To360Range(value * RAD2DEG)
 }
 
-export function eclipticLatitudeJ2000(JD: number): number {
+export function eclipticLatitudeJ2000(JD: JulianDay): Degree {
   const rho = (JD - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -487,7 +487,7 @@ export function eclipticLatitudeJ2000(JD: number): number {
  * @param  {Number} JD The julian day
  * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
  */
-export function sunMeanAnomaly(JD: number): number {
+export function sunMeanAnomaly(JD: JulianDay): Degree {
   const T = (JD - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
@@ -499,27 +499,27 @@ export function sunMeanAnomaly(JD: number): number {
  * @param  {Number} JD The julian day
  * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
  */
-export function eccentricity(JD: number): number {
+export function eccentricity(JD: JulianDay): number {
   const T = (JD - 2451545) / 36525
   const Tsquared = T * T
   return 1 - 0.002516 * T - 0.0000074 * Tsquared
 }
 
-export function eclipticCoordinates(JD: number): EclipticCoordinates {
+export function eclipticCoordinates(JD: JulianDay): EclipticCoordinates {
   return {
     longitude: eclipticLongitude(JD),
     latitude: eclipticLatitude(JD)
   }
 }
 
-export function eclipticCoordinatesJ2000(JD: number): EclipticCoordinates {
+export function eclipticCoordinatesJ2000(JD: JulianDay): EclipticCoordinates {
   return {
     longitude: eclipticLongitudeJ2000(JD),
     latitude: eclipticLatitudeJ2000(JD)
   }
 }
 
-export function equatorialCoordinates(JD: number): EquatorialCoordinates {
+export function equatorialCoordinates(JD: JulianDay): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     eclipticLongitude(JD),
     eclipticLatitude(JD),
@@ -527,7 +527,7 @@ export function equatorialCoordinates(JD: number): EquatorialCoordinates {
   )
 }
 
-export function equatorialCoordinatesJ2000(JD: number): EquatorialCoordinates {
+export function equatorialCoordinatesJ2000(JD: JulianDay): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     eclipticLongitudeJ2000(JD),
     eclipticLatitudeJ2000(JD),

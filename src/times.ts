@@ -1,4 +1,5 @@
 import * as dates from './dates'
+import { JulianDay } from "./constants";
 
 // Note: Javascript Implementation of the Astronomical Algorithms found in the
 // C++ reference implementation called AA+, by J.P. Naughter.
@@ -607,7 +608,7 @@ const gLeapSecondCoefficients = //  Cumulative leap second values from 1 Jan 196
 
 // // // // // // // // // // // // // // // // //  Implementation // // // // // // // // // // // // // // /
 
-export function getDeltaT (jd: number): number {
+export function getDeltaT (jd: JulianDay): number {
   // What will be the return value from the method
   let Delta = 0
 
@@ -727,7 +728,7 @@ export function getDeltaT (jd: number): number {
   return Delta
 }
 
-export function getCumulativeLeapSeconds (jd: number): number {
+export function getCumulativeLeapSeconds (jd: JulianDay): number {
   // What will be the return value from the method
   let LeapSeconds = 0
 
@@ -755,7 +756,7 @@ export function getCumulativeLeapSeconds (jd: number): number {
   return LeapSeconds
 }
 
-export function transformTT2UTC (jd: number): number {
+export function transformTT2UTC (jd: JulianDay): number {
   // Outside of the range 1 January 1961 to 500 days after the last leap second,
   // we implement TT2UTC as TT2UT1
   const nLookupElements = gLeapSecondCoefficients.length
@@ -769,7 +770,7 @@ export function transformTT2UTC (jd: number): number {
   return ((DT - LeapSeconds - 32.184) / 86400.0) + UT1
 }
 
-export function transformUTC2TT (jd: number): number {
+export function transformUTC2TT (jd: JulianDay): number {
   // Outside of the range 1 January 1961 to 500 days after the last leap second,
   // we implement TT2UTC as TT2UT1
   const nLookupElements = gLeapSecondCoefficients.length
@@ -783,23 +784,23 @@ export function transformUTC2TT (jd: number): number {
   return UT1 + (DT / 86400.0)
 }
 
-export function transformTT2TAI (jd: number): number {
+export function transformTT2TAI (jd: JulianDay): number {
   return jd - (32.184 / 86400.0)
 }
 
-export function transformTAI2TT (jd: number): number {
+export function transformTAI2TT (jd: JulianDay): number {
   return jd + (32.184 / 86400.0)
 }
 
-export function transformTT2UT1 (jd: number): number {
+export function transformTT2UT1 (jd: JulianDay): number {
   return jd - (getDeltaT(jd) / 86400.0)
 }
 
-export function transformUT12TT (jd: number): number {
+export function transformUT12TT (jd: JulianDay): number {
   return jd + (getDeltaT(jd) / 86400.0)
 }
 
-export function transformUT1MinusUTC (jd: number): number {
+export function transformUT1MinusUTC (jd: JulianDay): number {
   const JDUTC = jd + ((getDeltaT(jd) - getCumulativeLeapSeconds(jd) - 32.184) / 86400)
   return (jd - JDUTC) * 86400
 }
