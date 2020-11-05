@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { DAYMS, DEG2H, J1970, JulianDay, Degree, Hour } from './constants'
+import { DAYMS, DEG2H, Degree, Hour, J1970, JulianDay, MJD_START } from './constants'
 import { fmod, isNumber } from './utils'
 
 
@@ -52,7 +52,7 @@ export function localSiderealTime(jd: JulianDay, lng: Degree): Hour {
 }
 
 export function modifiedJulianDay(jd: JulianDay): number {
-  return jd - 2400000.5
+  return jd - MJD_START
 }
 
 export function julianDayMidnight(jd: JulianDay): JulianDay {

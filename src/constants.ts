@@ -1,6 +1,7 @@
 export const J1970 = 2440588.0
 export const J2000 = 2451545.0
 
+export const MJD_START = 2400000.5
 export const DAYMS = 1000 * 60 * 60 * 24
 
 export const DEG2RAD = 0.017453292519943295769236907684886
