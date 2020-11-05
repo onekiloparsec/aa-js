@@ -2,7 +2,22 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
 import * as julianday from './julianday'
-import { DEG2RAD, Degree, H2DEG, H2RAD, Hour, JulianDay, RAD2DEG } from './constants'
+import {
+  AstronomicalUnit,
+  Day,
+  DEG2RAD,
+  Degree,
+  H2DEG,
+  H2RAD,
+  Hour,
+  JulianDay,
+  JupiterRadius,
+  ONE_JUPITER_RADIUS_IN_KILOMETERS,
+  ONE_SOLAR_RADIUS_IN_KILOMETERS,
+  ONE_UA_IN_KILOMETERS,
+  RAD2DEG,
+  SolarRadius
+} from './constants'
 import { fmod } from './utils'
 
 dayjs.extend(utc)
@@ -124,4 +139,47 @@ export function transitAltitude(ra: Hour, dec: Degree, lng: Degree, lat: Degree,
     cosH = cos((lmst - ra) * H2RAD)
   }
   return asin(sin(lat * DEG2RAD) * sin(dec * DEG2RAD) + cos(lat * DEG2RAD) * cos(dec * DEG2RAD) * cosH) * RAD2DEG
+}
+
+/**
+ * Simple helper to find the Julian Day of the next transit after the given lower Julian Day
+ * @param  {Number} lowerJD The lower julian day limit
+ * @param  {Number} orbitalPeriod The orbital period of the system, in days.
+ * @param  {Number} tZeroOfPrimaryTransit The Julian Day of the primary transit.
+ * @returns {Number} The Julian Day of the next transit.
+ */
+export function nextTransitJulianDay(lowerJD: JulianDay, orbitalPeriod: Day, tZeroOfPrimaryTransit: JulianDay) {
+  const n = Math.floor(1 + lowerJD / orbitalPeriod - tZeroOfPrimaryTransit / orbitalPeriod)
+  return tZeroOfPrimaryTransit + n * orbitalPeriod
+}
+
+export function exoplanetTransitDetails(orbitalPeriod: Day,
+                                        lambdaAngle: Degree,
+                                        timeOfPeriastron: JulianDay,
+                                        eccentricity: number,
+                                        radius: JupiterRadius,
+                                        semiMajorAxis: AstronomicalUnit,
+                                        parentStarRadius: SolarRadius) {
+  let f = Math.PI / 2 - lambdaAngle * DEG2RAD
+  const e = eccentricity
+  const P = orbitalPeriod
+  const E = 2.0 * Math.atan(Math.sqrt((1.0 - e) / (1.0 + e)) * Math.tan(f / 2.0))
+
+  const Rstar = parentStarRadius * ONE_SOLAR_RADIUS_IN_KILOMETERS
+  const Rplanet = radius * ONE_JUPITER_RADIUS_IN_KILOMETERS
+  const a = semiMajorAxis * ONE_UA_IN_KILOMETERS
+  const df = Math.asin(((Rstar + Rplanet) / a) / (1.0 - e * Math.cos(E)))
+
+  f += df
+  const M = E - e * Math.sin(E)
+  // const t_M = P*M/(2*Math.PI)
+  const duration = P * M / Math.PI
+
+  const cycleCenter = P / (2 * Math.PI) * (E - e * Math.sin(E))
+
+  let start = timeOfPeriastron + cycleCenter - duration / 2.0
+  let end = timeOfPeriastron + cycleCenter + duration / 2.0
+  let center = timeOfPeriastron + cycleCenter
+
+  return { duration, start, center, end }
 }

@@ -101,7 +101,11 @@ export const SUN_EVENTS_ALTITUDES = [-0.833, -6, -12, -18]
 export const SUN_EXTENDED_EVENTS_ALTITUDES = [6, -0.3, -0.833, -6, -12, -18]
 
 export type Degree = number;
+export type Day = number;
 export type Hour = number;
 export type Pixel = number;
 export type JulianDay = number;
 export type ArcSecond = number;
+export type JupiterRadius = number
+export type SolarRadius = number
+export type AstronomicalUnit = number
