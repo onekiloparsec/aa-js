@@ -1,3 +1,4 @@
+import * as constants from './constants'
 import * as coordinates from './coordinates'
 import * as cosmology from './cosmology'
 import * as distances from './distances'
@@ -11,6 +12,7 @@ import * as times from './times'
 import * as transits from './transits'
 
 export default {
+  constants,
   coordinates,
   cosmology,
   distances,
