@@ -442,6 +442,7 @@ export function eclipticLongitude(jd: JulianDay): Degree {
   }
 
   let value = (L0 + L1 * rho + L2 * rhosquared + L3 * rhocubed + L4 * rho4 + L5 * rho5) / 100000000
+
   return MapTo0To360Range(value * RAD2DEG)
 }
 
@@ -514,13 +515,13 @@ export function eclipticCoordinates(JD: JulianDay): EclipticCoordinates {
   }
 }
 
-function computeMarsDetails(jd: JulianDay) {
+export function computeMarsDetails(jd: JulianDay) {
   //Step 2
-  const l0 = eclipticLongitude(jd)
+  const l0 = earth.eclipticLongitude(jd)
   const l0rad = DEG2RAD * l0
-  const b0 = eclipticLatitude(jd)
+  const b0 = earth.eclipticLatitude(jd)
   const b0rad = DEG2RAD * b0
-  const R = radiusVector(jd)
+  const R = earth.radiusVector(jd)
 
   let PreviousLightTravelTime = 0
   let LightTravelTime = 0
@@ -556,17 +557,10 @@ function computeMarsDetails(jd: JulianDay) {
   }
 
   //Step 5
-  const lambdarad = atan2(y, x)
-  const betarad = atan2(z, sqrt(x * x + y * y))
+  const lambda = atan2(y, x) * RAD2DEG
+  const beta = atan2(z, sqrt(x * x + y * y)) * RAD2DEG
 
-  return {
-    lambda: lambdarad * RAD2DEG,
-    beta: betarad * RAD2DEG,
-    l: l * RAD2DEG,
-    b: b * RAD2DEG,
-    r: r * RAD2DEG,
-    DELTA
-  }
+  return { lambda, beta, l, b, r, DELTA }
 }
 
 
@@ -602,7 +596,7 @@ export function planetocentricDeclinationOfTheSun(jd: JulianDay): Degree {
   const ldashrad = DEG2RAD * ldash
   const bdash = b - 0.000225 * (cos(l * DEG2RAD - Nrad) / r)
   const bdashrad = DEG2RAD * bdash
-
+  
   //Step 8
   // details.DS
   return RAD2DEG * (asin(-sin(Beta0rad) * sin(bdashrad) - cos(Beta0rad) * cos(bdashrad) * cos(Lambda0rad - ldashrad)))
