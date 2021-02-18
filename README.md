@@ -1,5 +1,5 @@
 <h3 align="center">
-<img src="http://onekiloparsec.dev/wp-content/uploads/2020/10/1kpcAstroComponents.png" width="100%" />
+<img src="http://onekiloparsec.dev/wp-content/uploads/2020/10/1kpcAstroComponents.png" width="50%" />
 </h3>
 <p align="center">
 <a href="https://github.com/onekiloparsec/SwiftAA">SwiftAA</a> &bull;
@@ -23,12 +23,14 @@ Astronomical Algorithms in JavaScript.
 
 Other implementations: [Swift (SwiftAA)](https://github.com/onekiloparsec/SwiftAA), [C# (AASharp)](https://github.com/jsauve/AASharp).
 
-AA.js is the port in javascript of the C++ implementation of Astronomical Algorithms by J.P. Naughter, called [AA+](http://www.naughter.com/aa.html), based on the reference text book by Jean Meeus.
+AA.js is the port in javascript of the C++ implementation of Astronomical Algorithms by J.P. Naughter, called [AA+](http://www.naughter.com/aa.html),
+based on the reference text book by Jean Meeus. It is written in TypeScript, and covered as much as possible with tests validating the correctness
+of the algorithms. Tests are inspired from Jean Meeus' book and those written in SwiftAA, and are much more extended than what is available
+in AA+.
 
 AA.js is the backbone of scientific algorithms used in [arcsecond.io](https://www.arcsecond.io).
 
 I am the author of the Swift version too. It's called [SwiftAA](https://github.com/onekiloparsec/SwiftAA).
-
 
 Installation 
 ================
@@ -50,4 +52,5 @@ const coords = aa.moon.equatorialCoordinates(jd)
 
 Documentation 
 ================
+
 Very much in progress for now, sorry.
