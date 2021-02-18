@@ -753,16 +753,12 @@ export function eclipticCoordinates(JD: JulianDay): EclipticCoordinates {
 
 export function computeJupiterDetails(jd: JulianDay) {
   //Step 1
-  const d = jd - 2433282.5
-  const T1 = d / 36525
-  const alpha0 = 268.00 + 0.1061 * T1
-  const alpha0rad = DEG2RAD * alpha0
-  const delta0 = 64.50 - 0.0164 * T1
-  const delta0rad = DEG2RAD * delta0
-
-  //Step 2
-  // const W1 = MapTo0To360Range(17.710 + 877.90003539 * d)
-  // const W2 = MapTo0To360Range(16.838 + 870.27003539 * d)
+  // const d = jd - 2433282.5
+  // const T1 = d / 36525
+  // const alpha0 = 268.00 + 0.1061 * T1
+  // const alpha0rad = DEG2RAD * alpha0
+  // const delta0 = 64.50 - 0.0164 * T1
+  // const delta0rad = DEG2RAD * delta0
 
   //Step 3
   const l0 = earth.eclipticLongitude(jd)
@@ -798,69 +794,111 @@ export function computeJupiterDetails(jd: JulianDay) {
   let e0 = nutation.meanObliquityOfEcliptic(jd)
   let e0rad = DEG2RAD * e0
 
-  //Step 9
-  const alphas = atan2(cos(e0rad) * sin(lrad) - sin(e0rad) * tan(brad), cos(lrad))
-  const deltas = asin(cos(e0rad) * sin(brad) + sin(e0rad) * cos(brad) * sin(lrad))
-
-  //Step 10
-  const DS = RAD2DEG * (asin(-sin(delta0rad) * sin(deltas) - cos(delta0rad) * cos(deltas) * cos(alpha0rad - alphas)))
-
   //Step 11
   const u = y * cos(e0rad) - z * sin(e0rad)
   const v = y * sin(e0rad) + z * cos(e0rad)
   let alpharad = atan2(u, x)
-  // let alpha = RAD2DEG * alpharad
+  let alpha = RAD2DEG * alpharad
   const deltarad = atan2(v, sqrt(x * x + u * u))
-  // let delta = RAD2DEG * deltarad
-  // const xi = atan2(sin(delta0rad) * cos(deltarad) * cos(alpha0rad - alpharad) - sin(deltarad) * cos(delta0rad), cos(deltarad) * sin(alpha0rad - alpharad))
+  let delta = RAD2DEG * deltarad
 
-  //Step 12
-  const DE = RAD2DEG * (asin(-sin(delta0rad) * sin(deltarad) - cos(delta0rad) * cos(deltarad) * cos(alpha0rad - alpharad)))
+  return { alpha, delta, r, DELTA }
+}
 
-  // //Step 13
-  // const Geometricw1 = MapTo0To360Range(W1 - RAD2DEG * xi - 5.07033 * DELTA)
-  // const Geometricw2 = MapTo0To360Range(W2 - RAD2DEG * xi - 5.02626 * DELTA)
-  //
-  // //Step 14
-  // const C = 57.2958 * (2 * r * DELTA + R * R - r * r - DELTA * DELTA) / (4 * r * DELTA)
-  // let Apparentw1
-  // let Apparentw2
-  // if (sin(lrad - l0rad) > 0) {
-  //   Apparentw1 = MapTo0To360Range(Geometricw1 + C)
-  //   Apparentw2 = MapTo0To360Range(Geometricw2 + C)
-  // } else {
-  //   Apparentw1 = MapTo0To360Range(Geometricw1 - C)
-  //   Apparentw2 = MapTo0To360Range(Geometricw2 - C)
-  // }
+export function planetocentricDeclinationOfTheSun(jd: JulianDay): Degree {
+  const d = jd - 2433282.5
+  const T1 = d / 36525
+  const alpha0 = 268.00 + 0.1061 * T1
+  const alpha0rad = DEG2RAD * alpha0
+  const delta0 = 64.50 - 0.0164 * T1
+  const delta0rad = DEG2RAD * delta0
 
-  //Step 15
-  // const nutationInLongitude = nutation.nutationInLongitude(jd)
-  // const nutationInObliquity = nutation.nutationInObliquity(jd)
-  // e0 += nutationInObliquity / 3600
-  // e0rad = DEG2RAD * e0
+  const { r, DELTA } = computeJupiterDetails(jd)
 
-  //Step 16
-  // alpha += 0.005693 * (cos(alpharad) * cos(l0rad) * cos(e0rad) + sin(alpharad) * sin(l0rad)) / cos(deltarad)
-  // alpha = MapTo0To360Range(alpha)
-  // alpharad = DEG2RAD * alpha
-  // delta += 0.005693 * (cos(l0rad) * cos(e0rad) * (tan(e0rad) * cos(deltarad) - sin(alpharad) * sin(deltarad)) + cos(alpharad) * sin(deltarad) * sin(l0rad))
+  let l = eclipticLongitude(jd)
+  l -= 0.012990 * DELTA / (r * r)
+  const lrad = DEG2RAD * l
 
-  // //Step 17
-  // const NutationRA = nutation.nutationInRightAscension(alpha / 15, delta, e0, NutationInLongitude, NutationInObliquity)
-  // const alphadash = alpha + NutationRA / 3600
-  // const alphadashrad = DEG2RAD * alphadash
-  // const nutationDec = nutation.nutationInDeclination(alpha / 15, e0, NutationInLongitude, NutationInObliquity)
-  // const deltadash = delta + nutationDec / 3600
-  // const deltadashrad = DEG2RAD * deltadash
-  // const nutationRA = nutation.nutationInRightAscension(alpha0 / 15, delta0, e0, NutationInLongitude, NutationInObliquity)
-  // const alpha0dash = alpha0 + nutationRA / 3600
-  // const alpha0dashrad = DEG2RAD * alpha0dash
-  // const nutationDec = nutation.nutationInDeclination(alpha0 / 15, e0, NutationInLongitude, NutationInObliquity)
-  // const delta0dash = delta0 + nutationDec / 3600
-  // const delta0dashrad = DEG2RAD * delta0dash
-  //
-  // //Step 18
-  // const P = MapTo0To360Range(RAD2DEG * (atan2(cos(delta0dashrad) * sin(alpha0dashrad - alphadashrad), sin(delta0dashrad) * cos(deltadashrad) - cos(delta0dashrad) * sin(deltadashrad) * cos(alpha0dashrad - alphadashrad))))
+  const b = eclipticLatitude(jd)
+  const brad = DEG2RAD * b
 
-  return { DS, DE }
+  //Step 8
+  let e0 = nutation.meanObliquityOfEcliptic(jd)
+  let e0rad = DEG2RAD * e0
+
+  //Step 9
+  const alphas = atan2(cos(e0rad) * sin(lrad) - sin(e0rad) * tan(brad), cos(lrad))
+  const deltas = asin(cos(e0rad) * sin(brad) + sin(e0rad) * cos(brad) * sin(lrad))
+
+  //Step 10 DS
+  return RAD2DEG * (asin(-sin(delta0rad) * sin(deltas) - cos(delta0rad) * cos(deltas) * cos(alpha0rad - alphas)))
+}
+
+export function planetocentricDeclinationOfTheEarth(jd: JulianDay): Degree {
+  const d = jd - 2433282.5
+  const T1 = d / 36525
+  const alpha0 = 268.00 + 0.1061 * T1
+  const alpha0rad = DEG2RAD * alpha0
+  const delta0 = 64.50 - 0.0164 * T1
+  const delta0rad = DEG2RAD * delta0
+
+  const { alpha, delta } = computeJupiterDetails(jd)
+  const alpharad = alpha * DEG2RAD
+  const deltarad = delta * DEG2RAD
+
+  //Step 12 DE
+  return RAD2DEG * (asin(-sin(delta0rad) * sin(deltarad) - cos(delta0rad) * cos(deltarad) * cos(alpha0rad - alpharad)))
+}
+
+export function centralMeridianLongitudes(jd: JulianDay): Object {
+  const d = jd - 2433282.5
+  const T1 = d / 36525
+  const alpha0 = 268.00 + 0.1061 * T1
+  const alpha0rad = DEG2RAD * alpha0
+  const delta0 = 64.50 - 0.0164 * T1
+  const delta0rad = DEG2RAD * delta0
+
+  //Step 3
+  const l0 = earth.eclipticLongitude(jd)
+  const l0rad = DEG2RAD * l0
+  // const b0 = earth.eclipticLatitude(jd)
+  // const b0rad = DEG2RAD * b0
+  const R = earth.radiusVector(jd)
+
+  const { alpha, delta, r, DELTA } = computeJupiterDetails(jd)
+  const alpharad = alpha * DEG2RAD
+  const deltarad = delta * DEG2RAD
+
+  let l = eclipticLongitude(jd)
+  l -= 0.012990 * DELTA / (r * r)
+  const lrad = DEG2RAD * l
+
+  //Step 2
+  const W1 = MapTo0To360Range(17.710 + 877.90003539 * d)
+  const W2 = MapTo0To360Range(16.838 + 870.27003539 * d)
+
+  const xi = atan2(sin(delta0rad) * cos(deltarad) * cos(alpha0rad - alpharad) - sin(deltarad) * cos(delta0rad), cos(deltarad) * sin(alpha0rad - alpharad))
+
+  //Step 13
+  const Geometricw1 = MapTo0To360Range(W1 - RAD2DEG * xi - 5.07033 * DELTA)
+  const Geometricw2 = MapTo0To360Range(W2 - RAD2DEG * xi - 5.02626 * DELTA)
+
+  //Step 14
+  const C = 57.2958 * (2 * r * DELTA + R * R - r * r - DELTA * DELTA) / (4 * r * DELTA)
+  let Apparentw1
+  let Apparentw2
+  if (sin(lrad - l0rad) > 0) {
+    Apparentw1 = MapTo0To360Range(Geometricw1 + C)
+    Apparentw2 = MapTo0To360Range(Geometricw2 + C)
+  } else {
+    Apparentw1 = MapTo0To360Range(Geometricw1 - C)
+    Apparentw2 = MapTo0To360Range(Geometricw2 - C)
+  }
+
+  return {
+    geometricSystemI: Geometricw1,
+    geometricSystemII: Geometricw2,
+    apparentSystemI: Apparentw1,
+    apparentSystemII: Apparentw2
+  }
 }
