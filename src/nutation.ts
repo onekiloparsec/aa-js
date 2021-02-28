@@ -1,4 +1,4 @@
-import { DEG2RAD, JulianDay } from './constants'
+import { ArcMinute, ArcSecond, DEG2RAD, JulianDay } from './constants'
 import { getDecimal } from './sexagesimal'
 import { MapTo0To360Range } from './utils'
 
@@ -81,7 +81,7 @@ const gNutationCoefficients =
     }
   })
 
-export function nutationInLongitude(jd: JulianDay): number {
+export function nutationInLongitude(jd: JulianDay): ArcSecond {
   const T = (jd - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
@@ -105,7 +105,7 @@ export function nutationInLongitude(jd: JulianDay): number {
   return value
 }
 
-export function nutationInObliquity(jd: JulianDay): number {
+export function nutationInObliquity(jd: JulianDay): ArcSecond {
   const T = (jd - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T

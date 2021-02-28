@@ -1,16 +1,21 @@
-import { aphelion, perihelion } from './planetaryBase'
 import { eclipticCoordinates, eclipticLatitude, eclipticLongitude, radiusVector } from './coordinates'
-import { apparentDiameter, illuminatedFraction, planetocentricDeclinationOfTheEarth, planetocentricDeclinationOfTheSun } from './details'
+import { getAphelion, getPerihelion } from './planetaryBase'
+import {
+  getApparentDiameter,
+  getIlluminatedFraction,
+  getPlanetocentricDeclinationOfTheEarth,
+  getPlanetocentricDeclinationOfTheSun
+} from './marsDetails'
 
 export {
-  perihelion,
-  aphelion,
+  getAphelion,
+  getPerihelion,
   eclipticLongitude,
   eclipticLatitude,
   radiusVector,
   eclipticCoordinates,
-  apparentDiameter,
-  illuminatedFraction,
-  planetocentricDeclinationOfTheEarth,
-  planetocentricDeclinationOfTheSun
+  getApparentDiameter,
+  getIlluminatedFraction,
+  getPlanetocentricDeclinationOfTheSun,
+  getPlanetocentricDeclinationOfTheEarth
 }

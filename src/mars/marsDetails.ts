@@ -10,7 +10,12 @@ const abs = Math.abs
 const atan2 = Math.atan2
 const asin = Math.asin
 
-export function computeMarsDetails(jd: JulianDay) {
+function computeMarsDetails(jd: JulianDay) {
+  const T = (jd - 2451545) / 36525
+
+  const Lambda0 = 352.9065 + 1.17330 * T
+  const Beta0 = 63.2818 - 0.00394 * T
+
   //Step 2
   const l0 = earth.eclipticLongitude(jd)
   const l0rad = DEG2RAD * l0
@@ -23,12 +28,13 @@ export function computeMarsDetails(jd: JulianDay) {
   let x = 0
   let y = 0
   let z = 0
-  let bIterate = true
+  let shouldIterate = true
   let DELTA = 0
   let l = 0
   let b = 0
   let r = 0
-  while (bIterate) {
+
+  while (shouldIterate) {
     let JD2 = jd - LightTravelTime
 
     //Step 3
@@ -46,8 +52,8 @@ export function computeMarsDetails(jd: JulianDay) {
     LightTravelTime = distanceToLightTime(DELTA)
 
     //Prepare for the next loop around
-    bIterate = (abs(LightTravelTime - PreviousLightTravelTime) > 2e-6) //2e-6 correponds to 0.17 of a second
-    if (bIterate) {
+    shouldIterate = (abs(LightTravelTime - PreviousLightTravelTime) > 2e-6) //2e-6 corresponds to 0.17 of a second
+    if (shouldIterate) {
       PreviousLightTravelTime = LightTravelTime
     }
   }
@@ -56,45 +62,27 @@ export function computeMarsDetails(jd: JulianDay) {
   const lambda = atan2(y, x) * RAD2DEG
   const beta = atan2(z, sqrt(x * x + y * y)) * RAD2DEG
 
-  return { lambda, beta, l, b, r, DELTA }
+  return { T, Lambda0, Beta0, lambda, beta, l, b, r, DELTA }
 }
 
-export function planetocentricDeclinationOfTheEarth(jd: JulianDay) {
-  const T = (jd - 2451545) / 36525
-
-  const Lambda0 = 352.9065 + 1.17330 * T
-  const Lambda0rad = DEG2RAD * Lambda0
-  const Beta0 = 63.2818 - 0.00394 * T
-  const Beta0rad = DEG2RAD * Beta0
-
-  const { lambda, beta } = computeMarsDetails(jd)
-
+export function getPlanetocentricDeclinationOfTheEarth(jd: JulianDay) {
+  const { Lambda0, Beta0, lambda, beta } = computeMarsDetails(jd)
   // details.DE
-  return RAD2DEG * asin(-sin(Beta0rad) * sin(beta * DEG2RAD) - cos(Beta0rad) * cos(beta * DEG2RAD) * cos(Lambda0rad - lambda * DEG2RAD))
+  return RAD2DEG * asin(-sin(DEG2RAD * Beta0) * sin(beta * DEG2RAD) - cos(DEG2RAD * Beta0) * cos(beta * DEG2RAD) * cos(DEG2RAD * (Lambda0 - lambda)))
 }
 
 /// The planetocentric declination of the Sun. When it is positive, the planet' northern pole is tilted towards the Sun.
-export function planetocentricDeclinationOfTheSun(jd: JulianDay): Degree {
-  const T = (jd - 2451545) / 36525
-  const Lambda0 = 352.9065 + 1.17330 * T
-  const Lambda0rad = DEG2RAD * Lambda0
-  const Beta0 = 63.2818 - 0.00394 * T
-  const Beta0rad = DEG2RAD * Beta0
-
-  const { l, b, r } = computeMarsDetails(jd)
+export function getPlanetocentricDeclinationOfTheSun(jd: JulianDay): Degree {
+  const { T, Lambda0, Beta0, l, b, r } = computeMarsDetails(jd)
 
   //Step 7
   const N = 49.5581 + 0.7721 * T
-  const Nrad = DEG2RAD * N
-
   const ldash = l - 0.00697 / r
-  const ldashrad = DEG2RAD * ldash
-  const bdash = b - 0.000225 * (cos(l * DEG2RAD - Nrad) / r)
-  const bdashrad = DEG2RAD * bdash
+  const bdash = b - 0.000225 * (cos((l - N) * DEG2RAD) / r)
 
   //Step 8
   // details.DS
-  return RAD2DEG * (asin(-sin(Beta0rad) * sin(bdashrad) - cos(Beta0rad) * cos(bdashrad) * cos(Lambda0rad - ldashrad)))
+  return RAD2DEG * (asin(-sin(Beta0 * DEG2RAD) * sin(DEG2RAD * bdash) - cos(Beta0 * DEG2RAD) * cos(DEG2RAD * bdash) * cos((Lambda0 - ldash) * DEG2RAD)))
 }
 
 /// The geocentric position angle of Mars' northern rotation pole, also called position angle of axis. It is the angle
@@ -105,7 +93,12 @@ export function planetocentricDeclinationOfTheSun(jd: JulianDay): Degree {
 //   return Degree(self.physicalDetails.P)
 // }
 
-// MARK: - MarsPhysicalDetails
+/// The illuminated fraction of Mars
+export function getIlluminatedFraction(jd: JulianDay): number {
+  const { r, DELTA } = computeMarsDetails(jd)
+  const R = earth.radiusVector(jd)
+  return (((r + DELTA) * (r + DELTA) - R * R) / (4 * r * DELTA))
+}
 
 /// The greatest defect of illumination of the angular quantity of the greatest length
 /// of the dark region linking up the illuminated limb and the planet disk border.
@@ -126,14 +119,8 @@ export function planetocentricDeclinationOfTheSun(jd: JulianDay): Degree {
 // }
 
 /// The apparent diameter of Mars
-export function apparentDiameter(jd: JulianDay): ArcSecond {
+export function getApparentDiameter(jd: JulianDay): ArcSecond {
   const { DELTA } = computeMarsDetails(jd)
   return 9.36 / DELTA
 }
 
-/// The illuminated fraction of Mars
-export function illuminatedFraction(jd: JulianDay): number {
-  const { r, DELTA } = computeMarsDetails(jd)
-  const R = earth.radiusVector(jd)
-  return (((r + DELTA) * (r + DELTA) - R * R) / (4 * r * DELTA))
-}

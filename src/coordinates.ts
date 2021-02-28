@@ -1,4 +1,4 @@
-import { DEG2H, DEG2RAD, H2RAD, RAD2DEG, RAD2H, JulianDay, Degree, Hour, Pixel } from './constants'
+import { DEG2H, DEG2RAD, Degree, H2RAD, Hour, JulianDay, Pixel, RAD2DEG, RAD2H } from './constants'
 import { fmod } from './utils'
 import * as julianday from './julianday'
 
@@ -23,6 +23,11 @@ export interface EclipticCoordinates {
 export interface HorizontalCoordinates {
   azimuth: Degree,
   altitude: Degree
+}
+
+export interface Coordinates {
+  X: Degree,
+  Y: Degree
 }
 
 export interface Point {

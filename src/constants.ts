@@ -1,3 +1,5 @@
+import { EclipticCoordinates, EquatorialCoordinates } from "./coordinates";
+
 export const J1970 = 2440588.0
 export const J2000 = 2451545.0
 
@@ -105,7 +107,15 @@ export type Day = number;
 export type Hour = number;
 export type Pixel = number;
 export type JulianDay = number;
+export type ArcMinute = number;
 export type ArcSecond = number;
 export type JupiterRadius = number
 export type SolarRadius = number
 export type AstronomicalUnit = number
+
+export type EllipticalDetails = {
+  apparentLightTime: Day,
+  apparentGeocentricDistance: AstronomicalUnit,
+  apparentGeocentricEclipticCoordinates: EclipticCoordinates,
+  apparentGeocentricEquatorialCoordinates: EquatorialCoordinates
+}
