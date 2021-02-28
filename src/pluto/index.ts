@@ -1,10 +1,9 @@
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
-import { getApparentGeocentricDistance, getApparentGeocentricEquatorialCoordinates } from './planetaryDetails'
+import { getPlanetaryDetails } from './planetaryDetails'
 
 export {
   getEclipticLongitude,
   getEclipticLatitude,
   getRadiusVector,
-  getApparentGeocentricDistance,
-  getApparentGeocentricEquatorialCoordinates
+  getPlanetaryDetails
 }
