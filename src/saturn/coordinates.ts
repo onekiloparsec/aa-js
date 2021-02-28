@@ -20,7 +20,7 @@ import {
   g_R4SaturnCoefficients,
   g_R5SaturnCoefficients
 } from './coefficients'
-import { EclipticCoordinates } from "../coordinates";
+import { EclipticCoordinates } from '../coordinates'
 
 const cos = Math.cos
 

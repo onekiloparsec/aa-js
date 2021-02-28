@@ -20,7 +20,7 @@ import {
   g_R4JupiterCoefficients,
   g_R5JupiterCoefficients
 } from './coefficients'
-import { EclipticCoordinates } from "../coordinates";
+import { EclipticCoordinates } from '../coordinates'
 
 const cos = Math.cos
 
@@ -72,7 +72,7 @@ export function getEclipticLatitude(jd: JulianDay): Degree {
   let rhosquared = rho * rho
   let rhocubed = rhosquared * rho
   let rho4 = rhocubed * rho
-  let rho5 = rho4 * rho;
+  let rho5 = rho4 * rho
 
   //Calculate B0
   let B0 = 0
@@ -116,8 +116,8 @@ export function getRadiusVector(jd: JulianDay): AstronomicalUnit {
   let rho = (jd - 2451545) / 365250
   let rhosquared = rho * rho
   let rhocubed = rhosquared * rho
-  let rho4 = rhocubed * rho;
-  let rho5 = rho4 * rho;
+  let rho4 = rhocubed * rho
+  let rho5 = rho4 * rho
 
   //Calculate R0
   let R0 = 0

@@ -1,4 +1,4 @@
-import { EclipticCoordinates, EquatorialCoordinates } from "./coordinates";
+import { EclipticCoordinates, EquatorialCoordinates } from './coordinates'
 
 export const J1970 = 2440588.0
 export const J2000 = 2451545.0

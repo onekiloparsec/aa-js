@@ -3,7 +3,7 @@ import * as nutation from '../../nutation'
 import { MapTo0To360Range } from '../../utils'
 import { gMoonCoefficients1, gMoonCoefficients2, gMoonCoefficients3, gMoonCoefficients4 } from './coefficients'
 import { getEccentricity, getSunMeanAnomaly } from '../coordinates'
-import { EclipticCoordinates, EquatorialCoordinates, transformEclipticToEquatorial } from "../../coordinates";
+import { EclipticCoordinates, EquatorialCoordinates, transformEclipticToEquatorial } from '../../coordinates'
 
 export function getMeanLongitude(JD: JulianDay): Degree {
   const T = (JD - 2451545) / 36525

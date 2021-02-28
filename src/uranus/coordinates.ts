@@ -17,7 +17,7 @@ import {
   g_R3UranusCoefficients,
   g_R4UranusCoefficients,
 } from './coefficients'
-import { EclipticCoordinates } from "../coordinates";
+import { EclipticCoordinates } from '../coordinates'
 
 const cos = Math.cos
 

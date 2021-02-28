@@ -1,7 +1,7 @@
 import { AstronomicalUnit, DEG2RAD, Degree, JulianDay } from '../constants'
 import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
 import { g_PlutoArgumentCoefficients, g_PlutoLatitudeCoefficients, g_PlutoLongitudeCoefficients, g_PlutoRadiusCoefficients } from './coefficients'
-import { EclipticCoordinates } from "../coordinates";
+import { EclipticCoordinates } from '../coordinates'
 
 const cos = Math.cos
 const sin = Math.sin

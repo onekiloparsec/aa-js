@@ -17,7 +17,7 @@ import {
   g_R2MercuryCoefficients,
   g_R3MercuryCoefficients
 } from './coefficients'
-import { EclipticCoordinates } from "../coordinates";
+import { EclipticCoordinates } from '../coordinates'
 
 const cos = Math.cos
 

@@ -23,7 +23,7 @@ import {
   gR3EarthCoefficients,
   gR4EarthCoefficients
 } from './coefficients'
-import { EclipticCoordinates } from "../coordinates";
+import { EclipticCoordinates } from '../coordinates'
 
 
 export function getEclipticLongitude(JD: JulianDay): Degree {

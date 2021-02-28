@@ -17,7 +17,7 @@ import {
   g_R2VenusCoefficients,
   g_R3VenusCoefficients
 } from './coefficients'
-import { EclipticCoordinates } from "../coordinates";
+import { EclipticCoordinates } from '../coordinates'
 
 const cos = Math.cos
 

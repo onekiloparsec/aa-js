@@ -66,7 +66,7 @@ export function getEquatorialAberration(jd: JulianDay, Alpha: Hour, Delta: Degre
 export function getEclipticAberration(jd: JulianDay, Lambda: Degree, Beta: Degree): Coordinates2D {
   const T = (jd - 2451545) / 36525
   const Tsquared = T * T
-  const e = 0.016708634 - 0.000042037 * T - 0.0000001267 * Tsquared;
+  const e = 0.016708634 - 0.000042037 * T - 0.0000001267 * Tsquared
   let pi = 102.93735 + 1.71946 * T + 0.00046 * Tsquared
   const k = 20.49552
   let sunLongitude = sun.geometricEclipticLongitude(jd)
