@@ -23,7 +23,7 @@ import {
 
 const cos = Math.cos
 
-export function eclipticLongitude(jd: JulianDay): Degree {
+export function getEclipticLongitude(jd: JulianDay): Degree {
   const rho = (jd - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -60,7 +60,7 @@ export function eclipticLongitude(jd: JulianDay): Degree {
   return MapTo0To360Range(value * RAD2DEG)
 }
 
-export function eclipticLatitude(jd: JulianDay): Degree {
+export function getEclipticLatitude(jd: JulianDay): Degree {
   const rho = (jd - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -92,7 +92,7 @@ export function eclipticLatitude(jd: JulianDay): Degree {
   return MapToMinus90To90Range(value * RAD2DEG)
 }
 
-export function radiusVector(jd: JulianDay) {
+export function getRadiusVector(jd: JulianDay) {
   const rho = (jd - 2451545) / 365250
   const rhosquared = rho * rho
   const rhocubed = rhosquared * rho
@@ -122,9 +122,9 @@ export function radiusVector(jd: JulianDay) {
   return (R0 + R1 * rho + R2 * rhosquared + R3 * rhocubed + R4 * rho4) / 100000000
 }
 
-export function eclipticCoordinates(JD: JulianDay): EclipticCoordinates {
+export function getEclipticCoordinates(JD: JulianDay): EclipticCoordinates {
   return {
-    longitude: eclipticLongitude(JD),
-    latitude: eclipticLatitude(JD)
+    longitude: getEclipticLongitude(JD),
+    latitude: getEclipticLatitude(JD)
   }
 }

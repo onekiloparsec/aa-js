@@ -1,5 +1,5 @@
-import { AstronomicalUnit, DEG2RAD, EllipticalDetails, JulianDay, RAD2DEG } from './constants'
-import { EclipticCoordinates, transformEclipticToEquatorial } from './coordinates'
+import { DEG2RAD, EllipticalDetails, JulianDay, RAD2DEG } from './constants'
+import { transformEclipticToEquatorial } from './coordinates'
 import { nutationInLongitude, trueObliquityOfEcliptic } from './nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from './fk5'
 import { getEclipticAberration } from './aberration'
@@ -17,24 +17,22 @@ const abs = Math.abs
 const sqrt = Math.sqrt
 const atan2 = Math.atan2
 
-export function ellipticalDetails(jd: JulianDay,
-                                  coords: EclipticCoordinates,
-                                  radiusVector: AstronomicalUnit,
-                                  eclipticLongitudeFunc: Function,
-                                  eclipticLatitudeFunc: Function,
-                                  radiusVectorFunc: Function,
-                                  isSun: boolean = false): EllipticalDetails {
-  //Calculate the position of the earth first
+export function getEllipticalDetails(jd: JulianDay,
+                                     eclipticLongitudeFunc: Function,
+                                     eclipticLatitudeFunc: Function,
+                                     radiusVectorFunc: Function,
+                                     isSun: boolean = false): EllipticalDetails {
+  // Calculate the position of the earth first
   let JD0 = jd
   const L0 = earth.eclipticLongitude(JD0) * DEG2RAD
   const B0 = earth.eclipticLatitude(JD0) * DEG2RAD
   const R0 = earth.radiusVector(JD0)
   const cosB0 = cos(B0)
 
-  //Iterate to find the positions adjusting for light-time correction if required
-  let L = coords.longitude
-  let B = coords.latitude
-  let R = radiusVector
+  // Iterate to find the positions adjusting for light-time correction if required
+  let L = 0
+  let B = 0
+  let R = 0
 
   let bRecalc = true
   let bFirstRecalc = true

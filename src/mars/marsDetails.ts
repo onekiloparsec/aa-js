@@ -1,6 +1,6 @@
 import { earth } from '../earth'
 import { ArcSecond, DEG2RAD, Degree, JulianDay, RAD2DEG } from '../constants'
-import { eclipticLatitude, eclipticLongitude, radiusVector } from './coordinates'
+import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 import { distanceToLightTime } from '../elliptical'
 
 const sin = Math.sin
@@ -38,11 +38,11 @@ function computeMarsDetails(jd: JulianDay) {
     let JD2 = jd - LightTravelTime
 
     //Step 3
-    l = eclipticLongitude(JD2)
+    l = getEclipticLongitude(JD2)
     let lrad = DEG2RAD * l
-    b = eclipticLatitude(JD2)
+    b = getEclipticLatitude(JD2)
     let brad = DEG2RAD * b
-    r = radiusVector(JD2)
+    r = getRadiusVector(JD2)
 
     //Step 4
     x = r * cos(brad) * cos(lrad) - R * cos(l0rad)
