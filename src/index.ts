@@ -14,6 +14,7 @@ import * as earth from './earth'
 import * as mars from './mars'
 import * as jupiter from './jupiter'
 import * as saturn from './saturn'
+import * as uranus from './uranus'
 import * as neptune from './neptune'
 import * as pluto from './pluto'
 
@@ -33,6 +34,7 @@ export default {
   mars,
   jupiter,
   saturn,
+  uranus,
   neptune,
   pluto
 }
