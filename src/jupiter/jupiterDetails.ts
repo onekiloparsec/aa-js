@@ -119,7 +119,7 @@ export function centralMeridianLongitudes(jd: JulianDay): Object {
   const delta0rad = DEG2RAD * delta0
 
   //Step 3
-  const l0 = earth.getgetEclipticLongitude(jd)
+  const l0 = earth.getEclipticLongitude(jd)
   const l0rad = DEG2RAD * l0
   // const b0 = earth.getgetEclipticLatitude(jd)
   // const b0rad = DEG2RAD * b0
