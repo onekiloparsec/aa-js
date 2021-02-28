@@ -1,9 +1,4 @@
-import { EclipticCoordinates, EquatorialCoordinates, transformEclipticToEquatorial } from './coordinates'
-import * as nutation from './nutation'
-import { MapTo0To360Range, MapToMinus90To90Range } from './utils'
-import { Degree, JulianDay, RAD2DEG } from './constants'
-
-const gL0EarthCoefficients =
+export const gL0EarthCoefficients =
   [
     [175347046, 0, 0],
     [3341656, 4.6692568, 6283.0758500],
@@ -73,7 +68,7 @@ const gL0EarthCoefficients =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gL1EarthCoefficients =
+export const gL1EarthCoefficients =
   [
     [628331966747.0, 0, 0],
     [206059, 2.678235, 6283.075850],
@@ -113,7 +108,7 @@ const gL1EarthCoefficients =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gL2EarthCoefficients =
+export const gL2EarthCoefficients =
   [
     [52919, 0, 0],
     [8720, 1.0721, 6283.0758],
@@ -139,7 +134,7 @@ const gL2EarthCoefficients =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gL3EarthCoefficients =
+export const gL3EarthCoefficients =
   [
     [289, 5.844, 6283.076],
     [35, 0, 0],
@@ -152,7 +147,7 @@ const gL3EarthCoefficients =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gL4EarthCoefficients =
+export const gL4EarthCoefficients =
   [
     [114, 3.142, 0],
     [8, 4.13, 6283.08],
@@ -161,14 +156,14 @@ const gL4EarthCoefficients =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gL5EarthCoefficients =
+export const gL5EarthCoefficients =
   [
     [1, 3.14, 0]
   ].map((a) => {
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gB0EarthCoefficients =
+export const gB0EarthCoefficients =
   [
     [280, 3.199, 84334.662],
     [102, 5.422, 5507.553],
@@ -179,7 +174,7 @@ const gB0EarthCoefficients =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gB1EarthCoefficients =
+export const gB1EarthCoefficients =
   [
     [9, 3.90, 5507.55],
     [6, 1.73, 5223.69]
@@ -187,7 +182,7 @@ const gB1EarthCoefficients =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gR0EarthCoefficients =
+export const gR0EarthCoefficients =
   [
     [100013989, 0, 0],
     [1670700, 3.0984635, 6283.0758500],
@@ -233,7 +228,7 @@ const gR0EarthCoefficients =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gR1EarthCoefficients =
+export const gR1EarthCoefficients =
   [
     [103019, 1.107490, 6283.075850],
     [1721, 1.0644, 12566.1517],
@@ -249,7 +244,7 @@ const gR1EarthCoefficients =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gR2EarthCoefficients =
+export const gR2EarthCoefficients =
   [
     [4359, 5.7846, 6283.0758],
     [124, 5.579, 12566.152],
@@ -261,7 +256,7 @@ const gR2EarthCoefficients =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gR3EarthCoefficients =
+export const gR3EarthCoefficients =
   [
     [145, 4.273, 6283.076],
     [7, 3.92, 12566.15]
@@ -269,14 +264,14 @@ const gR3EarthCoefficients =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gR4EarthCoefficients =
+export const gR4EarthCoefficients =
   [
     [4, 2.56, 6283.08]
   ].map((a) => {
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gL1EarthCoefficientsJ2000 =
+export const gL1EarthCoefficientsJ2000 =
   [
     [628307584999.0, 0, 0],
     [206059, 2.678235, 6283.075850],
@@ -316,7 +311,7 @@ const gL1EarthCoefficientsJ2000 =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gL2EarthCoefficientsJ2000 =
+export const gL2EarthCoefficientsJ2000 =
   [
     [8722, 1.0725, 6283.0758],
     [991, 3.1416, 0],
@@ -342,7 +337,7 @@ const gL2EarthCoefficientsJ2000 =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gL3EarthCoefficientsJ2000 =
+export const gL3EarthCoefficientsJ2000 =
   [
     [289, 5.842, 6283.076],
     [21, 6.05, 12566.15],
@@ -355,7 +350,7 @@ const gL3EarthCoefficientsJ2000 =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gL4EarthCoefficientsJ2000 =
+export const gL4EarthCoefficientsJ2000 =
   [
     [8, 4.14, 6283.08],
     [1, 3.28, 12566.15]
@@ -363,7 +358,7 @@ const gL4EarthCoefficientsJ2000 =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gB1EarthCoefficientsJ2000 =
+export const gB1EarthCoefficientsJ2000 =
   [
     [227778, 3.413766, 6283.075850],
     [3806, 3.3706, 12566.1517],
@@ -376,7 +371,7 @@ const gB1EarthCoefficientsJ2000 =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gB2EarthCoefficientsJ2000 =
+export const gB2EarthCoefficientsJ2000 =
   [
     [9721, 5.1519, 6283.07585],
     [233, 3.1416, 0],
@@ -386,7 +381,7 @@ const gB2EarthCoefficientsJ2000 =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gB3EarthCoefficientsJ2000 =
+export const gB3EarthCoefficientsJ2000 =
   [
     [276, 0.595, 6283.076],
     [17, 3.14, 0],
@@ -395,7 +390,7 @@ const gB3EarthCoefficientsJ2000 =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-const gB4EarthCoefficientsJ2000 =
+export const gB4EarthCoefficientsJ2000 =
   [
     [6, 2.27, 6283.08],
     [1, 0, 0]
@@ -403,134 +398,266 @@ const gB4EarthCoefficientsJ2000 =
     return { A: a[0], B: a[1], C: a[2] }
   })
 
-export function eclipticLongitude(JD: JulianDay): Degree {
-  const rho = (JD - 2451545) / 365250
-  const rhosquared = rho * rho
-  const rhocubed = rhosquared * rho
-  const rho4 = rhocubed * rho
-  const rho5 = rho4 * rho
 
-  const L0 = gL0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L1 = gL1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L2 = gL2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L3 = gL3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L4 = gL4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L5 = gL5EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
 
-  const value = (L0 + L1 * rho + L2 * rhosquared + L3 * rhocubed + L4 * rho4 + L5 * rho5) / 100000000
+export const gMoonCoefficients1 =
+  [
+    [0, 0, 1, 0],
+    [2, 0, -1, 0],
+    [2, 0, 0, 0],
+    [0, 0, 2, 0],
+    [0, 1, 0, 0],
+    [0, 0, 0, 2],
+    [2, 0, -2, 0],
+    [2, -1, -1, 0],
+    [2, 0, 1, 0],
+    [2, -1, 0, 0],
+    [0, 1, -1, 0],
+    [1, 0, 0, 0],
+    [0, 1, 1, 0],
+    [2, 0, 0, -2],
+    [0, 0, 1, 2],
+    [0, 0, 1, -2],
+    [4, 0, -1, 0],
+    [0, 0, 3, 0],
+    [4, 0, -2, 0],
+    [2, 1, -1, 0],
+    [2, 1, 0, 0],
+    [1, 0, -1, 0],
+    [1, 1, 0, 0],
+    [2, -1, 1, 0],
+    [2, 0, 2, 0],
+    [4, 0, 0, 0],
+    [2, 0, -3, 0],
+    [0, 1, -2, 0],
+    [2, 0, -1, 2],
+    [2, -1, -2, 0],
+    [1, 0, 1, 0],
+    [2, -2, 0, 0],
+    [0, 1, 2, 0],
+    [0, 2, 0, 0],
+    [2, -2, -1, 0],
+    [2, 0, 1, -2],
+    [2, 0, 0, 2],
+    [4, -1, -1, 0],
+    [0, 0, 2, 2],
+    [3, 0, -1, 0],
+    [2, 1, 1, 0],
+    [4, -1, -2, 0],
+    [0, 2, -1, 0],
+    [2, 2, -1, 0],
+    [2, 1, -2, 0],
+    [2, -1, 0, -2],
+    [4, 0, 1, 0],
+    [0, 0, 4, 0],
+    [4, -1, 0, 0],
+    [1, 0, -2, 0],
+    [2, 1, 0, -2],
+    [0, 0, 2, -2],
+    [1, 1, 1, 0],
+    [3, 0, -2, 0],
+    [4, 0, -3, 0],
+    [2, -1, 2, 0],
+    [0, 2, 1, 0],
+    [1, 1, -1, 0],
+    [2, 0, 3, 0],
+    [2, 0, -1, -2]
+  ].map((a) => {
+    return { D: a[0], M: a[1], Mdash: a[2], F: a[3] }
+  })
 
-  return MapTo0To360Range(value * RAD2DEG)
-}
+export const gMoonCoefficients2 =
+  [
+    [6288774, -20905355],
+    [1274027, -3699111],
+    [658314, -2955968],
+    [213618, -569925],
+    [-185116, 48888],
+    [-114332, -3149],
+    [58793, 246158],
+    [57066, -152138],
+    [53322, -170733],
+    [45758, -204586],
+    [-40923, -129620],
+    [-34720, 108743],
+    [-30383, 104755],
+    [15327, 10321],
+    [-12528, 0],
+    [10980, 79661],
+    [10675, -34782],
+    [10034, -23210],
+    [8548, -21636],
+    [-7888, 24208],
+    [-6766, 30824],
+    [-5163, -8379],
+    [4987, -16675],
+    [4036, -12831],
+    [3994, -10445],
+    [3861, -11650],
+    [3665, 14403],
+    [-2689, -7003],
+    [-2602, 0],
+    [2390, 10056],
+    [-2348, 6322],
+    [2236, -9884],
+    [-2120, 5751],
+    [-2069, 0],
+    [2048, -4950],
+    [-1773, 4130],
+    [-1595, 0],
+    [1215, -3958],
+    [-1110, 0],
+    [-892, 3258],
+    [-810, 2616],
+    [759, -1897],
+    [-713, -2117],
+    [-700, 2354],
+    [691, 0],
+    [596, 0],
+    [549, -1423],
+    [537, -1117],
+    [520, -1571],
+    [-487, -1739],
+    [-399, 0],
+    [-381, -4421],
+    [351, 0],
+    [-340, 0],
+    [330, 0],
+    [327, 0],
+    [-323, 1165],
+    [299, 0],
+    [294, 0],
+    [0, 8752]
+  ].map((a) => {
+    return { A: a[0], B: a[1] }
+  })
 
-export function eclipticLatitude(JD: JulianDay): Degree {
-  const rho = (JD - 2451545) / 365250
+export const gMoonCoefficients3 =
+  [
+    [0, 0, 0, 1],
+    [0, 0, 1, 1],
+    [0, 0, 1, -1],
+    [2, 0, 0, -1],
+    [2, 0, -1, 1],
+    [2, 0, -1, -1],
+    [2, 0, 0, 1],
+    [0, 0, 2, 1],
+    [2, 0, 1, -1],
+    [0, 0, 2, -1],
+    [2, -1, 0, -1],
+    [2, 0, -2, -1],
+    [2, 0, 1, 1],
+    [2, 1, 0, -1],
+    [2, -1, -1, 1],
+    [2, -1, 0, 1],
+    [2, -1, -1, -1],
+    [0, 1, -1, -1],
+    [4, 0, -1, -1],
+    [0, 1, 0, 1],
+    [0, 0, 0, 3],
+    [0, 1, -1, 1],
+    [1, 0, 0, 1],
+    [0, 1, 1, 1],
+    [0, 1, 1, -1],
+    [0, 1, 0, -1],
+    [1, 0, 0, -1],
+    [0, 0, 3, 1],
+    [4, 0, 0, -1],
+    [4, 0, -1, 1],
+    [0, 0, 1, -3],
+    [4, 0, -2, 1],
+    [2, 0, 0, -3],
+    [2, 0, 2, -1],
+    [2, -1, 1, -1],
+    [2, 0, -2, 1],
+    [0, 0, 3, -1],
+    [2, 0, 2, 1],
+    [2, 0, -3, -1],
+    [2, 1, -1, 1],
+    [2, 1, 0, 1],
+    [4, 0, 0, 1],
+    [2, -1, 1, 1],
+    [2, -2, 0, -1],
+    [0, 0, 1, 3],
+    [2, 1, 1, -1],
+    [1, 1, 0, -1],
+    [1, 1, 0, 1],
+    [0, 1, -2, -1],
+    [2, 1, -1, -1],
+    [1, 0, 1, 1],
+    [2, -1, -2, -1],
+    [0, 1, 2, 1],
+    [4, 0, -2, -1],
+    [4, -1, -1, -1],
+    [1, 0, 1, -1],
+    [4, 0, 1, -1],
+    [1, 0, -1, -1],
+    [4, -1, 0, -1],
+    [2, -2, 0, 1]
+  ].map((a) => {
+    return { D: a[0], M: a[1], Mdash: a[2], F: a[3] }
+  })
 
-  const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const B1 = gB1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-
-  const value = (B0 + B1 * rho) / 100000000
-
-  return MapToMinus90To90Range(value * RAD2DEG)
-}
-
-export function radiusVector(JD: JulianDay): Degree {
-  const rho = (JD - 2451545) / 365250
-  const rhosquared = rho * rho
-  const rhocubed = rhosquared * rho
-  const rho4 = rhocubed * rho
-
-  const R0 = gR0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const R1 = gR1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const R2 = gR2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const R3 = gR3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const R4 = gR4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-
-  return (R0 + R1 * rho + R2 * rhosquared + R3 * rhocubed + R4 * rho4) / 100000000
-}
-
-export function eclipticLongitudeJ2000(JD: JulianDay): Degree {
-  const rho = (JD - 2451545) / 365250
-  const rhosquared = rho * rho
-  const rhocubed = rhosquared * rho
-  const rho4 = rhocubed * rho
-
-  const L0 = gL0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L1 = gL1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L2 = gL2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L3 = gL3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L4 = gL4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-
-  const value = (L0 + L1 * rho + L2 * rhosquared + L3 * rhocubed + L4 * rho4) / 100000000
-
-  return MapTo0To360Range(value * RAD2DEG)
-}
-
-export function eclipticLatitudeJ2000(JD: JulianDay): Degree {
-  const rho = (JD - 2451545) / 365250
-  const rhosquared = rho * rho
-  const rhocubed = rhosquared * rho
-  const rho4 = rhocubed * rho
-
-  const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const B1 = gB1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const B2 = gB2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const B3 = gB3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const B4 = gB4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-
-  const value = (B0 + B1 * rho + B2 * rhosquared + B3 * rhocubed + B4 * rho4) / 100000000
-
-  return MapToMinus90To90Range(value * RAD2DEG)
-}
-
-/**
- * Computes the eccentricity of the orbit
- * @param  {Number} JD The julian day
- * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
- */
-export function sunMeanAnomaly(JD: JulianDay): Degree {
-  const T = (JD - 2451545) / 36525
-  const Tsquared = T * T
-  const Tcubed = Tsquared * T
-  return MapTo0To360Range(357.5291092 + 35999.0502909 * T - 0.0001536 * Tsquared + Tcubed / 24490000)
-}
-
-/**
- * Computes the eccentricity of the orbit
- * @param  {Number} JD The julian day
- * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
- */
-export function eccentricity(JD: JulianDay): number {
-  const T = (JD - 2451545) / 36525
-  const Tsquared = T * T
-  return 1 - 0.002516 * T - 0.0000074 * Tsquared
-}
-
-export function eclipticCoordinates(JD: JulianDay): EclipticCoordinates {
-  return {
-    longitude: eclipticLongitude(JD),
-    latitude: eclipticLatitude(JD)
-  }
-}
-
-export function eclipticCoordinatesJ2000(JD: JulianDay): EclipticCoordinates {
-  return {
-    longitude: eclipticLongitudeJ2000(JD),
-    latitude: eclipticLatitudeJ2000(JD)
-  }
-}
-
-export function equatorialCoordinates(JD: JulianDay): EquatorialCoordinates {
-  return transformEclipticToEquatorial(
-    eclipticLongitude(JD),
-    eclipticLatitude(JD),
-    nutation.meanObliquityOfEcliptic(JD)
-  )
-}
-
-export function equatorialCoordinatesJ2000(JD: JulianDay): EquatorialCoordinates {
-  return transformEclipticToEquatorial(
-    eclipticLongitudeJ2000(JD),
-    eclipticLatitudeJ2000(JD),
-    nutation.meanObliquityOfEcliptic(JD)
-  )
-}
+export const gMoonCoefficients4 =
+  [
+    5128122,
+    280602,
+    277693,
+    173237,
+    55413,
+    46271,
+    32573,
+    17198,
+    9266,
+    8822,
+    8216,
+    4324,
+    4200,
+    -3359,
+    2463,
+    2211,
+    2065,
+    -1870,
+    1828,
+    -1794,
+    -1749,
+    -1565,
+    -1491,
+    -1475,
+    -1410,
+    -1344,
+    -1335,
+    1107,
+    1021,
+    833,
+    777,
+    671,
+    607,
+    596,
+    491,
+    -451,
+    439,
+    422,
+    421,
+    -366,
+    -351,
+    331,
+    315,
+    302,
+    -283,
+    -229,
+    223,
+    223,
+    -220,
+    -220,
+    -185,
+    181,
+    -177,
+    176,
+    166,
+    -164,
+    132,
+    -119,
+    115,
+    107
+  ]
