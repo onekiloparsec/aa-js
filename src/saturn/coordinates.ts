@@ -106,7 +106,7 @@ export function getEclipticLatitude(jd: JulianDay): Degree {
     B5 += g_B5SaturnCoefficients[i].A * cos(g_B5SaturnCoefficients[i].B + g_B5SaturnCoefficients[i].C * rho)
   }
 
-  let value = (B0 + B1 * rho + B2 * rhosquared + B3 * rhocubed + B4 * rho4 * B5 * rho5) / 100000000
+  let value = (B0 + B1 * rho + B2 * rhosquared + B3 * rhocubed + B4 * rho4 + B5 * rho5) / 100000000
 
   return MapToMinus90To90Range(RAD2DEG * value)
 }
