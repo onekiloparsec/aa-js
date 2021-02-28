@@ -1,6 +1,6 @@
-// https://gist.github.com/wteuber/6241786
-import { Degree } from "./constants";
+import { Degree } from './constants'
 
+// https://gist.github.com/wteuber/6241786
 export function fmod(a: number, b: number): number {
   return Number((a - (Math.floor(a / b) * b)).toPrecision(8))
 }
