@@ -71,7 +71,7 @@ export function getEclipticLatitude(jd: JulianDay): Degree {
   let rhosquared = rho * rho
   let rhocubed = rhosquared * rho
   let rho4 = rhocubed * rho
-  let rho5 = rho4 * rho;
+  let rho5 = rho4 * rho
 
   //Calculate B0
   let B0 = 0
@@ -115,8 +115,8 @@ export function getRadiusVector(jd: JulianDay): AstronomicalUnit {
   let rho = (jd - 2451545) / 365250
   let rhosquared = rho * rho
   let rhocubed = rhosquared * rho
-  let rho4 = rhocubed * rho;
-  let rho5 = rho4 * rho;
+  let rho4 = rhocubed * rho
+  let rho5 = rho4 * rho
 
   //Calculate R0
   let R0 = 0
