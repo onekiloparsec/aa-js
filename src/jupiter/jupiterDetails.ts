@@ -11,7 +11,7 @@ const atan2 = Math.atan2
 const sqrt = Math.sqrt
 const tan = Math.tan
 
-export function computeJupiterDetails(jd: JulianDay) {
+function computeJupiterDetails(jd: JulianDay) {
   //Step 1
   // const d = jd - 2433282.5
   // const T1 = d / 36525
@@ -65,7 +65,7 @@ export function computeJupiterDetails(jd: JulianDay) {
   return { alpha, delta, r, DELTA }
 }
 
-export function planetocentricDeclinationOfTheSun(jd: JulianDay): Degree {
+export function getPlanetocentricDeclinationOfTheSun(jd: JulianDay): Degree {
   const d = jd - 2433282.5
   const T1 = d / 36525
   const alpha0 = 268.00 + 0.1061 * T1
@@ -94,7 +94,7 @@ export function planetocentricDeclinationOfTheSun(jd: JulianDay): Degree {
   return RAD2DEG * (asin(-sin(delta0rad) * sin(deltas) - cos(delta0rad) * cos(deltas) * cos(alpha0rad - alphas)))
 }
 
-export function planetocentricDeclinationOfTheEarth(jd: JulianDay): Degree {
+export function getPlanetocentricDeclinationOfTheEarth(jd: JulianDay): Degree {
   const d = jd - 2433282.5
   const T1 = d / 36525
   const alpha0 = 268.00 + 0.1061 * T1
@@ -110,7 +110,7 @@ export function planetocentricDeclinationOfTheEarth(jd: JulianDay): Degree {
   return RAD2DEG * (asin(-sin(delta0rad) * sin(deltarad) - cos(delta0rad) * cos(deltarad) * cos(alpha0rad - alpharad)))
 }
 
-export function centralMeridianLongitudes(jd: JulianDay): Object {
+export function getCentralMeridianLongitudes(jd: JulianDay): Object {
   const d = jd - 2433282.5
   const T1 = d / 36525
   const alpha0 = 268.00 + 0.1061 * T1
