@@ -1,4 +1,4 @@
-import * as earth from '../earth'
+import { earth } from '../earth'
 import { ArcSecond, DEG2RAD, Degree, JulianDay, RAD2DEG } from '../constants'
 import { eclipticLatitude, eclipticLongitude, radiusVector } from './coordinates'
 import { distanceToLightTime } from '../elliptical'

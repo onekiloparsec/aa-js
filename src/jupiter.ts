@@ -1,7 +1,7 @@
 import { DEG2RAD, Degree, JulianDay, RAD2DEG } from './constants'
 import { MapTo0To360Range, MapToMinus90To90Range } from './utils'
 import { EclipticCoordinates } from "./coordinates"
-import * as earth from './earth'
+import { earth } from './earth'
 import * as nutation from './nutation'
 
 const sin = Math.sin

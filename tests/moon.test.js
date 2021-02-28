@@ -1,4 +1,4 @@
-import * as moon from '../src/moon'
+import { moon } from '../src/earth'
 import * as julianday from '../src/julianday'
 import { DEG2H } from '../src/constants'
 

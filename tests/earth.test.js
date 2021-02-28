@@ -1,4 +1,4 @@
-import * as earth from '../src/earth'
+import { earth } from '../src/earth'
 
 test('get earth ecliptic coordinates', () => {
   const jd = 2448908.5

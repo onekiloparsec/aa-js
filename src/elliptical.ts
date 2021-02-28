@@ -4,7 +4,7 @@ import { nutationInLongitude, trueObliquityOfEcliptic } from './nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from './fk5'
 import { getEclipticAberration } from './aberration'
 import { getDecimal } from './sexagesimal'
-import * as earth from './earth'
+import {earth} from './earth'
 import { MapTo0To360Range } from './utils'
 
 export function distanceToLightTime(distance: number): number {
