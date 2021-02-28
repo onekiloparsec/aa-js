@@ -25,9 +25,15 @@ export interface HorizontalCoordinates {
   altitude: Degree
 }
 
-export interface Coordinates {
-  X: Degree,
-  Y: Degree
+export interface Coordinates2D {
+  X: number,
+  Y: number
+}
+
+export interface Coordinates3D {
+  X: number,
+  Y: number,
+  Z: number,
 }
 
 export interface Point {
