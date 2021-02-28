@@ -1,4 +1,4 @@
-import { ArcMinute, ArcSecond, DEG2RAD, JulianDay } from './constants'
+import { ArcSecond, DEG2RAD, JulianDay } from './constants'
 import { getDecimal } from './sexagesimal'
 import { MapTo0To360Range } from './utils'
 
