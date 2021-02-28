@@ -23,6 +23,7 @@ import {
   gR3EarthCoefficients,
   gR4EarthCoefficients
 } from './coefficients'
+import { EclipticCoordinates } from "../coordinates";
 
 
 export function getEclipticLongitude(JD: JulianDay): Degree {
@@ -53,6 +54,13 @@ export function getEclipticLatitude(JD: JulianDay): Degree {
   const value = (B0 + B1 * rho) / 100000000
 
   return MapToMinus90To90Range(value * RAD2DEG)
+}
+
+export function getEclipticCoordinates(JD: JulianDay): EclipticCoordinates {
+  return {
+    longitude: getEclipticLongitude(JD),
+    latitude: getEclipticLatitude(JD)
+  }
 }
 
 export function getRadiusVector(JD: JulianDay): Degree {

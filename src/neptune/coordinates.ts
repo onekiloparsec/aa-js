@@ -16,6 +16,7 @@ import {
   g_R2NeptuneCoefficients,
   g_R3NeptuneCoefficients
 } from './coefficients'
+import { EclipticCoordinates } from "../coordinates";
 
 const cos = Math.cos
 
@@ -125,4 +126,11 @@ export function getRadiusVector(jd: JulianDay): AstronomicalUnit {
   }
 
   return (R0 + R1 * rho + R2 * rhosquared + R3 * rhocubed) / 100000000
+}
+
+export function getEclipticCoordinates(JD: JulianDay): EclipticCoordinates {
+  return {
+    longitude: getEclipticLongitude(JD),
+    latitude: getEclipticLatitude(JD)
+  }
 }

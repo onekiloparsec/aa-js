@@ -3,6 +3,7 @@ import * as nutation from '../../nutation'
 import { MapTo0To360Range } from '../../utils'
 import { gMoonCoefficients1, gMoonCoefficients2, gMoonCoefficients3, gMoonCoefficients4 } from './coefficients'
 import { getEccentricity, getSunMeanAnomaly } from '../coordinates'
+import { EclipticCoordinates } from "../../coordinates";
 
 export function getMeanLongitude(JD: JulianDay): Degree {
   const T = (JD - 2451545) / 36525
@@ -117,6 +118,13 @@ export function getEclipticLatitude(JD: JulianDay): Degree {
   SigmaB -= 115 * Math.sin(Ldash + Mdash)
 
   return SigmaB / 1000000
+}
+
+export function getEclipticCoordinates(JD: JulianDay): EclipticCoordinates {
+  return {
+    longitude: getEclipticLongitude(JD),
+    latitude: getEclipticLatitude(JD)
+  }
 }
 
 export function getRadiusVector(JD: JulianDay): number {

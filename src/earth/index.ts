@@ -1,5 +1,6 @@
 import {
   getEccentricity,
+  getEclipticCoordinates,
   getEclipticLatitude,
   getEclipticLatitudeJ2000,
   getEclipticLongitude,
@@ -12,6 +13,7 @@ import * as moon from './moon'
 export {
   getEclipticLongitude,
   getEclipticLatitude,
+  getEclipticCoordinates,
   getRadiusVector,
   getEclipticLongitudeJ2000,
   getEclipticLatitudeJ2000,
