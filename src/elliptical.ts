@@ -4,7 +4,7 @@ import { nutationInLongitude, trueObliquityOfEcliptic } from './nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from './fk5'
 import { getEclipticAberration } from './aberration'
 import { getDecimal } from './sexagesimal'
-import {earth} from './earth'
+import { earth } from './earth'
 import { MapTo0To360Range } from './utils'
 
 export function distanceToLightTime(distance: number): number {
@@ -49,7 +49,7 @@ export function ellipticalDetails(jd: JulianDay,
     R = radiusVectorFunc(JD0)
 
     if (!bFirstRecalc) {
-      bRecalc = ((abs(L - LPrevious) > 0.00001) || (abs(B - BPrevious) > 0.00001) || (abs(R - RPrevious) > 0.000001));
+      bRecalc = ((abs(L - LPrevious) > 0.00001) || (abs(B - BPrevious) > 0.00001) || (abs(R - RPrevious) > 0.000001))
       LPrevious = L
       BPrevious = B
       RPrevious = R
