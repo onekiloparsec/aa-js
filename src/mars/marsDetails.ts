@@ -1,4 +1,4 @@
-import { earth } from '../earth'
+import * as earth from '../earth'
 import { ArcSecond, DEG2RAD, Degree, JulianDay, RAD2DEG } from '../constants'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 import { distanceToLightTime } from '../elliptical'
@@ -17,11 +17,11 @@ function computeMarsDetails(jd: JulianDay) {
   const Beta0 = 63.2818 - 0.00394 * T
 
   //Step 2
-  const l0 = earth.eclipticLongitude(jd)
+  const l0 = earth.getEclipticLongitude(jd)
   const l0rad = DEG2RAD * l0
-  const b0 = earth.eclipticLatitude(jd)
+  const b0 = earth.getEclipticLatitude(jd)
   const b0rad = DEG2RAD * b0
-  const R = earth.radiusVector(jd)
+  const R = earth.getRadiusVector(jd)
 
   let PreviousLightTravelTime = 0
   let LightTravelTime = 0
@@ -96,7 +96,7 @@ export function getPlanetocentricDeclinationOfTheSun(jd: JulianDay): Degree {
 /// The illuminated fraction of Mars
 export function getIlluminatedFraction(jd: JulianDay): number {
   const { r, DELTA } = computeMarsDetails(jd)
-  const R = earth.radiusVector(jd)
+  const R = earth.getRadiusVector(jd)
   return (((r + DELTA) * (r + DELTA) - R * R) / (4 * r * DELTA))
 }
 

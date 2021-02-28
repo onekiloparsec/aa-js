@@ -4,10 +4,10 @@ import * as jupiter from '../src/jupiter'
 test('check physical details', () => {
   const jd = 2448972.50068
 
-  const earthDec = jupiter.planetocentricDeclinationOfTheEarth(jd)
+  const earthDec = jupiter.getPlanetocentricDeclinationOfTheEarth(jd)
   expect(earthDec).toBeCloseTo(-2.48)// deg
 
-  const sunDec = jupiter.planetocentricDeclinationOfTheSun(jd)
+  const sunDec = jupiter.getPlanetocentricDeclinationOfTheSun(jd)
   expect(sunDec).toBeCloseTo(-2.20)// deg
 
   // const posAngle = mars.positionAngleOfNorthernRotationPole(jd)

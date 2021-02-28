@@ -1,7 +1,7 @@
 import { DEG2RAD, Degree, J2000, JulianDay, SUN_EVENTS_ALTITUDES, SUN_EXTENDED_EVENTS_ALTITUDES } from './constants'
 import * as coordinates from './coordinates'
 import { EclipticCoordinates, EquatorialCoordinates } from './coordinates'
-import { earth } from './earth'
+import * as earth from './earth'
 import * as fk5 from './fk5'
 import * as nutation from './nutation'
 import { getDecimal } from './sexagesimal'
@@ -13,19 +13,19 @@ const acos = Math.acos
 const asin = Math.asin
 
 export function geometricEclipticLongitude(jd: JulianDay): Degree {
-  return MapTo0To360Range(earth.eclipticLongitude(jd) + 180)
+  return MapTo0To360Range(earth.getEclipticLongitude(jd) + 180)
 }
 
 export function geometricEclipticLatitude(jd: JulianDay): Degree {
-  return -earth.eclipticLatitude(jd)
+  return -earth.getEclipticLatitude(jd)
 }
 
 export function geometricEclipticLongitudeJ2000(jd: JulianDay): Degree {
-  return MapTo0To360Range(earth.eclipticLongitudeJ2000(jd) + 180)
+  return MapTo0To360Range(earth.getEclipticLongitudeJ2000(jd) + 180)
 }
 
 export function geometricEclipticLatitudeJ2000(jd: JulianDay): Degree {
-  return -earth.eclipticLatitudeJ2000(jd)
+  return -earth.getEclipticLatitudeJ2000(jd)
 }
 
 export function geometricFK5EclipticLongitude(jd: JulianDay): Degree {
@@ -51,7 +51,7 @@ export function apparentEclipticLongitude(jd: JulianDay): Degree {
   Longitude += getDecimal(0, 0, nutation.nutationInLongitude(jd))
 
   // Apply the correction in longitude due to aberration
-  const R = earth.radiusVector(jd)
+  const R = earth.getRadiusVector(jd)
   Longitude -= getDecimal(0, 0, 20.4898 / R)
 
   return Longitude

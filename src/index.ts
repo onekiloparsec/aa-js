@@ -10,7 +10,7 @@ import * as transits from './transits'
 import * as sun from './sun'
 import * as mercury from './mercury'
 import * as venus from './venus'
-import { earth, moon } from './earth'
+import * as earth from './earth'
 import * as mars from './mars'
 import * as jupiter from './jupiter'
 import * as saturn from './saturn'
@@ -30,7 +30,6 @@ export default {
   mercury,
   venus,
   earth,
-  moon,
   mars,
   jupiter,
   saturn,

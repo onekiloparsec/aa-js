@@ -4,7 +4,7 @@ import { nutationInLongitude, trueObliquityOfEcliptic } from './nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from './fk5'
 import { getEclipticAberration } from './aberration'
 import { getDecimal } from './sexagesimal'
-import { earth } from './earth'
+import * as earth from './earth'
 import { MapTo0To360Range } from './utils'
 
 export function distanceToLightTime(distance: number): number {
@@ -24,9 +24,9 @@ export function getEllipticalDetails(jd: JulianDay,
                                      isSun: boolean = false): EllipticalDetails {
   // Calculate the position of the earth first
   let JD0 = jd
-  const L0 = earth.eclipticLongitude(JD0) * DEG2RAD
-  const B0 = earth.eclipticLatitude(JD0) * DEG2RAD
-  const R0 = earth.radiusVector(JD0)
+  const L0 = earth.getEclipticLongitude(JD0) * DEG2RAD
+  const B0 = earth.getEclipticLatitude(JD0) * DEG2RAD
+  const R0 = earth.getRadiusVector(JD0)
   const cosB0 = cos(B0)
 
   // Iterate to find the positions adjusting for light-time correction if required
