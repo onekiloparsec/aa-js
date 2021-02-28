@@ -1,8 +1,9 @@
 import {
   getArgumentOfLatitude,
+  getEclipticCoordinates,
   getEclipticLatitude,
   getEclipticLongitude,
-  getEclipticCoordinates,
+  getEquatorialCoordinates,
   getMeanAnomaly,
   getMeanElongation,
   getMeanLongitude,
@@ -29,5 +30,6 @@ export {
   getMeanLongitudeAscendingNode,
   getMeanLongitudePerigee,
   trueLongitudeAscendingNode,
-  horizontalParallax
+  horizontalParallax,
+  getEquatorialCoordinates
 }
