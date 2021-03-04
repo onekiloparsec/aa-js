@@ -94,11 +94,11 @@ export function getPlanetocentricDeclinationOfTheSun(jd: JulianDay): Degree {
 // }
 
 /// The illuminated fraction of Mars
-export function getIlluminatedFraction(jd: JulianDay): number {
-  const { r, DELTA } = computeMarsDetails(jd)
-  const R = earth.getRadiusVector(jd)
-  return (((r + DELTA) * (r + DELTA) - R * R) / (4 * r * DELTA))
-}
+// export function getIlluminatedFraction(jd: JulianDay): number {
+//   const { r, DELTA } = computeMarsDetails(jd)
+//   const R = earth.getRadiusVector(jd)
+//   return (((r + DELTA) * (r + DELTA) - R * R) / (4 * r * DELTA))
+// }
 
 /// The greatest defect of illumination of the angular quantity of the greatest length
 /// of the dark region linking up the illuminated limb and the planet disk border.
@@ -117,10 +117,3 @@ export function getIlluminatedFraction(jd: JulianDay): number {
 // export function aerographicLongitudeOfCentralMeridian(jd: JulianDay): Degree {
 //   return Degree(self.physicalDetails.w)
 // }
-
-/// The apparent diameter of Mars
-export function getApparentDiameter(jd: JulianDay): ArcSecond {
-  const { DELTA } = computeMarsDetails(jd)
-  return 9.36 / DELTA
-}
-

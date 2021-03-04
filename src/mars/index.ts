@@ -1,23 +1,29 @@
-import { getEclipticCoordinates, getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
+import { getEclipticCoordinates, getEclipticLatitude, getEclipticLongitude, getEquatorialCoordinates, getRadiusVector } from './coordinates'
 import { getAphelion, getPerihelion } from './planetaryBase'
-import { getPlanetaryDetails } from './planetaryDetails'
 import {
-  getApparentDiameter,
+  getEquatorialSemiDiameter,
   getIlluminatedFraction,
-  getPlanetocentricDeclinationOfTheEarth,
-  getPlanetocentricDeclinationOfTheSun
-} from './marsDetails'
+  getMagnitude,
+  getPhaseAngle,
+  getPlanetaryDetails,
+  getPolarSemiDiameter
+} from './planetaryDetails'
+import { getPlanetocentricDeclinationOfTheEarth, getPlanetocentricDeclinationOfTheSun } from './marsDetails'
 
 export {
   getEclipticLongitude,
   getEclipticLatitude,
   getRadiusVector,
   getEclipticCoordinates,
+  getEquatorialCoordinates,
   getAphelion,
   getPerihelion,
-  getPlanetaryDetails,
-  getApparentDiameter,
+  getPhaseAngle,
   getIlluminatedFraction,
+  getMagnitude,
+  getEquatorialSemiDiameter,
+  getPolarSemiDiameter,
+  getPlanetaryDetails,
   getPlanetocentricDeclinationOfTheSun,
   getPlanetocentricDeclinationOfTheEarth
 }

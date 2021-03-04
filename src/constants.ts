@@ -112,6 +112,7 @@ export type ArcSecond = number;
 export type JupiterRadius = number
 export type SolarRadius = number
 export type AstronomicalUnit = number
+export type Magnitude = number;
 
 export type EllipticalDetails = {
   apparentLightTime: Day,
