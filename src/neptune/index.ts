@@ -1,10 +1,23 @@
-import { getEclipticCoordinates, getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
-import { getPlanetaryDetails } from './planetaryDetails'
+import { getEclipticCoordinates, getEclipticLatitude, getEclipticLongitude, getEquatorialCoordinates, getRadiusVector } from './coordinates'
+import {
+  getEquatorialSemiDiameter,
+  getIlluminatedFraction,
+  getMagnitude,
+  getPhaseAngle,
+  getPlanetaryDetails,
+  getPolarSemiDiameter
+} from './planetaryDetails'
 
 export {
   getEclipticLongitude,
   getEclipticLatitude,
   getEclipticCoordinates,
+  getEquatorialCoordinates,
   getRadiusVector,
-  getPlanetaryDetails
+  getPlanetaryDetails,
+  getPhaseAngle,
+  getIlluminatedFraction,
+  getMagnitude,
+  getEquatorialSemiDiameter,
+  getPolarSemiDiameter
 }
