@@ -12,6 +12,6 @@ export function getAphelion(jd: JulianDay): JulianDay {
 }
 
 export function getPerihelion(jd: JulianDay): JulianDay {
-  const kdash = getK(jd)
-  return 2452195.026 + 686.9957857 * kdash - 0.0000001187 * kdash * kdash
+  const k = getK(jd)
+  return 2452195.026 + 686.9957857 * k - 0.0000001187 * k * k
 }
