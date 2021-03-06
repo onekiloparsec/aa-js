@@ -25,7 +25,7 @@ test('check physical details', () => {
   // const posDefectIllum = mars.positionAngleOfGreatestDefectOfIllumination(jd)
   // expect(posDefectIllum).toBeCloseTo(279.91) // deg
 
-  const apparentDiameter = mars.getApparentDiameter(jd)
-  expect(apparentDiameter).toBeCloseTo(10.75) // arcsec
+  const apparentDiameter = mars.getEquatorialSemiDiameter(jd)
+  expect(apparentDiameter).toBeCloseTo(10.75 / 2) // arcsec
 })
 
