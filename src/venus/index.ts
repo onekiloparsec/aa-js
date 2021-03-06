@@ -1,4 +1,5 @@
 import { getEclipticCoordinates, getEclipticLatitude, getEclipticLongitude, getEquatorialCoordinates, getRadiusVector } from './coordinates'
+import { getAphelion, getPerihelion } from './planetaryBase'
 import {
   getEquatorialSemiDiameter,
   getIlluminatedFraction,
@@ -13,6 +14,8 @@ export {
   getEclipticLatitude,
   getEclipticCoordinates,
   getEquatorialCoordinates,
+  getAphelion,
+  getPerihelion,
   getRadiusVector,
   getPlanetaryDetails,
   getPhaseAngle,
