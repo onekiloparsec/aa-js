@@ -20,6 +20,11 @@ export interface EclipticCoordinates {
   latitude: Degree
 }
 
+export interface SaturnicentricCoordinates {
+  longitude: Degree,
+  latitude: Degree
+}
+
 export interface HorizontalCoordinates {
   azimuth: Degree,
   altitude: Degree
