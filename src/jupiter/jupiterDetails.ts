@@ -51,7 +51,7 @@ function computeJupiterDetails(jd: JulianDay) {
   DELTA = sqrt(x * x + y * y + z * z)
 
   //Step 8
-  let e0 = nutation.meanObliquityOfEcliptic(jd)
+  let e0 = nutation.getMeanObliquityOfEcliptic(jd)
   let e0rad = DEG2RAD * e0
 
   //Step 11
@@ -83,7 +83,7 @@ export function getPlanetocentricDeclinationOfTheSun(jd: JulianDay): Degree {
   const brad = DEG2RAD * b
 
   //Step 8
-  let e0 = nutation.meanObliquityOfEcliptic(jd)
+  let e0 = nutation.getMeanObliquityOfEcliptic(jd)
   let e0rad = DEG2RAD * e0
 
   //Step 9

@@ -48,7 +48,7 @@ export function apparentEclipticLongitude(jd: JulianDay): Degree {
   let Longitude = geometricFK5EclipticLongitude(jd)
 
   // Apply the correction in longitude due to nutation
-  Longitude += getDecimal(0, 0, nutation.nutationInLongitude(jd))
+  Longitude += getDecimal(0, 0, nutation.getNutationInLongitude(jd))
 
   // Apply the correction in longitude due to aberration
   const R = earth.getRadiusVector(jd)
@@ -119,7 +119,7 @@ export function equatorialCoordinates(jd: JulianDay): EquatorialCoordinates {
   return coordinates.transformEclipticToEquatorial(
     geometricEclipticLongitude(jd),
     geometricEclipticLatitude(jd),
-    nutation.meanObliquityOfEcliptic(jd)
+    nutation.getMeanObliquityOfEcliptic(jd)
   )
 }
 
@@ -127,7 +127,7 @@ export function equatorialCoordinatesJ2000(jd: JulianDay): EquatorialCoordinates
   return coordinates.transformEclipticToEquatorial(
     geometricEclipticLongitudeJ2000(jd),
     geometricEclipticLatitudeJ2000(jd),
-    nutation.meanObliquityOfEcliptic(jd)
+    nutation.getMeanObliquityOfEcliptic(jd)
   )
 }
 
@@ -135,7 +135,7 @@ export function apparentEquatorialCoordinates(jd: JulianDay): EquatorialCoordina
   return coordinates.transformEclipticToEquatorial(
     apparentEclipticLongitude(jd),
     apparentEclipticLatitude(jd),
-    nutation.trueObliquityOfEcliptic(jd)
+    nutation.getTrueObliquityOfEcliptic(jd)
   )
 }
 

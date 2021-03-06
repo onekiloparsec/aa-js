@@ -1,13 +1,13 @@
 import { DEG2RAD, EllipticalDetails, JulianDay, RAD2DEG } from './constants'
 import { transformEclipticToEquatorial } from './coordinates'
-import { nutationInLongitude, trueObliquityOfEcliptic } from './nutation'
+import { getNutationInLongitude, getTrueObliquityOfEcliptic } from './nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from './fk5'
 import { getEclipticAberration } from './aberration'
 import { getDecimal } from './sexagesimal'
 import * as earth from './earth'
 import { MapTo0To360Range } from './utils'
 
-export function distanceToLightTime(distance: number): number {
+export function getDistanceToLightTime(distance: number): number {
   return distance * 0.0057755183
 }
 
@@ -67,7 +67,7 @@ export function getEllipticalDetails(jd: JulianDay,
       let distance = sqrt(x * x + y * y + z * z)
 
       //Prepare for the next loop around
-      JD0 = jd - distanceToLightTime(distance)
+      JD0 = jd - getDistanceToLightTime(distance)
     }
   }
 
@@ -94,7 +94,7 @@ export function getEllipticalDetails(jd: JulianDay,
   let y2 = y * y
   const apparentGeocentricDistance = sqrt(x2 + y2 + z * z)
 
-  let apparentLightTime = distanceToLightTime(apparentGeocentricDistance)
+  let apparentLightTime = getDistanceToLightTime(apparentGeocentricDistance)
   let apparentGeocentricEclipticCoordinates = {
     longitude: MapTo0To360Range(RAD2DEG * atan2(y, x)),
     latitude: RAD2DEG * (atan2(z, sqrt(x2 + y2))),
@@ -120,11 +120,11 @@ export function getEllipticalDetails(jd: JulianDay,
   apparentGeocentricEclipticCoordinates.latitude += deltaLat
 
   // Correct for nutation
-  let longitudeNutation = nutationInLongitude(jd)
+  let longitudeNutation = getNutationInLongitude(jd)
   apparentGeocentricEclipticCoordinates.longitude += getDecimal(0, 0, longitudeNutation, longitudeNutation >= 0)
 
   // Convert to RA and Dec
-  const epsilon = trueObliquityOfEcliptic(jd)
+  const epsilon = getTrueObliquityOfEcliptic(jd)
   let apparentGeocentricEquatorialCoordinates = transformEclipticToEquatorial(
     apparentGeocentricEclipticCoordinates.longitude,
     apparentGeocentricEclipticCoordinates.latitude,

@@ -73,7 +73,7 @@ export function getEclipticLongitude(JD: JulianDay): Degree {
   SigmaL += 318 * Math.sin(A2)
 
   // And finally apply the nutation in longitude
-  const NutationInLong = nutation.nutationInLongitude(JD)
+  const NutationInLong = nutation.getNutationInLongitude(JD)
 
   const LdashDegrees = Ldash * RAD2DEG
   return MapTo0To360Range(LdashDegrees + SigmaL / 1000000 + NutationInLong / 3600)
@@ -205,6 +205,6 @@ export function getEquatorialCoordinates(JD: JulianDay): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getEclipticLongitude(JD),
     getEclipticLatitude(JD),
-    nutation.meanObliquityOfEcliptic(JD)
+    nutation.getMeanObliquityOfEcliptic(JD)
   )
 }

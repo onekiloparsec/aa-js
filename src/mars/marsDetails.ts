@@ -1,7 +1,7 @@
 import * as earth from '../earth'
 import { ArcSecond, DEG2RAD, Degree, JulianDay, RAD2DEG } from '../constants'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
-import { distanceToLightTime } from '../elliptical'
+import { getDistanceToLightTime } from '../elliptical'
 
 const sin = Math.sin
 const cos = Math.cos
@@ -49,7 +49,7 @@ function computeMarsDetails(jd: JulianDay) {
     y = r * cos(brad) * sin(lrad) - R * sin(l0rad)
     z = r * sin(brad) - R * sin(b0rad)
     DELTA = sqrt(x * x + y * y + z * z)
-    LightTravelTime = distanceToLightTime(DELTA)
+    LightTravelTime = getDistanceToLightTime(DELTA)
 
     //Prepare for the next loop around
     shouldIterate = (abs(LightTravelTime - PreviousLightTravelTime) > 2e-6) //2e-6 corresponds to 0.17 of a second
