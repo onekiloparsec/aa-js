@@ -1,5 +1,5 @@
 import { getEclipticCoordinates, getEclipticLatitude, getEclipticLongitude, getEquatorialCoordinates, getRadiusVector } from './coordinates'
-import { getAphelion, getPerihelion } from './planetaryBase'
+import { constants, getAphelion, getPerihelion } from './planetaryBase'
 import { getRingSystemDetails } from './ringSystem'
 import {
   getEquatorialSemiDiameter,
@@ -18,6 +18,7 @@ export {
   getEquatorialCoordinates,
   getAphelion,
   getPerihelion,
+  constants,
   getRadiusVector,
   getPlanetaryDetails,
   getPhaseAngle,
