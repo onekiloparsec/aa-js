@@ -12,40 +12,40 @@ const cos = Math.cos
 const acos = Math.acos
 const asin = Math.asin
 
-export function geometricEclipticLongitude(jd: JulianDay): Degree {
+export function getGeometricEclipticLongitude(jd: JulianDay): Degree {
   return MapTo0To360Range(earth.getEclipticLongitude(jd) + 180)
 }
 
-export function geometricEclipticLatitude(jd: JulianDay): Degree {
+export function getGeometricEclipticLatitude(jd: JulianDay): Degree {
   return -earth.getEclipticLatitude(jd)
 }
 
-export function geometricEclipticLongitudeJ2000(jd: JulianDay): Degree {
+export function getGeometricEclipticLongitudeJ2000(jd: JulianDay): Degree {
   return MapTo0To360Range(earth.getEclipticLongitudeJ2000(jd) + 180)
 }
 
-export function geometricEclipticLatitudeJ2000(jd: JulianDay): Degree {
+export function getGeometricEclipticLatitudeJ2000(jd: JulianDay): Degree {
   return -earth.getEclipticLatitudeJ2000(jd)
 }
 
-export function geometricFK5EclipticLongitude(jd: JulianDay): Degree {
+export function getGeometricFK5EclipticLongitude(jd: JulianDay): Degree {
   // Convert to the FK5 stystem
-  let Longitude = geometricEclipticLongitude(jd)
-  const Latitude = geometricEclipticLatitude(jd)
+  let Longitude = getGeometricEclipticLongitude(jd)
+  const Latitude = getGeometricEclipticLatitude(jd)
   Longitude += fk5.getCorrectionInLongitude(Longitude, Latitude, jd)
   return Longitude
 }
 
-export function geometricFK5EclipticLatitude(jd: JulianDay): Degree {
+export function getGeometricFK5EclipticLatitude(jd: JulianDay): Degree {
   // Convert to the FK5 stystem
-  const Longitude = geometricEclipticLongitude(jd)
-  let Latitude = geometricEclipticLatitude(jd)
+  const Longitude = getGeometricEclipticLongitude(jd)
+  let Latitude = getGeometricEclipticLatitude(jd)
   Latitude += fk5.getCorrectionInLatitude(jd, Longitude)
   return Latitude
 }
 
-export function apparentEclipticLongitude(jd: JulianDay): Degree {
-  let Longitude = geometricFK5EclipticLongitude(jd)
+export function getApparentEclipticLongitude(jd: JulianDay): Degree {
+  let Longitude = getGeometricFK5EclipticLongitude(jd)
 
   // Apply the correction in longitude due to nutation
   Longitude += getDecimal(0, 0, nutation.getNutationInLongitude(jd))
@@ -57,11 +57,11 @@ export function apparentEclipticLongitude(jd: JulianDay): Degree {
   return Longitude
 }
 
-export function apparentEclipticLatitude(jd: JulianDay): Degree {
-  return geometricFK5EclipticLatitude(jd)
+export function getApparentEclipticLatitude(jd: JulianDay): Degree {
+  return getGeometricFK5EclipticLatitude(jd)
 }
 
-export function variationGeometricEclipticLongitude(jd: JulianDay): Degree {
+export function getVariationGeometricEclipticLongitude(jd: JulianDay): Degree {
   // D is the number of days since the epoch
   const D = jd - 2451545.00
   const tau = (D / 365250)
@@ -94,47 +94,47 @@ export function variationGeometricEclipticLongitude(jd: JulianDay): Degree {
   return deltaLambda
 }
 
-export function eclipticCoordinates(jd: JulianDay): EclipticCoordinates {
+export function getEclipticCoordinates(jd: JulianDay): EclipticCoordinates {
   return {
-    longitude: geometricEclipticLongitude(jd),
-    latitude: geometricEclipticLatitude(jd)
+    longitude: getGeometricEclipticLongitude(jd),
+    latitude: getGeometricEclipticLatitude(jd)
   }
 }
 
-export function eclipticCoordinatesJ2000(jd: JulianDay): EclipticCoordinates {
+export function getEclipticCoordinatesJ2000(jd: JulianDay): EclipticCoordinates {
   return {
-    longitude: geometricEclipticLongitudeJ2000(jd),
-    latitude: geometricEclipticLatitudeJ2000(jd)
+    longitude: getGeometricEclipticLongitudeJ2000(jd),
+    latitude: getGeometricEclipticLatitudeJ2000(jd)
   }
 }
 
-export function apparentEclipticCoordinates(jd: JulianDay): EclipticCoordinates {
+export function getApparentEclipticCoordinates(jd: JulianDay): EclipticCoordinates {
   return {
-    longitude: apparentEclipticLongitude(jd),
-    latitude: apparentEclipticLatitude(jd)
+    longitude: getApparentEclipticLongitude(jd),
+    latitude: getApparentEclipticLatitude(jd)
   }
 }
 
-export function equatorialCoordinates(jd: JulianDay): EquatorialCoordinates {
+export function getEquatorialCoordinates(jd: JulianDay): EquatorialCoordinates {
   return coordinates.transformEclipticToEquatorial(
-    geometricEclipticLongitude(jd),
-    geometricEclipticLatitude(jd),
+    getGeometricEclipticLongitude(jd),
+    getGeometricEclipticLatitude(jd),
     nutation.getMeanObliquityOfEcliptic(jd)
   )
 }
 
-export function equatorialCoordinatesJ2000(jd: JulianDay): EquatorialCoordinates {
+export function getEquatorialCoordinatesJ2000(jd: JulianDay): EquatorialCoordinates {
   return coordinates.transformEclipticToEquatorial(
-    geometricEclipticLongitudeJ2000(jd),
-    geometricEclipticLatitudeJ2000(jd),
+    getGeometricEclipticLongitudeJ2000(jd),
+    getGeometricEclipticLatitudeJ2000(jd),
     nutation.getMeanObliquityOfEcliptic(jd)
   )
 }
 
-export function apparentEquatorialCoordinates(jd: JulianDay): EquatorialCoordinates {
+export function getApparentEquatorialCoordinates(jd: JulianDay): EquatorialCoordinates {
   return coordinates.transformEclipticToEquatorial(
-    apparentEclipticLongitude(jd),
-    apparentEclipticLatitude(jd),
+    getApparentEclipticLongitude(jd),
+    getApparentEclipticLatitude(jd),
     nutation.getTrueObliquityOfEcliptic(jd)
   )
 }
