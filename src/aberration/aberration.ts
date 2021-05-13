@@ -69,7 +69,7 @@ export function getEclipticAberration(jd: JulianDay, Lambda: Degree, Beta: Degre
   const e = 0.016708634 - 0.000042037 * T - 0.0000001267 * Tsquared
   let pi = 102.93735 + 1.71946 * T + 0.00046 * Tsquared
   const k = 20.49552
-  let sunLongitude = sun.geometricEclipticLongitude(jd)
+  let sunLongitude = sun.getGeometricEclipticLongitude(jd)
 
   //Convert to radians
   pi = DEG2RAD * pi
