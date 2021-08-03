@@ -139,48 +139,48 @@ export function getApparentEquatorialCoordinates(jd: JulianDay): EquatorialCoord
   )
 }
 
-// low-accuracy implementation inspired from SunCalc
-export function allEventJulianDays(jd: JulianDay, lng: Degree, lat: Degree, condensed: boolean = true): JulianDay[] {
-  const J0 = 0.0009
-  var e = DEG2RAD * 23.4397 // obliquity of the Earth
+const J0 = 0.0009
 
-  function julianCycle(d: number, lw: number): number {
-    return Math.round(d - J0 - lw / (2 * Math.PI))
-  }
+function julianCycle(d: number, lw: number): number {
+  return Math.round(d - J0 - lw / (2 * Math.PI))
+}
 
-  function approxTransit(Ht: number, lw: number, n: number): number {
-    return J0 + (Ht + lw) / (2 * Math.PI) + n
-  }
+function approxTransit(Ht: number, lw: number, n: number): number {
+  return J0 + (Ht + lw) / (2 * Math.PI) + n
+}
 
-  function solarTransitJD(ds: number, M: number, L: number): number {
-    return J2000 + ds + 0.0053 * sin(M) - 0.0069 * sin(2 * L)
-  }
+function solarTransitJD(ds: number, M: number, L: number): number {
+  return J2000 + ds + 0.0053 * sin(M) - 0.0069 * sin(2 * L)
+}
 
-  function hourAngle(h: number, phi: number, d: number): number {
-    return acos((sin(h) - sin(phi) * sin(d)) / (cos(phi) * cos(d)))
-  }
+function hourAngle(h: number, phi: number, d: number): number {
+  return acos((sin(h) - sin(phi) * sin(d)) / (cos(phi) * cos(d)))
+}
 
-  function solarMeanAnomaly(d: number): number {
-    return DEG2RAD * (357.5291 + 0.98560028 * d)
-  }
+function solarMeanAnomaly(d: number): number {
+  return DEG2RAD * (357.5291 + 0.98560028 * d)
+}
 
-  function eclipticLongitude(M: number): number {
-    const C = DEG2RAD * (1.9148 * sin(M) + 0.02 * sin(2 * M) + 0.0003 * sin(3 * M)) // equation of center
-    const P = DEG2RAD * 102.9372 // perihelion of the Earth
-    return M + C + P + Math.PI
-  }
+function eclipticLongitude(M: number): number {
+  const C = DEG2RAD * (1.9148 * sin(M) + 0.02 * sin(2 * M) + 0.0003 * sin(3 * M)) // equation of center
+  const P = DEG2RAD * 102.9372 // perihelion of the Earth
+  return M + C + P + Math.PI
+}
 
-  function declination(l: number, b: number): number {
-    return asin(sin(b) * cos(e) + cos(b) * sin(e) * sin(l))
-  }
+function declination(l: number, b: number): number {
+  const e = DEG2RAD * 23.4397 // obliquity of the Earth
+  return asin(sin(b) * cos(e) + cos(b) * sin(e) * sin(l))
+}
 
 // returns set time for the given sun altitude
-  function setJD(h: number, lw: number, phi: number, dec: number, n: number, M: number, L: number): number {
-    const w = hourAngle(h, phi, dec)
-    const a = approxTransit(w, lw, n)
-    return solarTransitJD(a, M, L)
-  }
+function setJD(h: number, lw: number, phi: number, dec: number, n: number, M: number, L: number): number {
+  const w = hourAngle(h, phi, dec)
+  const a = approxTransit(w, lw, n)
+  return solarTransitJD(a, M, L)
+}
 
+// low-accuracy implementation inspired from SunCalc
+export function allEventJulianDays(jd: JulianDay, lng: Degree, lat: Degree, condensed: boolean = true): JulianDay[] {
   const lw = DEG2RAD * -lng
   const phi = DEG2RAD * lat
 
@@ -216,4 +216,24 @@ export function allEventJulianDays(jd: JulianDay, lng: Degree, lat: Degree, cond
   } else {
     return results
   }
+}
+
+export function julianDaysOfRiseDayTransitSet(jd: JulianDay, lng: Degree, lat: Degree, alt: Degree): JulianDay[] {
+  const lw = DEG2RAD * -lng
+  const phi = DEG2RAD * lat
+
+  const d = jd - J2000
+  const n = julianCycle(d, lw)
+  const ds = approxTransit(0, lw, n)
+
+  const M = solarMeanAnomaly(ds)
+  const L = eclipticLongitude(M)
+  let jdNoon = solarTransitJD(ds, M, L)
+
+  const dec = declination(L, 0)
+
+  let jdSet = setJD(alt * DEG2RAD, lw, phi, dec, n, M, L)
+  let jdRise = jdNoon - (jdSet - jdNoon) + 1
+
+  return [jdRise, jdNoon, jdSet]
 }
