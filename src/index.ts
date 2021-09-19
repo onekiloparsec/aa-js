@@ -4,6 +4,7 @@ import * as cosmology from './cosmology'
 import * as distances from './distances'
 import * as julianday from './julianday'
 import * as nutation from './nutation'
+import * as dates from './dates'
 import * as times from './times'
 import * as transits from './transits'
 
@@ -25,6 +26,7 @@ export default {
   distances,
   julianday,
   nutation,
+  dates,
   times,
   transits,
   sun,
