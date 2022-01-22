@@ -1,6 +1,6 @@
 {
   "name": "astronomical-algorithms",
-  "version": "1.5.2",
+  "version": "1.6.0",
   "description": "Astronomical Algorithms for node.js",
   "files": [
     "dist"
