@@ -218,22 +218,25 @@ export function allEventJulianDays(jd: JulianDay, lng: Degree, lat: Degree, cond
   }
 }
 
-export function julianDaysOfRiseDayTransitSet(jd: JulianDay, lng: Degree, lat: Degree, alt: Degree): JulianDay[] {
-  const lw = DEG2RAD * -lng
-  const phi = DEG2RAD * lat
-
-  const d = jd - J2000
-  const n = julianCycle(d, lw)
-  const ds = approxTransit(0, lw, n)
-
-  const M = solarMeanAnomaly(ds)
-  const L = eclipticLongitude(M)
-  let jdNoon = solarTransitJD(ds, M, L)
-
-  const dec = declination(L, 0)
-
-  let jdSet = setJD(alt * DEG2RAD, lw, phi, dec, n, M, L)
-  let jdRise = jdNoon - (jdSet - jdNoon) + 1
-
-  return [jdRise, jdNoon, jdSet]
-}
+// export function julianDaysOfRiseDayTransitSet(jd: JulianDay, lng: Degree, lat: Degree, alt: Degree): JulianDay[] {
+//   const lw = DEG2RAD * -lng
+//   const phi = DEG2RAD * lat
+//
+//   const d = jd - J2000
+//   const n = julianCycle(d, lw)
+//   const ds = approxTransit(0, lw, n)
+//
+//   const M = solarMeanAnomaly(ds)
+//   const L = eclipticLongitude(M)
+//   let jdNoon = solarTransitJD(ds, M, L)
+//
+//   const dec = declination(L, 0)
+//
+//   let jdSet = setJD(alt * DEG2RAD, lw, phi, dec, n, M, L)
+//   let jdRise = jdNoon - (jdSet - jdNoon) + 1
+//
+//   // let cosH0 = (sinh0 - sinPhi * sinDelta) / (cosPhi * cosDelta)
+//   // isCircumpolar = (abs(cosH0) > 1)
+//
+//   return [jdRise, jdNoon, jdSet]
+// }

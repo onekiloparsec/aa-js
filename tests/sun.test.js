@@ -22,3 +22,20 @@ test('get all sun events julian days', () => {
     }
   }
 })
+
+// test('get julian days of rise, transits and set at the UTC equator, for alt = 0', () => {
+//   const jd = julianday.getJulianDay(new Date())
+//   const jds = sun.julianDaysOfRiseDayTransitSet(jd, 0, 0, 0)
+//   expect(jds[0]).toBeGreaterThan(2458000.5)
+//   expect(jds[1]).toBeGreaterThan(2458000.5)
+//   expect(jds[2]).toBeGreaterThan(2458000.5)
+// })
+//
+// test('get julian days of rise, transits and set above polar circle, for alt = 0', () => {
+//   const UTCDate = new Date(Date.UTC(2021, 1, 30))
+//   const jd = julianday.getJulianDay(UTCDate)
+//   const jds = sun.julianDaysOfRiseDayTransitSet(jd, 0, 85, 0)
+//   expect(jds[0]).toBeGreaterThan(2458000.5)
+//   expect(jds[1]).toBeGreaterThan(2458000.5)
+//   expect(jds[2]).toBeGreaterThan(2458000.5)
+// })
