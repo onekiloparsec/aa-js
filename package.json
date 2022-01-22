@@ -15,7 +15,7 @@
     "lint": "npm run lint:js",
     "lint:js": "eslint --ext js --ext jsx --ext vue src test/**/*.spec.js test/*.js build",
     "lint:js:fix": "npm run lint:js -- --fix",
-    "test": "jest tests",
+    "test": "vitest",
     "prepublish": "rimraf dist && tsc"
   },
   "repository": {
@@ -49,14 +49,13 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/types": "^7.11.5",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.1.0",
-    "eslint": "^7.11.0",
-    "jest": "^26.5.2",
+    "caniuse-lite": "^1.0.30001248",
+    "eslint": "^7.32.0",
+    "rimraf": "^3.0.2",
     "source-map-loader": "^1.1.1",
-    "ts-jest": "^26.4.1",
     "ts-loader": "^8.0.4",
     "typescript": "^4.0.3",
-    "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12"
+    "vite": "^2.7.13",
+    "vitest": "^0.1.27"
   }
 }

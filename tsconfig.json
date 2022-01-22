@@ -8,8 +8,8 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "strict": true,
-    "target": "es5",
-    "module": "es6"
+    "target": "esnext",
+    "module": "esnext"
   },
   "include": [
     "./src/*.ts"
