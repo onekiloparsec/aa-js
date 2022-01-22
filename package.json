@@ -7,6 +7,7 @@
   ],
   "main": "./dist/aa.umd.js",
   "module": "./dist/aa.es.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/aa.es.js",
@@ -14,15 +15,13 @@
     }
   },
   "scripts": {
-    "clean": "rimraf dist",
-    "build": "tsc && vite build",
+    "build": "vite build && tsc --emitDeclarationOnly",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "lint": "npm run lint:js",
     "lint:js": "eslint --ext js --ext jsx --ext vue src test/**/*.spec.js test/*.js build",
     "lint:js:fix": "npm run lint:js -- --fix",
-    "test": "vitest",
-    "prepublish": "rimraf dist && tsc"
+    "test": "vitest"
   },
   "repository": {
     "type": "git",

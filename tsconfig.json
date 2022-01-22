@@ -9,9 +9,10 @@
     "esModuleInterop": true,
     "strict": true,
     "target": "esnext",
-    "module": "esnext"
+    "module": "esnext",
+    "isolatedModules": true
   },
   "include": [
-    "./src/*.ts"
+    "./src/**/*.ts"
   ]
 }
