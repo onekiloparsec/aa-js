@@ -2,11 +2,17 @@
   "name": "astronomical-algorithms",
   "version": "1.5.2",
   "description": "Astronomical Algorithms for node.js",
-  "main": "dist/index.js",
-  "types": "dist/",
   "files": [
     "dist"
   ],
+  "main": "./dist/aa.umd.js",
+  "module": "./dist/aa.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/aa.es.js",
+      "require": "./dist/aa.umd.js"
+    }
+  },
   "scripts": {
     "clean": "rimraf dist",
     "build": "tsc && webpack --config ./webpack.config.js --mode=production",
