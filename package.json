@@ -15,7 +15,7 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build": "tsc && webpack --config ./webpack.config.js --mode=production",
+    "build": "tsc && vite build",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "lint": "npm run lint:js",
