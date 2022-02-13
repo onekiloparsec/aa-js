@@ -5,6 +5,7 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "main": "./dist/aa.umd.js",
   "module": "./dist/aa.es.js",
   "types": "./dist/index.d.ts",
