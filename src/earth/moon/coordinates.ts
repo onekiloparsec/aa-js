@@ -127,6 +127,7 @@ export function getEclipticCoordinates(jd: JulianDay): EclipticCoordinates {
   }
 }
 
+// Distance Earth-Moon
 export function getRadiusVector(jd: JulianDay): number {
   const D = getMeanElongation(jd) * DEG2RAD
   const M = getSunMeanAnomaly(jd) * DEG2RAD
