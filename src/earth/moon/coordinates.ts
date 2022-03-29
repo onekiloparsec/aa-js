@@ -127,12 +127,12 @@ export function getEclipticCoordinates(jd: JulianDay): EclipticCoordinates {
   }
 }
 
-export function getRadiusVector(JD: JulianDay): number {
-  const D = getMeanElongation(JD) * DEG2RAD
-  const M = getSunMeanAnomaly(JD) * DEG2RAD
-  const Mdash = getMeanAnomaly(JD) * DEG2RAD
-  const F = getArgumentOfLatitude(JD) * DEG2RAD
-  const E = getEccentricity(JD)
+export function getRadiusVector(jd: JulianDay): number {
+  const D = getMeanElongation(jd) * DEG2RAD
+  const M = getSunMeanAnomaly(jd) * DEG2RAD
+  const Mdash = getMeanAnomaly(jd) * DEG2RAD
+  const F = getArgumentOfLatitude(jd) * DEG2RAD
+  const E = getEccentricity(jd)
   const Esquared = E * E
 
   let SigmaR = 0
