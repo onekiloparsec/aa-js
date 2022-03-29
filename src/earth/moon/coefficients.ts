@@ -1,5 +1,9 @@
 
+// See AA. Table 47.A, pp 339-340
+// Periodic terms for the longitude Epsilon_l and distance Epsilon_r of the Moon.
+// The unit is 0.000001 degree for Epsilon_l and 0.001 for Epsilon_r
 
+// Argument (multiple of D, M, Mprime, F)
 export const gMoonCoefficients1 =
   [
     [0, 0, 1, 0],
