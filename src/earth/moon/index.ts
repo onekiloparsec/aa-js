@@ -16,6 +16,8 @@ import {
   trueLongitudeAscendingNode
 } from './coordinates'
 
+import { getEquatorialHorizontalParallax, getIlluminatedFraction, getPhaseAngle } from "./details";
+
 export {
   getMeanLongitude,
   getMeanElongation,
@@ -31,5 +33,8 @@ export {
   getMeanLongitudePerigee,
   trueLongitudeAscendingNode,
   horizontalParallax,
-  getEquatorialCoordinates
+  getEquatorialCoordinates,
+  getPhaseAngle,
+  getIlluminatedFraction,
+  getEquatorialHorizontalParallax
 }
