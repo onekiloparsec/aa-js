@@ -1,18 +1,18 @@
-import { JulianDay, PlanetaryConstants } from '../constants'
+import { JulianDay, PlanetaryConstants } from '../types'
 import { fractionalYear } from '../dates'
 
 // The value of K must be an integer
-function getK(jd: JulianDay): number {
+function getK (jd: JulianDay): number {
   const decimalYear = fractionalYear(jd)
   return Math.floor(0.08430 * (decimalYear - 2011.20))
 }
 
-export function getAphelion(jd: JulianDay): JulianDay {
+export function getAphelion (jd: JulianDay): JulianDay {
   const kdash = getK(jd) + 0.5
   return 2455636.936 + 4332.897065 * kdash + 0.0001367 * kdash * kdash
 }
 
-export function getPerihelion(jd: JulianDay): JulianDay {
+export function getPerihelion (jd: JulianDay): JulianDay {
   const k = getK(jd)
   return 2455636.936 + 4332.897065 * k + 0.0001367 * k * k
 }

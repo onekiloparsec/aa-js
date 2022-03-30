@@ -1,4 +1,3 @@
-
 export const gDeltaTValues =
   [
 // All the initial values are observed values from 1 February 1973 to 1 June 2017 as taken from http:// maia.usno.navy.mil/ser7/deltat.data

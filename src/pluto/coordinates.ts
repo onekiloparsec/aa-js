@@ -1,6 +1,6 @@
-import { AstronomicalUnit, DEG2RAD, Degree, JulianDay } from '../constants'
+import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '../types'
+import { DEG2RAD } from '../constants'
 import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
-import { EclipticCoordinates, EquatorialCoordinates } from '../coordinates'
 import { getEllipticalDetails } from '../elliptical'
 
 import { g_PlutoArgumentCoefficients, g_PlutoLatitudeCoefficients, g_PlutoLongitudeCoefficients, g_PlutoRadiusCoefficients } from './coefficients'
@@ -8,7 +8,7 @@ import { g_PlutoArgumentCoefficients, g_PlutoLatitudeCoefficients, g_PlutoLongit
 const cos = Math.cos
 const sin = Math.sin
 
-export function getEclipticLongitude(jd: JulianDay): Degree {
+export function getEclipticLongitude (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
   const J = 34.35 + 3034.9057 * T
   const S = 50.08 + 1222.1138 * T
@@ -28,7 +28,7 @@ export function getEclipticLongitude(jd: JulianDay): Degree {
   return L
 }
 
-export function getEclipticLatitude(jd: JulianDay): Degree {
+export function getEclipticLatitude (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
   const J = 34.35 + 3034.9057 * T
   const S = 50.08 + 1222.1138 * T
@@ -47,7 +47,7 @@ export function getEclipticLatitude(jd: JulianDay): Degree {
   return MapToMinus90To90Range(L)
 }
 
-export function getRadiusVector(jd: JulianDay): AstronomicalUnit {
+export function getRadiusVector (jd: JulianDay): AstronomicalUnit {
   const T = (jd - 2451545) / 36525
   const J = 34.35 + 3034.9057 * T
   const S = 50.08 + 1222.1138 * T
@@ -66,14 +66,14 @@ export function getRadiusVector(jd: JulianDay): AstronomicalUnit {
   return R
 }
 
-export function getEclipticCoordinates(JD: JulianDay): EclipticCoordinates {
+export function getEclipticCoordinates (JD: JulianDay): EclipticCoordinates {
   return {
     longitude: getEclipticLongitude(JD),
     latitude: getEclipticLatitude(JD)
   }
 }
 
-export function getEquatorialCoordinates(jd: JulianDay): EquatorialCoordinates {
+export function getEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates {
   const details = getEllipticalDetails(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
   return details.apparentGeocentricEquatorialCoordinates
 }

@@ -1,4 +1,4 @@
-import { JulianDay } from '../constants'
+import { JulianDay } from '../types'
 import { gDeltaTValues, gLeapSecondCoefficients } from './coefficients'
 import * as dates from '../dates'
 

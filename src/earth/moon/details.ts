@@ -1,4 +1,5 @@
-import { DEG2RAD, Degree, JulianDay, RAD2DEG } from '../../constants'
+import { Degree, JulianDay } from '../../types'
+import { DEG2RAD, RAD2DEG } from '../../constants'
 import * as sun from '../../sun'
 import * as earth from '../../earth'
 

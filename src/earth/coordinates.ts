@@ -1,5 +1,6 @@
 import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
-import { Degree, JulianDay, RAD2DEG } from '../constants'
+import {  RAD2DEG } from '../constants'
+import { Degree, EclipticCoordinates, JulianDay } from "../types";
 import {
   gB0EarthCoefficients,
   gB1EarthCoefficients,
@@ -23,7 +24,6 @@ import {
   gR3EarthCoefficients,
   gR4EarthCoefficients
 } from './coefficients'
-import { EclipticCoordinates } from '../coordinates'
 
 
 export function getEclipticLongitude(JD: JulianDay): Degree {

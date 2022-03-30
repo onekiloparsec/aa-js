@@ -1,11 +1,12 @@
-import { DEG2RAD, Degree, JulianDay, RAD2DEG } from '../../constants'
+import { DEG2RAD, RAD2DEG } from '../../constants'
 import * as nutation from '../../nutation'
 import { MapTo0To360Range } from '../../utils'
-import { gMoonCoefficients1, gMoonCoefficients2, gMoonCoefficients3, gMoonCoefficients4 } from './coefficients'
 import { getEccentricity, getSunMeanAnomaly } from '../coordinates'
-import { EclipticCoordinates, EquatorialCoordinates, transformEclipticToEquatorial } from '../../coordinates'
+import { transformEclipticToEquatorial } from '../../coordinates'
+import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer } from "../../types";
+import { gMoonCoefficients1, gMoonCoefficients2, gMoonCoefficients3, gMoonCoefficients4 } from './coefficients'
 
-export function getMeanLongitude(jd: JulianDay): Degree {
+export function getMeanLongitude (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
@@ -13,7 +14,7 @@ export function getMeanLongitude(jd: JulianDay): Degree {
   return MapTo0To360Range(218.3164477 + 481267.88123421 * T - 0.0015786 * Tsquared + Tcubed / 538841 - T4 / 65194000)
 }
 
-export function getMeanElongation(jd: JulianDay): Degree {
+export function getMeanElongation (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
@@ -21,7 +22,7 @@ export function getMeanElongation(jd: JulianDay): Degree {
   return MapTo0To360Range(297.8501921 + 445267.1114034 * T - 0.0018819 * Tsquared + Tcubed / 545868 - T4 / 113065000)
 }
 
-export function getMeanAnomaly(jd: JulianDay): Degree {
+export function getMeanAnomaly (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
@@ -29,7 +30,7 @@ export function getMeanAnomaly(jd: JulianDay): Degree {
   return MapTo0To360Range(134.9633964 + 477198.8675055 * T + 0.0087414 * Tsquared + Tcubed / 69699 - T4 / 14712000)
 }
 
-export function getArgumentOfLatitude(jd: JulianDay): Degree {
+export function getArgumentOfLatitude (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
@@ -37,7 +38,7 @@ export function getArgumentOfLatitude(jd: JulianDay): Degree {
   return MapTo0To360Range(93.2720950 + 483202.0175233 * T - 0.0036539 * Tsquared - Tcubed / 3526000 + T4 / 863310000)
 }
 
-export function getEclipticLongitude(jd: JulianDay): Degree {
+export function getEclipticLongitude (jd: JulianDay): Degree {
   const Ldash = getMeanLongitude(jd) * DEG2RAD
   const D = getMeanElongation(jd) * DEG2RAD
   const M = getSunMeanAnomaly(jd) * DEG2RAD
@@ -79,7 +80,7 @@ export function getEclipticLongitude(jd: JulianDay): Degree {
   return MapTo0To360Range(LdashDegrees + SigmaL / 1000000 + NutationInLong / 3600)
 }
 
-export function getEclipticLatitude(jd: JulianDay): Degree {
+export function getEclipticLatitude (jd: JulianDay): Degree {
   const Ldash = getMeanLongitude(jd) * DEG2RAD
   const D = getMeanElongation(jd) * DEG2RAD
   const M = getSunMeanAnomaly(jd) * DEG2RAD
@@ -120,7 +121,7 @@ export function getEclipticLatitude(jd: JulianDay): Degree {
   return SigmaB / 1000000
 }
 
-export function getEclipticCoordinates(jd: JulianDay): EclipticCoordinates {
+export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
   return {
     longitude: getEclipticLongitude(jd),
     latitude: getEclipticLatitude(jd)
@@ -128,7 +129,7 @@ export function getEclipticCoordinates(jd: JulianDay): EclipticCoordinates {
 }
 
 // Distance Earth-Moon
-export function getRadiusVector(jd: JulianDay): number {
+export function getRadiusVector (jd: JulianDay): Kilometer {
   const D = getMeanElongation(jd) * DEG2RAD
   const M = getSunMeanAnomaly(jd) * DEG2RAD
   const Mdash = getMeanAnomaly(jd) * DEG2RAD
@@ -156,15 +157,15 @@ export function getRadiusVector(jd: JulianDay): number {
   return 385000.56 + SigmaR / 1000
 }
 
-export function radiusVectorToHorizontalParallax(radiusVector: JulianDay): number {
+export function radiusVectorToHorizontalParallax (radiusVector: JulianDay): number {
   return RAD2DEG * Math.asin(6378.14 / radiusVector)
 }
 
-export function horizontalParallaxToRadiusVector(horizontalParallax: JulianDay): number {
+export function horizontalParallaxToRadiusVector (horizontalParallax: JulianDay): number {
   return 6378.14 / Math.sin(DEG2RAD * horizontalParallax)
 }
 
-export function getMeanLongitudeAscendingNode(jd: JulianDay): Degree {
+export function getMeanLongitudeAscendingNode (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
@@ -172,7 +173,7 @@ export function getMeanLongitudeAscendingNode(jd: JulianDay): Degree {
   return MapTo0To360Range(125.0445479 - 1934.1362891 * T + 0.0020754 * Tsquared + Tcubed / 467441 - T4 / 60616000)
 }
 
-export function getMeanLongitudePerigee(jd: JulianDay): Degree {
+export function getMeanLongitudePerigee (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
@@ -180,7 +181,7 @@ export function getMeanLongitudePerigee(jd: JulianDay): Degree {
   return MapTo0To360Range(83.3532465 + 4069.0137287 * T - 0.0103200 * Tsquared - Tcubed / 80053 + T4 / 18999000)
 }
 
-export function trueLongitudeAscendingNode(jd: JulianDay): Degree {
+export function trueLongitudeAscendingNode (jd: JulianDay): Degree {
   let TrueAscendingNode = getMeanLongitudeAscendingNode(jd)
 
   const D = getMeanElongation(jd) * DEG2RAD
@@ -198,11 +199,11 @@ export function trueLongitudeAscendingNode(jd: JulianDay): Degree {
   return MapTo0To360Range(TrueAscendingNode)
 }
 
-export function horizontalParallax(jd: JulianDay): number {
+export function horizontalParallax (jd: JulianDay): number {
   return radiusVectorToHorizontalParallax(getRadiusVector(jd))
 }
 
-export function getEquatorialCoordinates(jd: JulianDay): EquatorialCoordinates {
+export function getEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getEclipticLongitude(jd),
     getEclipticLatitude(jd),

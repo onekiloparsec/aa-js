@@ -1,4 +1,5 @@
-import { ArcSecond, DEG2RAD, JulianDay } from './constants'
+import { ArcSecond, JulianDay } from "./types";
+import { DEG2RAD } from './constants'
 import { getDecimal } from './sexagesimal'
 import { MapTo0To360Range } from './utils'
 
@@ -81,7 +82,7 @@ const gNutationCoefficients =
     }
   })
 
-export function getNutationInLongitude(jd: JulianDay): ArcSecond {
+export function getNutationInLongitude (jd: JulianDay): ArcSecond {
   const T = (jd - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
@@ -105,7 +106,7 @@ export function getNutationInLongitude(jd: JulianDay): ArcSecond {
   return value
 }
 
-export function getNutationInObliquity(jd: JulianDay): ArcSecond {
+export function getNutationInObliquity (jd: JulianDay): ArcSecond {
   const T = (jd - 2451545) / 36525
   const Tsquared = T * T
   const Tcubed = Tsquared * T
@@ -129,7 +130,7 @@ export function getNutationInObliquity(jd: JulianDay): ArcSecond {
   return value
 }
 
-export function getMeanObliquityOfEcliptic(jd: JulianDay): number {
+export function getMeanObliquityOfEcliptic (jd: JulianDay): number {
   const U = (jd - 2451545) / 3652500
   const Usquared = U * U
   const Ucubed = Usquared * U
@@ -154,7 +155,7 @@ export function getMeanObliquityOfEcliptic(jd: JulianDay): number {
     getDecimal(0, 0, 2.45) * U10
 }
 
-export function getTrueObliquityOfEcliptic(jd: JulianDay): number {
+export function getTrueObliquityOfEcliptic (jd: JulianDay): number {
   return getMeanObliquityOfEcliptic(jd) + getDecimal(0, 0, getNutationInObliquity(jd))
 }
 

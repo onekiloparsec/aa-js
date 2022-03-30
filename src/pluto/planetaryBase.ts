@@ -1,4 +1,4 @@
-import { PlanetaryConstants } from '../constants'
+import { PlanetaryConstants } from '../types'
 
 
 // JPL values, see https://ssd.jpl.nasa.gov/?planet_phys_par

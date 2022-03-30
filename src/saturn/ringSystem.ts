@@ -1,5 +1,6 @@
-import { ArcSecond, DEG2RAD, Degree, H2RAD, JulianDay, RAD2DEG } from '../constants'
-import { SaturnicentricCoordinates, transformEclipticToEquatorial } from '../coordinates';
+import { ArcSecond, Degree, JulianDay, SaturnicentricCoordinates } from '../types'
+import { DEG2RAD, H2RAD, RAD2DEG } from '../constants'
+import { transformEclipticToEquatorial } from '../coordinates';
 import { getNutationInLongitude, getTrueObliquityOfEcliptic } from '../nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from '../fk5'
 import { getDistanceToLightTime } from '../elliptical'
@@ -24,7 +25,7 @@ export interface SaturnRingSystem {
   sunCoordinates: SaturnicentricCoordinates
 }
 
-export function getRingSystemDetails(JD: JulianDay): SaturnRingSystem {
+export function getRingSystemDetails (JD: JulianDay): SaturnRingSystem {
   const T = (JD - 2451545) / 36525
   const T2 = T * T
 

@@ -1,7 +1,8 @@
-import * as earth from '../earth'
-import { ArcSecond, DEG2RAD, Degree, JulianDay, RAD2DEG } from '../constants'
-import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
+import { Degree, JulianDay } from '../types'
+import { DEG2RAD, RAD2DEG } from '../constants'
 import { getDistanceToLightTime } from '../elliptical'
+import * as earth from '../earth'
+import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
 const sin = Math.sin
 const cos = Math.cos
@@ -10,7 +11,7 @@ const abs = Math.abs
 const atan2 = Math.atan2
 const asin = Math.asin
 
-function computeMarsDetails(jd: JulianDay) {
+function computeMarsDetails (jd: JulianDay) {
   const T = (jd - 2451545) / 36525
 
   const Lambda0 = 352.9065 + 1.17330 * T
@@ -65,14 +66,14 @@ function computeMarsDetails(jd: JulianDay) {
   return { T, Lambda0, Beta0, lambda, beta, l, b, r, DELTA }
 }
 
-export function getPlanetocentricDeclinationOfTheEarth(jd: JulianDay) {
+export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay) {
   const { Lambda0, Beta0, lambda, beta } = computeMarsDetails(jd)
   // details.DE
   return RAD2DEG * asin(-sin(DEG2RAD * Beta0) * sin(beta * DEG2RAD) - cos(DEG2RAD * Beta0) * cos(beta * DEG2RAD) * cos(DEG2RAD * (Lambda0 - lambda)))
 }
 
 /// The planetocentric declination of the Sun. When it is positive, the planet' northern pole is tilted towards the Sun.
-export function getPlanetocentricDeclinationOfTheSun(jd: JulianDay): Degree {
+export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay): Degree {
   const { T, Lambda0, Beta0, l, b, r } = computeMarsDetails(jd)
 
   //Step 7

@@ -1,5 +1,5 @@
-import { DEG2RAD, Degree, Hour, JulianDay, RAD2DEG, RAD2H } from '../constants'
-import { Coordinates2D, Coordinates3D } from '../coordinates'
+import { DEG2RAD, RAD2DEG, RAD2H } from '../constants'
+import { Coordinates2D, Coordinates3D, Degree, Hour, JulianDay } from '../types'
 import { g_AberrationCoefficients } from './coefficients'
 import * as sun from '../sun'
 
@@ -7,7 +7,7 @@ const cos = Math.cos
 const sin = Math.sin
 
 
-export function getEarthVelocity(jd: JulianDay): Coordinates3D {
+export function getEarthVelocity (jd: JulianDay): Coordinates3D {
   const T = (jd - 2451545) / 36525
   const L2 = 3.1761467 + 1021.3285546 * T
   const L3 = 1.7534703 + 628.3075849 * T
@@ -46,7 +46,7 @@ export function getEarthVelocity(jd: JulianDay): Coordinates3D {
   return { X, Y, Z }
 }
 
-export function getEquatorialAberration(jd: JulianDay, Alpha: Hour, Delta: Degree): Coordinates2D {
+export function getEquatorialAberration (jd: JulianDay, Alpha: Hour, Delta: Degree): Coordinates2D {
   Alpha = Alpha * 15 * DEG2RAD
   Delta = Delta * DEG2RAD
 
@@ -63,7 +63,7 @@ export function getEquatorialAberration(jd: JulianDay, Alpha: Hour, Delta: Degre
   }
 }
 
-export function getEclipticAberration(jd: JulianDay, Lambda: Degree, Beta: Degree): Coordinates2D {
+export function getEclipticAberration (jd: JulianDay, Lambda: Degree, Beta: Degree): Coordinates2D {
   const T = (jd - 2451545) / 36525
   const Tsquared = T * T
   const e = 0.016708634 - 0.000042037 * T - 0.0000001267 * Tsquared
