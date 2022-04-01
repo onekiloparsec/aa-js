@@ -17,7 +17,7 @@ export type GramPerCubicCentimeter = number; // g cm^-3
 export type MeterPerSquareSecond = number; // m s^-2
 export type KilometerPerSecond = number; // km s^-1
 
-export type EllipticalDetails = {
+export type EllipticalGeocentricDetails = {
   apparentLightTime: Day,
   apparentGeocentricDistance: AstronomicalUnit,
   apparentGeocentricEclipticCoordinates: EclipticCoordinates,

@@ -1,4 +1,4 @@
-import { EllipticalDetails, JulianDay } from './types'
+import { EllipticalGeocentricDetails, JulianDay } from './types'
 import { DEG2RAD, RAD2DEG } from './constants'
 import { transformEclipticToEquatorial } from './coordinates'
 import { getNutationInLongitude, getTrueObliquityOfEcliptic } from './nutation'
@@ -22,7 +22,7 @@ export function getEllipticalDetails (jd: JulianDay,
                                       eclipticLongitudeFunc: Function,
                                       eclipticLatitudeFunc: Function,
                                       radiusVectorFunc: Function,
-                                      isSun: boolean = false): EllipticalDetails {
+                                      isSun: boolean = false): EllipticalGeocentricDetails {
   // Calculate the position of the earth first
   let JD0 = jd
   const L0 = earth.getEclipticLongitude(JD0) * DEG2RAD

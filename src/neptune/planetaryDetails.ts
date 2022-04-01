@@ -1,4 +1,4 @@
-import { Degree, EllipticalDetails, JulianDay, Magnitude } from '../types'
+import { Degree, EllipticalGeocentricDetails, JulianDay, Magnitude } from '../types'
 import { DEG2RAD, RAD2DEG } from '../constants'
 import { getEllipticalDetails } from '../elliptical'
 import { MapTo0To360Range } from '../utils'
@@ -6,7 +6,7 @@ import * as earth from '../earth'
 
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
-export function getPlanetaryDetails (jd: JulianDay): EllipticalDetails {
+export function getPlanetaryDetails (jd: JulianDay): EllipticalGeocentricDetails {
   return getEllipticalDetails(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
 }
 
