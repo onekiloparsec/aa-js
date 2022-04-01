@@ -1,8 +1,9 @@
-import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '../types'
 import { DEG2RAD } from '../constants'
+import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, EllipticalGeocentricDetails, JulianDay } from '../types'
 import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
 import { getEllipticalDetails } from '../elliptical'
-
+import { transformEclipticToEquatorial } from "../coordinates";
+import { getTrueObliquityOfEcliptic } from "../nutation";
 import { g_PlutoArgumentCoefficients, g_PlutoLatitudeCoefficients, g_PlutoLongitudeCoefficients, g_PlutoRadiusCoefficients } from './coefficients'
 
 const cos = Math.cos
@@ -74,7 +75,14 @@ export function getEclipticCoordinates (JD: JulianDay): EclipticCoordinates {
 }
 
 export function getEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates {
-  const details = getEllipticalDetails(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
-  return details.apparentGeocentricEquatorialCoordinates
+  return transformEclipticToEquatorial(
+    getEclipticLongitude(jd),
+    getEclipticLatitude(jd),
+    getTrueObliquityOfEcliptic(jd)
+  )
+}
+
+export function getEllipticalGeocentricDetails (jd: JulianDay): EllipticalGeocentricDetails {
+  return getEllipticalDetails(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
 }
 
