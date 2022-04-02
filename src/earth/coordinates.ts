@@ -123,11 +123,11 @@ export function getMeanAnomaly (jd: JulianDay): Degree {
 
 /**
  * Computes the eccentricity of the orbit
- * @param  {Number} JD The julian day
+ * @param  {JulianDay} jd The julian day
  * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
  */
-export function getEccentricity(JD: JulianDay): number {
-  const T = (JD - 2451545) / 36525
-  const Tsquared = T * T
-  return 1 - 0.002516 * T - 0.0000074 * Tsquared
+export function getEccentricity (jd: JulianDay): number {
+  const T = (jd - 2451545) / 36525
+  return 1 - 0.002516 * T - 0.0000074 * T * T
+}
 }
