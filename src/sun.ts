@@ -94,7 +94,7 @@ export function getVariationGeometricEclipticLongitude (jd: JulianDay): Degree {
   const tau2 = tau * tau
   const tau3 = tau2 * tau
 
-  const deltaLambda = 3548.193 +
+  return 3548.193 +
     118.568 * sin(DEG2RAD * (87.5287 + 359993.7286 * tau)) +
     2.476 * sin(DEG2RAD * (85.0561 + 719987.4571 * tau)) +
     1.376 * sin(DEG2RAD * (27.8502 + 4452671.1152 * tau)) +
@@ -116,8 +116,6 @@ export function getVariationGeometricEclipticLongitude (jd: JulianDay): Degree {
     0.021 * tau2 * sin(DEG2RAD * (205.0482 + 719987.4571 * tau)) +
     0.004 * tau2 * sin(DEG2RAD * (297.8610 + 4452671.1152 * tau)) +
     0.010 * tau3 * sin(DEG2RAD * (154.7066 + 359993.7286 * tau))
-
-  return deltaLambda
 }
 
 export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
