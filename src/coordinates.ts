@@ -22,6 +22,17 @@ export function rightAscensionFromEcliptic (l: Degree, b: Degree, epsilon: Degre
     24.0)
 }
 
+/**
+ * Transform ecliptic longitude and latitude to equatorial coordinates.
+ * @param  {Degree} l The ecliptic longitude
+ * @param  {Degree} b The ecliptic latitude
+ * @param  {Degree} epsilon The obliquity of the ecliptic; that is, the angle between the ecliptic
+ * and the celestial equator. The mean obliquity (epsilon0) is given by nutation.getMeanObliquityOfEcliptic(jd).
+ * If however the *apparent* R.A. and Dec. are required (that is, affected by aberration and nutation), the
+ * true obliquity epsilon + Delta epsilon should be used. One can use nutation.getTrueObliquityOfEcliptic(jd)
+ * If R.A. and Dec. are referred to the standard equinox of J2000, epsilon must be that of ECLIPTIC_OBLIQUITY_J2000_0.
+ * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
+ */
 export function transformEclipticToEquatorial (l: Degree, b: Degree, epsilon: Degree): EquatorialCoordinates {
   return {
     rightAscension: rightAscensionFromEcliptic(l, b, epsilon),
