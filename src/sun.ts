@@ -181,10 +181,6 @@ function hourAngle (h: number, phi: number, d: number): number {
   return acos((sin(h) - sin(phi) * sin(d)) / (cos(phi) * cos(d)))
 }
 
-function solarMeanAnomaly (d: number): number {
-  return DEG2RAD * (357.5291 + 0.98560028 * d)
-}
-
 function eclipticLongitude (M: number): number {
   const C = DEG2RAD * (1.9148 * sin(M) + 0.02 * sin(2 * M) + 0.0003 * sin(3 * M)) // equation of center
   const P = DEG2RAD * 102.9372 // perihelion of the Earth
@@ -212,7 +208,7 @@ export function allEventJulianDays (jd: JulianDay, lng: Degree, lat: Degree, con
   const n = julianCycle(d, lw)
   const ds = approxTransit(0, lw, n)
 
-  const M = solarMeanAnomaly(ds)
+  const M = getMeanAnomaly(ds)
   const L = eclipticLongitude(M)
   let jdNoon = solarTransitJD(ds, M, L)
 
