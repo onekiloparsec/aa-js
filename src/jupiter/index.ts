@@ -2,8 +2,9 @@ import {
   getEclipticCoordinates,
   getEclipticLatitude,
   getEclipticLongitude,
-  getEllipticalGeocentricDetails,
   getEquatorialCoordinates,
+  getApparentEquatorialCoordinates,
+  getEllipticalGeocentricDetails,
   getRadiusVector,
 } from './coordinates'
 import { getCentralMeridianLongitudes, getPlanetocentricDeclinationOfTheEarth, getPlanetocentricDeclinationOfTheSun } from './jupiterDetails'
@@ -22,6 +23,7 @@ export {
   getEclipticLatitude,
   getEclipticCoordinates,
   getEquatorialCoordinates,
+  getApparentEquatorialCoordinates,
   getEllipticalGeocentricDetails,
   getAphelion,
   getPerihelion,

@@ -2,8 +2,9 @@ import {
   getEclipticCoordinates,
   getEclipticLatitude,
   getEclipticLongitude,
-  getEllipticalGeocentricDetails,
   getEquatorialCoordinates,
+  getApparentEquatorialCoordinates,
+  getEllipticalGeocentricDetails,
   getRadiusVector
 } from './coordinates'
 import { constants } from './planetaryBase'
@@ -21,6 +22,7 @@ export {
   getEclipticLatitude,
   getEclipticCoordinates,
   getEquatorialCoordinates,
+  getApparentEquatorialCoordinates,
   getEllipticalGeocentricDetails,
   constants,
   getRadiusVector,
