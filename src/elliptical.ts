@@ -1,4 +1,4 @@
-import { EllipticalGeocentricDetails, JulianDay } from './types'
+import { AstronomicalUnit, EllipticalGeocentricDetails, JulianDay, KilometerPerSecond } from './types'
 import { DEG2RAD, RAD2DEG } from './constants'
 import { transformEclipticToEquatorial } from './coordinates'
 import { getNutationInLongitude, getTrueObliquityOfEcliptic } from './nutation'
@@ -138,4 +138,45 @@ export function getEllipticalDetails (jd: JulianDay,
     apparentGeocentricEclipticCoordinates,
     apparentGeocentricEquatorialCoordinates
   }
+}
+
+/**
+ * Computes the object instantaneous velocity in the orbit
+ * @param  {AstronomicalUnit} r The radius vector, or distance of the object from the Sun.
+ * @param  {AstronomicalUnit} a The semi-major axis of the object orbit.
+ * @returns {KilometerPerSecond} The velocity
+ */
+export function getInstantaneousVelocity (r: AstronomicalUnit, a: AstronomicalUnit): KilometerPerSecond {
+  return 42.1219 * sqrt((1 / r) - (1 / (2 * a)));
+}
+
+/**
+ * Computes the object's velocity at perihelion
+ * @param  {number} e The eccentricity of the object's orbit
+ * @param  {AstronomicalUnit} a The semi-major axis of the object orbit.
+ * @returns {KilometerPerSecond} The velocity
+ */
+export function getVelocityAtPerihelion (e: number, a: AstronomicalUnit): KilometerPerSecond {
+  return 29.7847 / sqrt(a) * sqrt((1 + e) / (1 - e));
+}
+
+/**
+ * Computes the object's velocity at aphelion
+ * @param  {number} e The eccentricity of the object's orbit
+ * @param  {AstronomicalUnit} a The semi-major axis of the object orbit.
+ * @returns {KilometerPerSecond} The velocity
+ */
+export function getVelocityAtAphelion (e: number, a: AstronomicalUnit): KilometerPerSecond {
+  return 29.7847 / sqrt(a) * sqrt((1 - e) / (1 + e));
+}
+
+/**
+ * Computes the object's length of orbit ellipse
+ * @param  {number} e The eccentricity of the object's orbit
+ * @param  {AstronomicalUnit} a The semi-major axis of the object orbit.
+ * @returns {AstronomicalUnit} The ellipse length
+ */
+export function getLengthOfEllipse (e: number, a: AstronomicalUnit): AstronomicalUnit {
+  const b = a * sqrt(1 - e * e);
+  return Math.PI * (3 * (a + b) - sqrt((a + 3 * b) * (3 * a + b)));
 }
