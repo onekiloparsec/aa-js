@@ -1,23 +1,32 @@
 import { Degree, JulianDay } from '../../types'
-import { DEG2RAD, RAD2DEG } from '../../constants'
+import { DEG2RAD, H2RAD, ONE_UA_IN_KILOMETERS, RAD2DEG } from '../../constants'
 import * as sun from '../../sun'
 import * as earth from '../../earth'
 
-import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
+import { getEquatorialCoordinates, getRadiusVector } from './coordinates'
 
 // / The phase angle, that is the angle (Sun-planet-Earth).
 export function getPhaseAngle (jd: JulianDay): Degree {
-  const sunLongitude = sun.getGeometricEclipticLongitude(jd)
-  const moonCoords = { longitude: getEclipticLongitude(jd), latitude: getEclipticLatitude(jd) }
+  // Geocentric
+  const sunCoords = sun.getEquatorialCoordinates(jd)
+  // Geocentric
+  const moonCoords = getEquatorialCoordinates(jd)
+
+  const alpha0 = sunCoords.rightAscension * H2RAD
+  const alpha = moonCoords.rightAscension * H2RAD
+  const delta0 = sunCoords.declination * DEG2RAD
+  const delta = moonCoords.declination * DEG2RAD
 
   // Geocentric elongation Psi of the Moon from the Sun
-  const psi = Math.acos(Math.cos(moonCoords.latitude * DEG2RAD) * Math.cos((moonCoords.longitude - sunLongitude) * DEG2RAD))
+  // See AA p.345
+  const cospsi = Math.sin(delta0) * Math.sin(delta) + Math.cos(delta0) * Math.cos(delta) * Math.cos(alpha0 - alpha)
+  const psi = Math.acos(cospsi) * RAD2DEG
 
   // Distance Earth-Moon
-  const Delta = getRadiusVector(jd)
-  const R = earth.getRadiusVector(jd)
+  const Delta = getRadiusVector(jd) // kilometer
+  const R = earth.getRadiusVector(jd) * ONE_UA_IN_KILOMETERS
 
-  return Math.atan2(R * Math.sin(psi), Delta - R * Math.cos(psi)) * RAD2DEG
+  return Math.atan2(R * Math.sin(psi * DEG2RAD), Delta - R * Math.cos(psi * DEG2RAD)) * RAD2DEG
 }
 
 // / The illuminated fraction of the Moon as seen from the Earth. Between 0 and 1.
