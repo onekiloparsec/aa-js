@@ -4,6 +4,7 @@ import {
   getEclipticLatitude,
   getEclipticLongitude,
   getEquatorialCoordinates,
+  getApparentEquatorialCoordinates,
   getMeanAnomaly,
   getMeanElongation,
   getMeanLongitude,
@@ -34,6 +35,7 @@ export {
   trueLongitudeAscendingNode,
   horizontalParallax,
   getEquatorialCoordinates,
+  getApparentEquatorialCoordinates,
   getPhaseAngle,
   getIlluminatedFraction,
   getEquatorialHorizontalParallax
