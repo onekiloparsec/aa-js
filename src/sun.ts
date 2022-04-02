@@ -12,6 +12,20 @@ const cos = Math.cos
 const acos = Math.acos
 const asin = Math.asin
 
+/**
+ * Computes the Sun mean anomaly which is equal to the mean anomaly of the Earth.
+ * @param  {JulianDay} jd The julian day
+ * @returns {Degree} The sun mean anomaly
+ */
+export function getMeanAnomaly (jd: JulianDay): Degree {
+  const T = (jd - 2451545) / 36525
+  const T2 = T * T
+  const T3 = T2 * T
+  // In AA++ (C++) implementation, values differ a little bit. But we prefer textbook AA values to ensure tests validity
+  // In AA++ : MapTo0To360Range(357.5291092 + 35999.0502909 * T - 0.0001536 * T2 + T3 / 24490000)
+  return MapTo0To360Range(357.52911 + 35999.05029 * T - 0.0001537 * T2 + T3 / 24490000)
+}
+
 export function getGeometricEclipticLongitude (jd: JulianDay): Degree {
   return MapTo0To360Range(earth.getEclipticLongitude(jd) + 180)
 }

@@ -5,8 +5,8 @@ import {
   getEclipticLatitudeJ2000,
   getEclipticLongitude,
   getEclipticLongitudeJ2000,
+  getMeanAnomaly,
   getRadiusVector,
-  getSunMeanAnomaly
 } from './coordinates'
 import * as moon from './moon'
 
@@ -15,9 +15,9 @@ export {
   getEclipticLatitude,
   getEclipticCoordinates,
   getRadiusVector,
+  getMeanAnomaly,
   getEclipticLongitudeJ2000,
   getEclipticLatitudeJ2000,
-  getSunMeanAnomaly,
   getEccentricity,
   moon
 }

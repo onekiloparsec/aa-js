@@ -117,16 +117,8 @@ export function getEclipticLatitudeJ2000 (jd: JulianDay): Degree {
   return MapToMinus90To90Range(value * RAD2DEG)
 }
 
-/**
- * Computes the eccentricity of the orbit
- * @param  {Number} JD The julian day
- * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
- */
-export function getSunMeanAnomaly(JD: JulianDay): Degree {
-  const T = (JD - 2451545) / 36525
-  const Tsquared = T * T
-  const Tcubed = Tsquared * T
-  return MapTo0To360Range(357.5291092 + 35999.0502909 * T - 0.0001536 * Tsquared + Tcubed / 24490000)
+export function getMeanAnomaly (jd: JulianDay): Degree {
+  return sun.getMeanAnomaly(jd)
 }
 
 /**
