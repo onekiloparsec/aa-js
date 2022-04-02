@@ -1,5 +1,5 @@
 import { DEG2RAD, J2000, SUN_EVENTS_ALTITUDES, SUN_EXTENDED_EVENTS_ALTITUDES } from './constants'
-import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from "./types";
+import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianCentury, JulianDay } from "./types";
 import * as coordinates from './coordinates'
 import * as earth from './earth'
 import * as fk5 from './fk5'
@@ -38,38 +38,70 @@ export function getTrueAnomaly (jd: JulianDay): Degree {
   return MapTo0To360Range(M + C)
 }
 
+// See AA p 164
+export function getSunEquationOfTheCenter (T: JulianCentury, M: Degree): Degree {
+  return (1.914602 - 0.004817 * T - 0.000014 * T * T) * sin(M * DEG2RAD) +
+    (0.019993 - 0.000101 * T) * sin(2 * M * DEG2RAD) +
+    0.000289 * sin(3 * M * DEG2RAD)
+}
+
+// See AA p 164
+export function getMeanLongitudeReferredToMeanEquinoxOfDate (T: JulianCentury) {
+  return MapTo0To360Range(280.46646 + 36000.76983 * T + 0.0003032 * T * T)
+}
+
+// --- "low" accuracy (approx 0.01 degree) true geoMETRIC longitude of the Sun referred to
+// the mean equinox of the date. See AA pp 164. This longitude is the quantity required in the
+// calculation of geocentric planetary position.
 export function getGeometricEclipticLongitude (jd: JulianDay): Degree {
+  const T = (jd - 2451545.0) / 36525.0
+  const L0 = getMeanLongitudeReferredToMeanEquinoxOfDate(T)
+  const M = getMeanAnomaly(jd)
+  const C = getSunEquationOfTheCenter(T, M)
+  return MapTo0To360Range(L0 + C)
+}
+
+// --- high accuracy geocentric longitude and latitude of the Sun. See AA pp 166.
+
+export function getGeocentricEclipticLongitude (jd: JulianDay): Degree {
   return MapTo0To360Range(earth.getEclipticLongitude(jd) + 180)
 }
 
-export function getGeometricEclipticLatitude (jd: JulianDay): Degree {
+export function getGeocentricEclipticLatitude (jd: JulianDay): Degree {
   return -earth.getEclipticLatitude(jd)
 }
 
-export function getGeometricEclipticLongitudeJ2000 (jd: JulianDay): Degree {
+export function getGeocentricEclipticLongitudeJ2000 (jd: JulianDay): Degree {
   return MapTo0To360Range(earth.getEclipticLongitudeJ2000(jd) + 180)
 }
 
-export function getGeometricEclipticLatitudeJ2000 (jd: JulianDay): Degree {
+export function getGeocentricEclipticLatitudeJ2000 (jd: JulianDay): Degree {
   return -earth.getEclipticLatitudeJ2000(jd)
 }
 
+// --- Conversion from high-accuracy geocentric coordinates of the Sun to the FK5 system. See AA p 166
+
+// See AA+ CAASun::GeometricFK5EclipticLongitude
 export function getGeometricFK5EclipticLongitude (jd: JulianDay): Degree {
-  // Convert to the FK5 stystem
-  let Longitude = getGeometricEclipticLongitude(jd)
-  const Latitude = getGeometricEclipticLatitude(jd)
+  // Convert to the FK5 system
+  let Longitude = getGeocentricEclipticLongitude(jd)
+  const Latitude = getGeocentricEclipticLatitude(jd)
   Longitude += fk5.getCorrectionInLongitude(Longitude, Latitude, jd)
   return Longitude
 }
 
+// See AA+ CAASun::GeometricFK5EclipticLatitude
 export function getGeometricFK5EclipticLatitude (jd: JulianDay): Degree {
-  // Convert to the FK5 stystem
-  const Longitude = getGeometricEclipticLongitude(jd)
-  let Latitude = getGeometricEclipticLatitude(jd)
+  // Convert to the FK5 system
+  const Longitude = getGeocentricEclipticLongitude(jd)
+  let Latitude = getGeocentricEclipticLatitude(jd)
   Latitude += fk5.getCorrectionInLatitude(jd, Longitude)
   return Latitude
 }
 
+// ---|
+
+// See AA+ CAASun::ApparentEclipticLongitude
 export function getApparentEclipticLongitude (jd: JulianDay): Degree {
   let Longitude = getGeometricFK5EclipticLongitude(jd)
 
@@ -83,9 +115,28 @@ export function getApparentEclipticLongitude (jd: JulianDay): Degree {
   return Longitude
 }
 
+// See AA+ CAASun::ApparentEclipticLatitude
 export function getApparentEclipticLatitude (jd: JulianDay): Degree {
   return getGeometricFK5EclipticLatitude(jd)
 }
+
+// Wrapper
+export function getApparentEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
+  return {
+    longitude: getApparentEclipticLongitude(jd),
+    latitude: getApparentEclipticLatitude(jd)
+  }
+}
+
+export function getApparentEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates {
+  return coordinates.transformEclipticToEquatorial(
+    getApparentEclipticLongitude(jd),
+    getApparentEclipticLatitude(jd),
+    nutation.getTrueObliquityOfEcliptic(jd)
+  )
+}
+
+// ----------
 
 export function getVariationGeometricEclipticLongitude (jd: JulianDay): Degree {
   // D is the number of days since the epoch
@@ -120,46 +171,31 @@ export function getVariationGeometricEclipticLongitude (jd: JulianDay): Degree {
 
 export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
   return {
-    longitude: getGeometricEclipticLongitude(jd),
-    latitude: getGeometricEclipticLatitude(jd)
+    longitude: getGeocentricEclipticLongitude(jd),
+    latitude: getGeocentricEclipticLatitude(jd)
   }
 }
 
 export function getEclipticCoordinatesJ2000 (jd: JulianDay): EclipticCoordinates {
   return {
-    longitude: getGeometricEclipticLongitudeJ2000(jd),
-    latitude: getGeometricEclipticLatitudeJ2000(jd)
-  }
-}
-
-export function getApparentEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
-  return {
-    longitude: getApparentEclipticLongitude(jd),
-    latitude: getApparentEclipticLatitude(jd)
+    longitude: getGeocentricEclipticLongitudeJ2000(jd),
+    latitude: getGeocentricEclipticLatitudeJ2000(jd)
   }
 }
 
 export function getEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates {
   return coordinates.transformEclipticToEquatorial(
-    getGeometricEclipticLongitude(jd),
-    getGeometricEclipticLatitude(jd),
+    getGeocentricEclipticLongitude(jd),
+    getGeocentricEclipticLatitude(jd),
     nutation.getMeanObliquityOfEcliptic(jd)
   )
 }
 
 export function getEquatorialCoordinatesJ2000 (jd: JulianDay): EquatorialCoordinates {
   return coordinates.transformEclipticToEquatorial(
-    getGeometricEclipticLongitudeJ2000(jd),
-    getGeometricEclipticLatitudeJ2000(jd),
+    getGeocentricEclipticLongitudeJ2000(jd),
+    getGeocentricEclipticLatitudeJ2000(jd),
     nutation.getMeanObliquityOfEcliptic(jd)
-  )
-}
-
-export function getApparentEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates {
-  return coordinates.transformEclipticToEquatorial(
-    getApparentEclipticLongitude(jd),
-    getApparentEclipticLatitude(jd),
-    nutation.getTrueObliquityOfEcliptic(jd)
   )
 }
 

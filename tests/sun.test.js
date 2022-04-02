@@ -19,11 +19,11 @@ test('get sun geometric longitude mean equinox of the date (AA p.165)', () => {
 
 
 test('get sun apparent equatorial coordinates (AA p.165)', () => {
-  const UTCDate = new Date(Date.UTC(1993, 9, 13))
+  const UTCDate = new Date(Date.UTC(1992, 9, 13))
   const jd = julianday.getJulianDay(UTCDate)
   const equ = sun.getApparentEquatorialCoordinates(jd)
-  expect(equ.rightAscension).toBeCloseTo(13.225389, 0) // accuracy is bad, as in SwiftAA !
-  expect(equ.declination).toBeCloseTo(-7.78507, 0) // accuracy is bad, as in SwiftAA !
+  expect(equ.rightAscension).toBeCloseTo(13.225389, 3) // accuracy is bad, as in SwiftAA !
+  expect(equ.declination).toBeCloseTo(-7.78507, 2) // accuracy is bad, as in SwiftAA !
 })
 
 test('get all sun events julian days', () => {
