@@ -28,9 +28,10 @@ import {
   gR4EarthCoefficients
 } from './coefficients'
 
-// heliocentric coordinates see AA p.219
+// heliocentric coordinates see AA p.218, 219
+// Corresponds to AA+ CAAEarth::EclipticLongitude
 export function getEclipticLongitude (jd: JulianDay): Degree {
-  const tau = (jd - 2451545) / 365250 // julian day millenials, not centuries!
+  const tau = (jd - 2451545) / 365250 // julian day millennia, not centuries!
   const tau2 = tau * tau
   const tau3 = tau2 * tau
   const tau4 = tau3 * tau
@@ -50,8 +51,10 @@ export function getEclipticLongitude (jd: JulianDay): Degree {
   return MapTo0To360Range(value * RAD2DEG)
 }
 
+// heliocentric coordinates see AA p.218, 219
+// Corresponds to AA+ CAAEarth::EclipticLatitude
 export function getEclipticLatitude (jd: JulianDay): Degree {
-  const tau = (jd - 2451545) / 365250
+  const tau = (jd - 2451545) / 365250 // julian day millennia, not centuries!
 
   const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
   const B1 = gB1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
@@ -68,8 +71,10 @@ export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
   }
 }
 
+// heliocentric coordinates see AA p.218, 219
+// Corresponds to AA+ CAAEarth::RadiusVector
 export function getRadiusVector (jd: JulianDay): Degree {
-  const tau = (jd - 2451545) / 365250
+  const tau = (jd - 2451545) / 365250 // julian day millennia, not centuries!
   const tau2 = tau * tau
   const tau3 = tau2 * tau
   const tau4 = tau3 * tau
@@ -87,7 +92,7 @@ export function getEclipticLongitudeJ2000 (jd: JulianDay): Degree {
   const tau = (jd - 2451545) / 365250
   const tau2 = tau * tau
   const tau3 = tau2 * tau
-  const rho4 = tau3 * tau
+  const tau4 = tau3 * tau
 
   const L0 = gL0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
   const L1 = gL1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
@@ -95,7 +100,7 @@ export function getEclipticLongitudeJ2000 (jd: JulianDay): Degree {
   const L3 = gL3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
   const L4 = gL4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
 
-  const value = (L0 + L1 * tau + L2 * tau2 + L3 * tau3 + L4 * rho4) / 100000000
+  const value = (L0 + L1 * tau + L2 * tau2 + L3 * tau3 + L4 * tau4) / 100000000
 
   return MapTo0To360Range(value * RAD2DEG)
 }
@@ -104,7 +109,7 @@ export function getEclipticLatitudeJ2000 (jd: JulianDay): Degree {
   const tau = (jd - 2451545) / 365250
   const tau2 = tau * tau
   const tau3 = tau2 * tau
-  const rho4 = tau3 * tau
+  const tau4 = tau3 * tau
 
   const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
   const B1 = gB1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
@@ -112,7 +117,7 @@ export function getEclipticLatitudeJ2000 (jd: JulianDay): Degree {
   const B3 = gB3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
   const B4 = gB4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
 
-  const value = (B0 + B1 * tau + B2 * tau2 + B3 * tau3 + B4 * rho4) / 100000000
+  const value = (B0 + B1 * tau + B2 * tau2 + B3 * tau3 + B4 * tau4) / 100000000
 
   return MapToMinus90To90Range(value * RAD2DEG)
 }
