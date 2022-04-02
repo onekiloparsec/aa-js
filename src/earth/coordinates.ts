@@ -1,6 +1,6 @@
 import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
 import { RAD2DEG } from '../constants'
-import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from "../types";
+import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from "../types";
 import { transformEclipticToEquatorial } from "../coordinates";
 import { getTrueObliquityOfEcliptic } from "../nutation";
 import * as sun from '../sun'
@@ -71,9 +71,8 @@ export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
   }
 }
 
-// heliocentric coordinates see AA p.218, 219
 // Corresponds to AA+ CAAEarth::RadiusVector
-export function getRadiusVector (jd: JulianDay): Degree {
+export function getRadiusVector (jd: JulianDay): AstronomicalUnit {
   const tau = (jd - 2451545) / 365250 // julian day millennia, not centuries!
   const tau2 = tau * tau
   const tau3 = tau2 * tau
