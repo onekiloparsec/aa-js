@@ -1,6 +1,23 @@
 import * as sun from '../src/sun'
 import * as julianday from '../src/julianday'
 
+test('get sun geometric longitude mean equinox of the date (AA p.165)', () => {
+  const UTCDate = new Date(Date.UTC(1992, 9, 13))
+  const jd = julianday.getJulianDay(UTCDate)
+  expect(jd).toBeCloseTo(2448908.5, 3)
+  const T = (jd - 2451545.0) / 36525.0
+  expect(T).toBeCloseTo(-0.072183436, 7)
+  const L0 = sun.getMeanLongitudeReferredToMeanEquinoxOfDate(T)
+  expect(L0).toBeCloseTo(201.80720, 6)
+  const M = sun.getMeanAnomaly(jd)
+  expect(M).toBeCloseTo(278.99397, 6)
+  const C = sun.getSunEquationOfTheCenter(T, M)
+  expect(C).toBeCloseTo(-1.89732, 5)
+  const Epsilon = sun.getGeometricEclipticLongitude(jd)
+  expect(Epsilon).toBeCloseTo(199.90988)
+})
+
+
 test('get sun apparent equatorial coordinates (AA p.165)', () => {
   const UTCDate = new Date(Date.UTC(1993, 9, 13))
   const jd = julianday.getJulianDay(UTCDate)
