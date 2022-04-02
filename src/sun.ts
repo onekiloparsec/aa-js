@@ -26,6 +26,18 @@ export function getMeanAnomaly (jd: JulianDay): Degree {
   return MapTo0To360Range(357.52911 + 35999.05029 * T - 0.0001537 * T2 + T3 / 24490000)
 }
 
+/**
+ * Computes the Sun true anomaly
+ * @param  {JulianDay} jd The julian day
+ * @returns {Degree} The Sun true anomaly
+ */
+export function getTrueAnomaly (jd: JulianDay): Degree {
+  const T = (jd - 2451545) / 36525
+  const M = getMeanAnomaly(jd)
+  const C = getSunEquationOfTheCenter(T, M)
+  return MapTo0To360Range(M + C)
+}
+
 export function getGeometricEclipticLongitude (jd: JulianDay): Degree {
   return MapTo0To360Range(earth.getEclipticLongitude(jd) + 180)
 }
