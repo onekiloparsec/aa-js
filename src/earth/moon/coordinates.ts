@@ -1,7 +1,6 @@
 import { DEG2RAD, RAD2DEG } from '../../constants'
 import * as nutation from '../../nutation'
 import { MapTo0To360Range } from '../../utils'
-import { getEccentricity, getSunMeanAnomaly } from '../coordinates'
 import { transformEclipticToEquatorial } from '../../coordinates'
 import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer } from "../../types";
 import { gMoonCoefficients1, gMoonCoefficients2, gMoonCoefficients3, gMoonCoefficients4 } from './coefficients'
@@ -41,7 +40,7 @@ export function getArgumentOfLatitude (jd: JulianDay): Degree {
 export function getEclipticLongitude (jd: JulianDay): Degree {
   const Ldash = getMeanLongitude(jd) * DEG2RAD
   const D = getMeanElongation(jd) * DEG2RAD
-  const M = getSunMeanAnomaly(jd) * DEG2RAD
+  const M = sun.getMeanAnomaly(jd) * DEG2RAD
   const Mdash = getMeanAnomaly(jd) * DEG2RAD
   const F = getArgumentOfLatitude(jd) * DEG2RAD
   const E = getEccentricity(jd)
@@ -83,7 +82,7 @@ export function getEclipticLongitude (jd: JulianDay): Degree {
 export function getEclipticLatitude (jd: JulianDay): Degree {
   const Ldash = getMeanLongitude(jd) * DEG2RAD
   const D = getMeanElongation(jd) * DEG2RAD
-  const M = getSunMeanAnomaly(jd) * DEG2RAD
+  const M = sun.getMeanAnomaly(jd) * DEG2RAD
   const Mdash = getMeanAnomaly(jd) * DEG2RAD
   const F = getArgumentOfLatitude(jd) * DEG2RAD
   const E = getEccentricity(jd)
@@ -131,7 +130,7 @@ export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
 // Distance Earth-Moon
 export function getRadiusVector (jd: JulianDay): Kilometer {
   const D = getMeanElongation(jd) * DEG2RAD
-  const M = getSunMeanAnomaly(jd) * DEG2RAD
+  const M = sun.getMeanAnomaly(jd) * DEG2RAD
   const Mdash = getMeanAnomaly(jd) * DEG2RAD
   const F = getArgumentOfLatitude(jd) * DEG2RAD
   const E = getEccentricity(jd)
@@ -185,7 +184,7 @@ export function trueLongitudeAscendingNode (jd: JulianDay): Degree {
   let TrueAscendingNode = getMeanLongitudeAscendingNode(jd)
 
   const D = getMeanElongation(jd) * DEG2RAD
-  const M = getSunMeanAnomaly(jd) * DEG2RAD
+  const M = sun.getMeanAnomaly(jd) * DEG2RAD
   const Mdash = getMeanAnomaly(jd) * DEG2RAD
   const F = getArgumentOfLatitude(jd) * DEG2RAD
 
