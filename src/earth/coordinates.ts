@@ -1,6 +1,9 @@
 import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
-import {  RAD2DEG } from '../constants'
-import { Degree, EclipticCoordinates, JulianDay } from "../types";
+import { RAD2DEG } from '../constants'
+import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from "../types";
+import { transformEclipticToEquatorial } from "../coordinates";
+import { getTrueObliquityOfEcliptic } from "../nutation";
+import * as sun from '../sun'
 import {
   gB0EarthCoefficients,
   gB1EarthCoefficients,
@@ -25,89 +28,91 @@ import {
   gR4EarthCoefficients
 } from './coefficients'
 
+// heliocentric coordinates see AA p.219
+export function getEclipticLongitude (jd: JulianDay): Degree {
+  const tau = (jd - 2451545) / 365250 // julian day millenials, not centuries!
+  const tau2 = tau * tau
+  const tau3 = tau2 * tau
+  const tau4 = tau3 * tau
+  const tau5 = tau4 * tau
 
-export function getEclipticLongitude(JD: JulianDay): Degree {
-  const rho = (JD - 2451545) / 365250
-  const rhosquared = rho * rho
-  const rhocubed = rhosquared * rho
-  const rho4 = rhocubed * rho
-  const rho5 = rho4 * rho
+  // AA p.218: Values A are expressed in 10^-8 radians, while B and C values are in radians.
 
-  const L0 = gL0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L1 = gL1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L2 = gL2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L3 = gL3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L4 = gL4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L5 = gL5EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+  const L0 = gL0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const L1 = gL1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const L2 = gL2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const L3 = gL3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const L4 = gL4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const L5 = gL5EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
 
-  const value = (L0 + L1 * rho + L2 * rhosquared + L3 * rhocubed + L4 * rho4 + L5 * rho5) / 100000000
+  const value = (L0 + L1 * tau + L2 * tau2 + L3 * tau3 + L4 * tau4 + L5 * tau5) / 1e8
 
   return MapTo0To360Range(value * RAD2DEG)
 }
 
-export function getEclipticLatitude(JD: JulianDay): Degree {
-  const rho = (JD - 2451545) / 365250
+export function getEclipticLatitude (jd: JulianDay): Degree {
+  const tau = (jd - 2451545) / 365250
 
-  const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const B1 = gB1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+  const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const B1 = gB1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
 
-  const value = (B0 + B1 * rho) / 100000000
+  const value = (B0 + B1 * tau) / 100000000
 
   return MapToMinus90To90Range(value * RAD2DEG)
 }
 
-export function getEclipticCoordinates(JD: JulianDay): EclipticCoordinates {
+export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
   return {
-    longitude: getEclipticLongitude(JD),
-    latitude: getEclipticLatitude(JD)
+    longitude: getEclipticLongitude(jd),
+    latitude: getEclipticLatitude(jd)
   }
 }
 
-export function getRadiusVector(JD: JulianDay): Degree {
-  const rho = (JD - 2451545) / 365250
-  const rhosquared = rho * rho
-  const rhocubed = rhosquared * rho
-  const rho4 = rhocubed * rho
+export function getRadiusVector (jd: JulianDay): Degree {
+  const tau = (jd - 2451545) / 365250
+  const tau2 = tau * tau
+  const tau3 = tau2 * tau
+  const tau4 = tau3 * tau
 
-  const R0 = gR0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const R1 = gR1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const R2 = gR2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const R3 = gR3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const R4 = gR4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+  const R0 = gR0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const R1 = gR1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const R2 = gR2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const R3 = gR3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const R4 = gR4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
 
-  return (R0 + R1 * rho + R2 * rhosquared + R3 * rhocubed + R4 * rho4) / 100000000
+  return (R0 + R1 * tau + R2 * tau2 + R3 * tau3 + R4 * tau4) / 100000000
 }
 
-export function getEclipticLongitudeJ2000(JD: JulianDay): Degree {
-  const rho = (JD - 2451545) / 365250
-  const rhosquared = rho * rho
-  const rhocubed = rhosquared * rho
-  const rho4 = rhocubed * rho
+export function getEclipticLongitudeJ2000 (jd: JulianDay): Degree {
+  const tau = (jd - 2451545) / 365250
+  const tau2 = tau * tau
+  const tau3 = tau2 * tau
+  const rho4 = tau3 * tau
 
-  const L0 = gL0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L1 = gL1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L2 = gL2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L3 = gL3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const L4 = gL4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+  const L0 = gL0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const L1 = gL1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const L2 = gL2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const L3 = gL3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const L4 = gL4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
 
-  const value = (L0 + L1 * rho + L2 * rhosquared + L3 * rhocubed + L4 * rho4) / 100000000
+  const value = (L0 + L1 * tau + L2 * tau2 + L3 * tau3 + L4 * rho4) / 100000000
 
   return MapTo0To360Range(value * RAD2DEG)
 }
 
-export function getEclipticLatitudeJ2000(JD: JulianDay): Degree {
-  const rho = (JD - 2451545) / 365250
-  const rhosquared = rho * rho
-  const rhocubed = rhosquared * rho
-  const rho4 = rhocubed * rho
+export function getEclipticLatitudeJ2000 (jd: JulianDay): Degree {
+  const tau = (jd - 2451545) / 365250
+  const tau2 = tau * tau
+  const tau3 = tau2 * tau
+  const rho4 = tau3 * tau
 
-  const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const B1 = gB1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const B2 = gB2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const B3 = gB3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
-  const B4 = gB4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * rho), 0)
+  const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const B1 = gB1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const B2 = gB2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const B3 = gB3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const B4 = gB4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
 
-  const value = (B0 + B1 * rho + B2 * rhosquared + B3 * rhocubed + B4 * rho4) / 100000000
+  const value = (B0 + B1 * tau + B2 * tau2 + B3 * tau3 + B4 * rho4) / 100000000
 
   return MapToMinus90To90Range(value * RAD2DEG)
 }

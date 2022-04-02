@@ -8,34 +8,34 @@ import { gMoonCoefficients1, gMoonCoefficients2, gMoonCoefficients3, gMoonCoeffi
 
 export function getMeanLongitude (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
-  const Tsquared = T * T
-  const Tcubed = Tsquared * T
-  const T4 = Tcubed * T
-  return MapTo0To360Range(218.3164477 + 481267.88123421 * T - 0.0015786 * Tsquared + Tcubed / 538841 - T4 / 65194000)
+  const T2 = T * T
+  const T3 = T2 * T
+  const T4 = T3 * T
+  return MapTo0To360Range(218.3164477 + 481267.88123421 * T - 0.0015786 * T2 + T3 / 538841 - T4 / 65194000)
 }
 
 export function getMeanElongation (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
-  const Tsquared = T * T
-  const Tcubed = Tsquared * T
-  const T4 = Tcubed * T
-  return MapTo0To360Range(297.8501921 + 445267.1114034 * T - 0.0018819 * Tsquared + Tcubed / 545868 - T4 / 113065000)
+  const T2 = T * T
+  const T3 = T2 * T
+  const T4 = T3 * T
+  return MapTo0To360Range(297.8501921 + 445267.1114034 * T - 0.0018819 * T2 + T3 / 545868 - T4 / 113065000)
 }
 
 export function getMeanAnomaly (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
-  const Tsquared = T * T
-  const Tcubed = Tsquared * T
-  const T4 = Tcubed * T
-  return MapTo0To360Range(134.9633964 + 477198.8675055 * T + 0.0087414 * Tsquared + Tcubed / 69699 - T4 / 14712000)
+  const T2 = T * T
+  const T3 = T2 * T
+  const T4 = T3 * T
+  return MapTo0To360Range(134.9633964 + 477198.8675055 * T + 0.0087414 * T2 + T3 / 69699 - T4 / 14712000)
 }
 
 export function getArgumentOfLatitude (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
-  const Tsquared = T * T
-  const Tcubed = Tsquared * T
-  const T4 = Tcubed * T
-  return MapTo0To360Range(93.2720950 + 483202.0175233 * T - 0.0036539 * Tsquared - Tcubed / 3526000 + T4 / 863310000)
+  const T2 = T * T
+  const T3 = T2 * T
+  const T4 = T3 * T
+  return MapTo0To360Range(93.2720950 + 483202.0175233 * T - 0.0036539 * T2 - T3 / 3526000 + T4 / 863310000)
 }
 
 export function getEclipticLongitude (jd: JulianDay): Degree {
@@ -167,18 +167,18 @@ export function horizontalParallaxToRadiusVector (horizontalParallax: JulianDay)
 
 export function getMeanLongitudeAscendingNode (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
-  const Tsquared = T * T
-  const Tcubed = Tsquared * T
-  const T4 = Tcubed * T
-  return MapTo0To360Range(125.0445479 - 1934.1362891 * T + 0.0020754 * Tsquared + Tcubed / 467441 - T4 / 60616000)
+  const T2 = T * T
+  const T3 = T2 * T
+  const T4 = T3 * T
+  return MapTo0To360Range(125.0445479 - 1934.1362891 * T + 0.0020754 * T2 + T3 / 467441 - T4 / 60616000)
 }
 
 export function getMeanLongitudePerigee (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
-  const Tsquared = T * T
-  const Tcubed = Tsquared * T
-  const T4 = Tcubed * T
-  return MapTo0To360Range(83.3532465 + 4069.0137287 * T - 0.0103200 * Tsquared - Tcubed / 80053 + T4 / 18999000)
+  const T2 = T * T
+  const T3 = T2 * T
+  const T4 = T3 * T
+  return MapTo0To360Range(83.3532465 + 4069.0137287 * T - 0.0103200 * T2 - T3 / 80053 + T4 / 18999000)
 }
 
 export function trueLongitudeAscendingNode (jd: JulianDay): Degree {

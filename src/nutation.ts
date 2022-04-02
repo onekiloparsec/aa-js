@@ -84,14 +84,14 @@ const gNutationCoefficients =
 
 export function getNutationInLongitude (jd: JulianDay): ArcSecond {
   const T = (jd - 2451545) / 36525
-  const Tsquared = T * T
-  const Tcubed = Tsquared * T
+  const T2 = T * T
+  const T3 = T2 * T
 
-  const D = MapTo0To360Range(297.85036 + 445267.111480 * T - 0.0019142 * Tsquared + Tcubed / 189474)
-  const M = MapTo0To360Range(357.52772 + 35999.050340 * T - 0.0001603 * Tsquared - Tcubed / 300000)
-  const Mprime = MapTo0To360Range(134.96298 + 477198.867398 * T + 0.0086972 * Tsquared + Tcubed / 56250)
-  const F = MapTo0To360Range(93.27191 + 483202.017538 * T - 0.0036825 * Tsquared + Tcubed / 327270)
-  const omega = MapTo0To360Range(125.04452 - 1934.136261 * T + 0.0020708 * Tsquared + Tcubed / 450000)
+  const D = MapTo0To360Range(297.85036 + 445267.111480 * T - 0.0019142 * T2 + T3 / 189474)
+  const M = MapTo0To360Range(357.52772 + 35999.050340 * T - 0.0001603 * T2 - T3 / 300000)
+  const Mprime = MapTo0To360Range(134.96298 + 477198.867398 * T + 0.0086972 * T2 + T3 / 56250)
+  const F = MapTo0To360Range(93.27191 + 483202.017538 * T - 0.0036825 * T2 + T3 / 327270)
+  const omega = MapTo0To360Range(125.04452 - 1934.136261 * T + 0.0020708 * T2 + T3 / 450000)
 
   let value = 0
   for (let i = 0; i < gNutationCoefficients.length; i++) {
@@ -108,14 +108,14 @@ export function getNutationInLongitude (jd: JulianDay): ArcSecond {
 
 export function getNutationInObliquity (jd: JulianDay): ArcSecond {
   const T = (jd - 2451545) / 36525
-  const Tsquared = T * T
-  const Tcubed = Tsquared * T
+  const T2 = T * T
+  const T3 = T2 * T
 
-  const D = MapTo0To360Range(297.85036 + 445267.111480 * T - 0.0019142 * Tsquared + Tcubed / 189474)
-  const M = MapTo0To360Range(357.52772 + 35999.050340 * T - 0.0001603 * Tsquared - Tcubed / 300000)
-  const Mprime = MapTo0To360Range(134.96298 + 477198.867398 * T + 0.0086972 * Tsquared + Tcubed / 56250)
-  const F = MapTo0To360Range(93.27191 + 483202.017538 * T - 0.0036825 * Tsquared + Tcubed / 327270)
-  const omega = MapTo0To360Range(125.04452 - 1934.136261 * T + 0.0020708 * Tsquared + Tcubed / 450000)
+  const D = MapTo0To360Range(297.85036 + 445267.111480 * T - 0.0019142 * T2 + T3 / 189474)
+  const M = MapTo0To360Range(357.52772 + 35999.050340 * T - 0.0001603 * T2 - T3 / 300000)
+  const Mprime = MapTo0To360Range(134.96298 + 477198.867398 * T + 0.0086972 * T2 + T3 / 56250)
+  const F = MapTo0To360Range(93.27191 + 483202.017538 * T - 0.0036825 * T2 + T3 / 327270)
+  const omega = MapTo0To360Range(125.04452 - 1934.136261 * T + 0.0020708 * T2 + T3 / 450000)
 
   let value = 0
   for (let i = 0; i < gNutationCoefficients.length; i++) {
