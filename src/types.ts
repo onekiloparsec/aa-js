@@ -4,6 +4,7 @@ export type Day = number;
 export type Hour = number;
 export type Pixel = number;
 export type JulianDay = number;
+export type JulianCentury = number;
 export type ArcMinute = number;
 export type ArcSecond = number;
 export type JupiterRadius = number
