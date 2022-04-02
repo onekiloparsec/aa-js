@@ -135,4 +135,3 @@ export function getEccentricity (jd: JulianDay): number {
   const T = (jd - 2451545) / 36525
   return 1 - 0.002516 * T - 0.0000074 * T * T
 }
-}
