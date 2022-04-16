@@ -44,14 +44,14 @@ export function horizontalAltitude (jd: JulianDay, lng: Degree, lat: Degree, ra:
   const lmst = julianday.localSiderealTime(jd, lng)
   const hourAngle = lmst - ra
   return asin(sin(lat * DEG2RAD) * sin(dec * DEG2RAD) +
-    cos(lat * DEG2RAD) * cos(dec * DEG2RAD) * cos(hourAngle * DEG2RAD)) * RAD2DEG
+    cos(lat * DEG2RAD) * cos(dec * DEG2RAD) * cos(hourAngle * H2RAD)) * RAD2DEG
 }
 
 export function horizontalAzimuth (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
   const lmst = julianday.localSiderealTime(jd, lng)
   const hourAngle = lmst - ra
-  return atan(sin(hourAngle * DEG2RAD),
-    cos(hourAngle * DEG2RAD) * sin(lat * DEG2RAD) -
+  return atan(sin(hourAngle * H2RAD),
+    cos(hourAngle * H2RAD) * sin(lat * DEG2RAD) -
     tan(dec * DEG2RAD) * cos(lat * DEG2RAD)) * RAD2DEG
 }
 
