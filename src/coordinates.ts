@@ -4,11 +4,11 @@ import { fmod } from './utils'
 import * as julianday from './julianday'
 import { precessEquatorialCoordinates } from "./precession";
 
-const sin = (deg) => Math.sin(deg * DEG2RAD)
-const cos = (deg) => Math.cos(deg * DEG2RAD)
-const tan = (deg) => Math.tan(deg * DEG2RAD)
-const asin = (val) => Math.asin(val) * RAD2DEG
-const atan = (y, x) => Math.atan2(y, x) * RAD2DEG
+const sin = (deg: Degree): Degree => Math.sin(deg * DEG2RAD)
+const cos = (deg: Degree): Degree => Math.cos(deg * DEG2RAD)
+const tan = (deg: Degree): Degree => Math.tan(deg * DEG2RAD)
+const asin = (val: Degree): Degree => Math.asin(val) * RAD2DEG
+const atan = (y: Degree, x: Degree): Degree => Math.atan2(y, x) * RAD2DEG
 const pow = Math.pow
 const round = Math.round
 
