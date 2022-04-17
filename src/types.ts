@@ -40,10 +40,16 @@ export type PlanetaryConstants = {
 
 export type EquatorialCoordinates = {
   rightAscension: Hour,
-  declination: Degree
+  declination: Degree,
+  epoch?: JulianDay
 }
 
 export type EclipticCoordinates = {
+  longitude: Degree,
+  latitude: Degree
+}
+
+export type GalacticCoordinates = {
   longitude: Degree,
   latitude: Degree
 }

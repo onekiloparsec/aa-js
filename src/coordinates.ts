@@ -1,7 +1,8 @@
-import { DEG2H, DEG2RAD, H2DEG, H2RAD, RAD2DEG, RAD2H } from './constants'
-import { Degree, EclipticCoordinates, EquatorialCoordinates, HorizontalCoordinates, Hour, JulianDay, Point } from "./types";
+import { DEG2H, DEG2RAD, H2DEG, H2RAD, J2000, JULIAN_DAY_B1950_0, RAD2DEG, RAD2H } from './constants'
+import { Degree, EclipticCoordinates, EquatorialCoordinates, GalacticCoordinates, HorizontalCoordinates, Hour, JulianDay, Point } from "./types";
 import { fmod } from './utils'
 import * as julianday from './julianday'
+import { precessEquatorialCoordinates } from "./precession";
 
 const sin = (deg) => Math.sin(deg * DEG2RAD)
 const cos = (deg) => Math.cos(deg * DEG2RAD)
@@ -62,6 +63,56 @@ export function transformEquatorialToEcliptic (ra: Hour, dec: Degree, epsilon: D
   }
 }
 
+// --- galactic coordinates
+
+// See AA p.94
+export function galacticLongitudeFromEquatorial (ra: Hour, dec: Degree, epoch: JulianDay = J2000): Degree {
+  const equCoordsB1950 = precessEquatorialCoordinates(ra, dec, epoch, JULIAN_DAY_B1950_0)
+  return 303 - atan(sin(192.25 - equCoordsB1950.rightAscension * H2DEG),
+    cos(192.25 - equCoordsB1950.rightAscension * H2DEG) * sin(27.4) - tan(equCoordsB1950.declination) * cos(27.4))
+}
+
+export function galacticLatitudeFromEquatorial (ra: Hour, dec: Degree, epoch: JulianDay = J2000): Degree {
+  const equCoordsB1950 = precessEquatorialCoordinates(ra, dec, epoch, JULIAN_DAY_B1950_0)
+  return sin(equCoordsB1950.declination) * sin(27.4) + cos(equCoordsB1950.declination) * cos(27.4) * cos(192.25 - equCoordsB1950.rightAscension * H2DEG)
+}
+
+/**
+ * Transform equatorial coordinates to galactic coordinates.
+ * @param  {Degree} ra The equatorial right ascension
+ * @param  {Degree} dec The equatorial declination
+ * @param  {Degree} epoch The epoch of the equatorial coordinates. By default, J2000.
+ */
+export function transformEquatorialToGalactic (ra: Hour, dec: Degree, epoch: JulianDay = J2000): GalacticCoordinates {
+  return {
+    longitude: galacticLongitudeFromEquatorial(ra, dec, epoch),
+    latitude: galacticLatitudeFromEquatorial(ra, dec, epoch)
+  }
+}
+
+// See AA p.94
+export function equatorialRightAscensionB1950FromGalactic (l: Degree, b: Degree, epoch: JulianDay = J2000): Hour {
+  const raB1950 = 12.15 + atan(sin(l - 123), cos(l - 123) * sin(27.4) - tan(b) * cos(27.4))
+  return raB1950 * DEG2H
+}
+
+export function equatorialDeclinationB1950FromGalactic (l: Degree, b: Degree, epoch: JulianDay = J2000): Degree {
+  return asin(sin(b) * sin(27.4) + cos(b) * cos(27.4) * cos(l - 123))
+}
+
+/**
+ * Transform galactic coordinates to equatorial coordinates.
+ * @param  {Degree} l The galactic longitude
+ * @param  {Degree} b The galactic latitude
+ * @param  {Degree} epoch The initial epoch of the equatorial coordinates. By default, J2000.
+ */
+export function transformGalacticToEquatorial (l: Degree, b: Degree, epoch: JulianDay = J2000): EquatorialCoordinates {
+  const raB1950 = equatorialRightAscensionB1950FromGalactic(l, b, epoch)
+  const decB1950 = equatorialDeclinationB1950FromGalactic(l, b, epoch)
+  return precessEquatorialCoordinates(raB1950, decB1950, JULIAN_DAY_B1950_0, epoch)
+}
+
+// --- horizontal coordinates
 
 export function horizontalAltitude (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
   const lmst = julianday.localSiderealTime(jd, lng)
