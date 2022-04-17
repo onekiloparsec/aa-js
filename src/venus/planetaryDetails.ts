@@ -1,4 +1,4 @@
-import { Degree, EllipticalGeocentricDetails, JulianDay, Magnitude } from '../types'
+import { ArcSecond, Degree, EllipticalGeocentricDetails, JulianDay, Magnitude } from '../types'
 import { DEG2RAD, RAD2DEG } from '../constants'
 import { getEllipticalDetails } from '../elliptical'
 import { MapTo0To360Range } from '../utils'
@@ -38,13 +38,13 @@ export function getMagnitude (jd: JulianDay): Magnitude {
 /// There are also older values (1980) named "A" values. In the case of Venus, the "B" value refers to the planet's
 /// crust, while the "A" value refers to the top of the cloud level. The latter is more relevant for astronomical
 /// phenomena such as transits and occultations.
-export function getEquatorialSemiDiameter (jd: JulianDay): Degree {
+export function getEquatorialSemiDiameter (jd: JulianDay): ArcSecond {
   const Delta = getPlanetaryDetails(jd).apparentGeocentricDistance
   return 8.34 / Delta
 }
 
 /// The polar semi diameter of the planet. See `equatorialSemiDiameter` about "A" et "B" values.
 /// Note that for all planets but Jupiter and Saturn, the polarSemiDiameter is identical to the equatorial one.
-export function getPolarSemiDiameter (jd: JulianDay): Degree {
+export function getPolarSemiDiameter (jd: JulianDay): ArcSecond {
   return getEquatorialSemiDiameter(jd)
 }
