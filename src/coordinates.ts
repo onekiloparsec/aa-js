@@ -1,5 +1,5 @@
-import { DEG2H, DEG2RAD, H2RAD, RAD2DEG, RAD2H } from './constants'
-import { Degree, EquatorialCoordinates, HorizontalCoordinates, Hour, JulianDay, Point } from "./types";
+import { DEG2H, DEG2RAD, H2DEG, H2RAD, RAD2DEG, RAD2H } from './constants'
+import { Degree, EclipticCoordinates, EquatorialCoordinates, HorizontalCoordinates, Hour, JulianDay, Point } from "./types";
 import { fmod } from './utils'
 import * as julianday from './julianday'
 
@@ -28,7 +28,6 @@ export function rightAscensionFromEcliptic (l: Degree, b: Degree, epsilon: Degre
  * If however the *apparent* R.A. and Dec. are required (that is, affected by aberration and nutation), the
  * true obliquity epsilon + Delta epsilon should be used. One can use nutation.getTrueObliquityOfEcliptic(jd)
  * If R.A. and Dec. are referred to the standard equinox of J2000, epsilon must be that of ECLIPTIC_OBLIQUITY_J2000_0.
- * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
  */
 export function transformEclipticToEquatorial (l: Degree, b: Degree, epsilon: Degree): EquatorialCoordinates {
   return {
@@ -36,6 +35,33 @@ export function transformEclipticToEquatorial (l: Degree, b: Degree, epsilon: De
     declination: declinationFromEcliptic(l, b, epsilon)
   }
 }
+
+export function eclipticLongitudeFromEquatorial (ra: Hour, dec: Degree, epsilon: Degree): Degree {
+  return atan(sin(ra * H2DEG) * cos(epsilon) + tan(dec) * sin(epsilon), cos(ra))
+
+}
+
+export function eclipticLatitudeFromEquatorial (ra: Hour, dec: Degree, epsilon: Degree): Degree {
+  return asin(sin(dec) * cos(epsilon) - cos(dec) * sin(epsilon) * sin(ra * H2DEG))
+}
+
+/**
+ * Transform equatorial coordinates to ecliptic coordinates
+ * @param  {Degree} ra The equatorial right ascension
+ * @param  {Degree} dec The equatorial declination
+ * @param  {Degree} epsilon The obliquity of the ecliptic; that is, the angle between the ecliptic
+ * and the celestial equator. The mean obliquity (epsilon0) is given by nutation.getMeanObliquityOfEcliptic(jd).
+ * If however the *apparent* R.A. and Dec. are required (that is, affected by aberration and nutation), the
+ * true obliquity epsilon + Delta epsilon should be used. One can use nutation.getTrueObliquityOfEcliptic(jd)
+ * If R.A. and Dec. are referred to the standard equinox of J2000, epsilon must be that of ECLIPTIC_OBLIQUITY_J2000_0.
+ */
+export function transformEquatorialToEcliptic (ra: Hour, dec: Degree, epsilon: Degree): EclipticCoordinates {
+  return {
+    longitude: eclipticLongitudeFromEquatorial(ra, dec, epsilon),
+    latitude: eclipticLatitudeFromEquatorial(ra, dec, epsilon)
+  }
+}
+
 
 export function horizontalAltitude (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
   const lmst = julianday.localSiderealTime(jd, lng)
