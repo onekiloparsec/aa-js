@@ -3,23 +3,20 @@ import { Degree, EquatorialCoordinates, HorizontalCoordinates, Hour, JulianDay, 
 import { fmod } from './utils'
 import * as julianday from './julianday'
 
-const sin = Math.sin
-const cos = Math.cos
-const tan = Math.tan
-const asin = Math.asin
-const atan = Math.atan2
+const sin = (deg) => Math.sin(deg * DEG2RAD)
+const cos = (deg) => Math.cos(deg * DEG2RAD)
+const tan = (deg) => Math.tan(deg * DEG2RAD)
+const asin = (val) => Math.asin(val) * RAD2DEG
+const atan = (y, x) => Math.atan2(y, x) * RAD2DEG
 const pow = Math.pow
 const round = Math.round
 
 export function declinationFromEcliptic (l: Degree, b: Degree, epsilon: Degree): Degree {
-  return asin(sin(b * DEG2RAD) * cos(epsilon * DEG2RAD) +
-    cos(b * DEG2RAD) * sin(epsilon * DEG2RAD) * sin(l * DEG2RAD)) * RAD2DEG
+  return asin(sin(b) * cos(epsilon) + cos(b) * sin(epsilon) * sin(l))
 }
 
 export function rightAscensionFromEcliptic (l: Degree, b: Degree, epsilon: Degree): Hour {
-  return fmod(atan(sin(l * DEG2RAD) * cos(epsilon * DEG2RAD) -
-    tan(b * DEG2RAD) * sin(epsilon * DEG2RAD), cos(l * DEG2RAD)) * RAD2DEG * DEG2H + 24.0,
-    24.0)
+  return fmod(atan(sin(l) * cos(epsilon) - tan(b) * sin(epsilon), cos(l)) * DEG2H + 24.0, 24.0)
 }
 
 /**
@@ -43,16 +40,13 @@ export function transformEclipticToEquatorial (l: Degree, b: Degree, epsilon: De
 export function horizontalAltitude (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
   const lmst = julianday.localSiderealTime(jd, lng)
   const hourAngle = lmst - ra
-  return asin(sin(lat * DEG2RAD) * sin(dec * DEG2RAD) +
-    cos(lat * DEG2RAD) * cos(dec * DEG2RAD) * cos(hourAngle * H2RAD)) * RAD2DEG
+  return asin(sin(lat) * sin(dec) + cos(lat) * cos(dec) * cos(hourAngle * H2DEG))
 }
 
 export function horizontalAzimuth (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
   const lmst = julianday.localSiderealTime(jd, lng)
   const hourAngle = lmst - ra
-  return atan(sin(hourAngle * H2RAD),
-    cos(hourAngle * H2RAD) * sin(lat * DEG2RAD) -
-    tan(dec * DEG2RAD) * cos(lat * DEG2RAD)) * RAD2DEG
+  return atan(sin(hourAngle * H2DEG), cos(hourAngle) * sin(lat) - tan(dec) * cos(lat))
 }
 
 
@@ -68,14 +62,14 @@ export function horizontalFromPoint (point: Point, center: Point, radius: number
   const y = point.y - center.y
   const d = pow(pow(x, 2) + pow(y, 2), 0.5)
   return {
-    azimuth: fmod(-1 * atan(y, x) * RAD2DEG + 720 - 270, 360),
+    azimuth: fmod(-1 * atan(y, x) + 720 - 270, 360),
     altitude: 90.0 * (1 - d / radius)
   }
 }
 
 export function pointFromHorizontal (alt: Degree, az: Degree, center: Point, radius: number): Point {
-  const x = (90.0 - alt) * cos((az - 90.0) * DEG2RAD) / 90.0 * radius
-  const y = (90.0 - alt) * sin((az - 90.0) * DEG2RAD) / 90.0 * radius
+  const x = (90.0 - alt) * cos((az - 90.0)) / 90.0 * radius
+  const y = (90.0 - alt) * sin((az - 90.0)) / 90.0 * radius
   if (x > radius || y > radius || alt < 0.0) {
     return { x: 0, y: 0 }
   }
@@ -84,14 +78,11 @@ export function pointFromHorizontal (alt: Degree, az: Degree, center: Point, rad
 
 export function rightAscensionFromHorizontal (jd: JulianDay, alt: Degree, az: Degree, lng: Degree, lat: Degree): Hour {
   const lmst = julianday.localSiderealTime(jd, lng)
-  return lmst - atan(sin(az * DEG2RAD),
-    cos(az * DEG2RAD) * sin(lat * DEG2RAD) +
-    tan(alt * DEG2RAD) * cos(lat * DEG2RAD)) * RAD2H
+  return lmst - atan(sin(az), cos(az) * sin(lat) + tan(alt) * cos(lat)) * DEG2H
 }
 
 export function declinationFromHorizontal (jd: JulianDay, alt: Degree, az: Degree, lat: Degree): Degree {
-  return asin(sin(lat * DEG2RAD) * sin(alt * DEG2RAD) -
-    cos(lat * DEG2RAD) * cos(alt * DEG2RAD) * cos(az * DEG2RAD)) * RAD2DEG
+  return asin(sin(lat) * sin(alt) - cos(lat) * cos(alt) * cos(az))
 }
 
 export function transformHorizontalToEquatorial (jd: JulianDay, alt: Degree, az: Degree, lng: Degree, lat: Degree): EquatorialCoordinates {
@@ -106,15 +97,13 @@ export function parallacticAngle (jd: JulianDay, ra: Hour, dec: Degree, lng: Deg
   const HA = lmst - ra
 
   let angle = 0.0
-  const cosdec = cos(dec * DEG2RAD)
+  const cosdec = cos(dec)
 
   if (cosdec !== 0.0) {
-    angle = atan(sin(HA * H2RAD),
-      tan(lat * DEG2RAD) * cosdec -
-      sin(dec * DEG2RAD) * cos(HA * H2RAD))
+    angle = atan(sin(HA * H2DEG), tan(lat) * cosdec - sin(dec) * cos(HA * H2DEG))
   } else {
-    angle = (lat >= 0.0) ? Math.PI : 0.0
+    angle = (lat >= 0.0) ? 180 : 0.0
   }
 
-  return angle * RAD2DEG
+  return angle
 }
