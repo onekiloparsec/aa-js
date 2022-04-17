@@ -35,20 +35,6 @@ test('get another sun apparent equatorial coordinates AA p.343', () => {
   expect(equ.declination).toBeCloseTo(8.6964, 3)
 })
 
-test('get all sun events julian days', () => {
-  for (let m = 0; m < 12; m++) {
-    const jd = julianday.getJulianDay(2020, m, 1)
-    const jds = sun.allEventJulianDays(jd, 72.34, -29.455)
-    expect(jds.length).toEqual(10)
-    for (let i = 0; i < jds.length; i++) {
-      expect(jds[i]).toBeGreaterThan(2458000.5)
-      if (i > 0) {
-        expect(jds[i]).toBeGreaterThan(jds[i - 1])
-      }
-    }
-  }
-})
-
 // test('get julian days of rise, transits and set at the UTC equator, for alt = 0', () => {
 //   const jd = julianday.getJulianDay(new Date())
 //   const jds = sun.julianDaysOfRiseDayTransitSet(jd, 0, 0, 0)
