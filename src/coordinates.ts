@@ -1,4 +1,4 @@
-import { DEG2H, DEG2RAD, H2DEG, H2RAD, J2000, JULIAN_DAY_B1950_0, RAD2DEG, RAD2H } from './constants'
+import { DEG2H, DEG2RAD, ECLIPTIC_OBLIQUITY_J2000_0, H2DEG, H2RAD, J2000, JULIAN_DAY_B1950_0, RAD2DEG, RAD2H } from './constants'
 import { Degree, EclipticCoordinates, EquatorialCoordinates, GalacticCoordinates, HorizontalCoordinates, Hour, JulianDay, Point } from "./types";
 import { fmod } from './utils'
 import * as julianday from './julianday'
@@ -12,11 +12,11 @@ const atan = (y: Degree, x: Degree): Degree => Math.atan2(y, x) * RAD2DEG
 const pow = Math.pow
 const round = Math.round
 
-export function declinationFromEcliptic (l: Degree, b: Degree, epsilon: Degree): Degree {
+export function declinationFromEcliptic (l: Degree, b: Degree, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): Degree {
   return asin(sin(b) * cos(epsilon) + cos(b) * sin(epsilon) * sin(l))
 }
 
-export function rightAscensionFromEcliptic (l: Degree, b: Degree, epsilon: Degree): Hour {
+export function rightAscensionFromEcliptic (l: Degree, b: Degree, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): Hour {
   return fmod(atan(sin(l) * cos(epsilon) - tan(b) * sin(epsilon), cos(l)) * DEG2H + 24.0, 24.0)
 }
 
@@ -30,19 +30,19 @@ export function rightAscensionFromEcliptic (l: Degree, b: Degree, epsilon: Degre
  * true obliquity epsilon + Delta epsilon should be used. One can use nutation.getTrueObliquityOfEcliptic(jd)
  * If R.A. and Dec. are referred to the standard equinox of J2000, epsilon must be that of ECLIPTIC_OBLIQUITY_J2000_0.
  */
-export function transformEclipticToEquatorial (l: Degree, b: Degree, epsilon: Degree): EquatorialCoordinates {
+export function transformEclipticToEquatorial (l: Degree, b: Degree, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): EquatorialCoordinates {
   return {
     rightAscension: rightAscensionFromEcliptic(l, b, epsilon),
     declination: declinationFromEcliptic(l, b, epsilon)
   }
 }
 
-export function eclipticLongitudeFromEquatorial (ra: Hour, dec: Degree, epsilon: Degree): Degree {
+export function eclipticLongitudeFromEquatorial (ra: Hour, dec: Degree, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): Degree {
   return atan(sin(ra * H2DEG) * cos(epsilon) + tan(dec) * sin(epsilon), cos(ra))
 
 }
 
-export function eclipticLatitudeFromEquatorial (ra: Hour, dec: Degree, epsilon: Degree): Degree {
+export function eclipticLatitudeFromEquatorial (ra: Hour, dec: Degree, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): Degree {
   return asin(sin(dec) * cos(epsilon) - cos(dec) * sin(epsilon) * sin(ra * H2DEG))
 }
 
@@ -56,7 +56,7 @@ export function eclipticLatitudeFromEquatorial (ra: Hour, dec: Degree, epsilon: 
  * true obliquity epsilon + Delta epsilon should be used. One can use nutation.getTrueObliquityOfEcliptic(jd)
  * If R.A. and Dec. are referred to the standard equinox of J2000, epsilon must be that of ECLIPTIC_OBLIQUITY_J2000_0.
  */
-export function transformEquatorialToEcliptic (ra: Hour, dec: Degree, epsilon: Degree): EclipticCoordinates {
+export function transformEquatorialToEcliptic (ra: Hour, dec: Degree, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): EclipticCoordinates {
   return {
     longitude: eclipticLongitudeFromEquatorial(ra, dec, epsilon),
     latitude: eclipticLatitudeFromEquatorial(ra, dec, epsilon)
