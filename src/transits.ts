@@ -1,17 +1,9 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
+import { AstronomicalUnit, Day, Degree, Hour, JulianDay, JupiterRadius, RiseSetTransit, SolarRadius } from 'aa.js'
+import { DEG2RAD, H2DEG, H2RAD, ONE_JUPITER_RADIUS_IN_KILOMETERS, ONE_SOLAR_RADIUS_IN_KILOMETERS, ONE_UA_IN_KILOMETERS, RAD2DEG } from './constants'
 import * as julianday from './julianday'
-import { AstronomicalUnit, Day, Degree, Hour, JulianDay, JupiterRadius, SolarRadius } from './types'
-import {
-  DEG2RAD,
-  H2DEG,
-  H2RAD,
-  ONE_JUPITER_RADIUS_IN_KILOMETERS,
-  ONE_SOLAR_RADIUS_IN_KILOMETERS,
-  ONE_UA_IN_KILOMETERS,
-  RAD2DEG,
-} from './constants'
 import { fmod } from './utils'
 
 dayjs.extend(utc)
@@ -28,35 +20,31 @@ const acos = Math.acos
 const abs = Math.abs
 const floor = Math.floor
 
-export interface RiseSetTransit {
-  utcRise: Hour | undefined,
-  utcTransit: Hour | undefined,
-  utcSet: Hour | undefined,
-  julianDayRise: JulianDay | undefined,
-  julianDayTransit: JulianDay | undefined,
-  julianDaySet: JulianDay | undefined,
-  transitAltitude: Degree | undefined,
-  isTransitAboveHorizon: boolean,
-  isTransitAboveAltitude: boolean, // for when altitude is not that of horizon
-  isCircumpolar: boolean // no transit, no rise
-}
-
-export function riseSetTransitJulianDays(jd: JulianDay, ra: Hour, dec: Degree, lng: Degree, lat: Degree, alt: Degree = STANDARD_ALTITUDE_STARS): RiseSetTransit {
+export function riseSetTransitJulianDays (jd: JulianDay, ra: Hour, dec: Degree, lng: Degree, lat: Degree, alt: Degree = STANDARD_ALTITUDE_STARS): RiseSetTransit {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
 
-  let utcRise
-  let utcTransit
-  let utcSet
-  let julianDayRise
-  let julianDayTransit
-  let julianDaySet
-  let transitAltitude
-  let isTransitAboveHorizon
-  let isTransitAboveAltitude
-  let isCircumpolar
+  const result: RiseSetTransit = {
+    rise: {
+      utc: undefined,
+      julianDay: undefined
+    },
+    set: {
+      utc: undefined,
+      julianDay: undefined
+    },
+    transit: {
+      utc: undefined,
+      julianDay: undefined,
+      altitude: undefined,
+      refAltitude: alt,
+      isAboveHorizon: false,
+      isAboveAltitude: false, // for when altitude is not that of horizon
+      isCircumpolar: false
+    }
+  }
 
-  // Calculate the Greenwhich sidereal time in degrees
+  // Calculate the Greenwich sidereal time in degrees
   let Theta0 = julianday.localSiderealTime(jd, 0) * H2DEG
 
   const sinh0 = sin(alt * DEG2RAD)
@@ -66,66 +54,55 @@ export function riseSetTransitJulianDays(jd: JulianDay, ra: Hour, dec: Degree, l
   const cosDelta = cos(dec * DEG2RAD)
 
   // Equ 13.6, AA p93, with cosH = 1, that is H (hour angle) = 0
-  transitAltitude = asin(sinPhi * sinDelta + cosPhi * cosDelta) * RAD2DEG
+  result.transit.altitude = asin(sinPhi * sinDelta + cosPhi * cosDelta) * RAD2DEG
 
-  isTransitAboveHorizon = (transitAltitude > STANDARD_ALTITUDE_STARS)
-  isTransitAboveAltitude = (transitAltitude > alt)
+  result.transit.isAboveHorizon = (transitAltitude > STANDARD_ALTITUDE_STARS)
+  result.transit.isAboveAltitude = (transitAltitude > alt)
 
   // Algorithms in AA use Positive West longitudes. The formula (15.2, p102):
   // const m0 = (alpha2 + Longitude - Theta0) / 360
   // thus becomes:
   const m0 = fmod((ra * H2DEG - lng - Theta0) / 360, 1)
-  utcTransit = m0 * 24
+  result.transit.utc = m0 * 24
 
   const utcMoment = dayjs.utc(julianday.getDate(jd))
-  const hourTransit = floor(utcTransit)
-  const minuteTransit = utcTransit - hourTransit
-  julianDayTransit = julianday.getJulianDay(utcMoment.hour(hourTransit).minute(minuteTransit * 60).toDate())
+  const hourTransit = floor(result.transit.utc)
+  const minuteTransit = result.transit.utc - hourTransit
+  result.transit.julianDay = julianday.getJulianDay(utcMoment.hour(hourTransit).minute(minuteTransit * 60).toDate())
 
   // Calculate cosH0. See AA Eq.15.1, p.102
   let cosH0 = (sinh0 - sinPhi * sinDelta) / (cosPhi * cosDelta)
-  isCircumpolar = (abs(cosH0) > 1)
+  result.transit.isCircumpolar = (abs(cosH0) > 1)
 
-  if (!isCircumpolar) {
+  if (!result.transit.isCircumpolar) {
     const H0 = acos(cosH0) * RAD2DEG
-    utcRise = fmod(m0 - H0 / 360, 1) * 24
-    utcSet = fmod(m0 + H0 / 360, 1) * 24
+    result.rise.utc = fmod(m0 - H0 / 360, 1) * 24
+    result.set.utc = fmod(m0 + H0 / 360, 1) * 24
 
-    const hourRise = floor(utcRise)
-    const minuteRise = utcRise - hourRise
-    const hourSet = floor(utcSet)
-    const minuteSet = utcSet - hourSet
+    const hourRise = floor(result.rise.utc)
+    const minuteRise = result.rise.utc - hourRise
+    const hourSet = floor(result.set.utc)
+    const minuteSet = result.set.utc - hourSet
 
-    julianDayRise = julianday.getJulianDay(utcMoment.hour(hourRise).minute(minuteRise * 60).toDate())
-    julianDaySet = julianday.getJulianDay(utcMoment.hour(hourSet).minute(minuteSet * 60).toDate())
+    result.rise.julianDay = julianday.getJulianDay(utcMoment.hour(hourRise).minute(minuteRise * 60).toDate())
+    result.set.julianDay = julianday.getJulianDay(utcMoment.hour(hourSet).minute(minuteSet * 60).toDate())
   }
 
-  if (julianDayRise && julianDayTransit && julianDayRise > julianDayTransit) {
-    julianDayRise -= 1
+  if (result.rise.julianDay && result.transit.julianDay && result.rise.julianDay > result.transit.julianDay) {
+    result.rise.julianDay -= 1
   }
-  if (julianDaySet && julianDayTransit && julianDaySet < julianDayTransit) {
-    julianDaySet += 1
+  if (result.set.julianDay && result.transit.julianDay && result.set.julianDay < result.transit.julianDay) {
+    result.set.julianDay += 1
   }
 
-  return {
-    utcRise,
-    utcTransit,
-    utcSet,
-    julianDayRise,
-    julianDayTransit,
-    julianDaySet,
-    transitAltitude,
-    isTransitAboveHorizon,
-    isTransitAboveAltitude,
-    isCircumpolar
-  }
+  return result
 }
 
 // "Transit" has 2 meanings here !
 // If transitJD is undefined, the altitude of the transit to the local meridian will be computed.
 // If transitJD is provided, it is assumed to be the JD of which we want the local altitude.
 // It can be that of a transit... or not.
-export function transitAltitude(ra: Hour, dec: Degree, lng: Degree, lat: Degree, transitJD: JulianDay | undefined = undefined): Degree {
+export function transitAltitude (ra: Hour, dec: Degree, lng: Degree, lat: Degree, transitJD: JulianDay | undefined = undefined): Degree {
   // See AA. P.93 eq. 13.6 (and p.92 for H).
   let cosH = 1
   if (transitJD !== undefined && transitJD !== null) {
@@ -142,18 +119,18 @@ export function transitAltitude(ra: Hour, dec: Degree, lng: Degree, lat: Degree,
  * @param  {Number} tZeroOfPrimaryTransit The Julian Day of the primary transit.
  * @returns {Number} The Julian Day of the next transit.
  */
-export function nextTransitJulianDay(lowerJD: JulianDay, orbitalPeriod: Day, tZeroOfPrimaryTransit: JulianDay) {
+export function nextTransitJulianDay (lowerJD: JulianDay, orbitalPeriod: Day, tZeroOfPrimaryTransit: JulianDay) {
   const n = Math.floor(1 + lowerJD / orbitalPeriod - tZeroOfPrimaryTransit / orbitalPeriod)
   return tZeroOfPrimaryTransit + n * orbitalPeriod
 }
 
-export function exoplanetTransitDetails(orbitalPeriod: Day,
-                                        lambdaAngle: Degree,
-                                        timeOfPeriastron: JulianDay,
-                                        eccentricity: number,
-                                        radius: JupiterRadius,
-                                        semiMajorAxis: AstronomicalUnit,
-                                        parentStarRadius: SolarRadius) {
+export function exoplanetTransitDetails (orbitalPeriod: Day,
+                                         lambdaAngle: Degree,
+                                         timeOfPeriastron: JulianDay,
+                                         eccentricity: number,
+                                         radius: JupiterRadius,
+                                         semiMajorAxis: AstronomicalUnit,
+                                         parentStarRadius: SolarRadius) {
   let f = Math.PI / 2 - lambdaAngle * DEG2RAD
   const e = eccentricity
   const P = orbitalPeriod

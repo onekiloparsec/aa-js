@@ -1,4 +1,4 @@
-import { JulianDay, PlanetaryConstants } from '../types'
+import { JulianDay, PlanetaryConstants } from 'aa.js'
 import { fractionalYear } from '../dates'
 
 // The value of K must be an integer

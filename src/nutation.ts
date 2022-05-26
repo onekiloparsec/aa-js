@@ -1,4 +1,4 @@
-import { ArcSecond, JulianDay } from "./types";
+import { ArcSecond, JulianDay } from 'aa.js';
 import { DEG2RAD } from './constants'
 import { getDecimal } from './sexagesimal'
 import { MapTo0To360Range } from './utils'

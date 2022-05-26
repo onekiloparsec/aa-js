@@ -1,4 +1,4 @@
-import { JulianDay } from "./types";
+import { JulianDay } from 'aa.js';
 import * as julianday from './julianday'
 
 export function isDateAfterPapalReform (year: number, Month: number, Day: number): boolean {

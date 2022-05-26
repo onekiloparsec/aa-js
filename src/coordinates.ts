@@ -1,5 +1,5 @@
+import { Degree, EclipticCoordinates, EquatorialCoordinates, GalacticCoordinates, HorizontalCoordinates, Hour, JulianDay, Point } from 'aa.js';
 import { DEG2H, DEG2RAD, ECLIPTIC_OBLIQUITY_J2000_0, H2DEG, H2RAD, J2000, JULIAN_DAY_B1950_0, RAD2DEG, RAD2H } from './constants'
-import { Degree, EclipticCoordinates, EquatorialCoordinates, GalacticCoordinates, HorizontalCoordinates, Hour, JulianDay, Point } from "./types";
 import { fmod } from './utils'
 import * as julianday from './julianday'
 import { precessEquatorialCoordinates } from "./precession";

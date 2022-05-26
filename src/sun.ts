@@ -1,4 +1,4 @@
-import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianCentury, JulianDay } from "./types";
+import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianCentury, JulianDay } from 'aa.js';
 import { DEG2RAD } from './constants'
 import * as coordinates from './coordinates'
 import * as earth from './earth'

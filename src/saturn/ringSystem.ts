@@ -1,4 +1,4 @@
-import { ArcSecond, Degree, JulianDay, SaturnicentricCoordinates } from '../types'
+import { ArcSecond, Degree, JulianDay, SaturnicentricCoordinates } from 'aa.js'
 import { DEG2RAD, H2RAD, RAD2DEG } from '../constants'
 import { transformEclipticToEquatorial } from '../coordinates';
 import { getNutationInLongitude, getTrueObliquityOfEcliptic } from '../nutation'

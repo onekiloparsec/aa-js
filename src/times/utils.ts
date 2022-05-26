@@ -1,4 +1,4 @@
-import { JulianDay } from '../types'
+import { JulianDay } from 'aa.js'
 import { gDeltaTValues, gLeapSecondCoefficients } from './coefficients'
 import * as dates from '../dates'
 

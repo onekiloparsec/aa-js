@@ -1,6 +1,6 @@
 import dayjs from 'dayjs'
 import { DAYMS, DEG2H, J1970, MJD_START } from './constants'
-import { Degree, Hour, JulianDay } from './types'
+import { Degree, Hour, JulianDay } from 'aa.js'
 import { fmod, isNumber } from './utils'
 
 

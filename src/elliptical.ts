@@ -1,4 +1,4 @@
-import { AstronomicalUnit, EllipticalGeocentricDetails, JulianDay, KilometerPerSecond } from './types'
+import { AstronomicalUnit, EllipticalGeocentricDetails, JulianDay, KilometerPerSecond } from 'aa.js'
 import { DEG2RAD, RAD2DEG } from './constants'
 import { transformEclipticToEquatorial } from './coordinates'
 import { getNutationInLongitude, getTrueObliquityOfEcliptic } from './nutation'

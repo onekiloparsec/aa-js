@@ -1,5 +1,5 @@
-import { Degree, EquatorialCoordinates, Hour, JulianDay } from "./types";
-import { DEG2RAD, H2DEG, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from "./constants";
+import { Degree, EquatorialCoordinates, Hour, JulianDay } from 'aa.js'
+import { DEG2RAD, H2DEG, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from './constants'
 
 // See AA p.134
 export function precessEquatorialCoordinates (ra0: Hour, dec0: Degree, initialEpoch: JulianDay, finalEpoch: JulianDay): EquatorialCoordinates {

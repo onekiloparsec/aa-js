@@ -1,5 +1,5 @@
 import { DEG2RAD, RAD2DEG, RAD2H } from '../constants'
-import { Coordinates2D, Coordinates3D, Degree, Hour, JulianDay } from '../types'
+import { Coordinates2D, Coordinates3D, Degree, Hour, JulianDay } from 'aa.js'
 import { g_AberrationCoefficients } from './coefficients'
 import * as sun from '../sun'
 

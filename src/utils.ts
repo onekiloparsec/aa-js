@@ -1,4 +1,4 @@
-import { Degree } from './types'
+import { Degree } from 'aa.js'
 
 // https://gist.github.com/wteuber/6241786
 export function fmod (a: number, b: number): number {
