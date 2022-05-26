@@ -1,13 +1,13 @@
-import * as jupiter from '../src/jupiter'
+import { Jupiter } from '../src/jupiter'
 
 // See AA p.291, Example 42.a, see also SwiftAA
 test('check physical details', () => {
   const jd = 2448972.50068
 
-  const earthDec = jupiter.getPlanetocentricDeclinationOfTheEarth(jd)
+  const earthDec = Jupiter.getPlanetocentricDeclinationOfTheEarth(jd)
   expect(earthDec).toBeCloseTo(-2.48)// deg
 
-  const sunDec = jupiter.getPlanetocentricDeclinationOfTheSun(jd)
+  const sunDec = Jupiter.getPlanetocentricDeclinationOfTheSun(jd)
   expect(sunDec).toBeCloseTo(-2.20)// deg
 
   // const posAngle = mars.positionAngleOfNorthernRotationPole(jd)

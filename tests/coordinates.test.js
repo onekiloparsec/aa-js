@@ -1,10 +1,10 @@
 import * as coordinates from '../src/coordinates'
 import * as sexagesimal from '../src/sexagesimal'
-import * as julianday from '../src/julianday'
+import { getJulianDay } from '../src'
 
 test('parallactic angle before meridian', () => {
   const utcDate = new Date(Date.UTC(2017, 5, 14, 2, 0, 0.0))
-  let jd = julianday.getJulianDay(utcDate)
+  let jd = getJulianDay(utcDate)
 
   // gro_j1655_40, see below
   let ra = sexagesimal.getDecimal(16, 54, 0.14) // in hours
@@ -22,7 +22,7 @@ test('parallactic angle before meridian', () => {
 
 test('parallactic angle after meridian', () => {
   const utcDate = new Date(Date.UTC(2017, 5, 14, 6, 0, 0.0))
-  let jd = julianday.getJulianDay(utcDate)
+  let jd = getJulianDay(utcDate)
 
   // gro_j1655_40, see below
   let ra = sexagesimal.getDecimal(16, 54, 0.14) // in hours

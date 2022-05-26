@@ -1,7 +1,7 @@
 import { Degree, JulianDay } from 'aa.js'
-import { DEG2RAD, H2RAD, ONE_UA_IN_KILOMETERS, RAD2DEG } from '../../constants'
-import { Sun } from '../../sun'
-import { Earth } from '../../earth'
+import { DEG2RAD, H2RAD, ONE_UA_IN_KILOMETERS, RAD2DEG } from '../constants'
+import { Sun } from '../sun'
+import { Earth } from '../earth'
 
 /// <reference path="coordinates.ts" />
 export namespace Moon {

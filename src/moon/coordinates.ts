@@ -1,12 +1,12 @@
 import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer } from 'aa.js'
 
-import { MapTo0To360Range } from '../../utils'
-import { DEG2RAD, RAD2DEG } from '../../constants'
-import { transformEclipticToEquatorial } from '../../coordinates'
-import { getMeanObliquityOfEcliptic, getNutationInLongitude, getTrueObliquityOfEcliptic } from '../../nutation'
+import { MapTo0To360Range } from '../utils'
+import { DEG2RAD, RAD2DEG } from '../constants'
+import { transformEclipticToEquatorial } from '../coordinates'
+import { getMeanObliquityOfEcliptic, getNutationInLongitude, getTrueObliquityOfEcliptic } from '../nutation'
 
-import { Sun } from '../../sun'
-import { Earth } from '../coordinates'
+import { Sun } from '../sun'
+import { Earth } from '../earth'
 
 import { gMoonCoefficients1, gMoonCoefficients2, gMoonCoefficients3, gMoonCoefficients4 } from './coefficients'
 

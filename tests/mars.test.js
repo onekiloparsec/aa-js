@@ -1,16 +1,16 @@
-import * as mars from '../src/mars'
-import * as julianday from '../src/julianday'
+import { Mars } from '../src/mars'
+import { getJulianDay } from '../src/'
 
 
 // See AA p.291, Example 42.a, see also SwiftAA
 test('check physical details', () => {
   const UTCDate = new Date(Date.UTC(1992, 10, 9))
-  const jd = julianday.getJulianDay(UTCDate)
+  const jd = getJulianDay(UTCDate)
 
-  const earthDec = mars.getPlanetocentricDeclinationOfTheEarth(jd)
+  const earthDec = Mars.getPlanetocentricDeclinationOfTheEarth(jd)
   expect(earthDec).toBeCloseTo(12.44)// deg
 
-  const sunDec = mars.getPlanetocentricDeclinationOfTheSun(jd)
+  const sunDec = Mars.getPlanetocentricDeclinationOfTheSun(jd)
   expect(sunDec).toBeCloseTo(-2.76)// deg
 
   // const posAngle = mars.positionAngleOfNorthernRotationPole(jd)
@@ -25,7 +25,7 @@ test('check physical details', () => {
   // const posDefectIllum = mars.positionAngleOfGreatestDefectOfIllumination(jd)
   // expect(posDefectIllum).toBeCloseTo(279.91) // deg
 
-  const apparentDiameter = mars.getEquatorialSemiDiameter(jd)
+  const apparentDiameter = Mars.getEquatorialSemiDiameter(jd)
   expect(apparentDiameter).toBeCloseTo(10.75 / 2) // arcsec
 })
 
