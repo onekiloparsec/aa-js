@@ -53,11 +53,11 @@ test('circumpolar transit', () => {
   // }
 
   const results = transits.riseSetTransitJulianDays(julianday.getJulianDay(), 0, -89.23, 0, -70)
-  expect(results.isCircumpolar).toBeTruthy()
-  expect(results.isTransitAboveHorizon).toBeTruthy()
-  expect(results.isTransitAboveAltitude).toBeTruthy()
-  expect(results.utcRise).toBeUndefined()
-  expect(results.utcSet).toBeUndefined()
+  expect(results.transit.isCircumpolar).toBeTruthy()
+  expect(results.transit.isAboveHorizon).toBeTruthy()
+  expect(results.transit.isAboveAltitude).toBeTruthy()
+  expect(results.rise.utc).toBeUndefined()
+  expect(results.set.utc).toBeUndefined()
 })
 
 
@@ -76,12 +76,12 @@ test('approximate Venus on 1988 March 20 at Boston', () => {
   const date = new Date(Date.UTC(1988, 2, 20))
   const results = transits.riseSetTransitJulianDays(julianday.getJulianDay(date), 41.73129 * DEG2H, 18.44092, -71.0833, 42.3333)
 
-  expect(results.isCircumpolar).toBeFalsy()
-  expect(results.isTransitAboveHorizon).toBeTruthy()
-  expect(results.isTransitAboveAltitude).toBeTruthy()
-  expect(results.utcRise).toBeCloseTo(12.43608, 0.000001)
-  expect(results.utcTransit).toBeCloseTo(19.6716, 0.000001)
-  expect(results.utcSet).toBeCloseTo(2.90712, 0.000001)
-  expect(results.julianDayRise < results.julianDayTransit).toBeTruthy()
-  expect(results.julianDayTransit < results.julianDaySet).toBeTruthy()
+  expect(results.transit.isCircumpolar).toBeFalsy()
+  expect(results.transit.isAboveHorizon).toBeTruthy()
+  expect(results.transit.isAboveAltitude).toBeTruthy()
+  expect(results.rise.utc).toBeCloseTo(12.43608, 0.000001)
+  expect(results.transit.utc).toBeCloseTo(19.6716, 0.000001)
+  expect(results.set.utc).toBeCloseTo(2.90712, 0.000001)
+  expect(results.rise.julianDay < results.transit.julianDay).toBeTruthy()
+  expect(results.transit.julianDay < results.set.julianDay).toBeTruthy()
 })
