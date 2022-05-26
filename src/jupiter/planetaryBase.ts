@@ -30,7 +30,7 @@ export namespace Jupiter {
   }
 
   /**
-   * Jupiter constants, copied from the JPL
+   * Planet constants, copied from the JPL
    * Reference: https://ssd.jpl.nasa.gov/?planet_phys_par
    */
   export const constants: PlanetaryConstants = {

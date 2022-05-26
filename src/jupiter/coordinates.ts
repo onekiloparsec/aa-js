@@ -1,7 +1,6 @@
 import { RAD2DEG } from '../constants'
 import { AstronomicalUnit, Degree, EclipticCoordinates, EllipticalGeocentricDetails, EquatorialCoordinates, JulianDay } from 'aa.js'
 import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
-import { getEllipticalDetails } from '../elliptical'
 import { transformEclipticToEquatorial } from '../coordinates'
 import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '../nutation'
 import {
