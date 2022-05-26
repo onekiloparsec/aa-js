@@ -1,10 +1,10 @@
+import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer } from 'aa.js'
 import { DEG2RAD, RAD2DEG } from '../../constants'
 import * as nutation from '../../nutation'
 import * as sun from '../../sun'
 import { MapTo0To360Range } from '../../utils'
 import { getEccentricity } from '../coordinates'
 import { transformEclipticToEquatorial } from '../../coordinates'
-import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer } from "../../types";
 import { gMoonCoefficients1, gMoonCoefficients2, gMoonCoefficients3, gMoonCoefficients4 } from './coefficients'
 
 export function getMeanLongitude (jd: JulianDay): Degree {

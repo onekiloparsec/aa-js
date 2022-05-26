@@ -1,4 +1,4 @@
-import { Degree, JulianDay } from '../../types'
+import { Degree, JulianDay } from 'aa.js'
 import { DEG2RAD, H2RAD, ONE_UA_IN_KILOMETERS, RAD2DEG } from '../../constants'
 import * as sun from '../../sun'
 import * as earth from '../../earth'
