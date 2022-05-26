@@ -61,9 +61,25 @@ declare module 'aa.js' {
    */
   export type AstronomicalUnit = number
   /**
+   * Parsec
+   */
+  export type Parsec = number
+  /**
+   * Kiloparsec. Of course.
+   */
+  export type KiloParsec = number
+  /**
+   * Megaparsec.
+   */
+  export type MegaParsec = number
+  /**
    * Logarithmic scale of luminosity
    */
   export type Magnitude = number;
+  /**
+   * KilometerPerSecondPerMegaParsec (for the Hubble constant)
+   */
+  export type KilometerPerSecondPerMegaParsec = number;
   /**
    * Albedo
    */
@@ -72,6 +88,10 @@ declare module 'aa.js' {
    * Kilometer
    */
   export type Kilometer = number;
+  /**
+   * Light-Year
+   */
+  export type LightYear = number;
   /**
    * Kilogram
    */
