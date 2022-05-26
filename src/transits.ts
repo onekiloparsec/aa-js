@@ -56,8 +56,8 @@ export function riseSetTransitJulianDays (jd: JulianDay, ra: Hour, dec: Degree, 
   // Equ 13.6, AA p93, with cosH = 1, that is H (hour angle) = 0
   result.transit.altitude = asin(sinPhi * sinDelta + cosPhi * cosDelta) * RAD2DEG
 
-  result.transit.isAboveHorizon = (transitAltitude > STANDARD_ALTITUDE_STARS)
-  result.transit.isAboveAltitude = (transitAltitude > alt)
+  result.transit.isAboveHorizon = (result.transit.altitude > STANDARD_ALTITUDE_STARS)
+  result.transit.isAboveAltitude = (result.transit.altitude > alt)
 
   // Algorithms in AA use Positive West longitudes. The formula (15.2, p102):
   // const m0 = (alpha2 + Longitude - Theta0) / 360
