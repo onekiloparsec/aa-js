@@ -1,53 +1,114 @@
 import { ONE_UA_IN_KILOMETERS, PC2LY, PC2UA, SPEED_OF_LIGHT } from './constants'
+import { ArcSecond, AstronomicalUnit, Kilometer, KilometerPerSecondPerMegaParsec, LightYear, Magnitude, MegaParsec, Parsec } from 'aa.js'
 
-export function parallaxFromParsec(parsec: number): number {
+/**
+ * Transform a distance in parsec into a parallax
+ * @param {Parsec} parsec The input distance in parsecs
+ * @returns {ArcSecond} The parallax
+ */
+export function getParallaxFromParsecs (parsec: Parsec): ArcSecond {
   return Math.atan(1. / (parsec * PC2UA)) * 3600.0 * 180.0 / Math.PI
 }
 
-export function parsecFromParallax(arcseconds: number): number {
+/**
+ * Transform a parallax into a distance in parsec.
+ * @param {ArcSecond} arcseconds The parallax
+ * @return {Parsec} The distance in parsec.
+ */
+export function getParsecsFromParallax (arcseconds: ArcSecond): Parsec {
   return 1. / Math.tan(arcseconds / 3600.0 * Math.PI / 180.) / PC2UA
 }
 
-export function astronomicalUnitsFromParsec(pc: number): number {
+/**
+ * Transform parsecs into Astronomical Units
+ * @param {Parsec} pc
+ * @return {AstronomicalUnit}
+ */
+export function getAstronomicalUnitsFromParsecs (pc: Parsec): AstronomicalUnit {
   return pc * PC2UA
 }
 
-export function parsecFromAstronomicalUnits(AU: number): number {
+/**
+ * Transform Astronomical Units to parsecs
+ * @param {AstronomicalUnit} AU
+ * @return {Parsec}
+ */
+export function getParsecsFromAstronomicalUnits (AU: AstronomicalUnit): Parsec {
   return AU / PC2UA
 }
 
-export function kilometersFromParsec(pc: number): number {
-  return astronomicalUnitsFromParsec(pc) * ONE_UA_IN_KILOMETERS
+/**
+ * Transform parsecs into kilometers
+ * @param {Parsec} pc
+ * @return {Kilometer}
+ */
+export function getKilometersFromParsecs (pc: Parsec): Kilometer {
+  return getAstronomicalUnitsFromParsecs(pc) * ONE_UA_IN_KILOMETERS
 }
 
-export function parsecFromKilometers(km: number): number {
-  return parsecFromAstronomicalUnits(km / ONE_UA_IN_KILOMETERS)
+/**
+ * Transform kilometers into parsecs
+ * @param {Kilometer} km
+ * @return {Parsec}
+ */
+export function getParsecsFromKilometers (km: Kilometer): Parsec {
+  return getParsecsFromAstronomicalUnits(km / ONE_UA_IN_KILOMETERS)
 }
 
-export function lightYearsFromParsec(pc: number): number {
+/**
+ * Transform parsecs into light-years
+ * @param {Parsec} pc
+ * @return {LightYear}
+ */
+export function getLightYearsFromParsecs (pc: Parsec): LightYear {
   return pc * PC2LY
 }
 
-export function parsecFromLightYears(ly: number): number {
+/**
+ * Transform light-years into parsecs
+ * @param {LightYear} ly
+ * @return {Parsec}
+ */
+export function getParsecsFromLightYears (ly: LightYear): Parsec {
   return ly / PC2LY
 }
 
-export function distanceModulusFromParsec(pc: number, visualAbsorption: number = 0): number {
+/**
+ * Get the distance modulus from a distance in parsecs.
+ * @param {Parsec} pc
+ * @param {Magnitude} visualAbsorption The visual absorption (default = 0)
+ * @return {Magnitude}
+ */
+export function getDistanceModulusFromParsecs (pc: Parsec, visualAbsorption: Magnitude = 0): Magnitude {
   return 5.0 * Math.log10(pc) - 5.0 + visualAbsorption
 }
 
-export function parsecFromDistanceModulus(mM: number, visualAbsorption: number = 0): number {
+/**
+ * Get the distance in parsecs from a distance modulus
+ * @param {Magnitude} mM The distance modulus
+ * @param {Magnitude} visualAbsorption The visual absorption (default = 0)
+ * @returns {Parsec}
+ */
+export function getParsecsFromDistanceModulus (mM: Magnitude, visualAbsorption: Magnitude = 0): Parsec {
   return Math.pow(10.0, (mM + 5.0 - visualAbsorption) / 5.0)
 }
 
-export function megaParsecValueFromParsec(pc: number): number {
-  return pc / 1e6
-}
-
-export function redshiftFromMegaparsec(Mpc: number, hubbleConstant: number = 72): number {
+/**
+ * Transform a distance in Megaparsecs into a redshift
+ * @param {MegaParsec} Mpc
+ * @param {KilometerPerSecondPerMegaParsec} hubbleConstant The Hubble constant (default = 72)
+ * @returns {number}
+ */
+export function getRedshiftFromMegaparsec (Mpc: MegaParsec, hubbleConstant: KilometerPerSecondPerMegaParsec = 72): number {
   return Mpc * hubbleConstant / SPEED_OF_LIGHT
 }
 
-export function megaparsecFromRedshift(z: number, hubbleConstant: number = 72): number {
+/**
+ * Transform a redshift into a distance in Megaparsecs
+ * @param z
+ * @param {KilometerPerSecondPerMegaParsec} hubbleConstant The Hubble constant (default = 72)
+ * @return {MegaParsec}
+ */
+export function getMegaparsecsFromRedshift (z: number, hubbleConstant: KilometerPerSecondPerMegaParsec = 72): MegaParsec {
   return z / hubbleConstant * SPEED_OF_LIGHT
 }

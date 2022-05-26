@@ -1,12 +1,17 @@
 import { DEG2RAD, RAD2DEG, RAD2H } from '../constants'
 import { Coordinates2D, Coordinates3D, Degree, Hour, JulianDay } from 'aa.js'
 import { g_AberrationCoefficients } from './coefficients'
-import * as sun from '../sun'
+import { Sun } from '../sun'
 
 const cos = Math.cos
 const sin = Math.sin
 
 
+/**
+ * Earth velocity (as a 3D vector)
+ * @param {JulianDay} jd The julian day
+ * @return {Coordinates3D}
+ */
 export function getEarthVelocity (jd: JulianDay): Coordinates3D {
   const T = (jd - 2451545) / 36525
   const L2 = 3.1761467 + 1021.3285546 * T
@@ -46,6 +51,13 @@ export function getEarthVelocity (jd: JulianDay): Coordinates3D {
   return { X, Y, Z }
 }
 
+/**
+ * Equatorial aberration
+ * @param {JulianDay} jd The julian day
+ * @param {Hour} Alpha The equatorial right ascension.
+ * @param {Degree} Delta The equatorial declination
+ * @return {Coordinates2D}
+ */
 export function getEquatorialAberration (jd: JulianDay, Alpha: Hour, Delta: Degree): Coordinates2D {
   Alpha = Alpha * 15 * DEG2RAD
   Delta = Delta * DEG2RAD
@@ -63,13 +75,20 @@ export function getEquatorialAberration (jd: JulianDay, Alpha: Hour, Delta: Degr
   }
 }
 
+/**
+ * Ecliptic aberration
+ * @param {JulianDay} jd The julian day
+ * @param {Degree} Lambda The ecliptic longitude
+ * @param {Degree} Beta The ecliptic latitude
+ * @return {Coordinates2D}
+ */
 export function getEclipticAberration (jd: JulianDay, Lambda: Degree, Beta: Degree): Coordinates2D {
   const T = (jd - 2451545) / 36525
   const T2 = T * T
   const e = 0.016708634 - 0.000042037 * T - 0.0000001267 * T2
   let pi = 102.93735 + 1.71946 * T + 0.00046 * T2
   const k = 20.49552
-  let sunLongitude = sun.getGeometricEclipticLongitude(jd)
+  let sunLongitude = Sun.getGeometricEclipticLongitude(jd)
 
   //Convert to radians
   pi = DEG2RAD * pi

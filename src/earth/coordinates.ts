@@ -1,9 +1,7 @@
 import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
 import { RAD2DEG } from '../constants'
-import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from 'aa.js';
-import { transformEclipticToEquatorial } from "../coordinates";
-import { getTrueObliquityOfEcliptic } from "../nutation";
-import * as sun from '../sun'
+import { AstronomicalUnit, Degree, EclipticCoordinates, JulianDay } from 'aa.js'
+import { Sun } from '../sun'
 import {
   gB0EarthCoefficients,
   gB1EarthCoefficients,
@@ -28,109 +26,148 @@ import {
   gR4EarthCoefficients
 } from './coefficients'
 
-// heliocentric coordinates see AA p.218, 219
-// Corresponds to AA+ CAAEarth::EclipticLongitude
-export function getEclipticLongitude (jd: JulianDay): Degree {
-  const tau = (jd - 2451545) / 365250 // julian day millennia, not centuries!
-  const tau2 = tau * tau
-  const tau3 = tau2 * tau
-  const tau4 = tau3 * tau
-  const tau5 = tau4 * tau
+export namespace Earth {
+  /**
+   * Heliocentric coordinates longitude, see AA p.218, 219
+   * Corresponds to AA+ CAAEarth::EclipticLongitude
+   * @param {JulianDay} jd The julian day
+   * @returns {Degree}
+   */
+  export function getEclipticLongitude (jd: JulianDay): Degree {
+    const tau = (jd - 2451545) / 365250 // julian day millennia, not centuries!
+    const tau2 = tau * tau
+    const tau3 = tau2 * tau
+    const tau4 = tau3 * tau
+    const tau5 = tau4 * tau
 
-  // AA p.218: Values A are expressed in 10^-8 radians, while B and C values are in radians.
+    // AA p.218: Values A are expressed in 10^-8 radians, while B and C values are in radians.
 
-  const L0 = gL0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L1 = gL1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L2 = gL2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L3 = gL3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L4 = gL4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L5 = gL5EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const L0 = gL0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const L1 = gL1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const L2 = gL2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const L3 = gL3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const L4 = gL4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const L5 = gL5EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
 
-  const value = (L0 + L1 * tau + L2 * tau2 + L3 * tau3 + L4 * tau4 + L5 * tau5) / 1e8
+    const value = (L0 + L1 * tau + L2 * tau2 + L3 * tau3 + L4 * tau4 + L5 * tau5) / 1e8
 
-  return MapTo0To360Range(value * RAD2DEG)
-}
-
-// heliocentric coordinates see AA p.218, 219
-// Corresponds to AA+ CAAEarth::EclipticLatitude
-export function getEclipticLatitude (jd: JulianDay): Degree {
-  const tau = (jd - 2451545) / 365250 // julian day millennia, not centuries!
-
-  const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const B1 = gB1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-
-  const value = (B0 + B1 * tau) / 100000000
-
-  return MapToMinus90To90Range(value * RAD2DEG)
-}
-
-export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
-  return {
-    longitude: getEclipticLongitude(jd),
-    latitude: getEclipticLatitude(jd)
+    return MapTo0To360Range(value * RAD2DEG)
   }
-}
 
-// Corresponds to AA+ CAAEarth::RadiusVector
-export function getRadiusVector (jd: JulianDay): AstronomicalUnit {
-  const tau = (jd - 2451545) / 365250 // julian day millennia, not centuries!
-  const tau2 = tau * tau
-  const tau3 = tau2 * tau
-  const tau4 = tau3 * tau
+  /**
+   * Heliocentric coordinates latitude, see AA p.218, 219
+   * Corresponds to AA+ CAAEarth::EclipticLatitude
+   * @param {JulianDay} jd The julian day
+   * @returns {Degree}
+   */
+  export function getEclipticLatitude (jd: JulianDay): Degree {
+    const tau = (jd - 2451545) / 365250 // julian day millennia, not centuries!
 
-  const R0 = gR0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const R1 = gR1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const R2 = gR2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const R3 = gR3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const R4 = gR4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const B1 = gB1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
 
-  return (R0 + R1 * tau + R2 * tau2 + R3 * tau3 + R4 * tau4) / 100000000
-}
+    const value = (B0 + B1 * tau) / 100000000
 
-export function getEclipticLongitudeJ2000 (jd: JulianDay): Degree {
-  const tau = (jd - 2451545) / 365250
-  const tau2 = tau * tau
-  const tau3 = tau2 * tau
-  const tau4 = tau3 * tau
+    return MapToMinus90To90Range(value * RAD2DEG)
+  }
 
-  const L0 = gL0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L1 = gL1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L2 = gL2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L3 = gL3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L4 = gL4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  /**
+   * Heliocentric coordinates, see AA p.218, 219
+   * @param {JulianDay} jd The julian day
+   * @returns {EclipticCoordinates}
+   */
+  export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
+    return {
+      longitude: getEclipticLongitude(jd),
+      latitude: getEclipticLatitude(jd)
+    }
+  }
 
-  const value = (L0 + L1 * tau + L2 * tau2 + L3 * tau3 + L4 * tau4) / 100000000
+  /**
+   * Radius vector (distance from the Sun)
+   * Corresponds to AA+ CAAEarth::RadiusVector
+   * @param {JulianDay} jd The julian day
+   * @returns {AstronomicalUnit}
+   */
+  export function getRadiusVector (jd: JulianDay): AstronomicalUnit {
+    const tau = (jd - 2451545) / 365250 // julian day millennia, not centuries!
+    const tau2 = tau * tau
+    const tau3 = tau2 * tau
+    const tau4 = tau3 * tau
 
-  return MapTo0To360Range(value * RAD2DEG)
-}
+    const R0 = gR0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const R1 = gR1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const R2 = gR2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const R3 = gR3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const R4 = gR4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
 
-export function getEclipticLatitudeJ2000 (jd: JulianDay): Degree {
-  const tau = (jd - 2451545) / 365250
-  const tau2 = tau * tau
-  const tau3 = tau2 * tau
-  const tau4 = tau3 * tau
+    return (R0 + R1 * tau + R2 * tau2 + R3 * tau3 + R4 * tau4) / 100000000
+  }
 
-  const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const B1 = gB1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const B2 = gB2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const B3 = gB3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const B4 = gB4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  /**
+   * Heliocentric coordinates longitude for the equinox J2000, see AA p.218, 219
+   * Corresponds to AA+ CAAEarth::EclipticLongitude
+   * @param {JulianDay} jd The julian day
+   * @returns {Degree}
+   */
+  export function getEclipticLongitudeJ2000 (jd: JulianDay): Degree {
+    const tau = (jd - 2451545) / 365250
+    const tau2 = tau * tau
+    const tau3 = tau2 * tau
+    const tau4 = tau3 * tau
 
-  const value = (B0 + B1 * tau + B2 * tau2 + B3 * tau3 + B4 * tau4) / 100000000
+    const L0 = gL0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const L1 = gL1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const L2 = gL2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const L3 = gL3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const L4 = gL4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
 
-  return MapToMinus90To90Range(value * RAD2DEG)
-}
+    const value = (L0 + L1 * tau + L2 * tau2 + L3 * tau3 + L4 * tau4) / 100000000
 
-export function getMeanAnomaly (jd: JulianDay): Degree {
-  return sun.getMeanAnomaly(jd)
-}
+    return MapTo0To360Range(value * RAD2DEG)
+  }
 
-/**
- * Computes the eccentricity of the orbit
- * @param  {JulianDay} jd The julian day
- * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
- */
-export function getEccentricity (jd: JulianDay): number {
-  const T = (jd - 2451545) / 36525
-  return 1 - 0.002516 * T - 0.0000074 * T * T
+  /**
+   * Heliocentric coordinates latitude for the equinox J2000, see AA p.218, 219
+   * Corresponds to AA+ CAAEarth::EclipticLatitude
+   * @param {JulianDay} jd The julian day
+   * @returns {Degree}
+   */
+  export function getEclipticLatitudeJ2000 (jd: JulianDay): Degree {
+    const tau = (jd - 2451545) / 365250
+    const tau2 = tau * tau
+    const tau3 = tau2 * tau
+    const tau4 = tau3 * tau
+
+    const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const B1 = gB1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const B2 = gB2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const B3 = gB3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+    const B4 = gB4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+
+    const value = (B0 + B1 * tau + B2 * tau2 + B3 * tau3 + B4 * tau4) / 100000000
+
+    return MapToMinus90To90Range(value * RAD2DEG)
+  }
+
+  /**
+   * Mean anomaly, see AA p194
+   * The mean anomaly is the angular distance from perihelion which the planet
+   * would have if it moved around the Sun with a constant angular velocity.
+   * @param {JulianDay} jd The julian day
+   * @returns {Degree}
+   */
+  export function getMeanAnomaly (jd: JulianDay): Degree {
+    return Sun.getMeanAnomaly(jd)
+  }
+
+  /**
+   * Eccentricity of the orbit
+   * @param  {JulianDay} jd The julian day
+   * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
+   */
+  export function getEccentricity (jd: JulianDay): number {
+    const T = (jd - 2451545) / 36525
+    return 1 - 0.002516 * T - 0.0000074 * T * T
+  }
 }

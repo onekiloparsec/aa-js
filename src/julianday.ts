@@ -4,10 +4,20 @@ import { Degree, Hour, JulianDay } from 'aa.js'
 import { fmod, isNumber } from './utils'
 
 
+/**
+ * Computes the date corresponding to the Julian Day
+ * @param {JulianDay} jd The julian day
+ * @returns {Date}
+ */
 export function getDate (jd: JulianDay): Date {
   return new Date((jd + 0.5 - J1970) * DAYMS)
 }
 
+/**
+ * Computes the Julian day for a given date.
+ * @param args
+ * @returns {JulianDay} The julian day
+ */
 export function getJulianDay (...args: any[]): JulianDay | undefined {
   if (args.length === 0) {
     return new Date().valueOf() / DAYMS - 0.5 + J1970
@@ -38,7 +48,14 @@ export function getJulianDay (...args: any[]): JulianDay | undefined {
   }
 }
 
-export function localSiderealTime (jd: JulianDay, lng: Degree): Hour {
+/**
+ * The local mean sidereal time (sun's clock time) for a given julian day
+ * at a given longitude on Earth
+ * @param {JulianDay} jd The julian day
+ * @param {Degree} lng The longitude
+ * @return {Hour}
+ */
+export function getLocalSiderealTime (jd: JulianDay, lng: Degree): Hour {
   // Equ 12.1
   const t = (jd - 2451545) / 36525
 
@@ -52,10 +69,20 @@ export function localSiderealTime (jd: JulianDay, lng: Degree): Hour {
   return fmod((gmst + lng) * DEG2H + 24, 24)
 }
 
-export function modifiedJulianDay (jd: JulianDay): number {
+/**
+ * Modified julian day
+ * @param {JulianDay} jd The julian day
+ * @return {number} The modified Julian Day
+ */
+export function getModifiedJulianDay (jd: JulianDay): number {
   return jd - MJD_START
 }
 
-export function julianDayMidnight (jd: JulianDay): JulianDay {
+/**
+ * The Julian Day of Midnight UTC for a given Julian Day.
+ * @param {JulianDay} jd The initial julian day
+ * @returns {JulianDay}
+ */
+export function getJulianDayMidnight (jd: JulianDay): JulianDay {
   return Math.floor(jd - 0.5) + 0.5
 }

@@ -1,4 +1,4 @@
-import { ArcSecond, JulianDay } from 'aa.js';
+import { ArcSecond, Degree, JulianDay } from 'aa.js'
 import { DEG2RAD } from './constants'
 import { getDecimal } from './sexagesimal'
 import { MapTo0To360Range } from './utils'
@@ -82,6 +82,11 @@ const gNutationCoefficients =
     }
   })
 
+/**
+ * Nutation in longitude
+ * @param {JulianDay} jd The julian day
+ * @return {ArcSecond}
+ */
 export function getNutationInLongitude (jd: JulianDay): ArcSecond {
   const T = (jd - 2451545) / 36525
   const T2 = T * T
@@ -106,6 +111,11 @@ export function getNutationInLongitude (jd: JulianDay): ArcSecond {
   return value
 }
 
+/**
+ * Nutation in obliquity
+ * @param {JulianDay} jd The julian day
+ * @returns {ArcSecond}
+ */
 export function getNutationInObliquity (jd: JulianDay): ArcSecond {
   const T = (jd - 2451545) / 36525
   const T2 = T * T
@@ -130,7 +140,16 @@ export function getNutationInObliquity (jd: JulianDay): ArcSecond {
   return value
 }
 
-export function getMeanObliquityOfEcliptic (jd: JulianDay): number {
+/**
+ * Mean obliquity of the ecliptic.
+ * The obliquity of the angle between the ecliptic (the plane of Earth orbit)
+ * and the celestial equator (the project of Earth equator onto the spherical
+ * sphere). The mean obliquity is NOT corrected for aberration and nutation of
+ * the Earth.
+ * @see getTrueObliquityOfEcliptic
+ * @param {JulianDay} jd The julian day
+ * @returns {Degree}
+ */export function getMeanObliquityOfEcliptic (jd: JulianDay): Degree {
   const U = (jd - 2451545) / 3652500
   const Usquared = U * U
   const Ucubed = Usquared * U
@@ -155,7 +174,17 @@ export function getMeanObliquityOfEcliptic (jd: JulianDay): number {
     getDecimal(0, 0, 2.45) * U10
 }
 
-export function getTrueObliquityOfEcliptic (jd: JulianDay): number {
+/**
+ * True obliquity of the ecliptic.
+ * The obliquity of the angle between the ecliptic (the plane of Earth orbit)
+ * and the celestial equator (the project of Earth equator onto the spherical
+ * sphere). The true obliquity is equal to the mean obliquity corrected by
+ * aberration and nutation of the Earth.
+ * @see getMeanObliquityOfEcliptic
+ * @param {JulianDay} jd The julian day
+ * @returns {Degree}
+ */
+export function getTrueObliquityOfEcliptic (jd: JulianDay): Degree {
   return getMeanObliquityOfEcliptic(jd) + getDecimal(0, 0, getNutationInObliquity(jd))
 }
 

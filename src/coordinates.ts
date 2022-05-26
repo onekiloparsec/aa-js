@@ -1,8 +1,8 @@
-import { Degree, EclipticCoordinates, EquatorialCoordinates, GalacticCoordinates, HorizontalCoordinates, Hour, JulianDay, Point } from 'aa.js';
-import { DEG2H, DEG2RAD, ECLIPTIC_OBLIQUITY_J2000_0, H2DEG, H2RAD, J2000, JULIAN_DAY_B1950_0, RAD2DEG, RAD2H } from './constants'
+import { Degree, EclipticCoordinates, EquatorialCoordinates, GalacticCoordinates, HorizontalCoordinates, Hour, JulianDay, Point } from 'aa.js'
+import { DEG2H, DEG2RAD, ECLIPTIC_OBLIQUITY_J2000_0, H2DEG, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from './constants'
+import { getLocalSiderealTime } from './julianday'
+import { precessEquatorialCoordinates } from './precession'
 import { fmod } from './utils'
-import * as julianday from './julianday'
-import { precessEquatorialCoordinates } from "./precession";
 
 const sin = (deg: Degree): Degree => Math.sin(deg * DEG2RAD)
 const cos = (deg: Degree): Degree => Math.cos(deg * DEG2RAD)
@@ -115,13 +115,13 @@ export function transformGalacticToEquatorial (l: Degree, b: Degree, epoch: Juli
 // --- horizontal coordinates
 
 export function horizontalAltitude (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
-  const lmst = julianday.localSiderealTime(jd, lng)
+  const lmst = getLocalSiderealTime(jd, lng)
   const hourAngle = lmst - ra
   return asin(sin(lat) * sin(dec) + cos(lat) * cos(dec) * cos(hourAngle * H2DEG))
 }
 
 export function horizontalAzimuth (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
-  const lmst = julianday.localSiderealTime(jd, lng)
+  const lmst = getLocalSiderealTime(jd, lng)
   const hourAngle = lmst - ra
   return atan(sin(hourAngle * H2DEG), cos(hourAngle) * sin(lat) - tan(dec) * cos(lat))
 }
@@ -154,7 +154,7 @@ export function pointFromHorizontal (alt: Degree, az: Degree, center: Point, rad
 }
 
 export function rightAscensionFromHorizontal (jd: JulianDay, alt: Degree, az: Degree, lng: Degree, lat: Degree): Hour {
-  const lmst = julianday.localSiderealTime(jd, lng)
+  const lmst = getLocalSiderealTime(jd, lng)
   return lmst - atan(sin(az), cos(az) * sin(lat) + tan(alt) * cos(lat)) * DEG2H
 }
 
@@ -170,7 +170,7 @@ export function transformHorizontalToEquatorial (jd: JulianDay, alt: Degree, az:
 }
 
 export function parallacticAngle (jd: JulianDay, ra: Hour, dec: Degree, lng: Degree, lat: Degree): Degree {
-  const lmst = julianday.localSiderealTime(jd, lng)
+  const lmst = getLocalSiderealTime(jd, lng)
   const HA = lmst - ra
 
   let angle = 0.0

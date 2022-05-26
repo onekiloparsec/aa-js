@@ -1,7 +1,15 @@
 import { Degree, EquatorialCoordinates, Hour, JulianDay } from 'aa.js'
 import { DEG2RAD, H2DEG, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from './constants'
 
-// See AA p.134
+/**
+ * Precess equatorial coordinates from aa given epoch to another one
+ * See AA p.134
+ * @param {Hour} ra0 The initial right ascension
+ * @param {Degree} dec0 The initial declination
+ * @param {JulianDay} initialEpoch The initial epoch
+ * @param {JulianDay} finalEpoch The initial epoch
+ * @returns {EquatorialCoordinates} The precessed coordinates
+ */
 export function precessEquatorialCoordinates (ra0: Hour, dec0: Degree, initialEpoch: JulianDay, finalEpoch: JulianDay): EquatorialCoordinates {
   const JD0 = initialEpoch
   const JD = finalEpoch
@@ -37,10 +45,22 @@ export function precessEquatorialCoordinates (ra0: Hour, dec0: Degree, initialEp
   }
 }
 
+/**
+ * Precess equatorial coordinates from an assumed J2000 epoch to that of B1950.
+ * @param {Hour} ra0 The initial right ascension
+ * @param {Degree} dec0 The initial declination
+ * @returns {EquatorialCoordinates} The precessed coordinates
+ */
 export function precessEquatorialCoordinatesFromJ2000ToB1950 (ra0: Hour, dec0: Degree): EquatorialCoordinates {
   return precessEquatorialCoordinates(ra0, dec0, J2000, JULIAN_DAY_B1950_0)
 }
 
+/**
+ * Precess equatorial coordinates from an assumed B1950 epoch to that of J2000.
+ * @param {Hour} ra0 The initial right ascension
+ * @param {Degree} dec0 The initial declination
+ * @returns {EquatorialCoordinates} The precessed coordinates
+ */
 export function precessEquatorialCoordinatesFromB1950ToJ1000 (ra0: Hour, dec0: Degree): EquatorialCoordinates {
   return precessEquatorialCoordinates(ra0, dec0, JULIAN_DAY_B1950_0, J2000)
 }

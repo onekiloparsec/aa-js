@@ -5,8 +5,8 @@ import { getNutationInLongitude, getTrueObliquityOfEcliptic } from './nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from './fk5'
 import { getEclipticAberration } from './aberration'
 import { getDecimal } from './sexagesimal'
-import * as earth from './earth'
 import { MapTo0To360Range } from './utils'
+import { Earth } from './Earth'
 
 export function getDistanceToLightTime (distance: number): number {
   return distance * 0.0057755183
@@ -23,11 +23,11 @@ export function getEllipticalDetails (jd: JulianDay,
                                       eclipticLatitudeFunc: Function,
                                       radiusVectorFunc: Function,
                                       isSun: boolean = false): EllipticalGeocentricDetails {
-  // Calculate the position of the earth first
+  // Calculate the position of the Earth first
   let JD0 = jd
-  const L0 = earth.getEclipticLongitude(JD0) * DEG2RAD
-  const B0 = earth.getEclipticLatitude(JD0) * DEG2RAD
-  const R0 = earth.getRadiusVector(JD0)
+  const L0 = Earth.getEclipticLongitude(JD0) * DEG2RAD
+  const B0 = Earth.getEclipticLatitude(JD0) * DEG2RAD
+  const R0 = Earth.getRadiusVector(JD0)
   const cosB0 = cos(B0)
 
   // Iterate to find the positions adjusting for light-time correction if required
@@ -98,7 +98,7 @@ export function getEllipticalDetails (jd: JulianDay,
   let apparentLightTime = getDistanceToLightTime(apparentGeocentricDistance)
   let apparentGeocentricEclipticCoordinates = {
     longitude: MapTo0To360Range(RAD2DEG * atan2(y, x)),
-    latitude: RAD2DEG * (atan2(z, sqrt(x2 + y2))),
+    latitude: RAD2DEG * (atan2(z, sqrt(x2 + y2)))
   }
 
   // Adjust for Aberration
@@ -116,7 +116,7 @@ export function getEllipticalDetails (jd: JulianDay,
     apparentGeocentricEclipticCoordinates.longitude,
     apparentGeocentricEclipticCoordinates.latitude
   )
-  let deltaLat = getCorrectionInLatitude(jd, apparentGeocentricEclipticCoordinates.longitude,)
+  let deltaLat = getCorrectionInLatitude(jd, apparentGeocentricEclipticCoordinates.longitude)
   apparentGeocentricEclipticCoordinates.longitude += deltaLong
   apparentGeocentricEclipticCoordinates.latitude += deltaLat
 
@@ -147,7 +147,7 @@ export function getEllipticalDetails (jd: JulianDay,
  * @returns {KilometerPerSecond} The velocity
  */
 export function getInstantaneousVelocity (r: AstronomicalUnit, a: AstronomicalUnit): KilometerPerSecond {
-  return 42.1219 * sqrt((1 / r) - (1 / (2 * a)));
+  return 42.1219 * sqrt((1 / r) - (1 / (2 * a)))
 }
 
 /**
@@ -157,7 +157,7 @@ export function getInstantaneousVelocity (r: AstronomicalUnit, a: AstronomicalUn
  * @returns {KilometerPerSecond} The velocity
  */
 export function getVelocityAtPerihelion (e: number, a: AstronomicalUnit): KilometerPerSecond {
-  return 29.7847 / sqrt(a) * sqrt((1 + e) / (1 - e));
+  return 29.7847 / sqrt(a) * sqrt((1 + e) / (1 - e))
 }
 
 /**
@@ -167,7 +167,7 @@ export function getVelocityAtPerihelion (e: number, a: AstronomicalUnit): Kilome
  * @returns {KilometerPerSecond} The velocity
  */
 export function getVelocityAtAphelion (e: number, a: AstronomicalUnit): KilometerPerSecond {
-  return 29.7847 / sqrt(a) * sqrt((1 - e) / (1 + e));
+  return 29.7847 / sqrt(a) * sqrt((1 - e) / (1 + e))
 }
 
 /**
@@ -177,6 +177,6 @@ export function getVelocityAtAphelion (e: number, a: AstronomicalUnit): Kilomete
  * @returns {AstronomicalUnit} The ellipse length
  */
 export function getLengthOfEllipse (e: number, a: AstronomicalUnit): AstronomicalUnit {
-  const b = a * sqrt(1 - e * e);
-  return Math.PI * (3 * (a + b) - sqrt((a + 3 * b) * (3 * a + b)));
+  const b = a * sqrt(1 - e * e)
+  return Math.PI * (3 * (a + b) - sqrt((a + 3 * b) * (3 * a + b)))
 }
