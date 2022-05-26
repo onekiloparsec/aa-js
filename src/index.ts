@@ -1,44 +1,25 @@
-import * as constants from './constants'
-import * as coordinates from './coordinates'
-import * as cosmology from './cosmology'
-import * as distances from './distances'
-import * as julianday from './julianday'
-import * as nutation from './nutation'
-import * as precession from './precession'
-import * as dates from './dates'
-import * as times from './times'
-import * as transits from './transits'
+export * from './constants'
+export * from './coordinates'
+export * from './cosmology'
+export * from './dates'
+export * from './distances'
+export * from './julianday'
+export * from './nutation'
+export * from './precession'
+export * from './sexagesimal'
+export * from './transits'
 
-import * as sun from './sun'
-import * as mercury from './mercury'
-import * as venus from './venus'
-import * as earth from './earth'
-import * as mars from './mars'
-import * as jupiter from './jupiter'
-import * as saturn from './saturn'
-import * as uranus from './uranus'
-import * as neptune from './neptune'
-import * as pluto from './pluto'
+export * from './aberration'
+export * from './times'
 
-export default {
-  constants,
-  coordinates,
-  cosmology,
-  distances,
-  julianday,
-  nutation,
-  precession,
-  dates,
-  times,
-  transits,
-  sun,
-  mercury,
-  venus,
-  earth,
-  mars,
-  jupiter,
-  saturn,
-  uranus,
-  neptune,
-  pluto
-}
+export * from './sun'
+export * from './mercury'
+export * from './venus'
+export * from './earth'
+export * from './mars'
+export * from './jupiter'
+export * from './saturn'
+export * from './uranus'
+export * from './neptune'
+export * from './pluto'
+
