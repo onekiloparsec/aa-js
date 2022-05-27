@@ -1,10 +1,8 @@
-import * as coordinates from '../src/coordinates'
-import * as sexagesimal from '../src/sexagesimal'
-import { getJulianDay } from '../src'
+import { julianDay, coordinates, sexagesimal } from '../src'
 
 test('parallactic angle before meridian', () => {
   const utcDate = new Date(Date.UTC(2017, 5, 14, 2, 0, 0.0))
-  let jd = getJulianDay(utcDate)
+  let jd = julianDay.getJulianDay(utcDate)
 
   // gro_j1655_40, see below
   let ra = sexagesimal.getDecimal(16, 54, 0.14) // in hours
@@ -17,12 +15,12 @@ test('parallactic angle before meridian', () => {
   // See https://www.eso.org/sci/observing/tools/calendar/ParAng.html to check values.
   let refAngle = -78.1
 
-  expect(coordinates.parallacticAngle(jd, ra, dec, lng, lat)).toBeCloseTo(refAngle, 0)
+  expect(coordinates.getParallacticAngle(jd, ra, dec, lng, lat)).toBeCloseTo(refAngle, 0)
 })
 
 test('parallactic angle after meridian', () => {
   const utcDate = new Date(Date.UTC(2017, 5, 14, 6, 0, 0.0))
-  let jd = getJulianDay(utcDate)
+  let jd = julianDay.getJulianDay(utcDate)
 
   // gro_j1655_40, see below
   let ra = sexagesimal.getDecimal(16, 54, 0.14) // in hours
@@ -36,5 +34,5 @@ test('parallactic angle after meridian', () => {
   // Looking for improved reference values...
   let refAngle = 74.4
 
-  expect(coordinates.parallacticAngle(jd, ra, dec, lng, lat)).toBeCloseTo(refAngle, 0)
+  expect(coordinates.getParallacticAngle(jd, ra, dec, lng, lat)).toBeCloseTo(refAngle, 0)
 })

@@ -1,11 +1,10 @@
-import { Mars } from '../src/mars'
-import { getJulianDay } from '../src/'
+import { Mars, julianDay } from '../src'
 
 
 // See AA p.291, Example 42.a, see also SwiftAA
 test('check physical details', () => {
   const UTCDate = new Date(Date.UTC(1992, 10, 9))
-  const jd = getJulianDay(UTCDate)
+  const jd = julianDay.getJulianDay(UTCDate)
 
   const earthDec = Mars.getPlanetocentricDeclinationOfTheEarth(jd)
   expect(earthDec).toBeCloseTo(12.44)// deg
