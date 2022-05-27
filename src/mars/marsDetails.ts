@@ -1,7 +1,7 @@
 import { Degree, JulianDay } from 'aa.js'
 import { DEG2RAD, RAD2DEG } from '../constants'
 import { getDistanceToLightTime } from '../elliptical'
-import * as earth from '../earth'
+import { default as Earth } from '../earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
 const sin = Math.sin
@@ -18,11 +18,11 @@ function computeMarsDetails (jd: JulianDay) {
   const Beta0 = 63.2818 - 0.00394 * T
 
   //Step 2
-  const l0 = earth.getEclipticLongitude(jd)
+  const l0 = Earth.getEclipticLongitude(jd)
   const l0rad = DEG2RAD * l0
-  const b0 = earth.getEclipticLatitude(jd)
+  const b0 = Earth.getEclipticLatitude(jd)
   const b0rad = DEG2RAD * b0
-  const R = earth.getRadiusVector(jd)
+  const R = Earth.getRadiusVector(jd)
 
   let PreviousLightTravelTime = 0
   let LightTravelTime = 0

@@ -1,6 +1,5 @@
-import { Sun } from '../src/sun'
+import { H2DEG, Sun } from '../src'
 import * as julianday from '../src/julianday'
-import { H2DEG } from '../src'
 
 test('get sun geometric longitude mean equinox of the date (AA p.165)', () => {
   const UTCDate = new Date(Date.UTC(1992, 9, 13))

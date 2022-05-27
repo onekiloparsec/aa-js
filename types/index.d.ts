@@ -9,6 +9,10 @@ declare module 'aa.js' {
    */
   export type Radian = number;
   /**
+   * Giga-year = 10^9 terrestrial years.
+   */
+  export type GYr = number;
+  /**
    * Terrestrial year = (365 or 366 Days)
    */
   export type Year = number;
@@ -72,6 +76,10 @@ declare module 'aa.js' {
    * Megaparsec.
    */
   export type MegaParsec = number
+  /**
+   * Gpc^3.
+   */
+  export type GigaParsec3 = number
   /**
    * Logarithmic scale of luminosity
    */
@@ -199,38 +207,6 @@ declare module 'aa.js' {
   export interface Point {
     x: Pixel,
     y: Pixel
-  }
-
-  export interface Planet<T> {
-    getEclipticLongitude: Function
-
-    getEclipticLatitude (jd: JulianDay): Degree
-
-    getRadiusVector (jd: JulianDay): AstronomicalUnit
-
-    getEclipticCoordinates (jd: JulianDay): EclipticCoordinates
-
-    getEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates
-
-    getApparentEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates
-
-    getAphelion (jd: JulianDay): JulianDay
-
-    getPerihelion (jd: JulianDay): JulianDay
-
-    constants: PlanetaryConstants
-
-    getPlanetaryDetails (jd: JulianDay): EllipticalGeocentricDetails
-
-    getPhaseAngle (jd: JulianDay): Degree
-
-    getIlluminatedFraction (jd: JulianDay): number
-
-    getMagnitude (jd: JulianDay): Magnitude
-
-    getEquatorialSemiDiameter (jd: JulianDay): ArcSecond
-
-    getPolarSemiDiameter (jd: JulianDay): ArcSecond
   }
 
   /**

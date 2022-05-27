@@ -2,7 +2,7 @@ import { Degree, JulianDay } from 'aa.js'
 import { DEG2RAD, RAD2DEG } from '../constants'
 import { MapTo0To360Range } from '../utils'
 import { getMeanObliquityOfEcliptic } from '../nutation'
-import { Earth } from '../Earth'
+import { default as Earth } from '../earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
 const sin = Math.sin

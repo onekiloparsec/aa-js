@@ -6,7 +6,7 @@ import { getCorrectionInLatitude, getCorrectionInLongitude } from './fk5'
 import { getEclipticAberration } from './aberration'
 import { getDecimal } from './sexagesimal'
 import { MapTo0To360Range } from './utils'
-import { Earth } from './Earth'
+import { default as Earth } from './earth'
 
 export function getDistanceToLightTime (distance: number): number {
   return distance * 0.0057755183

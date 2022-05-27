@@ -16,29 +16,49 @@
 // ************************************************************************************
 
 import { SPEED_OF_LIGHT } from './constants'
+import { GigaParsec3, GYr, KilometerPerSecondPerMegaParsec, MegaParsec } from 'aa.js'
 
-const Tyr = 977.8 // coefficent for converting 1/H into Gyr
+const Tyr = 977.8 // coefficient for converting 1/H into Gyr
 const INTEGRAL_POINTS_NUMBER = 2000
 
-export function omegaR (H0: number): number {
+/**
+ * Omega R (radiation), the ratio of the density of the Universe to the critical density.
+ * @param {KilometerPerSecondPerMegaParsec} H0 The Hubble constant
+ * @returns {number}
+ */
+export function getOmegaR (H0: KilometerPerSecondPerMegaParsec): number {
   const h = H0 / 100
   return 4.165E-5 / (h * h)	// includes 3 massless neutrino species, T0 = 2.72528
 }
 
-export function omegaK (H0: number, WM: number, WV: number): number {
-  const WR = omegaR(H0)
-  return 1 - WM - WR - WV
+/**
+ * Omega K (curvature) = 1-Omega(total)
+ * @param {KilometerPerSecondPerMegaParsec} H0 The Hubble constant
+ * @param {number} omegaMat Omega M (matter)
+ * @param {number} omegaVac Omega Vac (vacuum)
+ * @returns {number}
+ */
+export function getOmegaK (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number): number {
+  const omegaR = getOmegaR(H0)
+  return 1 - omegaMat - omegaR - omegaVac
 }
 
-export function universeAge (H0: number, WM: number, WV: number): number {
+/**
+ * The age of the universe
+ * @param {KilometerPerSecondPerMegaParsec} H0 The Hubble constant
+ * @param {number} omegaMat
+ * @param {number} omegaVac
+ * @returns {GYr}
+ */
+export function getUniverseAge (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number): GYr {
   let az = 1.0
-  let WR = omegaR(H0)
-  let WK = omegaK(H0, WM, WV)
+  let omegaR = getOmegaR(H0)
+  let omegaK = getOmegaK(H0, omegaMat, omegaVac)
 
   let age = 0
   for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
     const a = az * (i + 0.5) / INTEGRAL_POINTS_NUMBER
-    const adot = Math.sqrt(WK + (WM / a) + (WR / (a * a)) + (WV * a * a))
+    const adot = Math.sqrt(omegaK + (omegaMat / a) + (omegaR / (a * a)) + (omegaVac * a * a))
     age = age + 1 / adot
   }
   age = age / INTEGRAL_POINTS_NUMBER
@@ -46,15 +66,23 @@ export function universeAge (H0: number, WM: number, WV: number): number {
   return age * (Tyr / H0)
 }
 
-export function universeAgeAtRedshift (H0: number, WM: number, WV: number, z: number): number {
+/**
+ * The age of the universe at a given redshift
+ * @param {KilometerPerSecondPerMegaParsec} H0 The Hubble constant
+ * @param {number} omegaMat Omega Matter
+ * @param {number} omegaVac Omega Vacuum
+ * @param {number} z The redshift
+ * @returns {GYr}
+ */
+export function getUiverseAgeAtRedshift (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): GYr {
   let az = 1.0 / (1 + z)
-  let WR = omegaR(H0)
-  let WK = omegaK(H0, WM, WV)
+  let WR = getOmegaR(H0)
+  let WK = getOmegaK(H0, omegaMat, omegaVac)
 
   let age = 0
   for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
     const a = az * (i + 0.5) / INTEGRAL_POINTS_NUMBER
-    const adot = Math.sqrt(WK + (WM / a) + (WR / (a * a)) + (WV * a * a))
+    const adot = Math.sqrt(WK + (omegaMat / a) + (WR / (a * a)) + (omegaVac * a * a))
     age = age + 1 / adot
   }
 
@@ -82,16 +110,24 @@ export function universeAgeAtRedshift (H0: number, WM: number, WV: number, z: nu
   return (Tyr / H0) * zage * Math.pow(10.0, dzage)
 }
 
-export function lightTravelTime (H0: number, WM: number, WV: number, z: number): number {
+/**
+ * The light travel time
+ * @param {KilometerPerSecondPerMegaParsec} H0 The Hubble constant
+ * @param {number} omegaMat Omega Matter
+ * @param {number} omegaVac Omega Vacuum
+ * @param {number} z The redshift
+ * @returns {GYr}
+ */
+export function getLightTravelTime (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): GYr {
   let DTT = 0.0
   let az = 1.0 / (1 + z)
-  let WR = omegaR(H0)
-  let WK = omegaK(H0, WM, WV)
+  let omegaR = getOmegaR(H0)
+  let omegaK = getOmegaK(H0, omegaMat, omegaVac)
 
 // do integral over a=1/(1+z) from az to 1 in n steps, midpoint rule
   for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
     let a = az + (1 - az) * (i + 0.5) / INTEGRAL_POINTS_NUMBER
-    let adot = Math.sqrt(WK + (WM / a) + (WR / (a * a)) + (WV * a * a))
+    let adot = Math.sqrt(omegaK + (omegaMat / a) + (omegaR / (a * a)) + (omegaVac * a * a))
     DTT = DTT + 1 / adot
   }
 
@@ -101,16 +137,24 @@ export function lightTravelTime (H0: number, WM: number, WV: number, z: number):
   return (Tyr / H0) * DTT
 }
 
-export function comovingRadialDistance (H0: number, WM: number, WV: number, z: number): number {
+/**
+ * Comoving radial distance
+ * @param {KilometerPerSecondPerMegaParsec} H0 The Hubble constant
+ * @param {number} omegaMat Omega Matter
+ * @param {number} omegaVac Omega Vacuum
+ * @param {number} z The redshift
+ * @returns {MegaParsec}
+ */
+export function getComovingRadialDistance (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): MegaParsec {
   let DCMR = 0.0
   let az = 1.0 / (1 + z)
-  let WR = omegaR(H0)
-  let WK = omegaK(H0, WM, WV)
+  let WR = getOmegaR(H0)
+  let WK = getOmegaK(H0, omegaMat, omegaVac)
 
 // do integral over a=1/(1+z) from az to 1 in n steps, midpoint rule
   for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
     let a = az + (1 - az) * (i + 0.5) / INTEGRAL_POINTS_NUMBER
-    let adot = Math.sqrt(WK + (WM / a) + (WR / (a * a)) + (WV * a * a))
+    let adot = Math.sqrt(WK + (omegaMat / a) + (WR / (a * a)) + (omegaVac * a * a))
     DCMR = DCMR + 1 / (a * adot)
   }
 
@@ -120,51 +164,73 @@ export function comovingRadialDistance (H0: number, WM: number, WV: number, z: n
   return (SPEED_OF_LIGHT / H0) * DCMR
 }
 
-export function comovingVolume (WK: number, DCMR: number): number {
-  const x = Math.sqrt(Math.abs(WK)) * DCMR
+/**
+ * Comoving volume
+ * @param {number} omegaK Omega Curvature (= 1 - Omega Total)
+ * @param {number} DCMR
+ * @returns {GigaParsec3}
+ */
+export function getComovingVolume (omegaK: number, DCMR: number): GigaParsec3 {
+  const x = Math.sqrt(Math.abs(omegaK)) * DCMR
   if (x > 0.1) {
-    const ratio = (WK > 0) ? (0.125 * (Math.exp(2 * x) - Math.exp(-2 * x)) - x / 2) / (x * x * x / 3) :
+    const ratio = (omegaK > 0) ? (0.125 * (Math.exp(2 * x) - Math.exp(-2 * x)) - x / 2) / (x * x * x / 3) :
       (x / 2 - Math.sin(2 * x) / 4) / (x * x * x / 3)
     return ratio * DCMR * DCMR * DCMR / 3
   }
 
   let y = x * x
   // statement below fixed 13-Aug-03 to correct sign error in expansion
-  if (WK < 0) {
+  if (omegaK < 0) {
     y = -y
   }
   const ratio = 1 + y / 5 + (2 / 105) * y * y
   return ratio * DCMR * DCMR * DCMR / 3
 }
 
-export function comovingVolumeWithinRedshift (H0: number, WM: number, WV: number, z: number): number {
+/**
+ *
+ * @param {KilometerPerSecondPerMegaParsec} H0 The Hubble constant
+ * @param {number} omegaMat Omega Matter
+ * @param {number} omegaVac Omega Vacuum
+ * @param {number} z The redshift
+ * @returns {GigaParsec3}
+ */
+export function getComovingVolumeWithinRedshift (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): GigaParsec3 {
   let az = 1.0 / (1 + z)
-  let WR = omegaR(H0)
-  let WK = omegaK(H0, WM, WV)
+  let WR = getOmegaR(H0)
+  let WK = getOmegaK(H0, omegaMat, omegaVac)
   let DCMR = 0.0
 // do integral over a=1/(1+z) from az to 1 in n steps, midpoint rule
   for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
     let a = az + (1 - az) * (i + 0.5) / INTEGRAL_POINTS_NUMBER
-    let adot = Math.sqrt(WK + (WM / a) + (WR / (a * a)) + (WV * a * a))
+    let adot = Math.sqrt(WK + (omegaMat / a) + (WR / (a * a)) + (omegaVac * a * a))
     DCMR = DCMR + 1 / (a * adot)
   }
   DCMR = (1 - az) * DCMR / INTEGRAL_POINTS_NUMBER
-  let VCM = comovingVolume(WK, DCMR)
+  let VCM = getComovingVolume(WK, DCMR)
 
   // Gpc^3
   return 4 * Math.PI * Math.pow(0.001 * SPEED_OF_LIGHT / H0, 3) * VCM
 }
 
-export function tangentialComovingDistance (H0: number, WM: number, WV: number, z: number): number {
+/**
+ * Tangential comoving distance
+ * @param {KilometerPerSecondPerMegaParsec} H0 The Hubble constant
+ * @param {number} omegaMat Omega Matter
+ * @param {number} omegaVac Omega Vacuum
+ * @param {number} z The redshift
+ * @returns {number}
+ */
+export function getTangentialComovingDistance (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): number {
   let az = 1.0 / (1 + z)
-  let WR = omegaR(H0)
-  let WK = omegaK(H0, WM, WV)
+  let WR = getOmegaR(H0)
+  let WK = getOmegaK(H0, omegaMat, omegaVac)
 
   let DCMR = 0.0
 // do integral over a=1/(1+z) from az to 1 in n steps, midpoint rule
   for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
     let a = az + (1 - az) * (i + 0.5) / INTEGRAL_POINTS_NUMBER
-    let adot = Math.sqrt(WK + (WM / a) + (WR / (a * a)) + (WV * a * a))
+    let adot = Math.sqrt(WK + (omegaMat / a) + (WR / (a * a)) + (omegaVac * a * a))
     DCMR = DCMR + 1 / (a * adot)
   }
   DCMR = (1 - az) * DCMR / INTEGRAL_POINTS_NUMBER
@@ -183,21 +249,45 @@ export function tangentialComovingDistance (H0: number, WM: number, WV: number, 
   return ratio * DCMR
 }
 
-export function angularSizeDistance (H0: number, WM: number, WV: number, z: number): number {
+/**
+ * Angular size distance
+ * @param {KilometerPerSecondPerMegaParsec} H0 The Hubble constant
+ * @param {number} omegaMat Omega Matter
+ * @param {number} omegaVac Omega Vacuum
+ * @param {number} z The redshift
+ * @returns {MegaParsec}
+ */
+export function getAngularSizeDistance (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): MegaParsec {
   let az = 1.0 / (1 + z)
-  let DA = az * tangentialComovingDistance(H0, WM, WV, z)
+  let DA = az * getTangentialComovingDistance(H0, omegaMat, omegaVac, z)
   // Mpc
   return (SPEED_OF_LIGHT / H0) * DA
 }
 
-export function angularSizeScale (H0: number, WM: number, WV: number, z: number): number {
-  let DA = angularSizeDistance(H0, WM, WV, z)
+/**
+ * Angular size scale
+ * @param {KilometerPerSecondPerMegaParsec} H0 The Hubble constant
+ * @param {number} omegaMat Omega Matter
+ * @param {number} omegaVac Omega Vacuum
+ * @param {number} z The redshift
+ * @returns {number} Megaparsec / arcsecond
+ */
+export function getAngularSizeScale (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): number {
+  let DA = getAngularSizeDistance(H0, omegaMat, omegaVac, z)
   let DA_Mpc = (SPEED_OF_LIGHT / H0) * DA
   return DA_Mpc / 206.264806
 }
 
-export function luminosityDistance (H0: number, WM: number, WV: number, z: number) {
+/**
+ * Luminosity distance
+ * @param {KilometerPerSecondPerMegaParsec} H0 The Hubble constant
+ * @param {number} omegaMat Omega Matter
+ * @param {number} omegaVac Omega Vacuum
+ * @param {number} z The redshift
+ * @returns {MegaParsec}
+ */
+export function getLuminosityDistance (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): MegaParsec {
   let az = 1.0 / (1 + z)
-  let DA = angularSizeDistance(H0, WM, WV, z)
+  let DA = getAngularSizeDistance(H0, omegaMat, omegaVac, z)
   return DA / (az * az)
 }

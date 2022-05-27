@@ -2,7 +2,7 @@ import { Degree, EllipticalGeocentricDetails, JulianDay, Magnitude } from 'aa.js
 import { DEG2RAD, RAD2DEG } from '../constants'
 import { getEllipticalDetails } from '../elliptical'
 import { MapTo0To360Range } from '../utils'
-import { Earth } from '../earth'
+import { default as Earth } from '../earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
 
