@@ -201,6 +201,38 @@ declare module 'aa.js' {
     y: Pixel
   }
 
+  export interface Planet<T> {
+    getEclipticLongitude: Function
+
+    getEclipticLatitude (jd: JulianDay): Degree
+
+    getRadiusVector (jd: JulianDay): AstronomicalUnit
+
+    getEclipticCoordinates (jd: JulianDay): EclipticCoordinates
+
+    getEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates
+
+    getApparentEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates
+
+    getAphelion (jd: JulianDay): JulianDay
+
+    getPerihelion (jd: JulianDay): JulianDay
+
+    constants: PlanetaryConstants
+
+    getPlanetaryDetails (jd: JulianDay): EllipticalGeocentricDetails
+
+    getPhaseAngle (jd: JulianDay): Degree
+
+    getIlluminatedFraction (jd: JulianDay): number
+
+    getMagnitude (jd: JulianDay): Magnitude
+
+    getEquatorialSemiDiameter (jd: JulianDay): ArcSecond
+
+    getPolarSemiDiameter (jd: JulianDay): ArcSecond
+  }
+
   /**
    * The various elements of the rise, set and transit of an object
    */
