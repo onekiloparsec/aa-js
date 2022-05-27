@@ -1,7 +1,7 @@
 import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
 import { RAD2DEG } from '../constants'
 import { AstronomicalUnit, Degree, EclipticCoordinates, JulianDay } from 'aa.js'
-import { Sun } from '../sun'
+import * as sun  from '../sun'
 import {
   gB0EarthCoefficients,
   gB1EarthCoefficients,
@@ -158,7 +158,7 @@ export namespace Earth {
    * @returns {Degree}
    */
   export function getMeanAnomaly (jd: JulianDay): Degree {
-    return Sun.getMeanAnomaly(jd)
+    return sun.getMeanAnomaly(jd)
   }
 
   /**
