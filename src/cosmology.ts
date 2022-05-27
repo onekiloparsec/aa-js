@@ -74,7 +74,7 @@ export function getUniverseAge (H0: KilometerPerSecondPerMegaParsec, omegaMat: n
  * @param {number} z The redshift
  * @returns {GYr}
  */
-export function getUiverseAgeAtRedshift (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): GYr {
+export function getUniverseAgeAtRedshift (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): GYr {
   let az = 1.0 / (1 + z)
   let WR = getOmegaR(H0)
   let WK = getOmegaK(H0, omegaMat, omegaVac)
