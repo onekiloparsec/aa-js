@@ -1,7 +1,7 @@
 {
   "name": "aa.js",
   "version": "1.10.1",
-  "description": "Astronomical Algorithms for node.js",
+  "description": "Astronomical Algorithms in Javascript",
   "files": [
     "dist"
   ],
