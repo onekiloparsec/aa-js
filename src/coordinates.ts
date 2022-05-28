@@ -181,7 +181,7 @@ export function transformGalacticToEquatorial (l: Degree, b: Degree, epoch: Juli
  * @param {Degree} dec The equatorial declination
  * @returns {Degree}
  */
-export function horizontalAltitude (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
+export function getHorizontalAltitude (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
   const lmst = getLocalSiderealTime(jd, lng)
   const hourAngle = lmst - ra
   return asin(sin(lat) * sin(dec) + cos(lat) * cos(dec) * cos(hourAngle * H2DEG))
@@ -196,7 +196,7 @@ export function horizontalAltitude (jd: JulianDay, lng: Degree, lat: Degree, ra:
  * @param {Degree} dec The equatorial declination
  * @returns {Degree}
  */
-export function horizontalAzimuth (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
+export function getHorizontalAzimuth (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
   const lmst = getLocalSiderealTime(jd, lng)
   const hourAngle = lmst - ra
   return atan(sin(hourAngle * H2DEG), cos(hourAngle) * sin(lat) - tan(dec) * cos(lat))
@@ -214,8 +214,8 @@ export function horizontalAzimuth (jd: JulianDay, lng: Degree, lat: Degree, ra: 
  */
 export function transformEquatorialToHorizontal (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): HorizontalCoordinates {
   return {
-    azimuth: horizontalAzimuth(jd, lng, lat, ra, dec),
-    altitude: horizontalAltitude(jd, lng, lat, ra, dec)
+    azimuth: getHorizontalAzimuth(jd, lng, lat, ra, dec),
+    altitude: getHorizontalAltitude(jd, lng, lat, ra, dec)
   }
 }
 
