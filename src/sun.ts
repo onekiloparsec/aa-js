@@ -9,9 +9,6 @@ import { MapTo0To360Range } from './utils'
 import { default as Earth } from './earth'
 
 const sin = Math.sin
-const cos = Math.cos
-const acos = Math.acos
-const asin = Math.asin
 
 /**
  * Computes the Sun mean anomaly which is equal to the mean anomaly of the Earth.
