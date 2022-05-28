@@ -1,4 +1,4 @@
-import { PlanetaryConstants } from 'aa.js'
+import { PlanetaryConstants } from '../types'
 
 /**
  * Planet constants, copied from the JPL

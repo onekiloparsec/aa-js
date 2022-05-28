@@ -1,4 +1,4 @@
-import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianCentury, JulianDay } from 'aa.js'
+import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianCentury, JulianDay } from './types'
 import { DEG2RAD } from './constants'
 import * as coordinates from './coordinates'
 import * as fk5 from './fk5'

@@ -1,4 +1,4 @@
-import { Degree } from 'aa.js'
+import { Degree } from './types'
 
 // https://gist.github.com/wteuber/6241786
 export function fmod (a: number, b: number): number {
@@ -9,16 +9,16 @@ export function isNumber (v: any): boolean {
   return !isNaN(parseFloat(v)) && isFinite(v)
 }
 
-export function MapTo0To360Range (Degrees: Degree): Degree {
-  let fResult = fmod(Degrees, 360)
+export function MapTo0To360Range (degrees: Degree): Degree {
+  let fResult = fmod(degrees, 360)
   if (fResult < 0) {
     fResult += 360
   }
   return fResult
 }
 
-export function MapToMinus90To90Range (Degrees: Degree): Degree {
-  let fResult = MapTo0To360Range(Degrees)
+export function MapToMinus90To90Range (degrees: Degree): Degree {
+  let fResult = MapTo0To360Range(degrees)
 
   if (fResult > 270) {
     fResult = fResult - 360

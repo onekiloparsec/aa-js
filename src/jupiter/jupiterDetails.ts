@@ -1,4 +1,4 @@
-import { Degree, JulianDay } from 'aa.js'
+import { Degree, JulianDay } from '../types'
 import { DEG2RAD, RAD2DEG } from '../constants'
 import { MapTo0To360Range } from '../utils'
 import { getMeanObliquityOfEcliptic } from '../nutation'

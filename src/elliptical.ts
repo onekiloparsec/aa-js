@@ -1,4 +1,4 @@
-import { AstronomicalUnit, EllipticalGeocentricDetails, JulianDay, KilometerPerSecond } from 'aa.js'
+import { AstronomicalUnit, Day, Degree, EclipticCoordinates, EllipticalGeocentricDetails, JulianDay, KilometerPerSecond } from './types'
 import { DEG2RAD, RAD2DEG } from './constants'
 import { transformEclipticToEquatorial } from './coordinates'
 import { getNutationInLongitude, getTrueObliquityOfEcliptic } from './nutation'
@@ -8,7 +8,7 @@ import { getDecimal } from './sexagesimal'
 import { MapTo0To360Range } from './utils'
 import { default as Earth } from './earth'
 
-export function getDistanceToLightTime (distance: number): number {
+export function getDistanceToLightTime (distance: number): Day {
   return distance * 0.0057755183
 }
 
@@ -93,12 +93,12 @@ export function getEllipticalDetails (jd: JulianDay,
 
   let x2 = x * x
   let y2 = y * y
-  const apparentGeocentricDistance = sqrt(x2 + y2 + z * z)
+  const apparentGeocentricDistance: AstronomicalUnit = sqrt(x2 + y2 + z * z)
 
-  let apparentLightTime = getDistanceToLightTime(apparentGeocentricDistance)
-  let apparentGeocentricEclipticCoordinates = {
-    longitude: MapTo0To360Range(RAD2DEG * atan2(y, x)),
-    latitude: RAD2DEG * (atan2(z, sqrt(x2 + y2)))
+  let apparentLightTime: Day = getDistanceToLightTime(apparentGeocentricDistance)
+  let apparentGeocentricEclipticCoordinates: EclipticCoordinates = {
+    longitude: MapTo0To360Range(RAD2DEG * atan2(y, x)) as Degree,
+    latitude: RAD2DEG * (atan2(z, sqrt(x2 + y2))) as Degree
   }
 
   // Adjust for Aberration

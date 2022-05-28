@@ -1,4 +1,4 @@
-import { Degree, EquatorialCoordinates, Hour, JulianDay } from 'aa.js'
+import { Degree, EquatorialCoordinates, Hour, JulianDay } from './types'
 import { DEG2RAD, H2DEG, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from './constants'
 
 /**

@@ -1,5 +1,5 @@
 import { ONE_UA_IN_KILOMETERS, PC2LY, PC2UA, SPEED_OF_LIGHT } from './constants'
-import { ArcSecond, AstronomicalUnit, Kilometer, KilometerPerSecondPerMegaParsec, LightYear, Magnitude, MegaParsec, Parsec } from 'aa.js'
+import { ArcSecond, AstronomicalUnit, Kilometer, KilometerPerSecondPerMegaParsec, LightYear, Magnitude, MegaParsec, Parsec } from './types'
 
 /**
  * Transform a distance in parsec into a parallax

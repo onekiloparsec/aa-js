@@ -1,6 +1,6 @@
 import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
 import { RAD2DEG } from '../constants'
-import { AstronomicalUnit, Degree, EclipticCoordinates, JulianDay } from 'aa.js'
+import { AstronomicalUnit, Degree, EclipticCoordinates, JulianDay } from '../types'
 import * as sun from '../sun'
 import {
   gB0EarthCoefficients,

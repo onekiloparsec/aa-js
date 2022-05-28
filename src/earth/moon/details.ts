@@ -1,4 +1,4 @@
-import { Degree, JulianDay } from 'aa.js'
+import { Degree, JulianDay } from '../../types'
 import { DEG2RAD, H2RAD, ONE_UA_IN_KILOMETERS, RAD2DEG } from '../../constants'
 import * as Sun from '../../sun'
 import { getRadiusVector as getEarthRadiusVector } from '../coordinates'

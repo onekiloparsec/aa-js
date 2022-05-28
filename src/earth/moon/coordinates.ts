@@ -1,4 +1,4 @@
-import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer } from 'aa.js'
+import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer } from '../../types'
 
 import { MapTo0To360Range } from '../../utils'
 import { DEG2RAD, RAD2DEG } from '../../constants'

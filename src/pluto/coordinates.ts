@@ -1,5 +1,5 @@
 import { DEG2RAD } from '../constants'
-import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from 'aa.js'
+import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '../types'
 import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
 import { transformEclipticToEquatorial } from '../coordinates'
 import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '../nutation'

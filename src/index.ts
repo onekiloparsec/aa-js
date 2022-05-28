@@ -1,5 +1,7 @@
-export * from './constants'
+export * from './types'
+export * as constants from './constants'
 
+export * as aberration from './aberration'
 export * as coordinates from './coordinates'
 export * as cosmology from './cosmology'
 export * as dates from './dates'
@@ -8,10 +10,8 @@ export * as julianDay from './julianday'
 export * as nutation from './nutation'
 export * as precession from './precession'
 export * as sexagesimal from './sexagesimal'
-export * as transits from './transits'
-
-export * as aberration from './aberration'
 export * as times from './times'
+export * as transits from './transits'
 
 export * as Sun from './sun'
 export { default as Mercury } from './mercury'

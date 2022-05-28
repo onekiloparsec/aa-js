@@ -1,4 +1,4 @@
-import { DEG2H, julianDay, H2DEG, Earth, Sun } from '../src'
+import { constants, julianDay, Earth, Sun } from '../src'
 
 test('get moon mean longitude', () => {
   expect(Earth.Moon.getMeanLongitude(245123456)).toBe(182.125250)
@@ -13,7 +13,7 @@ test('get moon equatorial coordinates', () => {
   const UTCDate = new Date(Date.UTC(1992, 3, 12))
   const jd = julianDay.getJulianDay(UTCDate)
   const equ = Earth.Moon.getApparentEquatorialCoordinates(jd)
-  expect(equ.rightAscension).toBeCloseTo(134.688470 * DEG2H, 6)
+  expect(equ.rightAscension).toBeCloseTo(134.688470 * constants.DEG2H, 6)
   expect(equ.declination).toBeCloseTo(13.768368, 6)
 })
 
@@ -32,11 +32,11 @@ test('get moon illumination fraction', () => {
   const jd = julianDay.getJulianDay(UTCDate)
 
   const sunCoords = Sun.getApparentEquatorialCoordinates(jd)
-  expect(sunCoords.rightAscension * H2DEG).toBeCloseTo(20.6579, 3)
+  expect(sunCoords.rightAscension * constants.H2DEG).toBeCloseTo(20.6579, 3)
   expect(sunCoords.declination).toBeCloseTo(8.6964, 3)
 
   const moonCoords = Earth.Moon.getApparentEquatorialCoordinates(jd)
-  expect(moonCoords.rightAscension * H2DEG).toBeCloseTo(134.6885, 3)
+  expect(moonCoords.rightAscension * constants.H2DEG).toBeCloseTo(134.6885, 3)
   expect(moonCoords.declination).toBeCloseTo(13.7684, 3)
 
   const i = Earth.Moon.getPhaseAngle(jd)

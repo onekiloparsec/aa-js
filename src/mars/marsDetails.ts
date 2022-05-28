@@ -1,4 +1,4 @@
-import { Degree, JulianDay } from 'aa.js'
+import { Degree, JulianDay } from '../types'
 import { DEG2RAD, RAD2DEG } from '../constants'
 import { getDistanceToLightTime } from '../elliptical'
 import { default as Earth } from '../earth'

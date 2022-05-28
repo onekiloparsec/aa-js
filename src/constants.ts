@@ -1,4 +1,4 @@
-import { Day, Degree, Hour, JulianDay, Kilogram, Kilometer, KilometerPerSecond, MiliSecond, Minute, Radian, Second } from 'aa.js'
+import { Day, Degree, Hour, JulianDay, Kilogram, Kilometer, KilometerPerSecond, MiliSecond, Minute, Radian, Second } from './types'
 
 export const J1970: JulianDay = 2440588.0
 export const J2000: JulianDay = 2451545.0

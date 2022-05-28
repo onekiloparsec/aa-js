@@ -16,7 +16,7 @@
 // ************************************************************************************
 
 import { SPEED_OF_LIGHT } from './constants'
-import { GigaParsec3, GYr, KilometerPerSecondPerMegaParsec, MegaParsec } from 'aa.js'
+import { GigaParsec3, GYr, KilometerPerSecondPerMegaParsec, MegaParsec } from './types'
 
 const Tyr = 977.8 // coefficient for converting 1/H into Gyr
 const INTEGRAL_POINTS_NUMBER = 2000

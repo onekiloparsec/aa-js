@@ -1,4 +1,4 @@
-import { ArcSecond, Degree, EllipticalGeocentricDetails, JulianDay, Magnitude } from 'aa.js'
+import { ArcSecond, Degree, EllipticalGeocentricDetails, JulianDay, Magnitude } from '../types'
 
 import { DEG2RAD, RAD2DEG } from '../constants'
 import { getEllipticalDetails } from '../elliptical'

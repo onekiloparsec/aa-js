@@ -1,4 +1,4 @@
-import { Degree, JulianDay } from 'aa.js'
+import { Degree, JulianDay } from './types'
 import { DEG2RAD } from './constants'
 import { getDecimal } from './sexagesimal'
 

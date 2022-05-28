@@ -1,4 +1,4 @@
-import { H2DEG, Sun, julianDay } from '../src'
+import { constants, Sun, julianDay } from '../src'
 
 test('get sun geometric longitude mean equinox of the date (AA p.165)', () => {
   const UTCDate = new Date(Date.UTC(1992, 9, 13))
@@ -29,7 +29,7 @@ test('get another sun apparent equatorial coordinates AA p.343', () => {
   const UTCDate = new Date(Date.UTC(1992, 3, 12))
   const jd = julianDay.getJulianDay(UTCDate)
   const equ = Sun.getApparentEquatorialCoordinates(jd)
-  expect(equ.rightAscension * H2DEG).toBeCloseTo(20.6579, 3)
+  expect(equ.rightAscension * constants.H2DEG).toBeCloseTo(20.6579, 3)
   expect(equ.declination).toBeCloseTo(8.6964, 3)
 })
 
