@@ -1,23 +1,40 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": ".",
     "outDir": "./dist",
-    "allowJs": true,
-    "sourceMap": true,
-    "moduleResolution": "node",
-    "declaration": true,
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "strict": true,
+    "sourceMap": false,
     "target": "esnext",
     "module": "esnext",
-    "isolatedModules": true
+    "declaration": true,
+    "moduleResolution": "node",
+    "emitDeclarationOnly": true,
+    "declarationMap": true,
+    "allowJs": false,
+    "strict": true,
+    "esModuleInterop": true,
+    "removeComments": true,
+    "importHelpers": true,
+    "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "es6",
+      "esnext",
+      "es2016",
+      "dom",
+      "dom.iterable",
+      "scripthost"
+    ]
   },
   "include": [
-    "./src/**/*.ts",
-    "./types/*.d.ts"
+    "src/**/*.ts",
+    "src/aajs.d.ts"
   ],
   "exclude": [
     "node_modules",
-    "dist"
+    "dist",
+    "tests"
   ]
 }
