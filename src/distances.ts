@@ -99,7 +99,7 @@ export function getParsecsFromDistanceModulus (mM: Magnitude, visualAbsorption: 
  * @param {KilometerPerSecondPerMegaParsec} hubbleConstant The Hubble constant (default = 72)
  * @returns {number}
  */
-export function getRedshiftFromMegaparsec (Mpc: MegaParsec, hubbleConstant: KilometerPerSecondPerMegaParsec = 72): number {
+export function getRedshiftFromMegaparsecs (Mpc: MegaParsec, hubbleConstant: KilometerPerSecondPerMegaParsec = 72): number {
   return Mpc * hubbleConstant / SPEED_OF_LIGHT
 }
 
