@@ -231,3 +231,56 @@ export type PlanetConstants = {
   escapeVelocity: KilometerPerSecond
 }
 
+export type SingleCoordinateDegreeAtJulianDayFunction = (jd: JulianDay) => Degree
+export type EclipticCoordinatesAtJulianDayFunction = (jd: JulianDay) => EclipticCoordinates
+export type EquatorialCoordinatesAtJulianDayFunction = (jd: JulianDay) => EquatorialCoordinates
+export type JulianDayForJulianDayFunction = (jd: JulianDay) => JulianDay
+
+export type QuantityAtJulianDayFunction = (jd: JulianDay) => number
+export type QuantityInDegreeAtJulianDayFunction = (jd: JulianDay) => Degree
+export type QuantityInMagnitudeAtJulianDayFunction = (jd: JulianDay) => Magnitude
+export type QuantityInAstronomicalUnitAtJulianDayFunction = (jd: JulianDay) => AstronomicalUnit
+
+export type DetailsAtJulianDayFunction = (jd: JulianDay) => EllipticalGeocentricDetails
+
+export interface Planet {
+  getEclipticLongitude: SingleCoordinateDegreeAtJulianDayFunction
+  getEclipticLatitude: SingleCoordinateDegreeAtJulianDayFunction
+  getEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
+  getEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
+  getApparentEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
+  getAphelion?: JulianDayForJulianDayFunction
+  getPerihelion?: JulianDayForJulianDayFunction
+  constants: PlanetConstants,
+  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
+  getPlanetaryDetails: DetailsAtJulianDayFunction
+  getPhaseAngle: QuantityInDegreeAtJulianDayFunction
+  getIlluminatedFraction: QuantityAtJulianDayFunction
+  getMagnitude: QuantityInMagnitudeAtJulianDayFunction
+  getEquatorialSemiDiameter: QuantityInDegreeAtJulianDayFunction
+  getPolarSemiDiameter: QuantityInDegreeAtJulianDayFunction
+}
+
+export interface SaturnRingSystem {
+  majorAxis: ArcSecond,
+  minorAxis: ArcSecond,
+  northPolePositionAngle: Degree,
+  saturnicentricSunEarthLongitudesDifference: Degree,
+  earthCoordinates: SaturnicentricCoordinates,
+  sunCoordinates: SaturnicentricCoordinates
+}
+
+export interface Mars extends Planet {
+  getPlanetocentricDeclinationOfTheSun: QuantityInDegreeAtJulianDayFunction
+  getPlanetocentricDeclinationOfTheEarth: QuantityInDegreeAtJulianDayFunction
+}
+
+export interface Saturn extends Planet {
+  getRingSystemDetails: SaturnRingSystem
+}
+
+export interface Jupiter extends Planet {
+  getCentralMeridianLongitudes: Function
+  getPlanetocentricDeclinationOfTheSun: QuantityInDegreeAtJulianDayFunction
+  getPlanetocentricDeclinationOfTheEarth: QuantityInDegreeAtJulianDayFunction
+}

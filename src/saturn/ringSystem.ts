@@ -1,4 +1,4 @@
-import { ArcSecond, Degree, JulianDay, SaturnicentricCoordinates } from '../types'
+import { JulianDay, SaturnicentricCoordinates, SaturnRingSystem } from '../types'
 import { DEG2RAD, H2RAD, RAD2DEG } from '../constants'
 import { transformEclipticToEquatorial } from '../coordinates'
 import { getNutationInLongitude, getTrueObliquityOfEcliptic } from '../nutation'
@@ -14,15 +14,6 @@ const asin = Math.asin
 const sqrt = Math.sqrt
 const fabs = Math.abs
 const atan2 = Math.atan2
-
-export interface SaturnRingSystem {
-  majorAxis: ArcSecond,
-  minorAxis: ArcSecond,
-  northPolePositionAngle: Degree,
-  saturnicentricSunEarthLongitudesDifference: Degree,
-  earthCoordinates: SaturnicentricCoordinates,
-  sunCoordinates: SaturnicentricCoordinates
-}
 
 export function getRingSystemDetails (jd: JulianDay): SaturnRingSystem {
   const T = (jd - 2451545) / 36525
