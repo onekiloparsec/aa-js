@@ -15,6 +15,7 @@ import {
   getPlanetaryDetails,
   getPolarSemiDiameter
 } from './planetaryDetails'
+import { getCentralMeridianLongitudes, getPlanetocentricDeclinationOfTheEarth, getPlanetocentricDeclinationOfTheSun } from './jupiterDetails'
 
 export default {
   getEclipticLongitude,
@@ -31,6 +32,9 @@ export default {
   getIlluminatedFraction,
   getMagnitude,
   getEquatorialSemiDiameter,
-  getPolarSemiDiameter
+  getPolarSemiDiameter,
+  getCentralMeridianLongitudes,
+  getPlanetocentricDeclinationOfTheSun,
+  getPlanetocentricDeclinationOfTheEarth
 }
 
