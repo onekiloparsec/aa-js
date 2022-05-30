@@ -1,10 +1,10 @@
-import { PlanetaryConstants } from '../types'
+import { PlanetConstants } from '../types'
 
 /**
  * Planet constants, copied from the JPL
  * Reference: https://ssd.jpl.nasa.gov/?planet_phys_par
  */
-export const constants: PlanetaryConstants = {
+export const constants: PlanetConstants = {
   equatorialRadius: 1188.3,
   meanRadius: 1188.3,
   mass: 0.013030,

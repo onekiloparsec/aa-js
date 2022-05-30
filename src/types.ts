@@ -126,30 +126,6 @@ export type EllipticalGeocentricDetails = {
   apparentGeocentricEquatorialCoordinates: EquatorialCoordinates
 }
 
-/**
- * Common constants of planets
- */
-export type PlanetaryConstants = {
-  /**
-   * Radius at the equator
-   */
-  equatorialRadius: Kilometer,
-  /**
-   * Mean radius
-   */
-  meanRadius: Kilometer,
-  /**
-   * Mass
-   */
-  mass: Kilogram24,
-  bulkDensity: GramPerCubicCentimeter,
-  siderealRotationPeriod: Day,
-  siderealOrbitPeriod: Year,
-  visualMagnitude: Magnitude,
-  geometricAlbedo: Albedo,
-  equatorialGravity: MeterPerSquareSecond,
-  escapeVelocity: KilometerPerSecond
-}
 
 /**
  * Coordinates in the Equatorial system, that is in the system formed by
@@ -229,3 +205,29 @@ export type RiseSetTransit = {
     isCircumpolar: boolean // no transit, no rise
   }
 }
+
+/**
+ * Common constants of planets
+ */
+export type PlanetConstants = {
+  /**
+   * Radius at the equator
+   */
+  equatorialRadius: Kilometer,
+  /**
+   * Mean radius
+   */
+  meanRadius: Kilometer,
+  /**
+   * Mass
+   */
+  mass: Kilogram24,
+  bulkDensity: GramPerCubicCentimeter,
+  siderealRotationPeriod: Day,
+  siderealOrbitPeriod: Year,
+  visualMagnitude: Magnitude,
+  geometricAlbedo: Albedo,
+  equatorialGravity: MeterPerSquareSecond,
+  escapeVelocity: KilometerPerSecond
+}
+
