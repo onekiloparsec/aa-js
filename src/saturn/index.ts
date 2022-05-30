@@ -17,11 +17,6 @@ import {
   getPolarSemiDiameter
 } from './planetaryDetails'
 
-export * from './coordinates'
-export * from './planetaryBase'
-export * from './planetaryDetails'
-export * from './ringSystem'
-
 export default {
   getEclipticLongitude,
   getEclipticLatitude,
