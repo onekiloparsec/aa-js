@@ -19,6 +19,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "strictPropertyInitialization": false,
     "lib": [
       "es6",
       "esnext",

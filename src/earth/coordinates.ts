@@ -1,7 +1,7 @@
 import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
 import { RAD2DEG } from '../constants'
 import { AstronomicalUnit, Degree, EclipticCoordinates, JulianDay } from '../types'
-import * as sun from '../sun'
+import { getMeanAnomaly as getSunMeanAnomaly } from '../sun'
 import {
   gB0EarthCoefficients,
   gB1EarthCoefficients,
@@ -157,7 +157,7 @@ export function getEclipticLatitudeJ2000 (jd: JulianDay): Degree {
  * @returns {Degree}
  */
 export function getMeanAnomaly (jd: JulianDay): Degree {
-  return sun.getMeanAnomaly(jd)
+  return getSunMeanAnomaly(jd)
 }
 
 /**

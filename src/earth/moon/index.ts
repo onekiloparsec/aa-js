@@ -18,8 +18,9 @@ import {
 } from './coordinates'
 
 import { getEquatorialHorizontalParallax, getIlluminatedFraction, getPhaseAngle } from './details'
+import { NaturalMoon } from '../../types'
 
-export default {
+export const Moon: NaturalMoon = {
   getMeanLongitude,
   getMeanElongation,
   getMeanAnomaly,

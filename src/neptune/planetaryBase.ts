@@ -1,9 +1,9 @@
 import { JulianDay, PlanetConstants } from '../types'
-import { fractionalYear } from '../dates'
+import { getFractionalYear } from '../dates'
 
 // The value of K must be an integer
 function getK (jd: JulianDay): number {
-  const decimalYear = fractionalYear(jd)
+  const decimalYear = getFractionalYear(jd)
   return Math.floor(0.00607 * (decimalYear - 2047.5))
 }
 

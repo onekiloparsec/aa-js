@@ -15,8 +15,9 @@ import {
   getPlanetaryDetails,
   getPolarSemiDiameter
 } from './planetaryDetails'
+import { Planet } from '../types'
 
-export default {
+export const Uranus: Planet = {
   getEclipticLongitude,
   getEclipticLatitude,
   getEclipticCoordinates,

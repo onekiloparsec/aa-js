@@ -16,8 +16,9 @@ import {
   getPolarSemiDiameter
 } from './planetaryDetails'
 import { getPlanetocentricDeclinationOfTheEarth, getPlanetocentricDeclinationOfTheSun } from './marsDetails'
+import { MarsPlanet } from '../types'
 
-export default {
+export const Mars: MarsPlanet = {
   getEclipticLongitude,
   getEclipticLatitude,
   getRadiusVector,

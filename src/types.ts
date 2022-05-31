@@ -243,7 +243,7 @@ export type QuantityInAstronomicalUnitAtJulianDayFunction = (jd: JulianDay) => A
 
 export type DetailsAtJulianDayFunction = (jd: JulianDay) => EllipticalGeocentricDetails
 
-export interface Planet {
+export class Planet {
   getEclipticLongitude: SingleCoordinateDegreeAtJulianDayFunction
   getEclipticLatitude: SingleCoordinateDegreeAtJulianDayFunction
   getEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
@@ -251,7 +251,7 @@ export interface Planet {
   getApparentEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
   getAphelion?: JulianDayForJulianDayFunction
   getPerihelion?: JulianDayForJulianDayFunction
-  constants: PlanetConstants,
+  constants: PlanetConstants
   getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
   getPlanetaryDetails: DetailsAtJulianDayFunction
   getPhaseAngle: QuantityInDegreeAtJulianDayFunction
@@ -261,26 +261,63 @@ export interface Planet {
   getPolarSemiDiameter: QuantityInDegreeAtJulianDayFunction
 }
 
-export interface SaturnRingSystem {
-  majorAxis: ArcSecond,
-  minorAxis: ArcSecond,
-  northPolePositionAngle: Degree,
-  saturnicentricSunEarthLongitudesDifference: Degree,
-  earthCoordinates: SaturnicentricCoordinates,
+export class SaturnRingSystem {
+  majorAxis: ArcSecond
+  minorAxis: ArcSecond
+  northPolePositionAngle: Degree
+  saturnicentricSunEarthLongitudesDifference: Degree
+  earthCoordinates: SaturnicentricCoordinates
   sunCoordinates: SaturnicentricCoordinates
 }
 
-export interface Mars extends Planet {
+export type SaturnRingSystemFunction = (jd: JulianDay) => SaturnRingSystem
+
+export class MarsPlanet extends Planet {
   getPlanetocentricDeclinationOfTheSun: QuantityInDegreeAtJulianDayFunction
   getPlanetocentricDeclinationOfTheEarth: QuantityInDegreeAtJulianDayFunction
 }
 
-export interface Saturn extends Planet {
-  getRingSystemDetails: SaturnRingSystem
+export class SaturnPlanet extends Planet {
+  getRingSystemDetails: SaturnRingSystemFunction
 }
 
-export interface Jupiter extends Planet {
+export class JupiterPlanet extends Planet {
   getCentralMeridianLongitudes: Function
   getPlanetocentricDeclinationOfTheSun: QuantityInDegreeAtJulianDayFunction
   getPlanetocentricDeclinationOfTheEarth: QuantityInDegreeAtJulianDayFunction
 }
+
+export class NaturalMoon {
+  getMeanLongitude: QuantityInDegreeAtJulianDayFunction
+  getMeanElongation: QuantityInDegreeAtJulianDayFunction
+  getMeanAnomaly: QuantityInDegreeAtJulianDayFunction
+  getArgumentOfLatitude: QuantityInDegreeAtJulianDayFunction
+  getEclipticLongitude: QuantityInDegreeAtJulianDayFunction
+  getEclipticLatitude: QuantityInDegreeAtJulianDayFunction
+  getEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
+  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
+  radiusVectorToHorizontalParallax
+  horizontalParallaxToRadiusVector
+  getMeanLongitudeAscendingNode: QuantityInDegreeAtJulianDayFunction
+  getMeanLongitudePerigee: QuantityInDegreeAtJulianDayFunction
+  trueLongitudeAscendingNode: QuantityInDegreeAtJulianDayFunction
+  horizontalParallax: QuantityInDegreeAtJulianDayFunction
+  getEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
+  getApparentEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
+  getPhaseAngle: QuantityInDegreeAtJulianDayFunction
+  getIlluminatedFraction: QuantityAtJulianDayFunction
+  getEquatorialHorizontalParallax: QuantityInDegreeAtJulianDayFunction
+}
+
+export class EarthPlanet {
+  getEclipticLongitude: SingleCoordinateDegreeAtJulianDayFunction
+  getEclipticLatitude: SingleCoordinateDegreeAtJulianDayFunction
+  getEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
+  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
+  getMeanAnomaly: QuantityAtJulianDayFunction
+  getEclipticLongitudeJ2000: SingleCoordinateDegreeAtJulianDayFunction
+  getEclipticLatitudeJ2000: SingleCoordinateDegreeAtJulianDayFunction
+  getEccentricity: QuantityAtJulianDayFunction
+  Moon: NaturalMoon
+}
+

@@ -38,7 +38,7 @@ export function isLeapYear (year: number, isGregorianCalendar: boolean = true): 
   }
 }
 
-export function fractionalYear (jd: number, isGregorianCalendar: boolean = true): number {
+export function getFractionalYear (jd: number, isGregorianCalendar: boolean = true): number {
   const year = getDate(jd).getFullYear()
   const daysInYear = (isLeapYear(year, isGregorianCalendar)) ? 366 : 365
   return year + ((jd - getFullScaleJulianDay(year, 1, 1)) / daysInYear)

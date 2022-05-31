@@ -1,6 +1,6 @@
 import { Degree, JulianDay } from '../../types'
 import { DEG2RAD, H2RAD, ONE_UA_IN_KILOMETERS, RAD2DEG } from '../../constants'
-import * as Sun from '../../sun'
+import { getEquatorialCoordinates as getSunEquatorialCoordinates } from '../../sun'
 import { getRadiusVector as getEarthRadiusVector } from '../coordinates'
 import { getEquatorialCoordinates, getRadiusVector } from './coordinates'
 
@@ -12,7 +12,7 @@ import { getEquatorialCoordinates, getRadiusVector } from './coordinates'
  */
 export function getPhaseAngle (jd: JulianDay): Degree {
   // Geocentric
-  const sunCoords = Sun.getEquatorialCoordinates(jd)
+  const sunCoords = getSunEquatorialCoordinates(jd)
   // Geocentric
   const moonCoords = getEquatorialCoordinates(jd)
 

@@ -16,8 +16,9 @@ import {
   getPlanetaryDetails,
   getPolarSemiDiameter
 } from './planetaryDetails'
+import { SaturnPlanet } from '../types'
 
-export default {
+export const Saturn: SaturnPlanet = {
   getEclipticLongitude,
   getEclipticLatitude,
   getEclipticCoordinates,

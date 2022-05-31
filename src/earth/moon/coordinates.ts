@@ -1,13 +1,10 @@
 import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer } from '../../types'
-
 import { MapTo0To360Range } from '../../utils'
 import { DEG2RAD, RAD2DEG } from '../../constants'
 import { transformEclipticToEquatorial } from '../../coordinates'
 import { getMeanObliquityOfEcliptic, getNutationInLongitude, getTrueObliquityOfEcliptic } from '../../nutation'
-
-import * as Sun from '../../sun'
+import { getMeanAnomaly as getSunMeanAnomaly } from '../../sun'
 import { getEccentricity as getEarthEccentricity } from '../coordinates'
-
 import { gMoonCoefficients1, gMoonCoefficients2, gMoonCoefficients3, gMoonCoefficients4 } from './coefficients'
 
 /**
@@ -70,7 +67,7 @@ export function getArgumentOfLatitude (jd: JulianDay): Degree {
 export function getEclipticLongitude (jd: JulianDay): Degree {
   const Ldash = getMeanLongitude(jd) * DEG2RAD
   const D = getMeanElongation(jd) * DEG2RAD
-  const M = Sun.getMeanAnomaly(jd) * DEG2RAD
+  const M = getSunMeanAnomaly(jd) * DEG2RAD
   const Mdash = getMeanAnomaly(jd) * DEG2RAD
   const F = getArgumentOfLatitude(jd) * DEG2RAD
   const E = getEarthEccentricity(jd)
@@ -117,7 +114,7 @@ export function getEclipticLongitude (jd: JulianDay): Degree {
 export function getEclipticLatitude (jd: JulianDay): Degree {
   const Ldash = getMeanLongitude(jd) * DEG2RAD
   const D = getMeanElongation(jd) * DEG2RAD
-  const M = Sun.getMeanAnomaly(jd) * DEG2RAD
+  const M = getSunMeanAnomaly(jd) * DEG2RAD
   const Mdash = getMeanAnomaly(jd) * DEG2RAD
   const F = getArgumentOfLatitude(jd) * DEG2RAD
   const E = getEarthEccentricity(jd)
@@ -174,7 +171,7 @@ export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
  */
 export function getRadiusVector (jd: JulianDay): Kilometer {
   const D = getMeanElongation(jd) * DEG2RAD
-  const M = Sun.getMeanAnomaly(jd) * DEG2RAD
+  const M = getSunMeanAnomaly(jd) * DEG2RAD
   const Mdash = getMeanAnomaly(jd) * DEG2RAD
   const F = getArgumentOfLatitude(jd) * DEG2RAD
   const E = getEarthEccentricity(jd)
@@ -253,7 +250,7 @@ export function trueLongitudeAscendingNode (jd: JulianDay): Degree {
   let TrueAscendingNode = getMeanLongitudeAscendingNode(jd)
 
   const D = getMeanElongation(jd) * DEG2RAD
-  const M = Sun.getMeanAnomaly(jd) * DEG2RAD
+  const M = getSunMeanAnomaly(jd) * DEG2RAD
   const Mdash = getMeanAnomaly(jd) * DEG2RAD
   const F = getArgumentOfLatitude(jd) * DEG2RAD
 

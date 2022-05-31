@@ -5,7 +5,7 @@ import { getNutationInLongitude, getTrueObliquityOfEcliptic } from '../nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from '../fk5'
 import { getDistanceToLightTime } from '../elliptical'
 import { MapTo0To360Range } from '../utils'
-import { default as Earth } from '../earth'
+import { Earth } from '../earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
 const sin = Math.sin

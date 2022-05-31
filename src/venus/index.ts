@@ -15,8 +15,9 @@ import {
   getPlanetaryDetails,
   getPolarSemiDiameter
 } from './planetaryDetails'
+import { Planet } from '../types'
 
-export default {
+export const Venus: Planet = {
   getEclipticLongitude,
   getEclipticLatitude,
   getEclipticCoordinates,

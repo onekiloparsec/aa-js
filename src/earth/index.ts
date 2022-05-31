@@ -9,9 +9,10 @@ import {
   getRadiusVector
 } from './coordinates'
 
-import { default as Moon } from './moon'
+import { Moon } from './moon'
+import { EarthPlanet } from '../types'
 
-export default {
+export const Earth: EarthPlanet = {
   getEclipticLongitude,
   getEclipticLatitude,
   getEclipticCoordinates,

@@ -1,8 +1,8 @@
 import { JulianDay } from '../types'
 import { gDeltaTValues, gLeapSecondCoefficients } from './coefficients'
-import * as dates from '../dates'
+import { getFractionalYear } from '../dates'
 
-export function getDeltaT(jd: JulianDay): number {
+export function getDeltaT (jd: JulianDay): number {
   // What will be the return value from the method
   let Delta = 0
 
@@ -25,7 +25,7 @@ export function getDeltaT(jd: JulianDay): number {
       }
     }
   } else {
-    const y = dates.fractionalYear(jd)
+    const y = getFractionalYear(jd)
 
     // Use the polynomial expressions from Espenak & Meeus 2006. References: http:// eclipse.gsfc.nasa.gov/SEcat5/deltatpoly.html and
     // http:// www.staff.science.uu.nl/~gent0113/deltat/deltat_old.htm (Espenak & Meeus 2006 section)
@@ -122,7 +122,7 @@ export function getDeltaT(jd: JulianDay): number {
   return Delta
 }
 
-export function getCumulativeLeapSeconds(jd: JulianDay): number {
+export function getCumulativeLeapSeconds (jd: JulianDay): number {
   // What will be the return value from the method
   let LeapSeconds = 0
 
