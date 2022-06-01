@@ -100,3 +100,8 @@ export const ABSOLUTE_ZERO_TEMPERATURE_CELSIUS = -273.15
 
 export const SUN_EVENTS_ALTITUDES: Degree[] = [-0.833, -6, -12, -18]
 export const SUN_EXTENDED_EVENTS_ALTITUDES: Degree[] = [6, -0.3, -0.833, -6, -12, -18]
+
+// See AA. p 101 for Rise & Set
+export const STANDARD_ALTITUDE_STARS = -0.5667
+export const STANDARD_ALTITUDE_MOON = +0.125
+export const STANDARD_ALTITUDE_SUN = -0.8333

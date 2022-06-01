@@ -8,10 +8,6 @@ import { fmod } from './utils'
 
 dayjs.extend(utc)
 
-// See AA. p 101
-const STANDARD_ALTITUDE_STARS = -0.5667
-// const STANDARD_ALTITUDE_SUN = -0.8333
-//
 
 const sin = Math.sin
 const cos = Math.cos
