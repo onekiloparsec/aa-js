@@ -30,3 +30,13 @@ test('julianday provide correct sidereal time', () => {
   const UTCDate = new Date(Date.UTC(1987, 3, 10))
   expect(juliandays.getLocalSiderealTime(juliandays.getJulianDay(UTCDate), 0)).toBeCloseTo(13.1795463333, 6)
 })
+
+test('julianday getJulianDayMidnight is really 0h UTC', () => {
+  const UTCDate = new Date(Date.UTC(1987, 3, 10, 11, 43, 12, 890))
+  const jd = julianday.getJulianDay(UTCDate)
+  const jd0 = julianday.getJulianDayMidnight(jd)
+  const midnightUTCDate = julianday.getDate(jd0)
+  expect(midnightUTCDate.getUTCHours()).toEqual(0)
+  expect(midnightUTCDate.getUTCMinutes()).toEqual(0)
+  expect(midnightUTCDate.getUTCSeconds()).toEqual(0)
+})
