@@ -2,8 +2,17 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
 import { AstronomicalUnit, Day, Degree, Hour, JulianDay, JupiterRadius, RiseSetTransit, SolarRadius } from './types'
-import { DEG2RAD, H2DEG, H2RAD, ONE_JUPITER_RADIUS_IN_KILOMETERS, ONE_SOLAR_RADIUS_IN_KILOMETERS, ONE_UA_IN_KILOMETERS, RAD2DEG } from './constants'
-import { getDate, getJulianDay, getLocalSiderealTime } from './juliandays'
+import {
+  DEG2RAD,
+  H2DEG,
+  H2RAD,
+  ONE_JUPITER_RADIUS_IN_KILOMETERS,
+  ONE_SOLAR_RADIUS_IN_KILOMETERS,
+  ONE_UA_IN_KILOMETERS,
+  RAD2DEG,
+  STANDARD_ALTITUDE_STARS
+} from './constants'
+import { getDate, getJulianDay, getJulianDayMidnight, getLocalSiderealTime } from './juliandays'
 import { fmod } from './utils'
 
 dayjs.extend(utc)
@@ -52,8 +61,11 @@ export function getRiseSetTransitTimes (jd: JulianDay, ra: Hour, dec: Degree, ln
     }
   }
 
+  // Getting the UT 0h on day D. See AA p.102.
+  const jd0 = getJulianDayMidnight(jd)
+
   // Calculate the Greenwich sidereal time in degrees
-  let Theta0 = getLocalSiderealTime(jd, 0) * H2DEG
+  let Theta0 = getLocalSiderealTime(jd0, 0) * H2DEG
 
   const sinh0 = sin(alt * DEG2RAD)
   const sinPhi = sin(lat * DEG2RAD)
@@ -92,6 +104,7 @@ export function getRiseSetTransitTimes (jd: JulianDay, ra: Hour, dec: Degree, ln
     const hourSet = floor(result.set.utc)
     const minuteSet = result.set.utc - hourSet
 
+    // Staying within a precision of a minute
     result.rise.julianDay = getJulianDay(utcMoment.hour(hourRise).minute(minuteRise * 60).toDate())
     result.set.julianDay = getJulianDay(utcMoment.hour(hourSet).minute(minuteSet * 60).toDate())
   }
