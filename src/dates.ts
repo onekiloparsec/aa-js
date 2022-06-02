@@ -1,5 +1,5 @@
 import { JulianDay } from './types'
-import { getDate } from './julianday'
+import { getDate } from './juliandays'
 
 export function isDateAfterPapalReform (year: number, Month: number, Day: number): boolean {
   return ((year > 1582) || ((year === 1582) && (Month > 10)) || ((year === 1582) && (Month === 10) && (Day >= 15)))

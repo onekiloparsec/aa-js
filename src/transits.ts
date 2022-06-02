@@ -3,7 +3,7 @@ import utc from 'dayjs/plugin/utc'
 
 import { AstronomicalUnit, Day, Degree, Hour, JulianDay, JupiterRadius, RiseSetTransit, SolarRadius } from './types'
 import { DEG2RAD, H2DEG, H2RAD, ONE_JUPITER_RADIUS_IN_KILOMETERS, ONE_SOLAR_RADIUS_IN_KILOMETERS, ONE_UA_IN_KILOMETERS, RAD2DEG } from './constants'
-import { getDate, getJulianDay, getLocalSiderealTime } from './julianday'
+import { getDate, getJulianDay, getLocalSiderealTime } from './juliandays'
 import { fmod } from './utils'
 
 dayjs.extend(utc)
