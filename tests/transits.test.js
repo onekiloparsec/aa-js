@@ -1,4 +1,4 @@
-import { constants, julianday, transits } from '../src/'
+import { constants, juliandays, transits } from '../src/'
 
 describe('transits of exoplanets', () => {
   it('get transit for H = 0', () => {

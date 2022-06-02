@@ -1,4 +1,4 @@
-import { constants, Sun, julianday } from '../src'
+import { constants, Sun, juliandays } from '../src'
 
 test('get sun geometric longitude mean equinox of the date (AA p.165)', () => {
   const UTCDate = new Date(Date.UTC(1992, 9, 13))

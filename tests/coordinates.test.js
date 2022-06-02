@@ -1,4 +1,4 @@
-import { julianday, coordinates, sexagesimal } from '../src'
+import { juliandays, coordinates, sexagesimal } from '../src'
 
 test('parallactic angle before meridian', () => {
   const utcDate = new Date(Date.UTC(2017, 5, 14, 2, 0, 0.0))

@@ -1,4 +1,4 @@
-import { constants, julianday, Earth, Sun } from '../src'
+import { constants, juliandays, Earth, Sun } from '../src'
 
 test('get moon mean longitude', () => {
   expect(Earth.Moon.getMeanLongitude(245123456)).toBe(182.125250)

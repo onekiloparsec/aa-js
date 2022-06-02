@@ -1,4 +1,4 @@
-import { Mars, julianday } from '../src'
+import { Mars, juliandays } from '../src'
 
 
 // See AA p.291, Example 42.a, see also SwiftAA
