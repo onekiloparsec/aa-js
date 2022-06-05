@@ -6,10 +6,10 @@ import dts from 'vite-plugin-dts'
 export default defineConfig({
   build: {
     lib: {
-      name: 'AA.js',
+      name: 'aa-js',
       entry: path.resolve(__dirname, 'src/index.ts'),
       formats: ['es', 'umd'],
-      fileName: (format) => `aajs.${format}.js`
+      fileName: (format) => `aa-js.${format}.js`
     }
   },
   plugins: [dts({
