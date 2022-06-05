@@ -8,8 +8,8 @@
     "dist/**/*.d.ts"
   ],
   "type": "module",
-  "main": "./dist/aajs.umd.js",
-  "module": "./dist/aajs.es.js",
+  "main": "./dist/aa-js.umd.js",
+  "module": "./dist/aa-js.es.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "rimraf dist && rimraf types && vite build",
