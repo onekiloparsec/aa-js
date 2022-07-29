@@ -199,7 +199,7 @@ export function getHorizontalAltitude (jd: JulianDay, lng: Degree, lat: Degree, 
 export function getHorizontalAzimuth (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
   const lmst = getLocalSiderealTime(jd, lng)
   const hourAngle = lmst - ra
-  return atan(sin(hourAngle * H2DEG), cos(hourAngle) * sin(lat) - tan(dec) * cos(lat))
+  return atan(sin(hourAngle * H2DEG), cos(hourAngle * H2DEG) * sin(lat) - tan(dec) * cos(lat))
 }
 
 
