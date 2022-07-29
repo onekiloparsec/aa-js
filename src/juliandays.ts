@@ -59,7 +59,7 @@ export function getLocalSiderealTime (jd: JulianDay, lng: Degree): Hour {
   // Equ 12.1
   const t = (jd - 2451545) / 36525
 
-  // Greenwhich SiderealTime in degrees! Equ. 12.4 of AA, p. 88
+  // Greenwich SiderealTime in degrees! Equ. 12.4 of AA, p. 88
   let gmst = 280.46061837 + 360.98564736629 * (jd - 2451545) + 0.000387933 * t * t - t * t * t / 38710000
 
   while (gmst < 0) {
