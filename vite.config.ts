@@ -8,8 +8,7 @@ export default defineConfig({
     lib: {
       name: 'aa-js',
       entry: path.resolve(__dirname, 'src/index.ts'),
-      formats: ['es', 'umd'],
-      fileName: (format) => `aa-js.${format}.js`
+      fileName: 'aa-js'
     }
   },
   plugins: [dts({

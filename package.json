@@ -3,12 +3,10 @@
   "version": "2.0.3",
   "description": "Astronomical Algorithms in Javascript",
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.ts",
-    "dist/**/*.d.ts"
+    "dist"
   ],
   "type": "module",
-  "main": "./dist/aa-js.umd.js",
+  "main": "./dist/aa-js.umd.cjs",
   "module": "./dist/aa-js.es.js",
   "types": "./dist/index.d.ts",
   "scripts": {
@@ -55,11 +53,11 @@
     "caniuse-lite": "^1.0.30001322",
     "eslint": "^8.12.0",
     "rimraf": "^3.0.2",
-    "source-map-loader": "^1.1.1",
-    "ts-loader": "^8.3.0",
-    "typescript": "^4.7.2",
-    "vite": "^2.9.9",
-    "vite-plugin-dts": "^1.2.0",
-    "vitest": "^0.12.9"
+    "source-map-loader": "^1.1.3",
+    "ts-loader": "^8.4.0",
+    "typescript": "^4.8.2",
+    "vite": "^3.0.9",
+    "vite-plugin-dts": "^1.4.1",
+    "vitest": "^0.22.1"
   }
 }
