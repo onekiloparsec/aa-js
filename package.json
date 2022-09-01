@@ -3,10 +3,12 @@
   "version": "2.0.4",
   "description": "Astronomical Algorithms in Javascript",
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.ts",
+    "dist/**/*.d.ts"
   ],
   "type": "module",
-  "main": "./dist/aa-js.umd.cjs",
+  "main": "./dist/aa-js.umd.js",
   "module": "./dist/aa-js.es.js",
   "types": "./dist/index.d.ts",
   "scripts": {
