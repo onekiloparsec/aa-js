@@ -25,7 +25,7 @@ export function getJulianDay (...args: any[]): JulianDay | undefined {
     const value = args[0]
     if (value instanceof Date) {
       // @ts-ignore
-      return dayjs(value).toDate().valueOf() / DAYMS - 0.5 + J1970
+      return value.valueOf() / DAYMS - 0.5 + J1970
     } else if (value instanceof String) {
       // @ts-ignore
       return dayjs(value).toDate().valueOf() / DAYMS - 0.5 + J1970
