@@ -2,7 +2,15 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
 import { AstronomicalUnit, Day, Degree, Hour, JulianDay, JupiterRadius, RiseSetTransit, SolarRadius } from 'aa.js'
-import { DEG2RAD, H2DEG, H2RAD, ONE_JUPITER_RADIUS_IN_KILOMETERS, ONE_SOLAR_RADIUS_IN_KILOMETERS, ONE_UA_IN_KILOMETERS, RAD2DEG } from './constants'
+import {
+  DEG2RAD,
+  H2DEG,
+  H2RAD,
+  ONE_JUPITER_RADIUS_IN_KILOMETERS,
+  ONE_SOLAR_RADIUS_IN_KILOMETERS,
+  ONE_UA_IN_KILOMETERS,
+  RAD2DEG
+} from './constants'
 import * as julianday from './julianday'
 import { fmod } from './utils'
 
