@@ -13,6 +13,7 @@ import {
 } from './constants'
 import * as julianday from './julianday'
 import { fmod } from './utils'
+import { getSexagesimal } from './sexagesimal'
 
 dayjs.extend(utc)
 
@@ -74,9 +75,8 @@ export function riseSetTransitJulianDays (jd: JulianDay, ra: Hour, dec: Degree, 
   result.transit.utc = m0 * 24
 
   const utcMoment = dayjs.utc(julianday.getDate(jd))
-  const hourTransit = floor(result.transit.utc)
-  const minuteTransit = result.transit.utc - hourTransit
-  result.transit.julianDay = julianday.getJulianDay(utcMoment.hour(hourTransit).minute(minuteTransit * 60).toDate())
+  const { radix, minutes, seconds } = getSexagesimal(result.transit.utc)
+  result.transit.julianDay = julianday.getJulianDay(utcMoment.hour(radix).minute(minutes).second(seconds).toDate())
 
   // Calculate cosH0. See AA Eq.15.1, p.102
   let cosH0 = (sinh0 - sinPhi * sinDelta) / (cosPhi * cosDelta)
@@ -87,13 +87,11 @@ export function riseSetTransitJulianDays (jd: JulianDay, ra: Hour, dec: Degree, 
     result.rise.utc = fmod(m0 - H0 / 360, 1) * 24
     result.set.utc = fmod(m0 + H0 / 360, 1) * 24
 
-    const hourRise = floor(result.rise.utc)
-    const minuteRise = result.rise.utc - hourRise
-    const hourSet = floor(result.set.utc)
-    const minuteSet = result.set.utc - hourSet
+    let sexaRise = getSexagesimal(result.rise.utc)
+    let sexaSet = getSexagesimal(result.set.utc)
 
-    result.rise.julianDay = julianday.getJulianDay(utcMoment.hour(hourRise).minute(minuteRise * 60).toDate())
-    result.set.julianDay = julianday.getJulianDay(utcMoment.hour(hourSet).minute(minuteSet * 60).toDate())
+    result.rise.julianDay = julianday.getJulianDay(utcMoment.hour(sexaRise.radix).minute(sexaRise.minutes).second(sexaRise.seconds).toDate())
+    result.set.julianDay = julianday.getJulianDay(utcMoment.hour(sexaSet.radix).minute(sexaSet.minutes).second(sexaSet.seconds).toDate())
   }
 
   if (result.rise.julianDay && result.transit.julianDay && result.rise.julianDay > result.transit.julianDay) {
