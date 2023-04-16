@@ -183,8 +183,7 @@ export function transformGalacticToEquatorial (l: Degree, b: Degree, epoch: Juli
  */
 export function getHorizontalAltitude (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
   const lmst = getLocalSiderealTime(jd, lng)
-  const hourAngle = lmst - ra
-  return asin(sin(lat) * sin(dec) + cos(lat) * cos(dec) * cos(hourAngle * H2DEG))
+  return asin(sin(lat) * sin(dec) + cos(lat) * cos(dec) * cos((lmst - ra) * H2DEG))
 }
 
 /**
