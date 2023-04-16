@@ -183,6 +183,25 @@ export type Point = {
   y: Pixel
 }
 
+export type TransitInternals = {
+  m0: number | undefined
+  cosH0: number | undefined
+}
+
+/**
+ * The various elements of the transit of an object
+ */
+export type Transit = {
+  utc: Hour | undefined,
+  julianDay: JulianDay | undefined,
+  altitude: Degree | undefined,
+  refAltitude: Degree,
+  isAboveHorizon: boolean,
+  isAboveAltitude: boolean, // for when altitude is not that of horizon
+  isCircumpolar: boolean // no transit, no rise
+  internals: TransitInternals
+}
+
 /**
  * The various elements of the rise, set and transit of an object
  */
@@ -195,15 +214,7 @@ export type RiseSetTransit = {
     utc: Hour | undefined,
     julianDay: JulianDay | undefined
   },
-  transit: {
-    utc: Hour | undefined,
-    julianDay: JulianDay | undefined,
-    altitude: Degree | undefined,
-    refAltitude: Degree,
-    isAboveHorizon: boolean,
-    isAboveAltitude: boolean, // for when altitude is not that of horizon
-    isCircumpolar: boolean // no transit, no rise
-  }
+  transit: Transit
 }
 
 /**
