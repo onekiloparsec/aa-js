@@ -5,8 +5,8 @@
 <a href="https://github.com/onekiloparsec/SwiftAA">SwiftAA</a> &bull;
 <b>aa-js</b> &bull;
 <a href="https://github.com/onekiloparsec/QLFits">QLFits</a> &bull;
-<a href="https://github.com/onekiloparsec/FITSImporter">FITSImporter</a> &bull; 
-<a href="https://github.com/onekiloparsec/ObjCFITSIO">ObjCFITSIO</a> 
+<a href="https://github.com/onekiloparsec/FITSImporter">FITSImporter</a> &bull;
+<a href="https://github.com/onekiloparsec/ObjCFITSIO">ObjCFITSIO</a>
 </p>
 <p align="center">
 <a href="https://www.patreon.com/onekiloparsec" target="_blank">
@@ -59,7 +59,7 @@ Available Modules
 * `nutation`: in longitude, for obliquity, true & mean obliquity of the ecliptic
 * `precession`: all the precession functions between epochs for coordinates
 * `sexagesimal`: utilities for manipulating sexagesimals
-* `transits`: get rise, transit and set hours, dates, julian days, as well 
+* `transits`: get rise, transit and set hours, dates, julian days, as well
   as altitude.
 
 Installation
@@ -74,7 +74,7 @@ Usage
 ```
 import { juliandays, Earth } from 'aa-js'
 
-const jd = juliandays.getJulianDay(new Date()),
+const jd = juliandays.getJulianDay(new Date())
 const coords = Earth.Moon.getEquatorialCoordinates(jd)
 ```
 
