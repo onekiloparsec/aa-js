@@ -205,16 +205,47 @@ export type Transit = {
 /**
  * The various elements of the rise, set and transit of an object
  */
-export type RiseSetTransit = {
+export type RiseTransitSet = {
   rise: {
     utc: Hour | undefined,
     julianDay: JulianDay | undefined
   },
+  transit: Transit,
+  set: {
+    utc: Hour | undefined,
+    julianDay: JulianDay | undefined
+  }
+}
+
+export type RiseSetTransit = RiseTransitSet
+
+/**
+ * The various elements of the inverse (nightly) transit of an object
+ */
+export type InverseTransit = {
+  utc: Hour | undefined,
+  julianDay: JulianDay | undefined,
+  altitude: Degree | undefined,
+  refAltitude: Degree,
+  isBelowHorizon: boolean,
+  isBelowAltitude: boolean, // for when altitude is not that of horizon
+  isCircumpolar: boolean // no transit, no rise
+  internals: TransitInternals
+}
+
+/**
+ * The various elements of the rise, set and transit of an object
+ */
+export type SetInverseTransitRise = {
   set: {
     utc: Hour | undefined,
     julianDay: JulianDay | undefined
   },
-  transit: Transit
+  inverseTransit: InverseTransit,
+  rise: {
+    utc: Hour | undefined,
+    julianDay: JulianDay | undefined
+  }
 }
 
 /**
