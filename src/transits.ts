@@ -41,6 +41,7 @@ export function getRiseSetTransitTimes (jd: JulianDay, ra: Hour, dec: Degree, ln
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
 
+  // @ts-ignore
   const result: RiseSetTransit = {
     rise: {
       utc: undefined,
