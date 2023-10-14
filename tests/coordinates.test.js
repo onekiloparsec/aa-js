@@ -45,3 +45,13 @@ test('transform equatorial to ecliptic', () => {
   const beta = coordinates.getEclipticLatitudeFromEquatorial(pollux.rightAscension, pollux.declination)
   expect(beta).toBeCloseTo(6.684170, 6)
 })
+
+
+// See AA p95, Ex 13.a
+test('transform ecliptic to equatorial', () => {
+  const pollux = { rightAscension: 7 + 45 / 60 + 18.946 / 3600, declination: 28 + 1 / 60 + 34.26 / 3600 }
+  const alpha = coordinates.getRightAscensionFromEcliptic(113.215630, 6.684170)
+  expect(alpha).toBeCloseTo(pollux.rightAscension, 6)
+  const delta = coordinates.getDeclinationFromEcliptic(113.215630, 6.684170)
+  expect(delta).toBeCloseTo(pollux.declination, 6)
+})
