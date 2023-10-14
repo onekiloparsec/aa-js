@@ -1,4 +1,4 @@
-import { juliandays, coordinates, sexagesimal } from '../src'
+import { coordinates, juliandays, sexagesimal } from '../src'
 
 test('parallactic angle before meridian', () => {
   const utcDate = new Date(Date.UTC(2017, 5, 14, 2, 0, 0.0))
@@ -35,4 +35,13 @@ test('parallactic angle after meridian', () => {
   let refAngle = 74.4
 
   expect(coordinates.getParallacticAngle(jd, ra, dec, lng, lat)).toBeCloseTo(refAngle, 0)
+})
+
+// See AA p95, Ex 13.a
+test('transform equatorial to ecliptic', () => {
+  const pollux = { rightAscension: 7 + 45 / 60 + 18.946 / 3600, declination: 28 + 1 / 60 + 34.26 / 3600 }
+  const lambda = coordinates.getEclipticLongitudeFromEquatorial(pollux.rightAscension, pollux.declination)
+  expect(lambda).toBeCloseTo(113.215630, 6)
+  const beta = coordinates.getEclipticLatitudeFromEquatorial(pollux.rightAscension, pollux.declination)
+  expect(beta).toBeCloseTo(6.684170, 6)
 })
