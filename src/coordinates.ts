@@ -1,4 +1,13 @@
-import { Degree, EclipticCoordinates, EquatorialCoordinates, GalacticCoordinates, HorizontalCoordinates, Hour, JulianDay, Point } from './types'
+import {
+  Degree,
+  EclipticCoordinates,
+  EquatorialCoordinates,
+  GalacticCoordinates,
+  HorizontalCoordinates,
+  Hour,
+  JulianDay,
+  Point
+} from './types'
 import { DEG2H, DEG2RAD, ECLIPTIC_OBLIQUITY_J2000_0, H2DEG, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from './constants'
 import { getLocalSiderealTime } from './juliandays'
 import { precessEquatorialCoordinates } from './precession'
