@@ -58,14 +58,14 @@
     "@babel/types": "^7.17.0",
     "@types/eslint": "^7.29.0",
     "babel-eslint": "^11.0.0-beta.2",
-    "caniuse-lite": "^1.0.30001322",
-    "eslint": "^8.12.0",
-    "rimraf": "^3.0.2",
-    "source-map-loader": "^1.1.3",
-    "ts-loader": "^8.4.0",
-    "typescript": "^4.8.2",
-    "vite": "^3.2.2",
-    "vite-plugin-dts": "^1.6.6",
-    "vitest": "^0.24.5"
+    "caniuse-lite": "^1.0.30001549",
+    "eslint": "^8.51.0",
+    "rimraf": "^5.0.5",
+    "source-map-loader": "^4.0.1",
+    "ts-loader": "^9.5.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.11",
+    "vite-plugin-dts": "^3.6.0",
+    "vitest": "^0.34.6"
   }
 }
