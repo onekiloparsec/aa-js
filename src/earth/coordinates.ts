@@ -2,6 +2,7 @@ import { AstronomicalUnit, Degree, EclipticCoordinates, JulianDay, Meter, Radian
 import { MapTo0To360Range, MapToMinus90To90Range } from '@/utils'
 import { getJulianCentury, getJulianMillenium } from '@/juliandays'
 import { getMeanAnomaly as getSunMeanAnomaly } from '@/sun'
+import { DEG2RAD, EARTH_EQUATORIAL_RADIUS, EARTH_RADIUS_FLATTENING_FACTOR, RAD2DEG } from '@/constants'
 import {
   gB0EarthCoefficients,
   gB1EarthCoefficients,
@@ -168,4 +169,21 @@ export function getMeanAnomaly (jd: JulianDay): Degree {
 export function getEccentricity (jd: JulianDay): number {
   const T = getJulianCentury(jd)
   return 1 - 0.002516 * T - 0.0000074 * T * T
+}
+
+/**
+ * Computes the "rho*sin(phi')" and "rho*cos(phi')" quantities, due to Earth flattening.
+ * See AA p 82
+ * @param  {Meter} h The observer heights above Earth surface.
+ * @param {Degree} lat The observer's geographic latitude
+ * @returns {Number} The quantities
+ */
+export function getFlatteningCorrections (height: Meter, lat: Degree) {
+  const earthRadius: Meter = EARTH_EQUATORIAL_RADIUS * 1000
+  const b_a = (1 - EARTH_RADIUS_FLATTENING_FACTOR)
+  const u: Radian = Math.atan(b_a * Math.tan(lat * DEG2RAD)) // Radians
+  return {
+    rhosinphi: b_a * Math.sin(u) + (height / earthRadius) * Math.sin(lat * DEG2RAD),
+    rhocosphi: Math.cos(u) + (height / earthRadius) * Math.cos(lat * DEG2RAD)
+  }
 }
