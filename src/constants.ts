@@ -1,4 +1,16 @@
-import { Day, Degree, Hour, JulianDay, Kilogram, Kilometer, KilometerPerSecond, MiliSecond, Minute, Radian, Second } from './types'
+import {
+  Day,
+  Degree,
+  Hour,
+  JulianDay,
+  Kilogram,
+  Kilometer,
+  KilometerPerSecond,
+  MiliSecond,
+  Minute,
+  Radian,
+  Second
+} from './types'
 
 export const J1970: JulianDay = 2440588.0
 export const J2000: JulianDay = 2451545.0
@@ -49,15 +61,16 @@ export const GALACTIC_NORTH_POLE_DELTA_B1950_0: Degree = 27.4
 
 export const EARTH_EQUATORIAL_RADIUS: Kilometer = 6378.14		// See p82 of AA.
 export const EARTH_RADIUS_FLATTENING_FACTOR = 1. / 298.257	// See p82 of AA.
+export const EARTH_MERIDIAN_ECCENTRICITY = 0.08181922145552321	// See p82 of AA, sqrt(2f-f^2), where f = flattening factor
 
 export const ONE_UA_IN_KILOMETERS: Kilometer = 149597870.691
 /*
  http://neo.jpl.nasa.gov/glossary/au.html
- Definition: An Astronomical Unit is approximately the mean distance between the Earth and the Sun. It is a derived 
- constant and used to indicate distances within the solar system. Its formal definition is the radius of an unperturbed 
- circular orbit a massless body would revolve about the sun in 2*(pi)/k days (i.e., 365.2568983.... days), where k is 
- defined as the Gaussian constant exactly equal to 0.01720209895. Since an AU is based on radius of a circular orbit, 
- one AU is actually slightly less than the average distance between the Earth and the Sun (approximately 150 million 
+ Definition: An Astronomical Unit is approximately the mean distance between the Earth and the Sun. It is a derived
+ constant and used to indicate distances within the solar system. Its formal definition is the radius of an unperturbed
+ circular orbit a massless body would revolve about the sun in 2*(pi)/k days (i.e., 365.2568983.... days), where k is
+ defined as the Gaussian constant exactly equal to 0.01720209895. Since an AU is based on radius of a circular orbit,
+ one AU is actually slightly less than the average distance between the Earth and the Sun (approximately 150 million
  km or 93 million miles).
 */
 
