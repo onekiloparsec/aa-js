@@ -1,3 +1,4 @@
+import { EarthPlanet } from '@/types'
 import {
   getEccentricity,
   getEclipticCoordinates,
@@ -8,9 +9,7 @@ import {
   getMeanAnomaly,
   getRadiusVector
 } from './coordinates'
-
 import { Moon } from './moon'
-import { EarthPlanet } from '../types'
 
 export const Earth: EarthPlanet = {
   getEclipticLongitude,
