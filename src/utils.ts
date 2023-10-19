@@ -2,7 +2,7 @@ import { Degree } from './types'
 
 // https://gist.github.com/wteuber/6241786
 export function fmod (a: number, b: number): number {
-  return Number((a - (Math.floor(a / b) * b)).toPrecision(8))
+  return Number((a - (Math.floor(a / b) * b)).toPrecision(20))
 }
 
 export function isNumber (v: any): boolean {
