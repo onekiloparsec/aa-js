@@ -25,7 +25,7 @@ export const orbitalElements: PlanetOrbitalElements = {
   meanLongitude: [181.979801, 58519.2130302, 0.00031014, 0.000000015],
   semiMajorAxis: 0.723329820,
   eccentricity: [0.00677192, -0.000047765, 0.0000000981, 0.00000000046],
-  inclination: [3.394662, 0.0010037, -0.00000088, 0.000000007],
+  inclination: [3.394662, 0.0010037, -0.00000088, -0.000000007],
   longitudeOfAscendingNode: [76.679920, 0.9011206, 0.00040618, -0.000000093],
   longitudeOfPerihelion: [131.563703, 1.4022288, -0.00107618, -0.000005678]
 }
