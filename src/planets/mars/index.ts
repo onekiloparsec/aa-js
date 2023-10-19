@@ -31,7 +31,7 @@ import {
   getLongitudeOfPerihelion,
   getMeanLongitude
 } from './orbital'
-import { getPlanetocentricDeclinationOfTheEarth, getPlanetocentricDeclinationOfTheSun } from './marsDetails'
+import { getPlanetocentricDeclinationOfTheEarth, getPlanetocentricDeclinationOfTheSun } from './specific'
 
 export const Mars: MarsPlanet = {
   // Heliocentric coordinates
