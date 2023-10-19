@@ -1,3 +1,16 @@
+import { Mercury } from './planets/mercury'
+import { Venus } from './planets/venus'
+import { Mars } from './planets/mars'
+import { Jupiter } from './planets/jupiter'
+import { Saturn } from './planets/saturn'
+import { Uranus } from './planets/uranus'
+import { Neptune } from './planets/neptune'
+import { Pluto } from './planets/pluto'
+
+import * as Sun from './sun'
+import { Earth } from './earth'
+import { Moon } from './earth/moon'
+
 export * from './types'
 export * as constants from './constants'
 
@@ -13,15 +26,14 @@ export * as sexagesimal from './sexagesimal'
 export * as times from './times'
 export * as transits from './transits'
 
-export * as Sun from './sun'
+export { Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto }
 
-export { Mercury } from './mercury'
-export { Venus } from './venus'
-export { Earth } from './earth'
-export { Mars } from './mars'
-export { Jupiter } from './jupiter'
-export { Saturn } from './saturn'
-export { Uranus } from './uranus'
-export { Neptune } from './neptune'
-export { Pluto } from './pluto'
+export { Moon }
 
+export const Planets = {
+  Mercury, Venus, Mars, Jupiter, Saturn, URL, Neptune, Pluto
+}
+
+export const SolarSystem = {
+  Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, URL, Neptune, Pluto
+}
