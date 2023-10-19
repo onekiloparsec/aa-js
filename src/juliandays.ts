@@ -86,3 +86,11 @@ export function getModifiedJulianDay (jd: JulianDay): number {
 export function getJulianDayMidnight (jd: JulianDay): JulianDay {
   return Math.floor(jd - 0.5) + 0.5
 }
+
+export function getJulianCentury (jd: JulianDay) {
+  return (jd - 2451545) / 36525
+}
+
+export function getJulianMillenium (jd: JulianDay) {
+  return (jd - 2451545) / 365250 // julian day millennia, not centuries!
+}
