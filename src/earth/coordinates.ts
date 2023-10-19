@@ -174,7 +174,7 @@ export function getEccentricity (jd: JulianDay): number {
 /**
  * Computes the "rho*sin(phi')" and "rho*cos(phi')" quantities, due to Earth flattening.
  * See AA p 82
- * @param  {Meter} h The observer heights above Earth surface.
+ * @param  {Meter} height The observer heights above Earth surface.
  * @param {Degree} lat The observer's geographic latitude
  * @returns {Number} The quantities
  */
