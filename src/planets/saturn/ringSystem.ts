@@ -3,7 +3,7 @@ import { DEG2RAD, H2RAD, RAD2DEG } from '../constants'
 import { transformEclipticToEquatorial } from '../coordinates'
 import { getNutationInLongitude, getTrueObliquityOfEcliptic } from '../nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from '../fk5'
-import { getDistanceToLightTime } from '../elliptical'
+import { getLightTimeFromDistance } from '../elliptical'
 import { MapTo0To360Range } from '../utils'
 import { Earth } from '../earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
@@ -37,7 +37,7 @@ export function getRingSystemDetails (jd: JulianDay): SaturnRingSystem {
   //Step 3. Calculate the corresponding coordinates l,b,r for Saturn but for the instance t-lightraveltime
   let DELTA = 9
   let PreviousEarthLightTravelTime = 0
-  let EarthLightTravelTime = getDistanceToLightTime(DELTA)
+  let EarthLightTravelTime = getLightTimeFromDistance(DELTA)
   let JD1 = jd - EarthLightTravelTime
   let bIterate = true
   let x = 0
@@ -62,7 +62,7 @@ export function getRingSystemDetails (jd: JulianDay): SaturnRingSystem {
     y = r * cos(brad) * sin(lrad) - R * sin(l0rad)
     z = r * sin(brad) - R * sin(b0rad)
     DELTA = sqrt(x * x + y * y + z * z)
-    EarthLightTravelTime = getDistanceToLightTime(DELTA)
+    EarthLightTravelTime = getLightTimeFromDistance(DELTA)
 
     //Prepare for the next loop around
     bIterate = (fabs(EarthLightTravelTime - PreviousEarthLightTravelTime) > 2e-6) //2e-6 corresponds to 0.17 of a second

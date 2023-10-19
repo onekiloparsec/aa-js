@@ -273,6 +273,18 @@ export type PlanetConstants = {
   escapeVelocity: KilometerPerSecond
 }
 
+/**
+ * Elements of Planetary Orbits
+ */
+export type PlanetOrbitalElements = {
+  meanLongitude: [Degree, Degree, Degree, Degree]
+  semiMajorAxis: AstronomicalUnit
+  eccentricity: [number, number, number, number]
+  inclination: [number, number, number, number]
+  longitudeOfAscendingNode: [Degree, Degree, Degree, Degree]
+  longitudeOfPerihelion: [Degree, Degree, Degree, Degree]
+}
+
 export type SingleCoordinateDegreeAtJulianDayFunction = (jd: JulianDay) => Degree
 export type EclipticCoordinatesAtJulianDayFunction = (jd: JulianDay) => EclipticCoordinates
 export type EquatorialCoordinatesAtJulianDayFunction = (jd: JulianDay) => EquatorialCoordinates
@@ -282,25 +294,43 @@ export type QuantityAtJulianDayFunction = (jd: JulianDay) => number
 export type QuantityInDegreeAtJulianDayFunction = (jd: JulianDay) => Degree
 export type QuantityInMagnitudeAtJulianDayFunction = (jd: JulianDay) => Magnitude
 export type QuantityInAstronomicalUnitAtJulianDayFunction = (jd: JulianDay) => AstronomicalUnit
-
-export type DetailsAtJulianDayFunction = (jd: JulianDay) => EllipticalGeocentricDetails
+export type QuantityInKilometerPerSecondAtJulianDayFunction = (jd: JulianDay) => KilometerPerSecond
+export type QuantityInArcSecondAtJulianDayFunction = (jd: JulianDay) => ArcSecond
 
 export class Planet {
+  // Heliocentric coordinates
   getEclipticLongitude: SingleCoordinateDegreeAtJulianDayFunction
   getEclipticLatitude: SingleCoordinateDegreeAtJulianDayFunction
   getEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
   getEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
-  getApparentEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
-  getAphelion?: JulianDayForJulianDayFunction
-  getPerihelion?: JulianDayForJulianDayFunction
-  constants: PlanetConstants
   getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
-  getPlanetaryDetails: DetailsAtJulianDayFunction
-  getPhaseAngle: QuantityInDegreeAtJulianDayFunction
+  // Geocentric coordinates
+  getGeocentricDistance: QuantityInAstronomicalUnitAtJulianDayFunction
+  getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
+  getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
+  // Planet elliptical properties
+  getInstantaneousVelocity: QuantityInKilometerPerSecondAtJulianDayFunction
+  getVelocityAtPerihelion: QuantityInKilometerPerSecondAtJulianDayFunction
+  getVelocityAtAphelion: QuantityInKilometerPerSecondAtJulianDayFunction
+  getLengthOfEllipse: QuantityInAstronomicalUnitAtJulianDayFunction
+  // Planet orbital properties
+  getMeanLongitude: QuantityInDegreeAtJulianDayFunction
+  getEccentricity: QuantityAtJulianDayFunction
+  getInclination: QuantityInDegreeAtJulianDayFunction
+  getLongitudeOfAscendingNode: QuantityInDegreeAtJulianDayFunction
+  getLongitudeOfPerihelion: QuantityInDegreeAtJulianDayFunction
+  // Planet base properties
+  getAphelion: JulianDayForJulianDayFunction
+  getPerihelion: JulianDayForJulianDayFunction
+  getPhaseAngle: JulianDayForJulianDayFunction
   getIlluminatedFraction: QuantityAtJulianDayFunction
   getMagnitude: QuantityInMagnitudeAtJulianDayFunction
-  getEquatorialSemiDiameter: QuantityInDegreeAtJulianDayFunction
-  getPolarSemiDiameter: QuantityInDegreeAtJulianDayFunction
+  getEquatorialSemiDiameter: QuantityInArcSecondAtJulianDayFunction
+  getPolarSemiDiameter: QuantityInArcSecondAtJulianDayFunction
+  // Fixed values
+  constants: PlanetConstants
+  orbitalElements: PlanetOrbitalElements
+  orbitalElementsJ2000: PlanetOrbitalElements
 }
 
 export class SaturnRingSystem {
@@ -338,8 +368,8 @@ export class NaturalMoon {
   getEclipticLatitude: QuantityInDegreeAtJulianDayFunction
   getEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
   getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
-  radiusVectorToHorizontalParallax
-  horizontalParallaxToRadiusVector
+  radiusVectorToHorizontalParallax: Function
+  horizontalParallaxToRadiusVector: Function
   getMeanLongitudeAscendingNode: QuantityInDegreeAtJulianDayFunction
   getMeanLongitudePerigee: QuantityInDegreeAtJulianDayFunction
   trueLongitudeAscendingNode: QuantityInDegreeAtJulianDayFunction
@@ -363,3 +393,12 @@ export class EarthPlanet {
   Moon: NaturalMoon
 }
 
+export enum Obliquity {
+  Mean,
+  True
+}
+
+export enum Equinox {
+  MeanOfTheDate,
+  StandardJ2000
+}

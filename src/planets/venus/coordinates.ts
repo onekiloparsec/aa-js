@@ -1,9 +1,8 @@
-import { RAD2DEG } from '../constants'
-import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '../types'
-import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
-import { transformEclipticToEquatorial } from '../coordinates'
-import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '../nutation'
-
+import { RAD2DEG } from '@/constants'
+import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Obliquity } from '@/types'
+import { MapTo0To360Range, MapToMinus90To90Range } from '@/utils'
+import { transformEclipticToEquatorial } from '@/coordinates'
+import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/nutation'
 import {
   g_B0VenusCoefficients,
   g_B1VenusCoefficients,
@@ -23,6 +22,7 @@ import {
 } from './coefficients'
 
 const cos = Math.cos
+const sin = Math.sin
 
 /**
  * Ecliptic longitude
@@ -166,30 +166,16 @@ export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
 }
 
 /**
- * Equatorial coordinates
- * @see getApparentEquatorialCoordinates
+ * Heliocentric equatorial coordinates
+ * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
+ * @param {boolean} obliquity Obliquity of the Ecliptic. Either 'Mean' or 'True'.
  * @returns {EquatorialCoordinates}
  */
-export function getEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates {
+export function getEquatorialCoordinates (jd: JulianDay, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getEclipticLongitude(jd),
     getEclipticLatitude(jd),
-    getMeanObliquityOfEcliptic(jd)
+    (obliquity == Obliquity.Mean) ? getMeanObliquityOfEcliptic(jd) : getTrueObliquityOfEcliptic(jd)
   )
 }
-
-/**
- * Apparent equatorial coordinates
- * @see getEquatorialCoordinates
- * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinates}
- */
-export function getApparentEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates {
-  return transformEclipticToEquatorial(
-    getEclipticLongitude(jd),
-    getEclipticLatitude(jd),
-    getTrueObliquityOfEcliptic(jd)
-  )
-}
-
