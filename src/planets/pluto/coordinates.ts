@@ -1,8 +1,8 @@
-import { DEG2RAD } from '../constants'
-import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '../types'
-import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
-import { transformEclipticToEquatorial } from '../coordinates'
-import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '../nutation'
+import { DEG2RAD } from '@/constants'
+import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '@/types'
+import { MapTo0To360Range, MapToMinus90To90Range } from '@/utils'
+import { transformEclipticToEquatorial } from '@/coordinates'
+import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/nutation'
 import { g_PlutoArgumentCoefficients, g_PlutoLatitudeCoefficients, g_PlutoLongitudeCoefficients, g_PlutoRadiusCoefficients } from './coefficients'
 
 const cos = Math.cos

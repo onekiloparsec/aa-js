@@ -1,7 +1,7 @@
-import { Degree, JulianDay } from '../../types'
-import { DEG2RAD, H2RAD, ONE_UA_IN_KILOMETERS, RAD2DEG } from '../../constants'
+import { Degree, JulianDay } from '@/types'
+import { DEG2RAD, H2RAD, ONE_UA_IN_KILOMETERS, RAD2DEG } from '@/constants'
 import { getEquatorialCoordinates as getSunEquatorialCoordinates } from '../../sun'
-import { getRadiusVector as getEarthRadiusVector } from '../coordinates'
+import { getRadiusVector as getEarthRadiusVector } from '@/coordinates'
 import { getEquatorialCoordinates, getRadiusVector } from './coordinates'
 
 

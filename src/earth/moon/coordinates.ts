@@ -1,10 +1,10 @@
-import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer } from '../../types'
-import { MapTo0To360Range } from '../../utils'
-import { DEG2RAD, RAD2DEG } from '../../constants'
-import { transformEclipticToEquatorial } from '../../coordinates'
-import { getMeanObliquityOfEcliptic, getNutationInLongitude, getTrueObliquityOfEcliptic } from '../../nutation'
-import { getMeanAnomaly as getSunMeanAnomaly } from '../../sun'
-import { getEccentricity as getEarthEccentricity } from '../coordinates'
+import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer } from '@/types'
+import { MapTo0To360Range } from '@/utils'
+import { DEG2RAD, RAD2DEG } from '@/constants'
+import { transformEclipticToEquatorial } from '@/coordinates'
+import { getMeanObliquityOfEcliptic, getNutationInLongitude, getTrueObliquityOfEcliptic } from '@/nutation'
+import { getMeanAnomaly as getSunMeanAnomaly } from '@/sun'
+import { getEccentricity as getEarthEccentricity } from '@/earth/coordinates'
 import { gMoonCoefficients1, gMoonCoefficients2, gMoonCoefficients3, gMoonCoefficients4 } from './coefficients'
 
 /**

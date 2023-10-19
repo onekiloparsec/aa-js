@@ -16,7 +16,7 @@ import {
   getPolarSemiDiameter
 } from './planetaryDetails'
 import { getCentralMeridianLongitudes, getPlanetocentricDeclinationOfTheEarth, getPlanetocentricDeclinationOfTheSun } from './jupiterDetails'
-import { JupiterPlanet } from '../types'
+import { JupiterPlanet } from '@/types'
 
 export const Jupiter: JupiterPlanet = {
   getEclipticLongitude,

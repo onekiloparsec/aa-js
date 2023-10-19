@@ -1,5 +1,5 @@
-import { JulianDay, PlanetConstants } from '../types'
-import { getFractionalYear } from '../dates'
+import { JulianDay, PlanetConstants } from '@/types'
+import { getFractionalYear } from '@/dates'
 
 // The value of K must be an integer
 function getK (jd: JulianDay): number {

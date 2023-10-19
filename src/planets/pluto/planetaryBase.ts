@@ -1,4 +1,4 @@
-import { PlanetConstants } from '../types'
+import { PlanetConstants } from '@/types'
 
 /**
  * Planet constants, copied from the JPL

@@ -15,7 +15,7 @@ import {
   getPlanetaryDetails,
   getPolarSemiDiameter
 } from './planetaryDetails'
-import { Planet } from '../types'
+import { Planet } from '@/types'
 
 export const Neptune: Planet = {
   getEclipticLongitude,

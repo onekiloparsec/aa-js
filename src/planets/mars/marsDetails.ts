@@ -1,7 +1,7 @@
-import { Degree, JulianDay } from '../types'
-import { DEG2RAD, RAD2DEG } from '../constants'
-import { getLightTimeFromDistance } from '../elliptical'
-import { Earth } from '../earth'
+import { Degree, JulianDay } from '@/types'
+import { DEG2RAD, RAD2DEG } from '@/constants'
+import { getLightTimeFromDistance } from '@/distances'
+import { Earth } from '@/earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
 const sin = Math.sin

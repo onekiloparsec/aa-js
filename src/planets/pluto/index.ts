@@ -15,7 +15,7 @@ import {
   getPlanetaryDetails,
   getPolarSemiDiameter
 } from './planetaryDetails'
-import { Planet } from '../types'
+import { Planet } from '@/types'
 
 // I know, this is a minor planet...
 export const Pluto: Planet = {

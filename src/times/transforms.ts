@@ -1,4 +1,4 @@
-import { JulianDay } from '../types'
+import { JulianDay } from '@/types'
 import { gLeapSecondCoefficients } from './coefficients'
 import { getCumulativeLeapSeconds, getDeltaT } from './utils'
 
