@@ -275,3 +275,25 @@ export function getEquatorialCoordinatesJ2000 (jd: JulianDay): EquatorialCoordin
   )
 }
 
+//
+// {
+//    let x = 0
+//   let y = 0
+//   let z = 0
+//
+//   if (!isSun) {
+//     let Lrad = DEG2RAD * L
+//     let Brad = DEG2RAD * B
+//     let cosB = cos(Brad)
+//     let cosL = cos(Lrad)
+//
+//     x = R * cosB * cosL - R0 * cosB0 * cos(L0)
+//     y = R * cosB * sin(Lrad) - R0 * cosB0 * sin(L0)
+//     z = R * sin(Brad) - R0 * sin(B0)
+//   } else {
+//     x = -R0 * cosB0 * cos(L0)
+//     y = -R0 * cosB0 * sin(L0)
+//     z = -R0 * sin(B0)
+//   }
+//
+// }
