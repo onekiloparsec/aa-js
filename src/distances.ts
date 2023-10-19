@@ -122,3 +122,7 @@ export function getRedshiftFromMegaparsecs (Mpc: MegaParsec, hubbleConstant: Kil
 export function getMegaparsecsFromRedshift (z: number, hubbleConstant: KilometerPerSecondPerMegaParsec = 72): MegaParsec {
   return z / hubbleConstant * SPEED_OF_LIGHT
 }
+
+export function getLightTimeFromDistance (distance: AstronomicalUnit): Day {
+  return distance * 0.0057755183
+}
