@@ -1,4 +1,5 @@
 import {
+  AstronomicalUnit,
   Degree,
   EclipticCoordinates,
   EquatorialCoordinates,
@@ -7,18 +8,22 @@ import {
   Hour,
   JulianDay,
   Meter,
-  Point
+  Point,
+  Radian,
+  TopocentricCoordinates
 } from './types'
 import { DEG2H, DEG2RAD, ECLIPTIC_OBLIQUITY_J2000_0, H2DEG, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from './constants'
 import { getLocalSiderealTime } from './juliandays'
 import { precessEquatorialCoordinates } from './precession'
 import { fmod } from './utils'
+import { getFlatteningCorrections } from '@/earth/coordinates'
 
 const sin = (deg: Degree): Degree => Math.sin(deg * DEG2RAD)
 const cos = (deg: Degree): Degree => Math.cos(deg * DEG2RAD)
 const tan = (deg: Degree): Degree => Math.tan(deg * DEG2RAD)
 const asin = (val: Degree): Degree => Math.asin(val) * RAD2DEG
-const atan = (y: Degree, x: Degree): Degree => Math.atan2(y, x) * RAD2DEG
+const atan = (val: Degree): Degree => Math.atan(val) * RAD2DEG
+const atan2 = (y: Degree, x: Degree): Degree => Math.atan2(y, x) * RAD2DEG
 const pow = Math.pow
 const round = Math.round
 
@@ -31,7 +36,7 @@ const round = Math.round
  * @returns {Hour}
  */
 export function getRightAscensionFromEcliptic (l: Degree, b: Degree, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): Hour {
-  return fmod(atan(sin(l) * cos(epsilon) - tan(b) * sin(epsilon), cos(l)) * DEG2H + 24.0, 24.0)
+  return fmod(atan2(sin(l) * cos(epsilon) - tan(b) * sin(epsilon), cos(l)) * DEG2H + 24.0, 24.0)
 }
 
 /**
@@ -70,7 +75,7 @@ export function transformEclipticToEquatorial (l: Degree, b: Degree, epsilon: De
  * @returns {Degree}
  */
 export function getEclipticLongitudeFromEquatorial (ra: Hour, dec: Degree, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): Degree {
-  return fmod(atan(sin(ra * H2DEG) * cos(epsilon) + tan(dec) * sin(epsilon), cos(ra * H2DEG)) + 360.0, 360.0)
+  return fmod(atan2(sin(ra * H2DEG) * cos(epsilon) + tan(dec) * sin(epsilon), cos(ra * H2DEG)) + 360.0, 360.0)
 }
 
 /**
@@ -112,7 +117,7 @@ export function transformEquatorialToEcliptic (ra: Hour, dec: Degree, epsilon: D
  */
 export function getGalacticLongitudeFromEquatorial (ra: Hour, dec: Degree, epoch: JulianDay = J2000): Degree {
   const equCoordsB1950 = precessEquatorialCoordinates(ra, dec, epoch, JULIAN_DAY_B1950_0)
-  return 303 - atan(sin(192.25 - equCoordsB1950.rightAscension * H2DEG),
+  return 303 - atan2(sin(192.25 - equCoordsB1950.rightAscension * H2DEG),
     cos(192.25 - equCoordsB1950.rightAscension * H2DEG) * sin(27.4) - tan(equCoordsB1950.declination) * cos(27.4))
 }
 
@@ -150,7 +155,7 @@ export function transformEquatorialToGalactic (ra: Hour, dec: Degree, epoch: Jul
  * @returns {Hour}
  */
 export function getEquatorialRightAscensionB1950FromGalactic (l: Degree, b: Degree, epoch: JulianDay = J2000): Hour {
-  const raB1950 = 12.15 + atan(sin(l - 123), cos(l - 123) * sin(27.4) - tan(b) * cos(27.4))
+  const raB1950 = 12.15 + atan2(sin(l - 123), cos(l - 123) * sin(27.4) - tan(b) * cos(27.4))
   return raB1950 * DEG2H
 }
 
@@ -207,7 +212,7 @@ export function getHorizontalAltitude (jd: JulianDay, lng: Degree, lat: Degree, 
 export function getHorizontalAzimuth (jd: JulianDay, lng: Degree, lat: Degree, ra: Hour, dec: Degree): Degree {
   const lmst = getLocalSiderealTime(jd, lng)
   const hourAngle = lmst - ra
-  return atan(sin(hourAngle * H2DEG), cos(hourAngle * H2DEG) * sin(lat) - tan(dec) * cos(lat))
+  return atan2(sin(hourAngle * H2DEG), cos(hourAngle * H2DEG) * sin(lat) - tan(dec) * cos(lat))
 }
 
 
@@ -238,7 +243,7 @@ export function transformEquatorialToHorizontal (jd: JulianDay, lng: Degree, lat
  */
 export function getRightAscensionFromHorizontal (jd: JulianDay, alt: Degree, az: Degree, lng: Degree, lat: Degree): Hour {
   const lmst = getLocalSiderealTime(jd, lng)
-  return lmst - atan(sin(az), cos(az) * sin(lat) + tan(alt) * cos(lat)) * DEG2H
+  return lmst - atan2(sin(az), cos(az) * sin(lat) + tan(alt) * cos(lat)) * DEG2H
 }
 
 /**
@@ -273,15 +278,24 @@ export function transformHorizontalToEquatorial (jd: JulianDay, alt: Degree, az:
  * Transform equatorial coordinates to topocentric coordinates.
  * @param {JulianDay} jd The julian day
  * @param {Degree} coords The equatorial coordinates
- * @param height
- * @param {EquatorialCoordinates} lat The latitude of the observer's location
- * @returns {EquatorialCoordinates}
+ * @param {AstronomicalUnit} distance The object geocentric distance
+ * @param {Meter} height The height of the observer location
+ * @param {Degree} lng The longitude of the observer location
+ * @param {Degree} lat The latitude of the observer location
+ * @param {EquatorialCoordinates} lat The latitude of the observer location
+ * @returns {TopocentricCoordinates}
  */
-export function transformEquatorialToTopocentric (jd: JulianDay, coords: EquatorialCoordinates, height: Meter, lat: Degree): EquatorialCoordinates {
-  const pi: Degree = asin(sin(8.794 / 3600) / distance)
+export function transformEquatorialToTopocentric (jd: JulianDay, coords: EquatorialCoordinates, distance: AstronomicalUnit, height: Meter, lng: Degree, lat: Degree): TopocentricCoordinates {
+  const corrections = getFlatteningCorrections(height, lat)
+  const sinpi: Radian = sin(8.794 / 3600) / distance
+  const theta0: Degree = getLocalSiderealTime(jd, 0)
+  const H: Degree = fmod(theta0 + lng * DEG2H - coords.rightAscension, 24) * H2DEG
+  const tanDeltaAlpha = -corrections.rhocosphi * sinpi * sin(H) / (cos(coords.declination) - corrections.rhocosphi * sinpi * cos(H))
+  const cosDeltaAlpha = cos(atan(tanDeltaAlpha))
+  const tanDeltaPrime = (sin(coords.declination) - corrections.rhosinphi * sinpi) * cosDeltaAlpha / (cos(coords.declination) - corrections.rhocosphi * sinpi * cos(H))
   return {
-    rightAscension: fmod(getRightAscensionFromHorizontal(jd, alt, az, lat, lng) + 24.0, 24.0),
-    declination: getDeclinationFromHorizontal(jd, alt, az, lat)
+    rightAscension: coords.rightAscension + atan(tanDeltaAlpha) * DEG2H,
+    declination: atan(tanDeltaPrime)
   }
 }
 
@@ -297,7 +311,7 @@ export function transformPointToHorizontal (point: Point, center: Point, radius:
   const y = point.y - center.y
   const d = pow(pow(x, 2) + pow(y, 2), 0.5)
   return {
-    azimuth: fmod(-1 * atan(y, x) + 720 - 270, 360),
+    azimuth: fmod(-1 * atan2(y, x) + 720 - 270, 360),
     altitude: 90.0 * (1 - d / radius)
   }
 }
@@ -336,7 +350,7 @@ export function getParallacticAngle (jd: JulianDay, ra: Hour, dec: Degree, lng: 
   const cosdec = cos(dec)
 
   if (cosdec !== 0.0) {
-    angle = atan(sin(HA * H2DEG), tan(lat) * cosdec - sin(dec) * cos(HA * H2DEG))
+    angle = atan2(sin(HA * H2DEG), tan(lat) * cosdec - sin(dec) * cos(HA * H2DEG))
   } else {
     angle = (lat >= 0.0) ? 180 : 0.0
   }
