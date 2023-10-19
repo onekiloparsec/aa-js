@@ -1,21 +1,16 @@
-import {
-  AstronomicalUnit,
-  Day,
-  Degree,
-  EclipticCoordinates,
-  EquatorialCoordinates,
-  JulianDay,
-  KilometerPerSecond
-} from '@/types'
+import { AstronomicalUnit, Day, Degree, EclipticCoordinates, JulianDay, KilometerPerSecond } from '@/types'
 import { DEG2RAD, RAD2DEG } from '@/constants'
-import { transformEclipticToEquatorial } from '@/coordinates'
-import { getNutationInLongitude, getTrueObliquityOfEcliptic } from '@/nutation'
+import { getNutationInLongitude } from '@/nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from '@/fk5'
 import { getEclipticAberration } from '@/aberration'
 import { getDecimal } from '@/sexagesimal'
 import { getLightTimeFromDistance } from '@/distances'
-import { Earth } from '@/earth'
 import { MapTo0To360Range } from '@/utils'
+import {
+  getEclipticLatitude as earthGetEclipticLatitude,
+  getEclipticLongitude as earthGetEclipticLongitude,
+  getRadiusVector as earthGetRadiusVector
+} from '@/earth/coordinates'
 
 const dsin = (deg: Degree): Degree => Math.sin(deg * DEG2RAD)
 const dcos = (deg: Degree): Degree => Math.cos(deg * DEG2RAD)
@@ -37,9 +32,9 @@ function getPlanetDistanceDetailsFromEarth (jd: JulianDay,
                                             radiusVectorFunc: Function): EllipticalDistance {
   // Calculate the position of the Earth first
   const earthCoords = {
-    L: Earth.getEclipticLongitude(jd),
-    B: Earth.getEclipticLatitude(jd),
-    R: Earth.getRadiusVector(jd)
+    L: earthGetEclipticLongitude(jd),
+    B: earthGetEclipticLatitude(jd),
+    R: earthGetRadiusVector(jd)
   }
 
   // Iterate to find the positions adjusting for light-time correction if required
