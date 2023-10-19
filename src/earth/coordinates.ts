@@ -1,7 +1,7 @@
-import { MapTo0To360Range, MapToMinus90To90Range } from '../utils'
-import { RAD2DEG } from '../constants'
-import { AstronomicalUnit, Degree, EclipticCoordinates, JulianDay } from '../types'
-import { getMeanAnomaly as getSunMeanAnomaly } from '../sun'
+import { AstronomicalUnit, Degree, EclipticCoordinates, JulianDay, Meter, Radian } from '@/types'
+import { MapTo0To360Range, MapToMinus90To90Range } from '@/utils'
+import { getJulianCentury, getJulianMillenium } from '@/juliandays'
+import { getMeanAnomaly as getSunMeanAnomaly } from '@/sun'
 import {
   gB0EarthCoefficients,
   gB1EarthCoefficients,
@@ -33,7 +33,7 @@ import {
  * @returns {Degree}
  */
 export function getEclipticLongitude (jd: JulianDay): Degree {
-  const tau = (jd - 2451545) / 365250 // julian day millennia, not centuries!
+  const tau = getJulianMillenium(jd)
   const tau2 = tau * tau
   const tau3 = tau2 * tau
   const tau4 = tau3 * tau
@@ -60,7 +60,7 @@ export function getEclipticLongitude (jd: JulianDay): Degree {
  * @returns {Degree}
  */
 export function getEclipticLatitude (jd: JulianDay): Degree {
-  const tau = (jd - 2451545) / 365250 // julian day millennia, not centuries!
+  const tau = getJulianMillenium(jd)
 
   const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
   const B1 = gB1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
@@ -89,7 +89,7 @@ export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
  * @returns {AstronomicalUnit}
  */
 export function getRadiusVector (jd: JulianDay): AstronomicalUnit {
-  const tau = (jd - 2451545) / 365250 // julian day millennia, not centuries!
+  const tau = getJulianMillenium(jd)
   const tau2 = tau * tau
   const tau3 = tau2 * tau
   const tau4 = tau3 * tau
@@ -110,7 +110,7 @@ export function getRadiusVector (jd: JulianDay): AstronomicalUnit {
  * @returns {Degree}
  */
 export function getEclipticLongitudeJ2000 (jd: JulianDay): Degree {
-  const tau = (jd - 2451545) / 365250
+  const tau = getJulianMillenium(jd)
   const tau2 = tau * tau
   const tau3 = tau2 * tau
   const tau4 = tau3 * tau
@@ -133,7 +133,7 @@ export function getEclipticLongitudeJ2000 (jd: JulianDay): Degree {
  * @returns {Degree}
  */
 export function getEclipticLatitudeJ2000 (jd: JulianDay): Degree {
-  const tau = (jd - 2451545) / 365250
+  const tau = getJulianMillenium(jd)
   const tau2 = tau * tau
   const tau3 = tau2 * tau
   const tau4 = tau3 * tau
@@ -166,6 +166,6 @@ export function getMeanAnomaly (jd: JulianDay): Degree {
  * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
  */
 export function getEccentricity (jd: JulianDay): number {
-  const T = (jd - 2451545) / 36525
+  const T = getJulianCentury(jd)
   return 1 - 0.002516 * T - 0.0000074 * T * T
 }
