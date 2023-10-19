@@ -70,7 +70,6 @@ export function transformEclipticToEquatorial (l: Degree, b: Degree, epsilon: De
  */
 export function getEclipticLongitudeFromEquatorial (ra: Hour, dec: Degree, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): Degree {
   return fmod(atan(sin(ra * H2DEG) * cos(epsilon) + tan(dec) * sin(epsilon), cos(ra * H2DEG)) + 360.0, 360.0)
-
 }
 
 /**
