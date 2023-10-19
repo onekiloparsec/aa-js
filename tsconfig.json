@@ -20,6 +20,8 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "strictPropertyInitialization": false,
+    "isolatedModules": true,
+    "useDefineForClassFields": true,
     "lib": [
       "es6",
       "esnext",
@@ -27,8 +29,26 @@
       "dom",
       "dom.iterable",
       "scripthost"
-    ]
+    ],
+    "typeRoots": [
+      "node_modules/@types",
+      "src/types"
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "#/*": [
+        "./tests/*"
+      ]
+    }
   },
+  "types": [
+    "node",
+    "vite/client",
+    "vitest/globals",
+    "vitest/importMeta"
+  ],
   "include": [
     "src/**/*.ts",
     "src/aajs.d.ts"
