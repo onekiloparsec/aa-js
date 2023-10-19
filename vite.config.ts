@@ -2,6 +2,7 @@
 import path from 'path'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
+// import { fileURLToPath } from 'url'
 
 export default defineConfig({
   build: {
@@ -20,7 +21,16 @@ export default defineConfig({
     }
   )],
   resolve: {
-    dedupe: ['vue']
+    alias: {
+      '@': path.resolve(__dirname, './src')
+    },
+    // alias: {
+    // @ts-ignore
+    // '@': fileURLToPath(new URL('src/', import.meta.url)),
+    // @ts-ignore
+    // '#': fileURLToPath(new URL('tests/', import.meta.url)),
+    // },
+    dedupe: ['vue', 'lodash', 'luxon'],
   },
   test: {
     globals: true
