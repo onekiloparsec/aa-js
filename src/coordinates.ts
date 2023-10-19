@@ -6,6 +6,7 @@ import {
   HorizontalCoordinates,
   Hour,
   JulianDay,
+  Meter,
   Point
 } from './types'
 import { DEG2H, DEG2RAD, ECLIPTIC_OBLIQUITY_J2000_0, H2DEG, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from './constants'
@@ -262,6 +263,22 @@ export function getDeclinationFromHorizontal (jd: JulianDay, alt: Degree, az: De
  * @returns {EquatorialCoordinates}
  */
 export function transformHorizontalToEquatorial (jd: JulianDay, alt: Degree, az: Degree, lng: Degree, lat: Degree): EquatorialCoordinates {
+  return {
+    rightAscension: fmod(getRightAscensionFromHorizontal(jd, alt, az, lat, lng) + 24.0, 24.0),
+    declination: getDeclinationFromHorizontal(jd, alt, az, lat)
+  }
+}
+
+/**
+ * Transform equatorial coordinates to topocentric coordinates.
+ * @param {JulianDay} jd The julian day
+ * @param {Degree} coords The equatorial coordinates
+ * @param height
+ * @param {EquatorialCoordinates} lat The latitude of the observer's location
+ * @returns {EquatorialCoordinates}
+ */
+export function transformEquatorialToTopocentric (jd: JulianDay, coords: EquatorialCoordinates, height: Meter, lat: Degree): EquatorialCoordinates {
+  const pi: Degree = asin(sin(8.794 / 3600) / distance)
   return {
     rightAscension: fmod(getRightAscensionFromHorizontal(jd, alt, az, lat, lng) + 24.0, 24.0),
     declination: getDeclinationFromHorizontal(jd, alt, az, lat)

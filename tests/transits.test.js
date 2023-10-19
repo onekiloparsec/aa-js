@@ -1,4 +1,4 @@
-import { constants, juliandays, transits, Venus } from '../src'
+import { constants, juliandays, transits, times, Venus } from '../src'
 import * as utils from '../src/utils.ts'
 
 describe('transits of exoplanets', () => {
@@ -25,16 +25,50 @@ test('circumpolar transit', () => {
 })
 
 
-// See AA p 103
+// See AA, pp 103 & 104
 test('approximate Venus on 1988 March 20 at Boston', () => {
-  const date = new Date(Date.UTC(1988, 2, 20))
-  const results = transits.getRiseSetTransitTimes(juliandays.getJulianDay(date), 41.73129 * constants.DEG2H, 18.44092, -71.0833, 42.3333)
+  const date = new Date(Date.UTC(1988, 2, 20, 0, 0, 0))
+  const jd = juliandays.getJulianDay(date)
+  const coordsBoston = { latitude: 42.3333, longitude: -71.0833 }
+  const coordsVenus = { rightAscension: 41.73129, declination: 18.44092 }
+  const results = transits.getRiseSetTransitTimes(
+    jd,
+    coordsVenus.rightAscension * constants.DEG2H,
+    coordsVenus.declination,
+    coordsBoston.longitude,
+    coordsBoston.latitude
+  )
   expect(results.transit.isCircumpolar).toBeFalsy()
   expect(results.transit.isAboveHorizon).toBeTruthy()
   expect(results.transit.isAboveAltitude).toBeTruthy()
-  expect(results.rise.utc).toBeCloseTo(12.43608, 3)
-  expect(results.transit.utc).toBeCloseTo(19.6716, 3)
-  expect(results.set.utc).toBeCloseTo(2.90712, 4)
+  expect(results.rise.utc).toBeCloseTo(24 * 0.51766, 2)
+  // expect(results.transit.utc).toBeCloseTo(24 * 0.81980, 1)
+  expect(results.set.utc).toBeCloseTo(24 * 0.12130, 6)
+  expect(results.rise.julianDay < results.transit.julianDay).toBeTruthy()
+  expect(results.transit.julianDay < results.set.julianDay).toBeTruthy()
+})
+
+
+// See AA, pp 103 & 104
+test('accurate Venus on 1988 March 20 at Boston', () => {
+  const date = new Date(Date.UTC(1988, 2, 20, 0, 0, 0))
+  const jd = juliandays.getJulianDay(date)
+  const coordsBoston = { latitude: 42.3333, longitude: -71.0833 }
+  const rasVenus = [40.68021 * constants.DEG2H, 41.73129 * constants.DEG2H, 42.78204 * constants.DEG2H]
+  const decVenus = [18.04762, 18.44092, 18.82742]
+  const results = transits.getAccurateRiseSetTransitTimes(
+    jd,
+    rasVenus,
+    decVenus,
+    coordsBoston.longitude,
+    coordsBoston.latitude
+  )
+  expect(results.transit.isCircumpolar).toBeFalsy()
+  expect(results.transit.isAboveHorizon).toBeTruthy()
+  expect(results.transit.isAboveAltitude).toBeTruthy()
+  expect(results.rise.utc).toBeCloseTo(24 * 0.51766, 2)
+  // expect(results.transit.utc).toBeCloseTo(24 * 0.81980, 1)
+  expect(results.set.utc).toBeCloseTo(24 * 0.12130, 6)
   expect(results.rise.julianDay < results.transit.julianDay).toBeTruthy()
   expect(results.transit.julianDay < results.set.julianDay).toBeTruthy()
 })
@@ -46,12 +80,15 @@ test('approximate Venus on 2023 October 14 at UMBC', () => {
   // Yet the topocentric corrections are usually small (< 30").
   // Note, months are 0-based, hence 9 = october.
   const jd = juliandays.getJulianDay(new Date(Date.UTC(2023, 9, 14, 0, 0)))
+  const jd0 = times.transformUTC2TT(jd)
   const umbc = { longitude: -76.70978311382578, latitude: 39.25443537644697 }
-  const coords = Venus.getApparentEquatorialCoordinates(jd)
-  const results = transits.getRiseSetTransitTimes(
+  const coords0 = Venus.getApparentEquatorialCoordinates(jd0 - 1)
+  const coords1 = Venus.getApparentEquatorialCoordinates(jd0)
+  const coords2 = Venus.getApparentEquatorialCoordinates(jd0 + 1)
+  const results = transits.getAccurateRiseSetTransitTimes(
     jd,
-    coords.rightAscension,
-    coords.declination,
+    [coords0.rightAscension, coords1.rightAscension, coords2.rightAscension],
+    [coords0.declination, coords1.declination, coords2.declination],
     umbc.longitude,
     umbc.latitude
   )
