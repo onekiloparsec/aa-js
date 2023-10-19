@@ -1,20 +1,8 @@
-import { Degree, EllipticalGeocentricDetails, JulianDay, Magnitude } from '../types'
-import { DEG2RAD, RAD2DEG } from '../constants'
-import { getEllipticalDetails } from '../elliptical'
-import { MapTo0To360Range } from '../utils'
-import { Earth } from '../earth'
-import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
-
-/**
- * Planetary details It comprises the apparent light time,
- * the apparent geocentric distance, the apparent geocentric ecliptic
- * coordinates and the apparent geocentric equatorial coordinates.
- * @param {JulianDay} jd The julian day
- * @return {EllipticalGeocentricDetails}
- */
-export function getPlanetaryDetails (jd: JulianDay): EllipticalGeocentricDetails {
-  return getEllipticalDetails(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
-}
+import { Degree, JulianDay, Magnitude } from '@/types'
+import { DEG2RAD, RAD2DEG } from '@/constants'
+import { MapTo0To360Range } from '@/utils'
+import { Earth } from '@/earth'
+import { getRadiusVector } from './coordinates'
 
 /**
  * Phase angle (angle Sun-planet-Earth).
