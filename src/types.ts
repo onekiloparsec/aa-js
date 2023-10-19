@@ -126,20 +126,28 @@ export type MeterPerSquareSecond = number;
 export type KilometerPerSecond = number;
 
 export type EllipticalGeocentricDetails = {
-  apparentLightTime: Day,
-  apparentGeocentricDistance: AstronomicalUnit,
-  apparentGeocentricEclipticCoordinates: EclipticCoordinates,
+  apparentLightTime: Day
+  apparentGeocentricDistance: AstronomicalUnit
+  apparentGeocentricEclipticCoordinates: EclipticCoordinates
   apparentGeocentricEquatorialCoordinates: EquatorialCoordinates
 }
-
 
 /**
  * Coordinates in the Equatorial system, that is in the system formed by
  * projecting the Earth equator onto the spherical sky.
  */
 export type EquatorialCoordinates = {
-  rightAscension: Hour,
-  declination: Degree,
+  rightAscension: Hour
+  declination: Degree
+  epoch?: JulianDay
+}
+
+/**
+ * Topocentric coordinates.
+ */
+export type TopocentricCoordinates = {
+  rightAscension: Hour
+  declination: Degree
   epoch?: JulianDay
 }
 
@@ -149,17 +157,17 @@ export type EquatorialCoordinates = {
  * onto the spherical sky.
  */
 export type EclipticCoordinates = {
-  longitude: Degree,
+  longitude: Degree
   latitude: Degree
 }
 
 export type GalacticCoordinates = {
-  longitude: Degree,
+  longitude: Degree
   latitude: Degree
 }
 
 export type SaturnicentricCoordinates = {
-  longitude: Degree,
+  longitude: Degree
   latitude: Degree
 }
 
@@ -169,23 +177,23 @@ export type SaturnicentricCoordinates = {
  * azimuth is the angle counted from the geographical north or south.
  */
 export type HorizontalCoordinates = {
-  azimuth: Degree,
+  azimuth: Degree
   altitude: Degree
 }
 
 export type Coordinates2D = {
-  X: number,
+  X: number
   Y: number
 }
 
 export type Coordinates3D = {
-  X: number,
-  Y: number,
-  Z: number,
+  X: number
+  Y: number
+  Z: number
 }
 
 export type Point = {
-  x: Pixel,
+  x: Pixel
   y: Pixel
 }
 
