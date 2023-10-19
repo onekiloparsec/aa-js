@@ -1,3 +1,5 @@
+import { getFlatteningCorrections } from '@/earth/coordinates'
+
 /**
  * Angular degree
  */
@@ -90,6 +92,10 @@ export type KilometerPerSecondPerMegaParsec = number;
  * Albedo
  */
 export type Albedo = number
+/**
+ * Meter
+ */
+export type Meter = number;
 /**
  * Kilometer
  */
@@ -386,6 +392,7 @@ export class EarthPlanet {
   getEclipticLatitude: SingleCoordinateDegreeAtJulianDayFunction
   getEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
   getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
+  getFlatteningCorrections: Function
   getMeanAnomaly: QuantityAtJulianDayFunction
   getEclipticLongitudeJ2000: SingleCoordinateDegreeAtJulianDayFunction
   getEclipticLatitudeJ2000: SingleCoordinateDegreeAtJulianDayFunction
