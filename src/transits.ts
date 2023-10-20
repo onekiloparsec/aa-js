@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
-import { AstronomicalUnit, Day, Degree, Hour, JulianDay, JupiterRadius, RiseSetTransit, SolarRadius } from './types'
+import { AstronomicalUnit, Day, Degree, Hour, JulianDay, JupiterRadius, RiseSetTransit, SolarRadius } from '@/types'
 import {
   DEG2RAD,
   H2DEG,
@@ -11,11 +11,10 @@ import {
   ONE_UA_IN_KILOMETERS,
   RAD2DEG,
   STANDARD_ALTITUDE_STARS
-} from './constants'
-import { getDate, getJulianDay, getJulianDayMidnight, getLocalSiderealTime } from './juliandays'
-import { fmod } from './utils'
-import { getDeltaT } from 'src/times/utils'
-import { getHorizontalAltitude } from 'src/coordinates'
+} from '@/constants'
+import { getDate, getJulianDay, getJulianDayMidnight, getLocalSiderealTime } from '@/juliandays'
+import { fmod } from '@/utils'
+import { getDeltaT } from '@/times'
 
 dayjs.extend(utc)
 
@@ -105,8 +104,12 @@ export function getAccurateRiseSetTransitTimes (jd: JulianDay, ra: [Hour, Hour, 
       altitude: undefined,
       refAltitude: alt,
       isAboveHorizon: false,
-      isAboveAltitude: false, // for when altitude is not that of horizon
-      isCircumpolar: false
+      isAboveAltitude: false,
+      isCircumpolar: false,
+      internals: {
+        m0: undefined,
+        cosH0: undefined
+      }
     }
   }
 
@@ -234,8 +237,12 @@ export function getRiseSetTransitTimes (jd: JulianDay, ra: Hour, dec: Degree, ln
       altitude: undefined,
       refAltitude: alt,
       isAboveHorizon: false,
-      isAboveAltitude: false, // for when altitude is not that of horizon
-      isCircumpolar: false
+      isAboveAltitude: false,
+      isCircumpolar: false,
+      internals: {
+        m0: undefined,
+        cosH0: undefined
+      }
     }
   }
 
@@ -262,6 +269,7 @@ export function getRiseSetTransitTimes (jd: JulianDay, ra: Hour, dec: Degree, ln
   // thus becomes:
   const m0 = fmod((ra * H2DEG - lng - Theta0) / 360, 1)
   result.transit.utc = m0 * 24
+  result.transit.internals.m0 = m0
 
   const utcMoment = dayjs.utc(getDate(jd))
   const hourTransit = floor(result.transit.utc)
@@ -271,6 +279,7 @@ export function getRiseSetTransitTimes (jd: JulianDay, ra: Hour, dec: Degree, ln
   // Calculate cosH0. See AA Eq.15.1, p.102
   let cosH0 = (sinh0 - sinPhi * sinDelta) / (cosPhi * cosDelta)
   result.transit.isCircumpolar = (abs(cosH0) > 1)
+  result.transit.internals.cosH0 = cosH0
 
   if (!result.transit.isCircumpolar) {
     const H0 = acos(cosH0) * RAD2DEG
