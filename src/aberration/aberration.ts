@@ -1,7 +1,7 @@
-import { DEG2RAD, RAD2DEG, RAD2H } from '@/constants'
 import { Coordinates2D, Coordinates3D, Degree, Hour, JulianDay } from '@/types'
+import { DEG2RAD, RAD2DEG, RAD2H } from '@/constants'
+import { getGeometricEclipticLongitude } from '@/sun'
 import { g_AberrationCoefficients } from './coefficients'
-import { getGeometricEclipticLongitude } from '../sun'
 
 const cos = Math.cos
 const sin = Math.sin
