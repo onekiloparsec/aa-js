@@ -3,6 +3,7 @@ import { DEG2RAD, RAD2DEG } from '@/constants'
 import { MapTo0To360Range } from '@/utils'
 import { Earth } from '@/earth'
 import { getRadiusVector } from './coordinates'
+import { getGeocentricDistance } from './elliptical'
 
 /**
  * Phase angle (angle Sun-planet-Earth).
@@ -12,7 +13,7 @@ import { getRadiusVector } from './coordinates'
 export function getPhaseAngle (jd: JulianDay): Degree {
   const r = getRadiusVector(jd)
   const R = Earth.getRadiusVector(jd)
-  const Delta = getPlanetaryDetails(jd).apparentGeocentricDistance
+  const Delta = getGeocentricDistance(jd)
   return MapTo0To360Range(RAD2DEG * (Math.acos((r * r + Delta * Delta - R * R) / (2 * r * Delta))))
 }
 
@@ -36,7 +37,7 @@ export function getIlluminatedFraction (jd: JulianDay): number {
  */
 export function getMagnitude (jd: JulianDay): Magnitude {
   const r = getRadiusVector(jd)
-  const Delta = getPlanetaryDetails(jd).apparentGeocentricDistance
+  const Delta = getGeocentricDistance(jd)
   return -6.87 + 5 * Math.log10(r * Delta)
 }
 
@@ -51,7 +52,7 @@ export function getMagnitude (jd: JulianDay): Magnitude {
  * @returns {Degree}
  */
 export function getEquatorialSemiDiameter (jd: JulianDay): Degree {
-  const Delta = getPlanetaryDetails(jd).apparentGeocentricDistance
+  const Delta = getGeocentricDistance(jd)
   return 33.50 / Delta
 }
 
