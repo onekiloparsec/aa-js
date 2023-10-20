@@ -1,8 +1,8 @@
-import { RAD2DEG } from '@/constants'
 import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Obliquity } from '@/types'
-import { MapTo0To360Range, MapToMinus90To90Range } from '@/utils'
-import { transformEclipticToEquatorial } from '@/coordinates'
 import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/nutation'
+import { transformEclipticToEquatorial } from '@/coordinates'
+import { MapTo0To360Range, MapToMinus90To90Range } from '@/utils'
+import { RAD2DEG } from '@/constants'
 import {
   g_B0VenusCoefficients,
   g_B1VenusCoefficients,

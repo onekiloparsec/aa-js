@@ -32,7 +32,7 @@
     ],
     "typeRoots": [
       "node_modules/@types",
-      "src/types.d.ts"
+      "src/types.ts"
     ],
     "paths": {
       "@/*": [
@@ -58,5 +58,11 @@
     "node_modules",
     "dist",
     "tests"
-  ]
+  ],
+  "typedocOptions": {
+    "entryPoints": [
+      "src/index.ts"
+    ],
+    "out": "docs"
+  }
 }
