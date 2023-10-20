@@ -32,7 +32,7 @@
     ],
     "typeRoots": [
       "node_modules/@types",
-      "src/types"
+      "src/types.d.ts"
     ],
     "paths": {
       "@/*": [
@@ -51,6 +51,7 @@
   ],
   "include": [
     "src/**/*.ts",
+    "src/**/*.d.ts",
     "src/aajs.d.ts"
   ],
   "exclude": [
