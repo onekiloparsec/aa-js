@@ -1,21 +1,10 @@
-import { Degree, EllipticalGeocentricDetails, JulianDay, Magnitude } from '@/types'
+import { Degree, JulianDay, Magnitude } from '@/types'
 import { DEG2RAD, RAD2DEG } from '@/constants'
-import { getEllipticalDetails } from '../elliptical'
 import { MapTo0To360Range } from '@/utils'
 import { Earth } from '@/earth'
 import { getRingSystemDetails } from './ringSystem'
-import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
-
-/**
- * Planetary details It comprises the apparent light time,
- * the apparent geocentric distance, the apparent geocentric ecliptic
- * coordinates and the apparent geocentric equatorial coordinates.
- * @param {JulianDay} jd The julian day
- * @return {EllipticalGeocentricDetails}
- */
-export function getPlanetaryDetails (jd: JulianDay): EllipticalGeocentricDetails {
-  return getEllipticalDetails(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
-}
+import { getRadiusVector } from './coordinates'
+import { getGeocentricDistance } from './elliptical'
 
 /**
  * Phase angle (angle Sun-planet-Earth).
@@ -25,7 +14,7 @@ export function getPlanetaryDetails (jd: JulianDay): EllipticalGeocentricDetails
 export function getPhaseAngle (jd: JulianDay): Degree {
   const r = getRadiusVector(jd)
   const R = Earth.getRadiusVector(jd)
-  const Delta = getPlanetaryDetails(jd).apparentGeocentricDistance
+  const Delta = getGeocentricDistance(jd)
   return MapTo0To360Range(RAD2DEG * (Math.acos((r * r + Delta * Delta - R * R) / (2 * r * Delta))))
 }
 
@@ -49,7 +38,7 @@ export function getIlluminatedFraction (jd: JulianDay): number {
  */
 export function getMagnitude (jd: JulianDay): Magnitude {
   const r = getRadiusVector(jd)
-  const Delta = getPlanetaryDetails(jd).apparentGeocentricDistance
+  const Delta = getGeocentricDistance(jd)
 
   const ringSystem = getRingSystemDetails(jd)
   const B = ringSystem.earthCoordinates.latitude * DEG2RAD
@@ -70,7 +59,7 @@ export function getMagnitude (jd: JulianDay): Magnitude {
  * @returns {Degree}
  */
 export function getEquatorialSemiDiameter (jd: JulianDay): Degree {
-  const Delta = getPlanetaryDetails(jd).apparentGeocentricDistance
+  const Delta = getGeocentricDistance(jd)
   return 8.34 / Delta
 }
 
