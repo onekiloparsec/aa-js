@@ -24,7 +24,8 @@
     "lint": "npm run lint:js",
     "lint:js": "eslint --ext js --ext jsx --ext vue src test/**/*.spec.js test/*.js build",
     "lint:js:fix": "npm run lint:js -- --fix",
-    "test": "vitest"
+    "test": "vitest",
+    "docs": "jsdoc src -c jsdoc.json -r -d docs -R README.md"
   },
   "repository": {
     "type": "git",
@@ -58,10 +59,12 @@
     "@babel/types": "^7.17.0",
     "@types/eslint": "^7.29.0",
     "babel-eslint": "^11.0.0-beta.2",
+    "better-docs": "^2.7.2",
     "caniuse-lite": "^1.0.30001549",
     "eslint": "^8.51.0",
     "rimraf": "^5.0.5",
     "source-map-loader": "^4.0.1",
+    "taffydb": "^2.7.3",
     "ts-loader": "^9.5.0",
     "typescript": "^5.2.2",
     "vite": "^4.4.11",
