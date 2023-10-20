@@ -1,3 +1,7 @@
+import { Earth } from './earth'
+import { Moon } from './earth/moon'
+import * as Sun from './sun'
+
 import { Mercury } from './planets/mercury'
 import { Venus } from './planets/venus'
 import { Mars } from './planets/mars'
@@ -7,11 +11,6 @@ import { Uranus } from './planets/uranus'
 import { Neptune } from './planets/neptune'
 import { Pluto } from './planets/pluto'
 
-import * as Sun from './sun'
-import { Earth } from './earth'
-import { Moon } from './earth/moon'
-
-export * from './types'
 export * as constants from './constants'
 
 export * as aberration from './aberration'
