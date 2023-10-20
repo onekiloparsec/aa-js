@@ -347,6 +347,23 @@ export class Planet {
   orbitalElementsJ2000: PlanetOrbitalElements
 }
 
+export class MinorPlanet {
+  getEclipticLongitude: SingleCoordinateDegreeAtJulianDayFunction
+  getEclipticLatitude: SingleCoordinateDegreeAtJulianDayFunction
+  getEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
+  getEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
+  getGeocentricDistance: QuantityInAstronomicalUnitAtJulianDayFunction
+  getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
+  getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
+  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
+  getPhaseAngle: JulianDayForJulianDayFunction
+  getIlluminatedFraction: QuantityAtJulianDayFunction
+  getMagnitude: QuantityInMagnitudeAtJulianDayFunction
+  getEquatorialSemiDiameter: QuantityInArcSecondAtJulianDayFunction
+  getPolarSemiDiameter: QuantityInArcSecondAtJulianDayFunction
+  constants: PlanetConstants
+}
+
 export class SaturnRingSystem {
   majorAxis: ArcSecond
   minorAxis: ArcSecond

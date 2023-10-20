@@ -1,35 +1,39 @@
+import { MinorPlanet } from '@/types'
 import {
-  getApparentEquatorialCoordinates,
   getEclipticCoordinates,
   getEclipticLatitude,
   getEclipticLongitude,
   getEquatorialCoordinates,
   getRadiusVector
 } from './coordinates'
-import { constants } from './planetaryBase'
+import { constants } from './constants'
 import {
   getEquatorialSemiDiameter,
   getIlluminatedFraction,
   getMagnitude,
   getPhaseAngle,
-  getPlanetaryDetails,
   getPolarSemiDiameter
-} from './planetaryDetails'
-import { Planet } from '@/types'
+} from './details'
+import {
+  getGeocentricDistance,
+  getGeocentricEclipticCoordinates,
+  getGeocentricEquatorialCoordinates,
+} from './elliptical'
 
 // I know, this is a minor planet...
-export const Pluto: Planet = {
+export const Pluto: MinorPlanet = {
   getEclipticLongitude,
   getEclipticLatitude,
   getEclipticCoordinates,
   getEquatorialCoordinates,
-  getApparentEquatorialCoordinates,
-  constants,
+  getGeocentricDistance,
+  getGeocentricEclipticCoordinates,
+  getGeocentricEquatorialCoordinates,
   getRadiusVector,
-  getPlanetaryDetails,
   getPhaseAngle,
   getIlluminatedFraction,
   getMagnitude,
   getEquatorialSemiDiameter,
-  getPolarSemiDiameter
+  getPolarSemiDiameter,
+  constants
 }
