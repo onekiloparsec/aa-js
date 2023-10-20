@@ -1,19 +1,3 @@
-<h3 align="center">
-<img src="http://onekiloparsec.dev/wp-content/uploads/2020/10/1kpcAstroComponents.png" width="50%" />
-</h3>
-<p align="center">
-<a href="https://github.com/onekiloparsec/SwiftAA">SwiftAA</a> &bull;
-<b>aa-js</b> &bull;
-<a href="https://github.com/onekiloparsec/QLFits">QLFits</a> &bull;
-<a href="https://github.com/onekiloparsec/FITSImporter">FITSImporter</a> &bull;
-<a href="https://github.com/onekiloparsec/ObjCFITSIO">ObjCFITSIO</a>
-</p>
-<p align="center">
-<a href="https://www.patreon.com/onekiloparsec" target="_blank">
-<img src="https://c5.patreon.com/external/logo/become_a_patron_button.png" alt="Become a Patreon">
-</a>
-</p>
-
 aa-js
 ============
 
@@ -34,7 +18,7 @@ SwiftAA, and are much more extended than what is available
 in AA+.
 
 aa-js is the backbone of scientific algorithms used
-in [arcsecond.io](https://www.arcsecond.io).
+in [Arcsecond.io](https://www.arcsecond.io).
 
 I am the author of the Swift version too. It's
 called [SwiftAA](https://github.com/onekiloparsec/SwiftAA).
