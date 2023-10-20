@@ -1,3 +1,6 @@
+/**
+ @module GlobalConstants
+*/
 import {
   Day,
   Degree,

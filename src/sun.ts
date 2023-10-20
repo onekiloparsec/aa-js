@@ -1,3 +1,6 @@
+/**
+ @module Sun
+*/
 import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianCentury, JulianDay } from './types'
 import { DEG2RAD } from './constants'
 import { transformEclipticToEquatorial } from './coordinates'

@@ -1,3 +1,6 @@
+/**
+ @module Mars
+ */
 import { PlanetConstants, PlanetOrbitalElements } from '@/types'
 
 /**

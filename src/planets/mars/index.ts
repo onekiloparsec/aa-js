@@ -1,3 +1,6 @@
+/**
+ @module Mars
+*/
 import { MarsPlanet } from '@/types'
 import {
   getEclipticCoordinates,

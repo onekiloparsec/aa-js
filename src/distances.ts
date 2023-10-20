@@ -1,3 +1,6 @@
+/**
+ @module Distances
+*/
 import { ONE_UA_IN_KILOMETERS, PC2LY, PC2UA, SPEED_OF_LIGHT } from './constants'
 import {
   ArcSecond,

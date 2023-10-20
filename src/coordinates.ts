@@ -1,3 +1,6 @@
+/**
+ @module Coordinates
+*/
 import {
   AstronomicalUnit,
   Degree,
