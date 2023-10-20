@@ -8,6 +8,8 @@ import {
   transformUTC2TT
 } from './transforms'
 
+import { getDeltaT} from './utils'
+
 export {
   transformTT2UTC,
   transformUTC2TT,
@@ -15,5 +17,6 @@ export {
   transformTAI2TT,
   transformTT2UT1,
   transformUT12TT,
-  transformUT1MinusUTC
+  transformUT1MinusUTC,
+  getDeltaT
 }
