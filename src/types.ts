@@ -1,5 +1,3 @@
-import { getFlatteningCorrections } from '@/earth/coordinates'
-
 /**
  * Angular degree
  */
@@ -287,16 +285,18 @@ export type PlanetConstants = {
   escapeVelocity: KilometerPerSecond
 }
 
+type LengthArray<T, N extends number, R extends T[] = []> = number extends N ? T[] : R['length'] extends N ? R : LengthArray<T, N, [T, ...R]>;
+
 /**
  * Elements of Planetary Orbits
  */
 export type PlanetOrbitalElements = {
-  meanLongitude: [Degree, Degree, Degree, Degree]
+  meanLongitude: LengthArray<Degree, 4>
   semiMajorAxis: AstronomicalUnit
-  eccentricity: [number, number, number, number]
-  inclination: [number, number, number, number]
-  longitudeOfAscendingNode: [Degree, Degree, Degree, Degree]
-  longitudeOfPerihelion: [Degree, Degree, Degree, Degree]
+  eccentricity: LengthArray<number, 4>
+  inclination: LengthArray<Degree, 4>
+  longitudeOfAscendingNode: LengthArray<Degree, 4>
+  longitudeOfPerihelion: LengthArray<Degree, 4>
 }
 
 export type SingleCoordinateDegreeAtJulianDayFunction = (jd: JulianDay) => Degree
