@@ -5,7 +5,7 @@ import { getCorrectionInLatitude, getCorrectionInLongitude } from '@/fk5'
 import { getEclipticAberration } from '@/aberration'
 import { getDecimal } from '@/sexagesimal'
 import { getLightTimeFromDistance } from '@/distances'
-import { MapTo0To360Range } from '@/utils'
+import { fmod360 } from '@/utils'
 import {
   getEclipticLatitude as earthGetEclipticLatitude,
   getEclipticLongitude as earthGetEclipticLongitude,
@@ -92,7 +92,7 @@ export function getPlanetGeocentricEclipticCoordinates (jd: JulianDay,
   const details = getPlanetDistanceDetailsFromEarth(jd, eclipticLongitudeFunc, eclipticLatitudeFunc, radiusVectorFunc)
 
   const geocentricEclipticCoordinates: EclipticCoordinates = {
-    longitude: MapTo0To360Range(datan2(details.y, details.x)) as Degree,
+    longitude: fmod360(datan2(details.y, details.x)) as Degree,
     latitude: (datan2(details.z, sqrt(details.x * details.x + details.y * details.y))) as Degree
   }
 

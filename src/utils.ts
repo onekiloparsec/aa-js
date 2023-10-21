@@ -1,26 +1,24 @@
 import { Degree } from './types'
 import Decimal from 'decimal.js'
 
+
 export function fmod (a: number, b: number): number {
   const x = new Decimal(a)
-  Decimal.set({ modulo: 9 })
+  Decimal.set({ modulo: Decimal.EUCLID }) // Result is always positive! See https://mikemcl.github.io/decimal.js/#modulo
   return x.mod(b).toNumber()
 }
 
 export function isNumber (v: any): boolean {
-  return !isNaN(parseFloat(v)) && isFinite(v)
+  const x = new Decimal(v)
+  return !x.isNaN() && x.isFinite()
 }
 
-export function MapTo0To360Range (degrees: Degree): Degree {
-  let fResult = fmod(degrees, 360)
-  if (fResult < 0) {
-    fResult += 360
-  }
-  return fResult
+export function fmod360 (degrees: Degree): Degree {
+  return fmod(degrees, 360)
 }
 
 export function MapToMinus90To90Range (degrees: Degree): Degree {
-  let fResult = MapTo0To360Range(degrees)
+  let fResult = fmod360(degrees)
 
   if (fResult > 270) {
     fResult = fResult - 360
@@ -30,13 +28,5 @@ export function MapToMinus90To90Range (degrees: Degree): Degree {
     fResult = 180 - fResult
   }
 
-  return fResult
-}
-
-export function MapTo0To1Range (fraction: number): number {
-  let fResult = fmod(fraction, 1)
-  if (fResult < 0) {
-    fResult += 1
-  }
   return fResult
 }

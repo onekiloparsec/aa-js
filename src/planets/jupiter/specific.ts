@@ -1,6 +1,6 @@
 import { Degree, JulianDay } from '@/types'
 import { DEG2RAD, RAD2DEG } from '@/constants'
-import { MapTo0To360Range } from '@/utils'
+import { fmod360 } from '@/utils'
 import { getMeanObliquityOfEcliptic } from '@/nutation'
 import { Earth } from '@/earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
@@ -135,25 +135,25 @@ export function getCentralMeridianLongitudes (jd: JulianDay): Object {
   const lrad = DEG2RAD * l
 
   //Step 2
-  const W1 = MapTo0To360Range(17.710 + 877.90003539 * d)
-  const W2 = MapTo0To360Range(16.838 + 870.27003539 * d)
+  const W1 = fmod360(17.710 + 877.90003539 * d)
+  const W2 = fmod360(16.838 + 870.27003539 * d)
 
   const xi = atan2(sin(delta0rad) * cos(deltarad) * cos(alpha0rad - alpharad) - sin(deltarad) * cos(delta0rad), cos(deltarad) * sin(alpha0rad - alpharad))
 
   //Step 13
-  const Geometricw1 = MapTo0To360Range(W1 - RAD2DEG * xi - 5.07033 * DELTA)
-  const Geometricw2 = MapTo0To360Range(W2 - RAD2DEG * xi - 5.02626 * DELTA)
+  const Geometricw1 = fmod360(W1 - RAD2DEG * xi - 5.07033 * DELTA)
+  const Geometricw2 = fmod360(W2 - RAD2DEG * xi - 5.02626 * DELTA)
 
   //Step 14
   const C = 57.2958 * (2 * r * DELTA + R * R - r * r - DELTA * DELTA) / (4 * r * DELTA)
   let Apparentw1
   let Apparentw2
   if (sin(lrad - l0rad) > 0) {
-    Apparentw1 = MapTo0To360Range(Geometricw1 + C)
-    Apparentw2 = MapTo0To360Range(Geometricw2 + C)
+    Apparentw1 = fmod360(Geometricw1 + C)
+    Apparentw2 = fmod360(Geometricw2 + C)
   } else {
-    Apparentw1 = MapTo0To360Range(Geometricw1 - C)
-    Apparentw2 = MapTo0To360Range(Geometricw2 - C)
+    Apparentw1 = fmod360(Geometricw1 - C)
+    Apparentw2 = fmod360(Geometricw2 - C)
   }
 
   return {

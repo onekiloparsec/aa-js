@@ -4,7 +4,7 @@ import { transformEclipticToEquatorial } from '@/coordinates'
 import { getNutationInLongitude, getTrueObliquityOfEcliptic } from '@/nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from '@/fk5'
 import { getLightTimeFromDistance } from '@/distances'
-import { MapTo0To360Range } from '@/utils'
+import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
@@ -94,8 +94,8 @@ export function getRingSystemDetails (jd: JulianDay): SaturnRingSystem {
   let Bdash = RAD2DEG * asin(sin(irad) * cos(bdashrad) * sin(ldashrad - omegarad) - cos(irad) * sin(bdashrad))
 
   //Step 9. Calculate DeltaU
-  let U1 = MapTo0To360Range(RAD2DEG * atan2(sin(irad) * sin(bdashrad) + cos(irad) * cos(bdashrad) * sin(ldashrad - omegarad), cos(bdashrad) * cos(ldashrad - omegarad)))
-  let U2 = MapTo0To360Range(RAD2DEG * atan2(sin(irad) * sin(beta) + cos(irad) * cos(beta) * sin(lambda - omegarad), cos(beta) * cos(lambda - omegarad)))
+  let U1 = fmod360(RAD2DEG * atan2(sin(irad) * sin(bdashrad) + cos(irad) * cos(bdashrad) * sin(ldashrad - omegarad), cos(bdashrad) * cos(ldashrad - omegarad)))
+  let U2 = fmod360(RAD2DEG * atan2(sin(irad) * sin(beta) + cos(irad) * cos(beta) * sin(lambda - omegarad), cos(beta) * cos(lambda - omegarad)))
 
   const earthCoordinates: SaturnicentricCoordinates = {
     longitude: U2,
@@ -128,9 +128,9 @@ export function getRingSystemDetails (jd: JulianDay): SaturnRingSystem {
   //double NLrad = DEG2RAD*NutationInLongitude/3600)
   lambda = RAD2DEG * lambda
   lambda += NutationInLongitude / 3600
-  lambda = MapTo0To360Range(lambda)
+  lambda = fmod360(lambda)
   lambda0 += NutationInLongitude / 3600
-  lambda0 = MapTo0To360Range(lambda0)
+  lambda0 = fmod360(lambda0)
 
   //Step 14. Convert to equatorial coordinates
   beta = RAD2DEG * beta

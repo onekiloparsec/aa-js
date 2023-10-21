@@ -1,6 +1,6 @@
 import { DEG2RAD } from '@/constants'
 import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '@/types'
-import { MapTo0To360Range, MapToMinus90To90Range } from '@/utils'
+import { fmod360, MapToMinus90To90Range } from '@/utils'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/nutation'
 import { g_PlutoArgumentCoefficients, g_PlutoLatitudeCoefficients, g_PlutoLongitudeCoefficients, g_PlutoRadiusCoefficients } from './coefficients'
@@ -27,7 +27,7 @@ export function getEclipticLongitude (jd: JulianDay): Degree {
   }
   L = L / 1000000
   L += (238.958116 + 144.96 * T)
-  L = MapTo0To360Range(L)
+  L = fmod360(L)
 
   return L
 }

@@ -1,6 +1,6 @@
 import { Degree, JulianDay, Magnitude } from '@/types'
 import { DEG2RAD, RAD2DEG } from '@/constants'
-import { MapTo0To360Range } from '@/utils'
+import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
 import { getRadiusVector } from './coordinates'
 import { getGeocentricDistance } from './elliptical'
@@ -14,7 +14,7 @@ export function getPhaseAngle (jd: JulianDay): Degree {
   const r = getRadiusVector(jd)
   const R = Earth.getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
-  return MapTo0To360Range(RAD2DEG * (Math.acos((r * r + Delta * Delta - R * R) / (2 * r * Delta))))
+  return fmod360(RAD2DEG * (Math.acos((r * r + Delta * Delta - R * R) / (2 * r * Delta))))
 }
 
 /**

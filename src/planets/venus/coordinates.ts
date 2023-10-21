@@ -1,7 +1,7 @@
 import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Obliquity } from '@/types'
 import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/nutation'
 import { transformEclipticToEquatorial } from '@/coordinates'
-import { MapTo0To360Range, MapToMinus90To90Range } from '@/utils'
+import { fmod360, MapToMinus90To90Range } from '@/utils'
 import { RAD2DEG } from '@/constants'
 import {
   g_B0VenusCoefficients,
@@ -69,7 +69,7 @@ export function getEclipticLongitude (jd: JulianDay): Degree {
 
   let value = (L0 + L1 * rho + L2 * rhosquared + L3 * rhocubed + L4 * rho4 + L5 * rho5) / 100000000
 
-  return MapTo0To360Range(RAD2DEG * value)
+  return fmod360(RAD2DEG * value)
 }
 
 /**

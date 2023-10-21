@@ -7,7 +7,7 @@ import { transformEclipticToEquatorial } from './coordinates'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from './fk5'
 import { getMeanObliquityOfEcliptic, getNutationInLongitude, getTrueObliquityOfEcliptic } from './nutation'
 import { getDecimal } from './sexagesimal'
-import { MapTo0To360Range } from './utils'
+import { fmod360 } from './utils'
 import { Earth } from './earth'
 
 const sin = Math.sin
@@ -22,8 +22,8 @@ export function getMeanAnomaly (jd: JulianDay): Degree {
   const T2 = T * T
   const T3 = T2 * T
   // In AA++ (C++) implementation, values differ a little bit. But we prefer textbook AA values to ensure tests validity
-  // In AA++ : MapTo0To360Range(357.5291092 + 35999.0502909 * T - 0.0001536 * T2 + T3 / 24490000)
-  return MapTo0To360Range(357.52911 + 35999.05029 * T - 0.0001537 * T2 + T3 / 24490000)
+  // In AA++ : fmod360(357.5291092 + 35999.0502909 * T - 0.0001536 * T2 + T3 / 24490000)
+  return fmod360(357.52911 + 35999.05029 * T - 0.0001537 * T2 + T3 / 24490000)
 }
 
 /**
@@ -35,7 +35,7 @@ export function getTrueAnomaly (jd: JulianDay): Degree {
   const T = (jd - 2451545) / 36525
   const M = getMeanAnomaly(jd)
   const C = getEquationOfTheCenter(T, M)
-  return MapTo0To360Range(M + C)
+  return fmod360(M + C)
 }
 
 /**
@@ -58,7 +58,7 @@ export function getEquationOfTheCenter (T: JulianCentury, M: Degree): Degree {
  * @return {Degree}
  */
 export function getMeanLongitudeReferredToMeanEquinoxOfDate (T: JulianCentury): Degree {
-  return MapTo0To360Range(280.46646 + 36000.76983 * T + 0.0003032 * T * T)
+  return fmod360(280.46646 + 36000.76983 * T + 0.0003032 * T * T)
 }
 
 /**
@@ -75,7 +75,7 @@ export function getGeometricEclipticLongitude (jd: JulianDay): Degree {
   const L0 = getMeanLongitudeReferredToMeanEquinoxOfDate(T)
   const M = getMeanAnomaly(jd)
   const C = getEquationOfTheCenter(T, M)
-  return MapTo0To360Range(L0 + C)
+  return fmod360(L0 + C)
 }
 
 // --- high accuracy geocentric longitude and latitude of the Sun. See AA pp 166.
@@ -86,7 +86,7 @@ export function getGeometricEclipticLongitude (jd: JulianDay): Degree {
  * @returns {Degree}
  */
 export function getGeocentricEclipticLongitude (jd: JulianDay): Degree {
-  return MapTo0To360Range(Earth.getEclipticLongitude(jd) + 180)
+  return fmod360(Earth.getEclipticLongitude(jd) + 180)
 }
 
 /**
@@ -104,7 +104,7 @@ export function getGeocentricEclipticLatitude (jd: JulianDay): Degree {
  * @returns {Degree}
  */
 export function getGeocentricEclipticLongitudeJ2000 (jd: JulianDay): Degree {
-  return MapTo0To360Range(Earth.getEclipticLongitudeJ2000(jd) + 180)
+  return fmod360(Earth.getEclipticLongitudeJ2000(jd) + 180)
 }
 
 /**
