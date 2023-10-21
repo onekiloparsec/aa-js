@@ -1,15 +1,19 @@
-import { Degree } from './types'
 import Decimal from 'decimal.js'
+import { Degree, Hour } from '@/types'
 
 
-export function fmod (a: number, b: number): number {
+export function fmod (a: number | Decimal, b: number | Decimal): Decimal {
   Decimal.set({ modulo: Decimal.EUCLID }) // Result is always positive! See https://mikemcl.github.io/decimal.js/#modulo
-  return new Decimal(a).mod(b).toNumber()
+  return new Decimal(a).mod(b)
 }
 
 export function isNumber (v: any): boolean {
   const x = new Decimal(v)
   return !x.isNaN() && x.isFinite()
+}
+
+export function fmod24 (hours: Hour): Hour {
+  return fmod(hours, 24)
 }
 
 export function fmod360 (degrees: Degree): Degree {
@@ -19,12 +23,12 @@ export function fmod360 (degrees: Degree): Degree {
 export function fmod90 (degrees: Degree): Degree {
   let result = fmod360(degrees)
 
-  if (result > 270) {
-    result = result - 360
-  } else if (result > 180) {
-    result = 180 - result
-  } else if (result > 90) {
-    result = 180 - result
+  if (result.greaterThan(270)) {
+    result = result.minus(360)
+  } else if (result.greaterThan(180)) {
+    result = new Decimal(180).minus(result)
+  } else if (result.greaterThan(90)) {
+    result = new Decimal(180).minus(result)
   }
 
   return result
