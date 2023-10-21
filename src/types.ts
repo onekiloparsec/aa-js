@@ -1,131 +1,133 @@
+import Decimal from 'decimal.js'
+
 /**
  * Angular degree
  */
-export type Degree = number;
+export type Degree = Decimal;
 /**
  * Angular radian
  */
-export type Radian = number;
+export type Radian = Decimal;
 /**
  * Giga-year = 10^9 terrestrial years.
  */
-export type GYr = number;
+export type GYr = Decimal;
 /**
  * Terrestrial year = (365 or 366 Days)
  */
-export type Year = number;
+export type Year = Decimal;
 /**
  * Terrestrial day (= 24 Hours)
  */
-export type Day = number;
+export type Day = Decimal;
 /**
  * Time hour
  */
-export type Hour = number;
+export type Hour = Decimal;
 /**
  * Time second
  */
-export type Minute = number;
+export type Minute = Decimal;
 /**
  * Time minute
  */
-export type Second = number;
+export type Second = Decimal;
 /**
  * Time milisecond
  */
-export type MiliSecond = number;
+export type MiliSecond = Decimal;
 /**
  * Pixel
  */
-export type Pixel = number;
+export type Pixel = Decimal;
 /**
  * Julian day
  * The Julian Day is a continuous count of days and fractions thereof from the beginning of the year -4712.
  * By tradition, the Julian Day begins at Greenwich mean noon, that is, 12h Universal Time.
  */
-export type JulianDay = number;
+export type JulianDay = Decimal;
 /**
  * Julian century (= time interval of 36525 days)
  */
-export type JulianCentury = number;
+export type JulianCentury = Decimal;
 /**
  * Julian millenium (= time interval of 365250 days)
  */
-export type JulianMillenium = number;
-export type ArcMinute = number;
-export type ArcSecond = number;
+export type JulianMillenium = Decimal;
+export type ArcMinute = Decimal;
+export type ArcSecond = Decimal;
 /**
  * Mean radius of Jupiter
  */
-export type JupiterRadius = number
+export type JupiterRadius = Decimal
 /**
  * Mean radius of the Sun
  */
-export type SolarRadius = number
+export type SolarRadius = Decimal
 /**
  * Astronomical unit, that is mean distance between the centers of the Sun and the Earth.
  */
-export type AstronomicalUnit = number
+export type AstronomicalUnit = Decimal
 /**
  * Parsec
  */
-export type Parsec = number
+export type Parsec = Decimal
 /**
  * Kiloparsec. Of course.
  */
-export type KiloParsec = number
+export type KiloParsec = Decimal
 /**
  * Megaparsec.
  */
-export type MegaParsec = number
+export type MegaParsec = Decimal
 /**
  * Gpc^3.
  */
-export type GigaParsec3 = number
+export type GigaParsec3 = Decimal
 /**
  * Logarithmic scale of luminosity
  */
-export type Magnitude = number;
+export type Magnitude = Decimal;
 /**
  * KilometerPerSecondPerMegaParsec (for the Hubble constant)
  */
-export type KilometerPerSecondPerMegaParsec = number;
+export type KilometerPerSecondPerMegaParsec = Decimal;
 /**
  * Albedo
  */
-export type Albedo = number
+export type Albedo = Decimal
 /**
  * Meter
  */
-export type Meter = number;
+export type Meter = Decimal;
 /**
  * Kilometer
  */
-export type Kilometer = number;
+export type Kilometer = Decimal;
 /**
  * Light-Year
  */
-export type LightYear = number;
+export type LightYear = Decimal;
 /**
  * Kilogram
  */
-export type Kilogram = number;
+export type Kilogram = Decimal;
 /**
  * 10^24 kilograms
  */
-export type Kilogram24 = number;
+export type Kilogram24 = Decimal;
 /**
  * g cm^-3
  */
-export type GramPerCubicCentimeter = number;
+export type GramPerCubicCentimeter = Decimal;
 /**
  * m s^-2
  */
-export type MeterPerSquareSecond = number;
+export type MeterPerSquareSecond = Decimal;
 /**
  * km s^-1
  */
-export type KilometerPerSecond = number;
+export type KilometerPerSecond = Decimal;
 
 export type EllipticalGeocentricDetails = {
   apparentLightTime: Day
@@ -184,14 +186,14 @@ export type HorizontalCoordinates = {
 }
 
 export type Coordinates2D = {
-  X: number
-  Y: number
+  X: Decimal
+  Y: Decimal
 }
 
 export type Coordinates3D = {
-  X: number
-  Y: number
-  Z: number
+  X: Decimal
+  Y: Decimal
+  Z: Decimal
 }
 
 export type Point = {
@@ -200,8 +202,8 @@ export type Point = {
 }
 
 export type TransitInternals = {
-  m0: number | undefined
-  cosH0: number | undefined
+  m0: Decimal | undefined
+  cosH0: Decimal | undefined
 }
 
 /**
@@ -289,7 +291,7 @@ export type PlanetConstants = {
   escapeVelocity: KilometerPerSecond
 }
 
-type LengthArray<T, N extends number, R extends T[] = []> = number extends N ? T[] : R['length'] extends N ? R : LengthArray<T, N, [T, ...R]>;
+type LengthArray<T, N extends number, R extends T[] = []> = Decimal extends N ? T[] : R['length'] extends N ? R : LengthArray<T, N, [T, ...R]>;
 
 /**
  * Elements of Planetary Orbits
@@ -297,7 +299,7 @@ type LengthArray<T, N extends number, R extends T[] = []> = number extends N ? T
 export type PlanetOrbitalElements = {
   meanLongitude: LengthArray<Degree, 4>
   semiMajorAxis: AstronomicalUnit
-  eccentricity: LengthArray<number, 4>
+  eccentricity: LengthArray<Decimal, 4>
   inclination: LengthArray<Degree, 4>
   longitudeOfAscendingNode: LengthArray<Degree, 4>
   longitudeOfPerihelion: LengthArray<Degree, 4>
@@ -308,7 +310,7 @@ export type EclipticCoordinatesAtJulianDayFunction = (jd: JulianDay) => Ecliptic
 export type EquatorialCoordinatesAtJulianDayFunction = (jd: JulianDay) => EquatorialCoordinates
 export type JulianDayForJulianDayFunction = (jd: JulianDay) => JulianDay
 
-export type QuantityAtJulianDayFunction = (jd: JulianDay) => number
+export type QuantityAtJulianDayFunction = (jd: JulianDay) => Decimal
 export type QuantityInDegreeAtJulianDayFunction = (jd: JulianDay) => Degree
 export type QuantityInMagnitudeAtJulianDayFunction = (jd: JulianDay) => Magnitude
 export type QuantityInAstronomicalUnitAtJulianDayFunction = (jd: JulianDay) => AstronomicalUnit
