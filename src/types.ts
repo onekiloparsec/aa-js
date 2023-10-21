@@ -186,14 +186,14 @@ export type HorizontalCoordinates = {
 }
 
 export type Coordinates2D = {
-  X: Decimal
-  Y: Decimal
+  X: Decimal | number
+  Y: Decimal | number
 }
 
 export type Coordinates3D = {
-  X: Decimal
-  Y: Decimal
-  Z: Decimal
+  X: Decimal | number
+  Y: Decimal | number
+  Z: Decimal | number
 }
 
 export type Point = {
@@ -202,8 +202,8 @@ export type Point = {
 }
 
 export type TransitInternals = {
-  m0: Decimal | undefined
-  cosH0: Decimal | undefined
+  m0: Decimal | number | undefined
+  cosH0: Decimal | number | undefined
 }
 
 /**
