@@ -4,7 +4,7 @@
 import dayjs from 'dayjs'
 import { DAYMS, DEG2H, J1970, MJD_START } from './constants'
 import { Degree, Hour, JulianCentury, JulianDay, JulianMillenium } from './types'
-import { isNumber } from './utils'
+import { fmod24, fmod360, isNumber } from './utils'
 import Decimal from 'decimal.js'
 
 
@@ -13,8 +13,8 @@ import Decimal from 'decimal.js'
  * @param {JulianDay} jd The julian day
  * @returns {Date}
  */
-export function getDate (jd: JulianDay): Date {
-  return new Date((jd + 0.5 - J1970) * DAYMS)
+export function getDate (jd: JulianDay | number): Date {
+  return new Date(new Decimal(jd).plus(0.5).minus(J1970).mul(DAYMS).toNumber())
 }
 
 /**
@@ -24,28 +24,28 @@ export function getDate (jd: JulianDay): Date {
  */
 export function getJulianDay (...args: any[]): JulianDay | undefined {
   if (args.length === 0) {
-    return new Date().valueOf() / DAYMS - 0.5 + J1970
+    return new Decimal(new Date().valueOf()).dividedBy(DAYMS).minus(0.5).plus(J1970)
   } else if (args.length === 1) {
     const value = args[0]
     if (value instanceof Date) {
-      // @ts-ignore
-      return value.valueOf() / DAYMS - 0.5 + J1970
+      return new Decimal(value.valueOf()).dividedBy(DAYMS).minus(0.5).plus(J1970)
     } else if (value instanceof String) {
-      // @ts-ignore
-      return dayjs(value).toDate().valueOf() / DAYMS - 0.5 + J1970
+      // We use the parsing of dayjs.
+      return new Decimal(dayjs(value as string).toDate().valueOf()).dividedBy(DAYMS).minus(0.5).plus(J1970)
     } else if (isNumber(value)) {
-      const year = Decimal.floor(value).toNumber()
-      const month = Decimal.floor(value - year).toNumber() * 12 // the month is 0-indexed
-      const day = Decimal.floor(((value - year) * 12 - month) * 365).toNumber()
-      const UTCDate = new Date(Date.UTC(year, month, day))
-      return UTCDate.valueOf() / DAYMS - 0.5 + J1970
+      const dvalue = new Decimal(value)
+      const year = dvalue.floor() // integer
+      const month = Decimal.floor(dvalue.minus(year)).mul(12) // the month is 0-indexed // integer
+      const day = Decimal.floor((dvalue.minus(year)).mul(12).minus(month)).mul(365) // float
+      const UTCDate = new Date(Date.UTC(year.toNumber(), month.toNumber(), day.toNumber()))
+      return new Decimal(UTCDate.valueOf()).dividedBy(DAYMS).minus(0.5).plus(J1970)
     }
   } else if (args.length === 2) {
     const UTCDate = new Date(Date.UTC(args[0], args[1], 0))
-    return UTCDate.valueOf() / DAYMS - 0.5 + J1970
+    return new Decimal(UTCDate.valueOf()).dividedBy(DAYMS).minus(0.5).plus(J1970)
   } else if (args.length === 3) {
     const UTCDate = new Date(Date.UTC(args[0], args[1], args[2]))
-    return UTCDate.valueOf() / DAYMS - 0.5 + J1970
+    return new Decimal(UTCDate.valueOf()).dividedBy(DAYMS).minus(0.5).plus(J1970)
   }
 }
 
@@ -56,18 +56,16 @@ export function getJulianDay (...args: any[]): JulianDay | undefined {
  * @param {Degree} lng The longitude
  * @return {Hour}
  */
-export function getLocalSiderealTime (jd: JulianDay, lng: Degree): Hour {
-  const T = new Decimal(getJulianCentury(jd))
+export function getLocalSiderealTime (jd: JulianDay | number, lng: Degree | number): Hour {
+  const T = getJulianCentury(jd)
 
   // Greenwich SiderealTime in degrees! Equ. 12.4 of AA, p. 88
   const gmst: Decimal = new Decimal(280.46061837)
-    .plus(new Decimal(360.98564736629).mul(jd - 2451545))
+    .plus(new Decimal(360.98564736629).mul(new Decimal(jd).minus(2451545)))
     .plus(new Decimal(0.000387933).mul(T.pow(2)))
     .minus(T.pow(3).dividedBy(38710000))
-    .modulo(360)
 
-  Decimal.set({ modulo: Decimal.EUCLID })
-  return gmst.plus(lng).mul(DEG2H).modulo(24).toNumber()
+  return fmod24(fmod360(gmst).plus(lng).mul(DEG2H))
 }
 
 /**
@@ -75,8 +73,8 @@ export function getLocalSiderealTime (jd: JulianDay, lng: Degree): Hour {
  * @param {JulianDay} jd The julian day
  * @return {number} The modified Julian Day
  */
-export function getModifiedJulianDay (jd: JulianDay): number {
-  return new Decimal(jd).minus(MJD_START).toNumber()
+export function getModifiedJulianDay (jd: JulianDay | number): JulianDay {
+  return new Decimal(jd).minus(MJD_START)
 }
 
 /**
@@ -84,8 +82,8 @@ export function getModifiedJulianDay (jd: JulianDay): number {
  * @param {JulianDay} jd The initial julian day
  * @returns {JulianDay}
  */
-export function getJulianDayMidnight (jd: JulianDay): JulianDay {
-  return Decimal.floor(jd - 0.5).plus(0.5).toNumber()
+export function getJulianDayMidnight (jd: JulianDay | number): JulianDay {
+  return Decimal.floor(new Decimal(jd).minus(0.5)).plus(0.5)
 }
 
 /**
@@ -93,9 +91,9 @@ export function getJulianDayMidnight (jd: JulianDay): JulianDay {
  * @param {JulianDay} jd The initial julian day
  * @returns {JulianCentury}
  */
-export function getJulianCentury (jd: JulianDay): JulianCentury {
+export function getJulianCentury (jd: JulianDay | number): JulianCentury {
   // AA, Equ 12.1.
-  return new Decimal(jd).minus(2451545).dividedBy(36525).toNumber()
+  return new Decimal(jd).minus(2451545).dividedBy(36525)
 }
 
 /**
@@ -103,6 +101,6 @@ export function getJulianCentury (jd: JulianDay): JulianCentury {
  * @param {JulianDay} jd The initial julian day
  * @returns {JulianMillenium}
  */
-export function getJulianMillenium (jd: JulianDay): JulianMillenium {
-  return new Decimal(jd).minus(2451545).dividedBy(365250).toNumber() // julian day millennia, not centuries!
+export function getJulianMillenium (jd: JulianDay | number): JulianMillenium {
+  return new Decimal(jd).minus(2451545).dividedBy(365250) // julian day millennia, not centuries!
 }
