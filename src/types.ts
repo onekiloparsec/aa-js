@@ -156,6 +156,15 @@ export type TopocentricCoordinates = {
 }
 
 /**
+ * Geographic coordinates.
+ */
+export type GeographicCoordinates = {
+  longitude: Degree | number
+  latitude: Degree | number
+  height: Meter | number
+}
+
+/**
  * Coordinates in the Ecliptic (a.k.a. Celestial) system, that is the system
  * formed by projecting the plane of Earth's orbit (the ecliptic)
  * onto the spherical sky.
@@ -194,6 +203,12 @@ export type Coordinates3D = {
   X: Decimal | number
   Y: Decimal | number
   Z: Decimal | number
+}
+
+export type Sexagesimal = {
+  radix: Decimal,
+  minutes: Decimal,
+  seconds: Decimal
 }
 
 export type Point = {
@@ -305,17 +320,17 @@ export type PlanetOrbitalElements = {
   longitudeOfPerihelion: LengthArray<Degree, 4>
 }
 
-export type SingleCoordinateDegreeAtJulianDayFunction = (jd: JulianDay) => Degree
-export type EclipticCoordinatesAtJulianDayFunction = (jd: JulianDay) => EclipticCoordinates
-export type EquatorialCoordinatesAtJulianDayFunction = (jd: JulianDay) => EquatorialCoordinates
-export type JulianDayForJulianDayFunction = (jd: JulianDay) => JulianDay
+export type SingleCoordinateDegreeAtJulianDayFunction = (jd: JulianDay | number) => Degree
+export type EclipticCoordinatesAtJulianDayFunction = (jd: JulianDay | number) => EclipticCoordinates
+export type EquatorialCoordinatesAtJulianDayFunction = (jd: JulianDay | number) => EquatorialCoordinates
+export type JulianDayForJulianDayFunction = (jd: JulianDay | number) => JulianDay
 
-export type QuantityAtJulianDayFunction = (jd: JulianDay) => Decimal
-export type QuantityInDegreeAtJulianDayFunction = (jd: JulianDay) => Degree
-export type QuantityInMagnitudeAtJulianDayFunction = (jd: JulianDay) => Magnitude
-export type QuantityInAstronomicalUnitAtJulianDayFunction = (jd: JulianDay) => AstronomicalUnit
-export type QuantityInKilometerPerSecondAtJulianDayFunction = (jd: JulianDay) => KilometerPerSecond
-export type QuantityInArcSecondAtJulianDayFunction = (jd: JulianDay) => ArcSecond
+export type QuantityAtJulianDayFunction = (jd: JulianDay | number) => Decimal
+export type QuantityInDegreeAtJulianDayFunction = (jd: JulianDay | number) => Degree
+export type QuantityInMagnitudeAtJulianDayFunction = (jd: JulianDay | number) => Magnitude
+export type QuantityInAstronomicalUnitAtJulianDayFunction = (jd: JulianDay | number) => AstronomicalUnit
+export type QuantityInKilometerPerSecondAtJulianDayFunction = (jd: JulianDay | number) => KilometerPerSecond
+export type QuantityInArcSecondAtJulianDayFunction = (jd: JulianDay | number) => ArcSecond
 
 export class Planet {
   // Heliocentric coordinates
