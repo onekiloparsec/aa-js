@@ -17,16 +17,16 @@ export function fmod360 (degrees: Degree): Degree {
   return fmod(degrees, 360)
 }
 
-export function MapToMinus90To90Range (degrees: Degree): Degree {
-  let fResult = fmod360(degrees)
+export function fmod90 (degrees: Degree): Degree {
+  let result = fmod360(degrees)
 
-  if (fResult > 270) {
-    fResult = fResult - 360
-  } else if (fResult > 180) {
-    fResult = 180 - fResult
-  } else if (fResult > 90) {
-    fResult = 180 - fResult
+  if (result > 270) {
+    result = result - 360
+  } else if (result > 180) {
+    result = 180 - result
+  } else if (result > 90) {
+    result = 180 - result
   }
 
-  return fResult
+  return result
 }
