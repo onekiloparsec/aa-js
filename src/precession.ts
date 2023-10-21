@@ -1,6 +1,7 @@
 /**
  @module Precession
-*/
+ */
+import Decimal from 'decimal.js'
 import { Degree, EquatorialCoordinates, Hour, JulianDay } from './types'
 import { DEG2RAD, H2DEG, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from './constants'
 
@@ -13,38 +14,48 @@ import { DEG2RAD, H2DEG, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from './constants'
  * @param {JulianDay} finalEpoch The initial epoch
  * @returns {EquatorialCoordinates} The precessed coordinates
  */
-export function precessEquatorialCoordinates (ra0: Hour, dec0: Degree, initialEpoch: JulianDay, finalEpoch: JulianDay): EquatorialCoordinates {
-  const JD0 = initialEpoch
-  const JD = finalEpoch
-  const T = (JD0 - J2000) / 36525
-  const t = (JD - JD0) / 36525
-  const T2 = T * T
-  const t2 = t * t
-  const t3 = t * t * t
+export function precessEquatorialCoordinates (ra0: Hour | number, dec0: Degree | number, initialEpoch: JulianDay | number, finalEpoch: JulianDay | number): EquatorialCoordinates {
+  const JD0 = new Decimal(initialEpoch)
+  const JD = new Decimal(finalEpoch)
+  const T = JD0.minus(J2000).dividedBy(36525)
+  const t = JD.minus(JD0).dividedBy(36525)
+  const T2 = T.pow(2)
+  const t2 = t.pow(2)
+  const t3 = t.pow(3)
 
   // xhi, z and theta are expressed in ArcSecond.
-  const xhi = (2306.2181 + 1.39656 * T - 0.000139 * T2) * t + (0.30188 - 0.000344 * T) * t2 + 0.017998 * t3
-  const z = (2306.2181 + 1.39656 * T - 0.000139 * T2) * t + (1.09468 + 0.000066 * T) * t2 + 0.018203 * t3
-  const theta = (2004.3109 - 0.85339 * T - 0.000217 * T2) * t - (0.42665 + 0.000217 * T) * t2 - 0.041833 * t3
 
-  const cosDec0 = Math.cos(dec0 * DEG2RAD)
-  const sinDec0 = Math.sin(dec0 * DEG2RAD)
-  const cosTheta = Math.cos(theta / 3600 * DEG2RAD)
-  const sinTheta = Math.sin(theta / 3600 * DEG2RAD)
-  const cosRA0xhi = Math.cos((ra0 * H2DEG + xhi / 3600) * DEG2RAD)
-  const sinRA0xhi = Math.sin((ra0 * H2DEG + xhi / 3600) * DEG2RAD)
+  const xhi = (new Decimal(2306.2181).plus(new Decimal(1.39656).mul(T)).minus(new Decimal(0.000139).mul(T2))).mul(t)
+    .plus((new Decimal(0.30188).minus(new Decimal(0.000344).mul(T))).mul(t2))
+    .plus(new Decimal(0.017998).mul(t3))
 
-  const A = cosDec0 * sinRA0xhi
-  const B = cosTheta * cosDec0 * cosRA0xhi - sinTheta * sinDec0
-  const C = sinTheta * cosDec0 * cosRA0xhi + cosTheta * sinDec0
+  const z = (new Decimal(2306.2181).plus(new Decimal(1.39656).mul(T)).minus(new Decimal(0.000139).mul(T2))).mul(t)
+    .plus((new Decimal(0.30188).minus(new Decimal(0.000344).mul(T))).mul(t2))
+    .plus(new Decimal(0.018203).mul(t3))
 
-  const ra = Math.atan2(A, B) * RAD2DEG + z / 3600
-  const dec = Math.asin(C) * RAD2DEG
+  const theta = (new Decimal(2004.3109).minus(new Decimal(0.85339).mul(T)).minus(new Decimal(0.000217).mul(T2))).mul(t)
+    .minus((new Decimal(0.42665).plus(new Decimal(0.000217).mul(T))).mul(t2))
+    .minus(new Decimal(0.041833).mul(t3))
+
+  const cosDec0 = new Decimal(dec0).mul(DEG2RAD).cos()
+  const sinDec0 = new Decimal(dec0).mul(DEG2RAD).sin()
+  const cosTheta = theta.dividedBy(3600).mul(DEG2RAD).cos()
+  const sinTheta = theta.dividedBy(3600).mul(DEG2RAD).sin()
+  const degRa = new Decimal(ra0).mul(H2DEG)
+  const cosRA0xhi = (degRa.plus(xhi.dividedBy(3600))).mul(DEG2RAD).cos()
+  const sinRA0xhi = (degRa.plus(xhi.dividedBy(3600))).mul(DEG2RAD).sin()
+
+  const A = cosDec0.mul(sinRA0xhi)
+  const B = cosTheta.mul(cosDec0).mul(cosRA0xhi).minus(sinTheta.mul(sinDec0))
+  const C = sinTheta.mul(cosDec0).mul(cosRA0xhi).plus(cosTheta.mul(sinDec0))
+
+  const ra = Decimal.atan2(A, B).mul(RAD2DEG).plus(z.dividedBy(3600))
+  const dec = Decimal.asin(C).mul(RAD2DEG)
 
   return {
     rightAscension: ra,
     declination: dec,
-    epoch: finalEpoch
+    epoch: new Decimal(finalEpoch)
   }
 }
 
@@ -54,7 +65,7 @@ export function precessEquatorialCoordinates (ra0: Hour, dec0: Degree, initialEp
  * @param {Degree} dec0 The initial declination
  * @returns {EquatorialCoordinates} The precessed coordinates
  */
-export function precessEquatorialCoordinatesFromJ2000ToB1950 (ra0: Hour, dec0: Degree): EquatorialCoordinates {
+export function precessEquatorialCoordinatesFromJ2000ToB1950 (ra0: Hour | number, dec0: Degree | number): EquatorialCoordinates {
   return precessEquatorialCoordinates(ra0, dec0, J2000, JULIAN_DAY_B1950_0)
 }
 
@@ -64,6 +75,6 @@ export function precessEquatorialCoordinatesFromJ2000ToB1950 (ra0: Hour, dec0: D
  * @param {Degree} dec0 The initial declination
  * @returns {EquatorialCoordinates} The precessed coordinates
  */
-export function precessEquatorialCoordinatesFromB1950ToJ1000 (ra0: Hour, dec0: Degree): EquatorialCoordinates {
+export function precessEquatorialCoordinatesFromB1950ToJ1000 (ra0: Hour | number, dec0: Degree | number): EquatorialCoordinates {
   return precessEquatorialCoordinates(ra0, dec0, JULIAN_DAY_B1950_0, J2000)
 }
