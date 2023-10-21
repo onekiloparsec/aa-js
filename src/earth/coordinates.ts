@@ -1,5 +1,5 @@
 import { AstronomicalUnit, Degree, EclipticCoordinates, JulianDay, Meter, Radian } from '@/types'
-import { fmod360, MapToMinus90To90Range } from '@/utils'
+import { fmod360, fmod90 } from '@/utils'
 import { getJulianCentury, getJulianMillenium } from '@/juliandays'
 import { getMeanAnomaly as getSunMeanAnomaly } from '@/sun'
 import { DEG2RAD, EARTH_EQUATORIAL_RADIUS, EARTH_RADIUS_FLATTENING_FACTOR, RAD2DEG } from '@/constants'
@@ -68,7 +68,7 @@ export function getEclipticLatitude (jd: JulianDay): Degree {
 
   const value = (B0 + B1 * tau) / 100000000
 
-  return MapToMinus90To90Range(value * RAD2DEG)
+  return fmod90(value * RAD2DEG)
 }
 
 /**
@@ -147,7 +147,7 @@ export function getEclipticLatitudeJ2000 (jd: JulianDay): Degree {
 
   const value = (B0 + B1 * tau + B2 * tau2 + B3 * tau3 + B4 * tau4) / 100000000
 
-  return MapToMinus90To90Range(value * RAD2DEG)
+  return fmod90(value * RAD2DEG)
 }
 
 /**
