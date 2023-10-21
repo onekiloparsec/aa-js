@@ -306,14 +306,14 @@ export type PlanetConstants = {
   escapeVelocity: KilometerPerSecond
 }
 
-type LengthArray<T, N extends number, R extends T[] = []> = Decimal extends N ? T[] : R['length'] extends N ? R : LengthArray<T, N, [T, ...R]>;
+export type LengthArray<T, N extends number, R extends T[] = []> = Decimal extends N ? T[] : R['length'] extends N ? R : LengthArray<T, N, [T, ...R]>;
 
 /**
  * Elements of Planetary Orbits
  */
 export type PlanetOrbitalElements = {
-  meanLongitude: LengthArray<Degree, 4>
   semiMajorAxis: AstronomicalUnit
+  meanLongitude: LengthArray<Degree, 4>
   eccentricity: LengthArray<Decimal, 4>
   inclination: LengthArray<Degree, 4>
   longitudeOfAscendingNode: LengthArray<Degree, 4>
