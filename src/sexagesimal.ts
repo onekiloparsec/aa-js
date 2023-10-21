@@ -1,29 +1,19 @@
-export function getDecimal(d: number, m: number, s: number, positive: boolean = true): number {
-  // if (!positive) {
-  //   assert(Degrees >= 0)  // All parameters should be non negative if the "bPositive" parameter is false
-  //   assert(Minutes >= 0)
-  //   assert(Seconds >= 0)
-  // }
+import Decimal from 'decimal.js'
+import { Sexagesimal } from '@/types'
 
-  if (positive) {
-    return d + m / 60 + s / 3600
-  } else {
-    return -1 * d - m / 60 - s / 3600
-  }
+export function getDecimalValue (d: Decimal | number, m: Decimal | number, s: Decimal | number): Decimal {
+  const positive = new Decimal(d).isPositive()
+  const value = Decimal.abs(d).plus(Decimal.abs(m).dividedBy(60)).plus(Decimal.abs(s).dividedBy(3600))
+  return positive ? value : new Decimal(-1).mul(value)
 }
 
-export interface Sexagesimal {
-  radix: number,
-  minutes: number,
-  seconds: number
-}
 
-export function getSexagesimal(decimal: number): Sexagesimal {
-  const degrees = Math.floor(decimal)
-  const fractionDegrees = decimal - degrees
-  const fractionMinutes = fractionDegrees * 60
-  const minutes = Math.floor(fractionMinutes)
-  const seconds = (fractionMinutes - minutes) * 60
+export function getSexagesimalValue (decimalValue: Decimal | number): Sexagesimal {
+  const degrees = Decimal.floor(decimalValue)
+  const fractionDegrees = new Decimal(decimalValue).minus(degrees)
+  const fractionMinutes = fractionDegrees.mul(60)
+  const minutes = Decimal.floor(fractionMinutes)
+  const seconds = fractionMinutes.minus(minutes).mul(60)
 
   return {
     radix: degrees,
