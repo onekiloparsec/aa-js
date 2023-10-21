@@ -49,7 +49,8 @@
   },
   "homepage": "https://github.com/onekiloparsec/aa-js#readme",
   "dependencies": {
-    "dayjs": "^1.11.6"
+    "dayjs": "^1.11.6",
+    "decimal.js": "^10.4.3"
   },
   "devDependencies": {
     "@types/eslint": "^7.29.0",

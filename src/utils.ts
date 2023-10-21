@@ -1,8 +1,10 @@
 import { Degree } from './types'
+import Decimal from 'decimal.js'
 
-// https://gist.github.com/wteuber/6241786
 export function fmod (a: number, b: number): number {
-  return Number((a - (Math.floor(a / b) * b)).toPrecision(20))
+  const x = new Decimal(a)
+  Decimal.set({ modulo: 9 })
+  return x.mod(b).toNumber()
 }
 
 export function isNumber (v: any): boolean {
