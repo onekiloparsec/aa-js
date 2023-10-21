@@ -1,17 +1,27 @@
-import { Degree, JulianDay } from './types'
-import { DEG2RAD } from './constants'
-import { getDecimal } from './sexagesimal'
+import Decimal from 'decimal.js'
+import { Degree, JulianCentury, JulianDay, Radian } from '@/types'
+import { DEG2RAD } from '@/constants'
+import { getJulianCentury } from '@/juliandays'
 
-export function getCorrectionInLongitude (jd: JulianDay, lng: Degree, lat: Degree): number {
-  const T = (jd - 2451545) / 36525
-  let Ldash = (lng - 1.397 * T - 0.00031 * T * T)
-  const value = -0.09033 + 0.03916 * (Math.cos(Ldash * DEG2RAD) + Math.sin(Ldash * DEG2RAD)) * Math.tan(lat * DEG2RAD)
-  return getDecimal(0, 0, value)
+export function getCorrectionInLongitude (jd: JulianDay | number, lng: Degree | number, lat: Degree | number): Degree {
+  const T = getJulianCentury(jd)
+  let Ldash: Radian = new Decimal(lng)
+    .minus(new Decimal(1.397).mul(T))
+    .minus(new Decimal(0.00031).mul(T.pow(2)))
+    .mul(DEG2RAD)
+  const value = new Decimal(-0.09033)
+    .plus(new Decimal(0.03916)
+      .mul(Ldash.cos().plus(Ldash.sin()))
+      .mul(new Decimal(lat).mul(DEG2RAD).tan()))
+  return value.dividedBy(3600)
 }
 
-export function getCorrectionInLatitude (jd: JulianDay, lng: Degree): number {
-  const T = (jd - 2451545) / 36525
-  let Ldash = lng - 1.397 * T - 0.00031 * T * T
-  const value = 0.03916 * (Math.cos(Ldash * DEG2RAD) - Math.sin(Ldash * DEG2RAD))
-  return getDecimal(0, 0, value)
+export function getCorrectionInLatitude (jd: JulianDay | number, lng: Degree | number): Degree {
+  const T: JulianCentury = getJulianCentury(jd)
+  let Ldash: Radian = new Decimal(lng)
+    .minus(new Decimal(1.397).mul(T))
+    .minus(new Decimal(0.00031).mul(T.pow(2)))
+    .mul(DEG2RAD)
+  const value = new Decimal(0.03916).mul(Ldash.cos().minus(Ldash.sin()))
+  return value.dividedBy(3600)
 }

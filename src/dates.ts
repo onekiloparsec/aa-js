@@ -1,29 +1,35 @@
-import { JulianDay } from './types'
-import { getDate } from './juliandays'
+import Decimal from 'decimal.js'
+import { JulianDay } from '@/types'
+import { getDate } from '@/juliandays'
 
 export function isDateAfterPapalReform (year: number, Month: number, Day: number): boolean {
   return ((year > 1582) || ((year === 1582) && (Month > 10)) || ((year === 1582) && (Month === 10) && (Day >= 15)))
 }
 
-export function isJulianDayAfterPapalReform (jd: JulianDay): boolean {
-  return (jd >= 2299160.5)
+export function isJulianDayAfterPapalReform (jd: JulianDay | number): boolean {
+  return new Decimal(jd).greaterThanOrEqualTo(2299160.5)
 }
 
-export function getFullScaleJulianDay (year: number, Month: number, Day: number, isGregorianCalendar: boolean = true): number {
-  let Y = year
-  let M = Month
-  if (M < 3) {
-    Y = Y - 1
-    M = M + 12
+export function getFullScaleJulianDay (Year: Decimal | number, Month: Decimal | number, Day: Decimal | number, isGregorianCalendar: boolean = true): JulianDay {
+  let Y = new Decimal(Year)
+  let M = new Decimal(Month)
+  let D = new Decimal(Day)
+  if (M.lessThan(3)) {
+    Y = Y.minus(1)
+    M = M.plus(12)
   }
 
-  let B = 0
+  let B = new Decimal(0)
   if (isGregorianCalendar) {
-    const A = Math.floor(Y / 100.0)
-    B = 2 - A + Math.floor(A / 4.0)
+    const A = Decimal.floor(Y.dividedBy(100.0))
+    B = new Decimal(2).minus(A).plus(Decimal.floor(A.dividedBy(4.0)))
   }
 
-  return Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1)) + Day + B - 1524.5
+  return Decimal.floor(new Decimal(365.25).mul(Y.plus(4716)))
+    .plus(Decimal.floor(new Decimal(30.6001).mul(M.plus(1))))
+    .plus(D)
+    .plus(B)
+    .minus(1524.5)
 }
 
 export function isLeapYear (year: number, isGregorianCalendar: boolean = true): boolean {
@@ -38,9 +44,9 @@ export function isLeapYear (year: number, isGregorianCalendar: boolean = true): 
   }
 }
 
-export function getFractionalYear (jd: number, isGregorianCalendar: boolean = true): number {
+export function getFractionalYear (jd: JulianDay | number, isGregorianCalendar: boolean = true): Decimal {
   const year = getDate(jd).getFullYear()
   const daysInYear = (isLeapYear(year, isGregorianCalendar)) ? 366 : 365
-  return year + ((jd - getFullScaleJulianDay(year, 1, 1)) / daysInYear)
+  return new Decimal(year).plus(new Decimal(jd).minus(getFullScaleJulianDay(year, 1, 1))).dividedBy(daysInYear)
 }
 
