@@ -48,6 +48,10 @@ export type JulianDay = number;
  * Julian century (= time interval of 36525 days)
  */
 export type JulianCentury = number;
+/**
+ * Julian millenium (= time interval of 365250 days)
+ */
+export type JulianMillenium = number;
 export type ArcMinute = number;
 export type ArcSecond = number;
 /**

@@ -3,7 +3,7 @@
  */
 import dayjs from 'dayjs'
 import { DAYMS, DEG2H, J1970, MJD_START } from './constants'
-import { Degree, Hour, JulianDay } from './types'
+import { Degree, Hour, JulianCentury, JulianDay, JulianMillenium } from './types'
 import { isNumber } from './utils'
 import Decimal from 'decimal.js'
 
@@ -76,7 +76,7 @@ export function getLocalSiderealTime (jd: JulianDay, lng: Degree): Hour {
  * @return {number} The modified Julian Day
  */
 export function getModifiedJulianDay (jd: JulianDay): number {
-  return jd - MJD_START
+  return new Decimal(jd).minus(MJD_START).toNumber()
 }
 
 /**
@@ -88,13 +88,21 @@ export function getJulianDayMidnight (jd: JulianDay): JulianDay {
   return Decimal.floor(jd - 0.5).plus(0.5).toNumber()
 }
 
-export function getJulianCentury (jd: JulianDay) {
-  const djd = new Decimal(jd)
+/**
+ * The Julian Century (time interval of 36525 days)
+ * @param {JulianDay} jd The initial julian day
+ * @returns {JulianCentury}
+ */
+export function getJulianCentury (jd: JulianDay): JulianCentury {
   // AA, Equ 12.1.
-  return djd.minus(2451545).dividedBy(36525).toNumber()
+  return new Decimal(jd).minus(2451545).dividedBy(36525).toNumber()
 }
 
-export function getJulianMillenium (jd: JulianDay) {
-  const djd = new Decimal(jd)
-  return djd.minus(2451545).dividedBy(365250).toNumber() // julian day millennia, not centuries!
+/**
+ * The Julian Millenium (time interval of 365250 days)
+ * @param {JulianDay} jd The initial julian day
+ * @returns {JulianMillenium}
+ */
+export function getJulianMillenium (jd: JulianDay): JulianMillenium {
+  return new Decimal(jd).minus(2451545).dividedBy(365250).toNumber() // julian day millennia, not centuries!
 }
