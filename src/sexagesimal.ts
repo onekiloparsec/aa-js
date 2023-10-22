@@ -4,7 +4,7 @@ import { Sexagesimal } from '@/types'
 export function getDecimalValue (d: Decimal | number, m: Decimal | number, s: Decimal | number): Decimal {
   const positive = new Decimal(d).isPositive()
   const value = Decimal.abs(d).plus(Decimal.abs(m).dividedBy(60)).plus(Decimal.abs(s).dividedBy(3600))
-  return positive ? value : new Decimal(-1).mul(value)
+  return positive ? value : new Decimal(-1).mul(Decimal.abs(value))
 }
 
 

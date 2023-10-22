@@ -195,14 +195,14 @@ export type HorizontalCoordinates = {
 }
 
 export type Coordinates2D = {
-  X: Decimal | number
-  Y: Decimal | number
+  X: Decimal
+  Y: Decimal
 }
 
 export type Coordinates3D = {
-  X: Decimal | number
-  Y: Decimal | number
-  Z: Decimal | number
+  X: Decimal
+  Y: Decimal
+  Z: Decimal
 }
 
 export type Sexagesimal = {
