@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js'
 import { Degree, JulianDay, Magnitude } from '@/types'
-import { DEG2RAD, RAD2DEG } from '@/constants'
+import { DEG2RAD, ONE, RAD2DEG, TWO } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
 import { getRadiusVector } from './coordinates'
@@ -18,7 +18,7 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
   return fmod360(
     (
       Decimal.acos(r.pow(2).plus(Delta.pow(2)).minus(R.pow(2))
-        .dividedBy(new Decimal(2).mul(r).mul(Delta)))
+        .dividedBy(TWO.mul(r).mul(Delta)))
     ).mul(RAD2DEG)
   )
 }
@@ -30,7 +30,7 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
  */
 export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
   const i = getPhaseAngle(jd).mul(DEG2RAD)
-  return (new Decimal(1).plus(Decimal.cos(i))).dividedBy(2)
+  return (ONE.plus(Decimal.cos(i))).dividedBy(2)
 }
 
 /**

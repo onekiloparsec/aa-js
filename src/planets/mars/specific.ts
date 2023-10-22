@@ -63,7 +63,7 @@ function computeMarsDetails (jd: JulianDay | number) {
  * When it is positive, the planet' northern pole is tilted towards the Earth.
  * @param jd
  */
-export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay) {
+export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay | number) {
   const { Lambda0, Beta0, lambda, beta } = computeMarsDetails(jd)
 
   const value1 = MINUSONE.mul(Beta0.mul(DEG2RAD).sin())
@@ -82,7 +82,7 @@ export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay) {
  * When it is positive, the planet' northern pole is tilted towards the sun.
  * @param jd
  */
-export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay): Degree {
+export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay | number): Degree {
   const { T, Lambda0, Beta0, l, b, r } = computeMarsDetails(jd)
 
   // Step 7

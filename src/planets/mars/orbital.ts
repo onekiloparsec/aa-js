@@ -4,7 +4,8 @@ import {
   getPlanetInclination,
   getPlanetLongitudeOfAscendingNode,
   getPlanetLongitudeOfPerihelion,
-  getPlanetMeanLongitude
+  getPlanetMeanLongitude,
+  getPlanetSemiMajorAxis
 } from '../orbital'
 import { orbitalElements, orbitalElementsJ2000 } from './constants'
 import Decimal from 'decimal.js'
@@ -18,6 +19,17 @@ import Decimal from 'decimal.js'
 export function getMeanLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   const elements = (equinox === Equinox.MeanOfTheDate) ? orbitalElements : orbitalElementsJ2000
   return getPlanetMeanLongitude(jd, elements)
+}
+
+/**
+ * Computes the orbit semi major axis at a given time.
+ * @param  {JulianDay} jd The julian day
+ * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
+ * @returns {Degree} The semi major axis
+ */
+export function getSemiMajorAxis (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
+  const elements = (equinox === Equinox.MeanOfTheDate) ? orbitalElements : orbitalElementsJ2000
+  return getPlanetSemiMajorAxis(jd, elements)
 }
 
 /**

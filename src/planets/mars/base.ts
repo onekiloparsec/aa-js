@@ -13,7 +13,7 @@ function getK (jd: JulianDay | number): Decimal {
  * @param {JulianDay} jd The julian day
  * @returns {JulianDay}
  */
-export function getAphelion (jd: JulianDay): JulianDay {
+export function getAphelion (jd: JulianDay| number): JulianDay {
   const kdash = getK(jd).plus(0.5)
   return new Decimal(2452195.026)
     .plus(new Decimal(686.9957857).mul(kdash))
@@ -25,7 +25,7 @@ export function getAphelion (jd: JulianDay): JulianDay {
  * @param {JulianDay} jd The julian day
  * @returns {JulianDay}
  */
-export function getPerihelion (jd: JulianDay): JulianDay {
+export function getPerihelion (jd: JulianDay| number): JulianDay {
   const k = getK(jd)
   return new Decimal(2452195.026)
     .plus(new Decimal(686.9957857).mul(k))
