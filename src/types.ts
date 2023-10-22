@@ -443,6 +443,10 @@ export class EarthPlanet {
   getEclipticLongitudeJ2000: SingleCoordinateDegreeAtJulianDayFunction
   getEclipticLatitudeJ2000: SingleCoordinateDegreeAtJulianDayFunction
   getEccentricity: QuantityAtJulianDayFunction
+  getNutationInLongitude: QuantityInArcSecondAtJulianDayFunction
+  getNutationInObliquity: QuantityInArcSecondAtJulianDayFunction
+  getMeanObliquityOfEcliptic: QuantityInDegreeAtJulianDayFunction
+  getTrueObliquityOfEcliptic: QuantityInDegreeAtJulianDayFunction
   Moon: NaturalMoon
 }
 
