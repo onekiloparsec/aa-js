@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js'
+
 export const gDeltaTValues =
   [
 // All the initial values are observed values from 1 February 1973 to 1 June 2017 as taken from http:// maia.usno.navy.mil/ser7/deltat.data
@@ -550,7 +552,10 @@ export const gDeltaTValues =
   { JD: 2459763.0, DeltaT: 71 }, // 2022.5
   { JD: 2461041.5, DeltaT: 72 } // 2026.0
 // Note as currently coded there is a single discontinuity of c. 2.074 seconds on 1 January 2026. At this point http:// maia.usno.navy.mil/ser7/deltat.preds indicates an error value for DeltaT of about 5 seconds anyway.
-  ]
+].map((a) => {
+  return { JD: new Decimal(a.JD), DeltaT: new Decimal(a.DeltaT) }
+})
+
 
 export const gLeapSecondCoefficients = //  Cumulative leap second values from 1 Jan 1961 to 1 January 2017 as taken from http:// maia.usno.navy.mil/ser7/tai-utc.dat
   [
@@ -595,4 +600,11 @@ export const gLeapSecondCoefficients = //  Cumulative leap second values from 1 
     { JD: 2456109.5, LeapSeconds: 35.0, BaseMJD: 41317, Coefficient: 0.0 },
     { JD: 2457204.5, LeapSeconds: 36.0, BaseMJD: 41317, Coefficient: 0.0 },
     { JD: 2457754.5, LeapSeconds: 37.0, BaseMJD: 41317, Coefficient: 0.0 }
-  ]
+  ].map((a) => {
+    return {
+      JD: new Decimal(a.JD),
+      LeapSeconds: new Decimal(a.LeapSeconds),
+      BaseMJD: new Decimal(a.BaseMJD),
+      Coefficient: new Decimal(a.Coefficient)
+    }
+  })
