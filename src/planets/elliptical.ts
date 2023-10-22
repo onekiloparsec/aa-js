@@ -9,7 +9,7 @@ import {
   QuantityInAstronomicalUnitAtJulianDayFunction,
   SingleCoordinateDegreeAtJulianDayFunction
 } from '@/types'
-import { getNutationInLongitude } from '@/nutation'
+import { getNutationInLongitude } from '@/earth/nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from '@/fk5'
 import { getEclipticAberration } from '@/aberration'
 import { getLightTimeFromDistance } from '@/distances'
