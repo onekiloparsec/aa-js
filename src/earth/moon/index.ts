@@ -14,7 +14,7 @@ import {
   horizontalParallax,
   horizontalParallaxToRadiusVector,
   radiusVectorToHorizontalParallax,
-  trueLongitudeAscendingNode
+  trueLongitudeOfAscendingNode
 } from './coordinates'
 
 import { getEquatorialHorizontalParallax, getIlluminatedFraction, getPhaseAngle } from './details'
@@ -33,7 +33,7 @@ export const Moon: NaturalMoon = {
   horizontalParallaxToRadiusVector,
   getMeanLongitudeAscendingNode,
   getMeanLongitudePerigee,
-  trueLongitudeAscendingNode,
+  trueLongitudeOfAscendingNode,
   horizontalParallax,
   getEquatorialCoordinates,
   getApparentEquatorialCoordinates,

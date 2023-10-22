@@ -424,7 +424,7 @@ export class NaturalMoon {
   horizontalParallaxToRadiusVector: Function
   getMeanLongitudeAscendingNode: QuantityInDegreeAtJulianDayFunction
   getMeanLongitudePerigee: QuantityInDegreeAtJulianDayFunction
-  trueLongitudeAscendingNode: QuantityInDegreeAtJulianDayFunction
+  trueLongitudeOfAscendingNode: QuantityInDegreeAtJulianDayFunction
   horizontalParallax: QuantityInDegreeAtJulianDayFunction
   getEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
   getApparentEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
