@@ -1,8 +1,9 @@
+import Decimal from 'decimal.js'
 import { AstronomicalUnit, Degree, EclipticCoordinates, JulianDay, Meter, Radian } from '@/types'
-import { fmod360, fmod90 } from '@/utils'
-import { getJulianCentury, getJulianMillenium } from '@/juliandays'
-import { getMeanAnomaly as getSunMeanAnomaly } from '@/sun'
 import { DEG2RAD, EARTH_EQUATORIAL_RADIUS, EARTH_RADIUS_FLATTENING_FACTOR, RAD2DEG } from '@/constants'
+import { getJulianCentury, getJulianMillenium } from '@/juliandays'
+import { fmod360, fmod90 } from '@/utils'
+import { Sun } from '@/sun'
 import {
   gB0EarthCoefficients,
   gB1EarthCoefficients,
@@ -33,25 +34,26 @@ import {
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
  */
-export function getEclipticLongitude (jd: JulianDay): Degree {
+export function getEclipticLongitude (jd: JulianDay | number): Degree {
   const tau = getJulianMillenium(jd)
-  const tau2 = tau * tau
-  const tau3 = tau2 * tau
-  const tau4 = tau3 * tau
-  const tau5 = tau4 * tau
 
   // AA p.218: Values A are expressed in 10^-8 radians, while B and C values are in radians.
+  const L0 = gL0EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const L1 = gL1EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const L2 = gL2EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const L3 = gL3EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const L4 = gL4EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const L5 = gL5EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
 
-  const L0 = gL0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L1 = gL1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L2 = gL2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L3 = gL3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L4 = gL4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L5 = gL5EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const value = (L0
+      .plus(L1.mul(tau))
+      .plus(L2.mul(tau.pow(2)))
+      .plus(L3.mul(tau.pow(3)))
+      .plus(L4.mul(tau.pow(4)))
+      .plus(L5.mul(tau.pow(5)))
+  ).dividedBy(1e8)
 
-  const value = (L0 + L1 * tau + L2 * tau2 + L3 * tau3 + L4 * tau4 + L5 * tau5) / 1e8
-
-  return fmod360(value * RAD2DEG)
+  return fmod360(value.mul(RAD2DEG))
 }
 
 /**
@@ -60,15 +62,17 @@ export function getEclipticLongitude (jd: JulianDay): Degree {
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
  */
-export function getEclipticLatitude (jd: JulianDay): Degree {
+export function getEclipticLatitude (jd: JulianDay | number): Degree {
   const tau = getJulianMillenium(jd)
 
-  const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const B1 = gB1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const B0 = gB0EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const B1 = gB1EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
 
-  const value = (B0 + B1 * tau) / 100000000
+  const value = (B0
+      .plus(B1.mul(tau))
+  ).dividedBy(1e8)
 
-  return fmod90(value * RAD2DEG)
+  return fmod90(value.mul(RAD2DEG))
 }
 
 /**
@@ -76,7 +80,7 @@ export function getEclipticLatitude (jd: JulianDay): Degree {
  * @param {JulianDay} jd The julian day
  * @returns {EclipticCoordinates}
  */
-export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
+export function getEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
   return {
     longitude: getEclipticLongitude(jd),
     latitude: getEclipticLatitude(jd)
@@ -89,19 +93,21 @@ export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
  * @param {JulianDay} jd The julian day
  * @returns {AstronomicalUnit}
  */
-export function getRadiusVector (jd: JulianDay): AstronomicalUnit {
+export function getRadiusVector (jd: JulianDay | number): AstronomicalUnit {
   const tau = getJulianMillenium(jd)
-  const tau2 = tau * tau
-  const tau3 = tau2 * tau
-  const tau4 = tau3 * tau
 
-  const R0 = gR0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const R1 = gR1EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const R2 = gR2EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const R3 = gR3EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const R4 = gR4EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const R0 = gR0EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const R1 = gR1EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const R2 = gR2EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const R3 = gR3EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const R4 = gR4EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
 
-  return (R0 + R1 * tau + R2 * tau2 + R3 * tau3 + R4 * tau4) / 100000000
+  return (R0
+      .plus(R1.mul(tau))
+      .plus(R2.mul(tau.pow(2)))
+      .plus(R3.mul(tau.pow(3)))
+      .plus(R4.mul(tau.pow(4)))
+  ).dividedBy(1e8)
 }
 
 /**
@@ -110,21 +116,23 @@ export function getRadiusVector (jd: JulianDay): AstronomicalUnit {
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
  */
-export function getEclipticLongitudeJ2000 (jd: JulianDay): Degree {
+export function getEclipticLongitudeJ2000 (jd: JulianDay | number): Degree {
   const tau = getJulianMillenium(jd)
-  const tau2 = tau * tau
-  const tau3 = tau2 * tau
-  const tau4 = tau3 * tau
 
-  const L0 = gL0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L1 = gL1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L2 = gL2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L3 = gL3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const L4 = gL4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const L0 = gL0EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const L1 = gL1EarthCoefficientsJ2000.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const L2 = gL2EarthCoefficientsJ2000.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const L3 = gL3EarthCoefficientsJ2000.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const L4 = gL4EarthCoefficientsJ2000.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
 
-  const value = (L0 + L1 * tau + L2 * tau2 + L3 * tau3 + L4 * tau4) / 100000000
+  const value = (L0
+      .plus(L1.mul(tau))
+      .plus(L2.mul(tau.pow(2)))
+      .plus(L3.mul(tau.pow(3)))
+      .plus(L4.mul(tau.pow(4)))
+  ).dividedBy(1e8)
 
-  return fmod360(value * RAD2DEG)
+  return fmod360(value.mul(RAD2DEG))
 }
 
 /**
@@ -133,21 +141,23 @@ export function getEclipticLongitudeJ2000 (jd: JulianDay): Degree {
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
  */
-export function getEclipticLatitudeJ2000 (jd: JulianDay): Degree {
+export function getEclipticLatitudeJ2000 (jd: JulianDay | number): Degree {
   const tau = getJulianMillenium(jd)
-  const tau2 = tau * tau
-  const tau3 = tau2 * tau
-  const tau4 = tau3 * tau
 
-  const B0 = gB0EarthCoefficients.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const B1 = gB1EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const B2 = gB2EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const B3 = gB3EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
-  const B4 = gB4EarthCoefficientsJ2000.reduce((sum, val) => sum + val.A * Math.cos(val.B + val.C * tau), 0)
+  const B0 = gB0EarthCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const B1 = gB1EarthCoefficientsJ2000.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const B2 = gB2EarthCoefficientsJ2000.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const B3 = gB3EarthCoefficientsJ2000.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  const B4 = gB4EarthCoefficientsJ2000.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
 
-  const value = (B0 + B1 * tau + B2 * tau2 + B3 * tau3 + B4 * tau4) / 100000000
+  const value = (B0
+      .plus(B1.mul(tau))
+      .plus(B2.mul(tau.pow(2)))
+      .plus(B3.mul(tau.pow(3)))
+      .plus(B4.mul(tau.pow(4)))
+  ).dividedBy(1e8)
 
-  return fmod90(value * RAD2DEG)
+  return fmod90(value.mul(RAD2DEG))
 }
 
 /**
@@ -157,8 +167,8 @@ export function getEclipticLatitudeJ2000 (jd: JulianDay): Degree {
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
  */
-export function getMeanAnomaly (jd: JulianDay): Degree {
-  return getSunMeanAnomaly(jd)
+export function getMeanAnomaly (jd: JulianDay | number): Degree {
+  return Sun.getMeanAnomaly(jd)
 }
 
 /**
@@ -166,9 +176,9 @@ export function getMeanAnomaly (jd: JulianDay): Degree {
  * @param  {JulianDay} jd The julian day
  * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
  */
-export function getEccentricity (jd: JulianDay): number {
+export function getEccentricity (jd: JulianDay | number): Decimal {
   const T = getJulianCentury(jd)
-  return 1 - 0.002516 * T - 0.0000074 * T * T
+  return new Decimal(1).minus(T.mul(0.002516)).minus(T.pow(2).mul(0.0000074))
 }
 
 /**
@@ -178,12 +188,14 @@ export function getEccentricity (jd: JulianDay): number {
  * @param {Degree} lat The observer's geographic latitude
  * @returns {Number} The quantities
  */
-export function getFlatteningCorrections (height: Meter, lat: Degree) {
-  const earthRadius: Meter = EARTH_EQUATORIAL_RADIUS * 1000
-  const b_a = (1 - EARTH_RADIUS_FLATTENING_FACTOR)
-  const u: Radian = Math.atan(b_a * Math.tan(lat * DEG2RAD)) // Radians
+export function getFlatteningCorrections (height: Meter | number, lat: Degree | number) {
+  const earthRadius: Meter = EARTH_EQUATORIAL_RADIUS.mul(1000)
+  const b_a: Decimal = new Decimal(1).minus(EARTH_RADIUS_FLATTENING_FACTOR)
+  const radLat: Radian = new Decimal(lat).mul(DEG2RAD)
+  const u: Radian = Decimal.atan(b_a.mul(radLat.tan())) // Radians
+  const h = new Decimal(height).dividedBy(earthRadius)
   return {
-    rhosinphi: b_a * Math.sin(u) + (height / earthRadius) * Math.sin(lat * DEG2RAD),
-    rhocosphi: Math.cos(u) + (height / earthRadius) * Math.cos(lat * DEG2RAD)
+    rhosinphi: b_a.mul(Decimal.sin(u)).plus(h.mul(radLat.sin())),
+    rhocosphi: Decimal.cos(u).plus(h.mul(radLat.cos()))
   }
 }
