@@ -11,7 +11,7 @@ import { orbitalElements, orbitalElementsJ2000 } from './constants'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 import { getEccentricity } from './orbital'
 import { transformEclipticToEquatorial } from '@/coordinates'
-import { getTrueObliquityOfEcliptic } from '@/nutation'
+import { getTrueObliquityOfEcliptic } from '@/earth/nutation'
 
 /**
  * Geocentric distance (distance between the planet and Earth's center).

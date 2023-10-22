@@ -1,7 +1,7 @@
 import { Degree, JulianDay } from '@/types'
 import { DEG2RAD, RAD2DEG } from '@/constants'
 import { fmod360 } from '@/utils'
-import { getMeanObliquityOfEcliptic } from '@/nutation'
+import { getMeanObliquityOfEcliptic } from '@/earth/nutation'
 import { Earth } from '@/earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 

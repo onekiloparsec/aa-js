@@ -2,7 +2,7 @@ import { AstronomicalUnit, EclipticCoordinates, JulianDay } from '@/types'
 import { getPlanetGeocentricDistance, getPlanetGeocentricEclipticCoordinates } from '../elliptical'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 import { transformEclipticToEquatorial } from '@/coordinates'
-import { getTrueObliquityOfEcliptic } from '@/nutation'
+import { getTrueObliquityOfEcliptic } from '@/earth/nutation'
 
 /**
  * Geocentric distance (distance between the planet and Earth's center).

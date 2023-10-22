@@ -2,7 +2,7 @@ import { RAD2DEG } from '@/constants'
 import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '@/types'
 import { fmod360, fmod90 } from '@/utils'
 import { transformEclipticToEquatorial } from '@/coordinates'
-import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/nutation'
+import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/earth/nutation'
 
 import {
   g_B0MarsCoefficients,

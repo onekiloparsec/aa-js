@@ -2,7 +2,7 @@ import { DEG2RAD } from '@/constants'
 import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '@/types'
 import { fmod360, fmod90 } from '@/utils'
 import { transformEclipticToEquatorial } from '@/coordinates'
-import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/nutation'
+import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/earth/nutation'
 import { g_PlutoArgumentCoefficients, g_PlutoLatitudeCoefficients, g_PlutoLongitudeCoefficients, g_PlutoRadiusCoefficients } from './coefficients'
 
 const cos = Math.cos

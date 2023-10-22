@@ -1,5 +1,5 @@
 import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Obliquity } from '@/types'
-import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/nutation'
+import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/earth/nutation'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { fmod360, fmod90 } from '@/utils'
 import { RAD2DEG } from '@/constants'

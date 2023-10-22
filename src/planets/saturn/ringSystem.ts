@@ -1,7 +1,7 @@
 import { JulianDay, SaturnicentricCoordinates, SaturnRingSystem } from '@/types'
 import { DEG2RAD, H2RAD, RAD2DEG } from '@/constants'
 import { transformEclipticToEquatorial } from '@/coordinates'
-import { getNutationInLongitude, getTrueObliquityOfEcliptic } from '@/nutation'
+import { getNutationInLongitude, getTrueObliquityOfEcliptic } from '@/earth/nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from '@/fk5'
 import { getLightTimeFromDistance } from '@/distances'
 import { fmod360 } from '@/utils'
