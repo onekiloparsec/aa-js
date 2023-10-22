@@ -21,7 +21,7 @@ import { getTrueObliquityOfEcliptic } from '@/nutation'
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
  */
-export function getGeocentricDistance (jd: JulianDay): AstronomicalUnit {
+export function getGeocentricDistance (jd: JulianDay|number): AstronomicalUnit {
   return getPlanetGeocentricDistance(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
 }
 
@@ -33,7 +33,7 @@ export function getGeocentricDistance (jd: JulianDay): AstronomicalUnit {
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
  */
-export function getGeocentricEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
+export function getGeocentricEclipticCoordinates (jd: JulianDay|number): EclipticCoordinates {
   return getPlanetGeocentricEclipticCoordinates(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
 }
 
@@ -46,7 +46,7 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay): EclipticCoordi
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
  */
-export function getGeocentricEquatorialCoordinates (jd: JulianDay) {
+export function getGeocentricEquatorialCoordinates (jd: JulianDay|number) {
   const geocentricEclipticCoordinates = getGeocentricEclipticCoordinates(jd)
   return transformEclipticToEquatorial(
     geocentricEclipticCoordinates.longitude,
@@ -61,7 +61,7 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay) {
  * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
  * @returns {KilometerPerSecond} The velocity
  */
-export function getInstantaneousVelocity (jd: JulianDay, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
+export function getInstantaneousVelocity (jd: JulianDay|number, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
   const elements = (equinox === Equinox.MeanOfTheDate) ? orbitalElements : orbitalElementsJ2000
   return getPlanetInstantaneousVelocity(getRadiusVector(jd), elements.semiMajorAxis)
 }
@@ -72,7 +72,7 @@ export function getInstantaneousVelocity (jd: JulianDay, equinox: Equinox = Equi
  * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
  * @returns {KilometerPerSecond} The velocity
  */
-export function getVelocityAtPerihelion (jd: JulianDay, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
+export function getVelocityAtPerihelion (jd: JulianDay|number, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
   const elements = (equinox === Equinox.MeanOfTheDate) ? orbitalElements : orbitalElementsJ2000
   return getPlanetVelocityAtPerihelion(getEccentricity(jd, equinox), elements.semiMajorAxis)
 }
@@ -83,7 +83,7 @@ export function getVelocityAtPerihelion (jd: JulianDay, equinox: Equinox = Equin
  * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
  * @returns {KilometerPerSecond} The velocity
  */
-export function getVelocityAtAphelion (jd: JulianDay, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
+export function getVelocityAtAphelion (jd: JulianDay|number, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
   const elements = (equinox === Equinox.MeanOfTheDate) ? orbitalElements : orbitalElementsJ2000
   return getPlanetVelocityAtAphelion(getEccentricity(jd, equinox), elements.semiMajorAxis)
 }
@@ -94,7 +94,7 @@ export function getVelocityAtAphelion (jd: JulianDay, equinox: Equinox = Equinox
  * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
  * @returns {AstronomicalUnit} The ellipse length
  */
-export function getLengthOfEllipse (jd: JulianDay, equinox: Equinox = Equinox.MeanOfTheDate): AstronomicalUnit {
+export function getLengthOfEllipse (jd: JulianDay|number, equinox: Equinox = Equinox.MeanOfTheDate): AstronomicalUnit {
   const elements = (equinox === Equinox.MeanOfTheDate) ? orbitalElements : orbitalElementsJ2000
   return getPlanetLengthOfEllipse(getEccentricity(jd, equinox), elements.semiMajorAxis)
 }
