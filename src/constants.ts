@@ -15,12 +15,14 @@ import {
   Second
 } from './types'
 
+export const ZERO = new Decimal(0)
 export const ONE = new Decimal(1)
 export const TWO = new Decimal(2)
 export const THREE = new Decimal(3)
 export const FOUR = new Decimal(4)
 export const FIVE = new Decimal(5)
 export const TEN = new Decimal(10)
+export const MINUSONE = new Decimal(-1)
 
 export const J1970: JulianDay = new Decimal(2440588.0)
 export const J2000: JulianDay = new Decimal(2451545.0)
