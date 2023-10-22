@@ -1,5 +1,5 @@
 import Decimal from 'decimal.js'
-import { DEG2RAD, RAD2DEG } from '@/constants'
+import { DEG2RAD, ONE, PI, RAD2DEG, THREE, TWO } from '@/constants'
 import {
   AstronomicalUnit,
   Day,
@@ -149,9 +149,7 @@ export function getPlanetGeocentricEclipticCoordinates (jd: JulianDay | number,
  * @returns {KilometerPerSecond} The velocity
  */
 export function getPlanetInstantaneousVelocity (r: AstronomicalUnit | number, a: AstronomicalUnit | number): KilometerPerSecond {
-  const one = new Decimal(1)
-  const two = new Decimal(2)
-  return new Decimal(42.1219).mul(Decimal.sqrt(one.dividedBy(r).minus(one.dividedBy(two.mul(a)))))
+  return new Decimal(42.1219).mul(Decimal.sqrt(ONE.dividedBy(r).minus(ONE.dividedBy(TWO.mul(a)))))
 }
 
 /**
@@ -161,11 +159,10 @@ export function getPlanetInstantaneousVelocity (r: AstronomicalUnit | number, a:
  * @returns {KilometerPerSecond} The velocity
  */
 export function getPlanetVelocityAtPerihelion (e: Decimal | number, a: AstronomicalUnit | number): KilometerPerSecond {
-  const one = new Decimal(1)
   return new Decimal(29.7847)
     .dividedBy(Decimal.sqrt(a)
-      .mul(Decimal.sqrt(one.plus(e)
-        .dividedBy(one.minus(e)))))
+      .mul(Decimal.sqrt(ONE.plus(e)
+        .dividedBy(ONE.minus(e)))))
 }
 
 /**
@@ -175,11 +172,10 @@ export function getPlanetVelocityAtPerihelion (e: Decimal | number, a: Astronomi
  * @returns {KilometerPerSecond} The velocity
  */
 export function getPlanetVelocityAtAphelion (e: Decimal | number, a: AstronomicalUnit | number): KilometerPerSecond {
-  const one = new Decimal(1)
   return new Decimal(29.7847)
     .dividedBy(Decimal.sqrt(a)
-      .mul(Decimal.sqrt(one.minus(e)
-        .dividedBy(one.plus(e)))))
+      .mul(Decimal.sqrt(ONE.minus(e)
+        .dividedBy(ONE.plus(e)))))
 }
 
 /**
@@ -189,17 +185,14 @@ export function getPlanetVelocityAtAphelion (e: Decimal | number, a: Astronomica
  * @returns {AstronomicalUnit} The ellipse length
  */
 export function getPlanetLengthOfEllipse (e: Decimal | number, a: AstronomicalUnit): AstronomicalUnit {
-  const PI = Decimal.acos(-1)
-  const one = new Decimal(1)
-  const three = new Decimal(3)
   const de = new Decimal(e)
   const da = new Decimal(a)
-  const db = da.mul(Decimal.sqrt(one.minus(de.pow(2))))
+  const db = da.mul(Decimal.sqrt(ONE.minus(de.pow(2))))
   return PI.mul(
-    three.mul(da.plus(db))
+    THREE.mul(da.plus(db))
       .minus(Decimal.sqrt(
-        da.plus(three.mul(db))
-          .mul(three.mul(a).plus(db)))
+        da.plus(THREE.mul(db))
+          .mul(THREE.mul(a).plus(db)))
       )
   )
 }
