@@ -30,7 +30,7 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
   // Distance Earth-Moon
   const Delta = getRadiusVector(jd) // kilometer
   // Distance Earth-Sun
-  const R = getEarthRadiusVector(jd).mul(ONE_UA_IN_KILOMETERS)
+  const R = getEarthRadiusVector(jd).mul(ONE_UA_IN_KILOMETERS) // -> kilometer
   return Decimal.atan2(R.mul(psi.sin()), Delta.minus(R.mul(psi.cos()))).mul(RAD2DEG)
 }
 
