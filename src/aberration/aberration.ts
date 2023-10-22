@@ -1,10 +1,9 @@
+import Decimal from 'decimal.js'
 import { Coordinates2D, Coordinates3D, Degree, Hour, JulianDay } from '@/types'
-import { DEG2RAD, RAD2DEG, RAD2H } from '@/constants'
-import { getGeometricEclipticLongitude } from '@/sun'
+import { DEG2RAD, H2RAD, MINUSONE, RAD2DEG, RAD2H, ZERO } from '@/constants'
+import { getJulianCentury } from '@/juliandays'
 import { g_AberrationCoefficients } from './coefficients'
-
-const cos = Math.cos
-const sin = Math.sin
+import { Sun } from '@/sun'
 
 
 /**
@@ -12,43 +11,44 @@ const sin = Math.sin
  * @param {JulianDay} jd The julian day
  * @return {Coordinates3D}
  */
-export function getEarthVelocity (jd: JulianDay): Coordinates3D {
-  const T = (jd - 2451545) / 36525
-  const L2 = 3.1761467 + 1021.3285546 * T
-  const L3 = 1.7534703 + 628.3075849 * T
-  const L4 = 6.2034809 + 334.0612431 * T
-  const L5 = 0.5995465 + 52.9690965 * T
-  const L6 = 0.8740168 + 21.3299095 * T
-  const L7 = 5.4812939 + 7.4781599 * T
-  const L8 = 5.3118863 + 3.8133036 * T
-  const Ldash = 3.8103444 + 8399.6847337 * T
-  const D = 5.1984667 + 7771.3771486 * T
-  const Mdash = 2.3555559 + 8328.6914289 * T
-  const F = 1.6279052 + 8433.4661601 * T
+export function getEarthVelocity (jd: JulianDay | number): Coordinates3D {
+  const T = getJulianCentury(jd)
+  const L2 = new Decimal(3.1761467).plus(new Decimal(1021.3285546).mul(T))
+  const L3 = new Decimal(1.7534703).plus(new Decimal(628.3075849).mul(T))
+  const L4 = new Decimal(6.2034809).plus(new Decimal(334.0612431).mul(T))
+  const L5 = new Decimal(0.5995465).plus(new Decimal(52.9690965).mul(T))
+  const L6 = new Decimal(0.8740168).plus(new Decimal(21.3299095).mul(T))
+  const L7 = new Decimal(5.4812939).plus(new Decimal(7.4781599).mul(T))
+  const L8 = new Decimal(5.3118863).plus(new Decimal(3.8133036).mul(T))
+  const Ldash = new Decimal(3.8103444).plus(new Decimal(8399.6847337).mul(T))
+  const D = new Decimal(5.1984667).plus(new Decimal(7771.3771486).mul(T))
+  const Mdash = new Decimal(2.3555559).plus(new Decimal(8328.6914289).mul(T))
+  const F = new Decimal(1.6279052).plus(new Decimal(8433.4661601).mul(T))
 
-  let X = 0
-  let Y = 0
-  let Z = 0
-
-  for (let i = 0; i < g_AberrationCoefficients.length; i++) {
-    const Argument = g_AberrationCoefficients[i].L2 * L2 + g_AberrationCoefficients[i].L3 * L3 +
-      g_AberrationCoefficients[i].L4 * L4 + g_AberrationCoefficients[i].L5 * L5 +
-      g_AberrationCoefficients[i].L6 * L6 + g_AberrationCoefficients[i].L7 * L7 +
-      g_AberrationCoefficients[i].L8 * L8 + g_AberrationCoefficients[i].Ldash * Ldash +
-      g_AberrationCoefficients[i].D * D + g_AberrationCoefficients[i].Mdash * Mdash +
-      g_AberrationCoefficients[i].F * F
-
-    X += (g_AberrationCoefficients[i].xsin + g_AberrationCoefficients[i].xsint * T) * sin(Argument)
-    X += (g_AberrationCoefficients[i].xcos + g_AberrationCoefficients[i].xcost * T) * cos(Argument)
-
-    Y += (g_AberrationCoefficients[i].ysin + g_AberrationCoefficients[i].ysint * T) * sin(Argument)
-    Y += (g_AberrationCoefficients[i].ycos + g_AberrationCoefficients[i].ycost * T) * cos(Argument)
-
-    Z += (g_AberrationCoefficients[i].zsin + g_AberrationCoefficients[i].zsint * T) * sin(Argument)
-    Z += (g_AberrationCoefficients[i].zcos + g_AberrationCoefficients[i].zcost * T) * cos(Argument)
-  }
-
-  return { X, Y, Z }
+  return g_AberrationCoefficients.reduce((sum, val) => {
+    const argument = val.L2.mul(L2)
+      .plus(val.L3.mul(L3))
+      .plus(val.L4.mul(L4))
+      .plus(val.L5.mul(L5))
+      .plus(val.L6.mul(L6))
+      .plus(val.L7.mul(L7))
+      .plus(val.L8.mul(L8))
+      .plus(val.Ldash.mul(Ldash))
+      .plus(val.D.mul(D))
+      .plus(val.Mdash.mul(Mdash))
+      .plus(val.F.mul(F))
+    return {
+      X: sum.X
+        .plus(val.xsin.plus(val.xsint.mul(T)).mul(argument.sin()))
+        .plus(val.xcos.plus(val.xcost.mul(T)).mul(argument.cos())),
+      Y: sum.Y
+        .plus(val.ysin.plus(val.ysint.mul(T)).mul(argument.sin()))
+        .plus(val.ycos.plus(val.ycost.mul(T)).mul(argument.cos())),
+      Z: sum.Z
+        .plus(val.zsin.plus(val.zsint.mul(T)).mul(argument.sin()))
+        .plus(val.zcos.plus(val.zcost.mul(T)).mul(argument.cos()))
+    }
+  }, { X: ZERO, Y: ZERO, Z: ZERO })
 }
 
 /**
@@ -58,21 +58,25 @@ export function getEarthVelocity (jd: JulianDay): Coordinates3D {
  * @param {Degree} Delta The equatorial declination
  * @return {Coordinates2D}
  */
-export function getEquatorialAberration (jd: JulianDay, Alpha: Hour, Delta: Degree): Coordinates2D {
-  Alpha = Alpha * 15 * DEG2RAD
-  Delta = Delta * DEG2RAD
+export function getEquatorialAberration (jd: JulianDay | number, Alpha: Hour | number, Delta: Degree | number): Coordinates2D {
+  const ra = new Decimal(Alpha).mul(H2RAD)
+  const dec = new Decimal(Delta).mul(DEG2RAD)
 
-  const cosAlpha = cos(Alpha)
-  const sinAlpha = sin(Alpha)
-  const cosDelta = cos(Delta)
-  const sinDelta = sin(Delta)
+  const cosAlpha = ra.cos()
+  const sinAlpha = ra.sin()
+  const cosDelta = dec.cos()
+  const sinDelta = dec.sin()
 
   const velocity = getEarthVelocity(jd)
 
-  return {
-    X: RAD2H * (velocity.Y * cosAlpha - velocity.X * sinAlpha) / (17314463350.0 * cosDelta),
-    Y: RAD2DEG * (-(((velocity.X * cosAlpha + velocity.Y * sinAlpha) * sinDelta - velocity.Z * cosDelta) / 17314463350.0))
-  }
+  const X0 = velocity.Y.mul(cosAlpha).minus(velocity.X.mul(sinAlpha))
+  const X = X0.dividedBy(new Decimal(17314463350.0).mul(cosDelta))
+
+  const Y0 = velocity.X.mul(cosAlpha).plus(velocity.Y.mul(sinAlpha))
+  const Y1 = velocity.Z.mul(cosDelta)
+  const Y = (Y0.mul(sinDelta).minus(Y1)).dividedBy(new Decimal(17314463350.0))
+
+  return { X: X.mul(RAD2H), Y: MINUSONE.mul(Y).mul(RAD2DEG) }
 }
 
 /**
@@ -82,22 +86,32 @@ export function getEquatorialAberration (jd: JulianDay, Alpha: Hour, Delta: Degr
  * @param {Degree} Beta The ecliptic latitude
  * @return {Coordinates2D}
  */
-export function getEclipticAberration (jd: JulianDay, Lambda: Degree, Beta: Degree): Coordinates2D {
-  const T = (jd - 2451545) / 36525
-  const T2 = T * T
-  const e = 0.016708634 - 0.000042037 * T - 0.0000001267 * T2
-  let pi = 102.93735 + 1.71946 * T + 0.00046 * T2
-  const k = 20.49552
-  let sunLongitude = getGeometricEclipticLongitude(jd)
+export function getEclipticAberration (jd: JulianDay | number, Lambda: Degree | number, Beta: Degree | number): Coordinates2D {
+  const T = getJulianCentury(jd)
 
-  //Convert to radians
-  pi = DEG2RAD * pi
-  Lambda = DEG2RAD * Lambda
-  Beta = DEG2RAD * Beta
-  sunLongitude = DEG2RAD * sunLongitude
+  const e = new Decimal(0.016708634)
+    .minus(new Decimal(0.000042037).mul(T))
+    .minus(new Decimal(0.0000001267).mul(T.pow(2)))
 
-  return {
-    X: (-k * cos(sunLongitude - Lambda) + e * k * cos(pi - Lambda)) / cos(Beta) / 3600,
-    Y: -k * sin(Beta) * (sin(sunLongitude - Lambda) - e * sin(pi - Lambda)) / 3600
-  }
+  const pi = new Decimal(102.93735)
+    .plus(new Decimal(1.71946).mul(T))
+    .plus(new Decimal(0.00046).mul(T.pow(2)))
+
+  const k = new Decimal(20.49552)
+  // Use the geoMETRIC longitude. See AA p.151
+  const sunLongitude = Sun.getGeometricEclipticLongitude(jd).mul(DEG2RAD)
+  const LambdaRad = new Decimal(Lambda).mul(DEG2RAD)
+  const BetaRad = new Decimal(Beta).mul(DEG2RAD)
+
+  const X0 = MINUSONE.mul(k).mul(Decimal.cos(sunLongitude.minus(LambdaRad)))
+  const X1 = e.mul(k).mul(Decimal.cos(pi.minus(LambdaRad)))
+  const X = (X0.plus(X1)).dividedBy(Decimal.cos(BetaRad)).dividedBy(3600)
+
+  const Y0 = MINUSONE.mul(k).mul(Decimal.sin(BetaRad))
+  const Y1 = Decimal.sin(sunLongitude.minus(LambdaRad))
+  const Y2 = e.mul(Decimal.sin(pi.minus(LambdaRad)))
+  const Y = Y0.mul(Y1.minus(Y2)).dividedBy(3600)
+
+  // X = Delta lambda, Y = Delta beta
+  return { X, Y }
 }
