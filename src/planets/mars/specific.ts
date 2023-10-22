@@ -1,89 +1,105 @@
+import Decimal from 'decimal.js'
 import { Degree, JulianDay } from '@/types'
-import { DEG2RAD, RAD2DEG } from '@/constants'
+import { DEG2RAD, MINUSONE, RAD2DEG, ZERO } from '@/constants'
 import { getLightTimeFromDistance } from '@/distances'
+import { getJulianCentury } from '@/juliandays'
 import { Earth } from '@/earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
-const sin = Math.sin
-const cos = Math.cos
-const sqrt = Math.sqrt
-const abs = Math.abs
-const atan2 = Math.atan2
-const asin = Math.asin
+function computeMarsDetails (jd: JulianDay | number) {
+  const T = getJulianCentury(jd)
 
-function computeMarsDetails (jd: JulianDay) {
-  const T = (jd - 2451545) / 36525
+  const Lambda0 = new Decimal(352.9065).plus(new Decimal(1.17330).mul(T))
+  const Beta0 = new Decimal(63.2818).minus(new Decimal(0.00394).mul(T))
 
-  const Lambda0 = 352.9065 + 1.17330 * T
-  const Beta0 = 63.2818 - 0.00394 * T
-
-  //Step 2
-  const l0 = Earth.getEclipticLongitude(jd)
-  const l0rad = DEG2RAD * l0
-  const b0 = Earth.getEclipticLatitude(jd)
-  const b0rad = DEG2RAD * b0
+  // Step 2
+  const l0 = Earth.getEclipticLongitude(jd).mul(DEG2RAD)
+  const b0 = Earth.getEclipticLatitude(jd).mul(DEG2RAD)
   const R = Earth.getRadiusVector(jd)
 
-  let PreviousLightTravelTime = 0
-  let LightTravelTime = 0
-  let x = 0
-  let y = 0
-  let z = 0
+  let previousLightTravelTime = ZERO
+  let lightTravelTime = ZERO
+  let x = ZERO
+  let y = ZERO
+  let z = ZERO
   let shouldIterate = true
-  let DELTA = 0
-  let l = 0
-  let b = 0
-  let r = 0
+  let Delta = ZERO
+  let l = ZERO
+  let b = ZERO
+  let r = ZERO
 
   while (shouldIterate) {
-    let JD2 = jd - LightTravelTime
+    let JD2 = new Decimal(jd).minus(lightTravelTime)
 
-    //Step 3
-    l = getEclipticLongitude(JD2)
-    let lrad = DEG2RAD * l
-    b = getEclipticLatitude(JD2)
-    let brad = DEG2RAD * b
+    // Step 3
+    l = getEclipticLongitude(JD2).mul(DEG2RAD)
+    b = getEclipticLatitude(JD2).mul(DEG2RAD)
     r = getRadiusVector(JD2)
 
-    //Step 4
-    x = r * cos(brad) * cos(lrad) - R * cos(l0rad)
-    y = r * cos(brad) * sin(lrad) - R * sin(l0rad)
-    z = r * sin(brad) - R * sin(b0rad)
-    DELTA = sqrt(x * x + y * y + z * z)
-    LightTravelTime = getLightTimeFromDistance(DELTA)
+    // Step 4
+    x = r.mul(b.cos()).mul(l.cos()).minus(R.mul(l0.cos()))
+    y = r.mul(b.cos()).mul(l.sin()).minus(R.mul(l0.sin()))
+    z = r.mul(b.sin()).minus(R.mul(b0.sin()))
+    Delta = Decimal.sqrt(x.pow(2).plus(y.pow(2)).plus(z.pow(2)))
+    lightTravelTime = getLightTimeFromDistance(Delta)
 
-    //Prepare for the next loop around
-    shouldIterate = (abs(LightTravelTime - PreviousLightTravelTime) > 2e-6) //2e-6 corresponds to 0.17 of a second
+    // Prepare for the next loop around
+    // 2e-6 corresponds to 0.17 of a second
+    shouldIterate = (Decimal.abs(lightTravelTime.minus(previousLightTravelTime)).greaterThan(2e-6))
     if (shouldIterate) {
-      PreviousLightTravelTime = LightTravelTime
+      previousLightTravelTime = lightTravelTime
     }
   }
 
-  //Step 5
-  const lambda = atan2(y, x) * RAD2DEG
-  const beta = atan2(z, sqrt(x * x + y * y)) * RAD2DEG
+  // Step 5
+  const lambda = Decimal.atan2(y, x).mul(RAD2DEG)
+  const beta = Decimal.atan2(z, Decimal.sqrt(x.pow(2).plus(y.pow(2)))).mul(RAD2DEG)
 
-  return { T, Lambda0, Beta0, lambda, beta, l, b, r, DELTA }
+  return { T, Lambda0, Beta0, lambda, beta, l, b, r, Delta }
 }
 
+/**
+ * The planetocentric declination of the Earth.
+ * When it is positive, the planet' northern pole is tilted towards the Earth.
+ * @param jd
+ */
 export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay) {
   const { Lambda0, Beta0, lambda, beta } = computeMarsDetails(jd)
+
+  const value1 = MINUSONE.mul(Beta0.mul(DEG2RAD).sin())
+    .mul(beta.mul(DEG2RAD).sin())
+
+  const value2 = Beta0.mul(DEG2RAD.cos())
+    .mul(beta.mul(DEG2RAD).cos())
+    .mul(DEG2RAD.mul(Lambda0.minus(lambda)).cos())
+
   // details.DE
-  return RAD2DEG * asin(-sin(DEG2RAD * Beta0) * sin(beta * DEG2RAD) - cos(DEG2RAD * Beta0) * cos(beta * DEG2RAD) * cos(DEG2RAD * (Lambda0 - lambda)))
+  return Decimal.asin(value1.minus(value2)).mul(RAD2DEG)
 }
 
-/// The planetocentric declination of the Sun. When it is positive, the planet' northern pole is tilted towards the Sun.
+/**
+ * The planetocentric declination of the Sun.
+ * When it is positive, the planet' northern pole is tilted towards the sun.
+ * @param jd
+ */
 export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay): Degree {
   const { T, Lambda0, Beta0, l, b, r } = computeMarsDetails(jd)
 
-  //Step 7
-  const N = 49.5581 + 0.7721 * T
-  const ldash = l - 0.00697 / r
-  const bdash = b - 0.000225 * (cos((l - N) * DEG2RAD) / r)
+  // Step 7
+  const N = new Decimal(49.5581).plus(new Decimal(0.7721).mul(T))
+  const ldash = l.minus(new Decimal(0.00697).dividedBy(r))
+  const bdash = b.minus(new Decimal(0.000225).mul(Decimal.cos((l.minus(N)).mul(DEG2RAD).dividedBy(r))))
 
-  //Step 8
+  // Step 8
+  const value1 = MINUSONE.mul(Beta0.mul(DEG2RAD).sin())
+    .mul(bdash.mul(DEG2RAD).sin())
+
+  const value2 = Beta0.mul(DEG2RAD.cos())
+    .mul(bdash.mul(DEG2RAD).cos())
+    .mul(DEG2RAD.mul(Lambda0.minus(ldash)).cos())
+
   // details.DS
-  return RAD2DEG * (asin(-sin(Beta0 * DEG2RAD) * sin(DEG2RAD * bdash) - cos(Beta0 * DEG2RAD) * cos(DEG2RAD * bdash) * cos((Lambda0 - ldash) * DEG2RAD)))
+  return Decimal.asin(value1.minus(value2)).mul(RAD2DEG)
 }
 
 /// The geocentric position angle of Mars' northern rotation pole, also called position angle of axis. It is the angle
