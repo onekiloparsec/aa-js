@@ -26,7 +26,7 @@ in [Arcsecond.io](https://www.arcsecond.io).
 I am the author of the Swift version too. It's
 called [SwiftAA](https://github.com/onekiloparsec/SwiftAA).
 
-Main Changes in V3
+Main Changes in the upcoming V3
 ================
 
 - **All algorithms based on arbitrary-precision operations thanks
