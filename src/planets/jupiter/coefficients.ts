@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js'
+
 export const g_L0JupiterCoefficients =
   [
     [59954691, 0, 0],
@@ -65,7 +67,7 @@ export const g_L0JupiterCoefficients =
     [117, 3.389, 0.521],
     [106, 4.554, 526.510]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L1JupiterCoefficients =
@@ -132,7 +134,7 @@ export const g_L1JupiterCoefficients =
     [29, 0.76, 88.87],
     [25, 1.61, 831.86]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L2JupiterCoefficients =
@@ -195,7 +197,7 @@ export const g_L2JupiterCoefficients =
     [7, 2.18, 1265.57],
     [6, 0.50, 949.18]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L3JupiterCoefficients =
@@ -240,7 +242,7 @@ export const g_L3JupiterCoefficients =
     [2, 2.90, 742.99],
     [2, 2.36, 942.06]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L4JupiterCoefficients =
@@ -265,7 +267,7 @@ export const g_L4JupiterCoefficients =
     [1, 4.72, 95.98],
     [1, 1.29, 1589.07]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L5JupiterCoefficients =
@@ -276,7 +278,7 @@ export const g_L5JupiterCoefficients =
     [2, 1.10, 522.58],
     [1, 3.14, 0]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B0JupiterCoefficients =
@@ -308,7 +310,7 @@ export const g_B0JupiterCoefficients =
     [103, 2.319, 1478.867],
     [102, 3.153, 1581.959]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B1JupiterCoefficients =
@@ -336,7 +338,7 @@ export const g_B1JupiterCoefficients =
     [36, 6.11, 316.39],
     [32, 4.92, 1581.96]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B2JupiterCoefficients =
@@ -356,7 +358,7 @@ export const g_B2JupiterCoefficients =
     [11, 4.88, 949.18],
     [6, 6.21, 1045.15]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B3JupiterCoefficients =
@@ -371,7 +373,7 @@ export const g_B3JupiterCoefficients =
     [4, 1.13, 543.92],
     [3, 3.14, 0]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B4JupiterCoefficients =
@@ -383,14 +385,14 @@ export const g_B4JupiterCoefficients =
     [2, 4.52, 515.46],
     [1, 4.20, 1052.27]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B5JupiterCoefficients =
   [
     [1, 0.09, 522.58]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R0JupiterCoefficients =
@@ -442,7 +444,7 @@ export const g_R0JupiterCoefficients =
     [562, 0.081, 543.918],
     [542, 0.284, 525.759]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R1JupiterCoefficients =
@@ -491,7 +493,7 @@ export const g_R1JupiterCoefficients =
     [133, 1.322, 110.206],
     [132, 4.512, 525.759]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R2JupiterCoefficients =
@@ -533,7 +535,7 @@ export const g_R2JupiterCoefficients =
     [44, 0.27, 526.51],
     [40, 5.95, 95.98]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R3JupiterCoefficients =
@@ -567,7 +569,7 @@ export const g_R3JupiterCoefficients =
     [10, 6.26, 103.09],
     [9, 3.45, 838.97]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R4JupiterCoefficients =
@@ -588,7 +590,7 @@ export const g_R4JupiterCoefficients =
     [3, 4.16, 728.76],
     [3, 2.90, 426.60]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R5JupiterCoefficients =
@@ -601,5 +603,5 @@ export const g_R5JupiterCoefficients =
     [2, 4.13, 1059.38],
     [2, 5.49, 1066.50]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
