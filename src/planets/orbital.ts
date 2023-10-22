@@ -14,6 +14,10 @@ export function getPlanetMeanLongitude (jd: JulianDay | number, planetElements: 
   return getValue(jd, planetElements.meanLongitude)
 }
 
+export function getPlanetSemiMajorAxis (jd: JulianDay | number, planetElements: PlanetOrbitalElements): Degree {
+  return getValue(jd, planetElements.semiMajorAxis)
+}
+
 export function getPlanetEccentricity (jd: JulianDay | number, planetElements: PlanetOrbitalElements): Decimal {
   return getValue(jd, planetElements.eccentricity)
 }

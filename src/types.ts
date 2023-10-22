@@ -312,7 +312,7 @@ export type LengthArray<T, N extends number, R extends T[] = []> = Decimal exten
  * Elements of Planetary Orbits
  */
 export type PlanetOrbitalElements = {
-  semiMajorAxis: AstronomicalUnit
+  semiMajorAxis: LengthArray<AstronomicalUnit, 4>
   meanLongitude: LengthArray<Degree, 4>
   eccentricity: LengthArray<Decimal, 4>
   inclination: LengthArray<Degree, 4>
