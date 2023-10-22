@@ -5,6 +5,20 @@ import { getRadiusVector as getEarthRadiusVector } from '@/earth/coordinates'
 import { Sun } from '@/sun'
 import { getEquatorialCoordinates, getRadiusVector } from './coordinates'
 
+export function getGeocentricElongation (jd: JulianDay | number): Degree {
+  const sunCoords = Sun.getEquatorialCoordinates(jd)
+  const moonCoords = getEquatorialCoordinates(jd)
+
+  const decRadSun = sunCoords.declination.mul(DEG2RAD)
+  const decRadMoon = moonCoords.declination.mul(DEG2RAD)
+  const sins = decRadSun.sin().mul(decRadMoon.sin())
+
+  const raRadSun = sunCoords.rightAscension.mul(H2RAD)
+  const raRadMoon = moonCoords.rightAscension.mul(H2RAD)
+  const coss = raRadSun.cos().mul(raRadMoon.cos()).mul((raRadSun.minus(raRadMoon)).cos())
+
+  return Decimal.acos(sins.plus(coss)).mul(RAD2DEG)
+}
 
 /**
  * The phase angle (angle Sun-Moon-Earth)
@@ -12,27 +26,36 @@ import { getEquatorialCoordinates, getRadiusVector } from './coordinates'
  * @return {Degree}
  */
 export function getPhaseAngle (jd: JulianDay | number): Degree {
-  // Geocentric
-  const sunCoords = Sun.getEquatorialCoordinates(jd)
-  // Geocentric
-  const moonCoords = getEquatorialCoordinates(jd)
-
-  const alpha0 = sunCoords.rightAscension * H2RAD
-  const alpha = moonCoords.rightAscension * H2RAD
-  const delta0 = sunCoords.declination * DEG2RAD
-  const delta = moonCoords.declination * DEG2RAD
-
-  // Geocentric elongation Psi of the Moon from the Sun
-  // See AA p.345
-  const cospsi = Math.sin(delta0) * Math.sin(delta) + Math.cos(delta0) * Math.cos(delta) * Math.cos(alpha0 - alpha)
-  const psi = Math.acos(cospsi) * RAD2DEG
-
+  const psi = getGeocentricElongation(jd).mul(DEG2RAD)
   // Distance Earth-Moon
   const Delta = getRadiusVector(jd) // kilometer
   // Distance Earth-Sun
   const R = getEarthRadiusVector(jd).mul(ONE_UA_IN_KILOMETERS)
+  return Decimal.atan2(R.mul(psi.sin()), Delta.minus(R.mul(psi.cos()))).mul(RAD2DEG)
+}
 
-  return Math.atan2(R * Math.sin(psi * DEG2RAD), Delta - R * Math.cos(psi * DEG2RAD)) * RAD2DEG
+/**
+ * The position angle of the bright limb.
+ * The position angle of the Moon's bright limb is the position angle of the midpoint of the illuminated limb of
+ * the Moon, reckoned eastward from the North Point of the disk (not from the axis of rotation of the lunar globe).
+ * @param {JulianDay} jd The julian day
+ * @return {Degree}
+ */
+export function getPositionAngleOfTheBrightLimb (jd: JulianDay | number): Degree {
+  const sunCoords = Sun.getEquatorialCoordinates(jd)
+  const moonCoords = getEquatorialCoordinates(jd)
+
+  const alpha0 = sunCoords.rightAscension.mul(H2RAD)
+  const alpha = moonCoords.rightAscension.mul(H2RAD)
+  const delta0 = sunCoords.declination.mul(DEG2RAD)
+  const delta = moonCoords.declination.mul(DEG2RAD)
+
+  const y = delta0.cos().mul((alpha0.minus(alpha)).sin())
+
+  const x = delta0.sin().mul(delta.cos())
+    .minus(delta0.cos().mul(delta.sin()).mul((alpha0.minus(alpha)).cos()))
+
+  return Decimal.atan2(y, x).mul(RAD2DEG)
 }
 
 /**
