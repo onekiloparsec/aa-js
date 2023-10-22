@@ -15,17 +15,24 @@ import {
   Second
 } from './types'
 
+export const ONE = new Decimal(1)
+export const TWO = new Decimal(2)
+export const THREE = new Decimal(3)
+export const FOUR = new Decimal(4)
+export const FIVE = new Decimal(5)
+export const TEN = new Decimal(10)
+
 export const J1970: JulianDay = new Decimal(2440588.0)
 export const J2000: JulianDay = new Decimal(2451545.0)
 
 export const MJD_START: JulianDay = new Decimal(2400000.5)
 export const DAYMS: MiliSecond = new Decimal(1000).mul(3600).mul(24)
 
-export const DECIMALPI: Radian = Decimal.acos(-1)
-export const DEG2RAD: Radian = DECIMALPI.dividedBy(180)
-export const RAD2DEG: Degree = new Decimal(180).dividedBy(DECIMALPI)
-export const RAD2H: Hour = new Decimal(24).dividedBy(DECIMALPI)
-export const H2RAD: Radian = DECIMALPI.dividedBy(24)
+export const PI: Radian = Decimal.acos(-1)
+export const DEG2RAD: Radian = PI.dividedBy(180)
+export const RAD2DEG: Degree = new Decimal(180).dividedBy(PI)
+export const RAD2H: Hour = new Decimal(24).dividedBy(PI)
+export const H2RAD: Radian = PI.dividedBy(24)
 export const H2DEG: Degree = new Decimal(360).dividedBy(24)
 export const DEG2H: Hour = new Decimal(24).dividedBy(360)
 
@@ -68,8 +75,8 @@ export const ONE_UA_IN_KILOMETERS: Kilometer = new Decimal(149597870.691)
  km or 93 million miles).
 */
 
-export const PC2UA = new Decimal(206264.80624548031) // = 1.0/tan(1./3600.0*M_PI/180.);
-export const PC2LY = new Decimal(3.263797724738089) // = pc*ua/SPEED_OF_LIGHT/(ONE_DAY_INSECONDS*365.0)
+export const PC2UA = ONE.dividedBy(Decimal.tan(ONE.dividedBy(3600).mul(PI).dividedBy(180))) // = 1.0/tan(1./3600.0*M_PI/180.) = 206264.80624548031
+export const PC2LY = new Decimal(3.263797724738089) // = pc*ua/SPEED_OF_LIGHT/(ONE_DAY_INSECONDS*365.0) = 3.263797724738089
 
 //http://physics.nist.gov/cuu/index.html
 export const PLANCK_CONSTANT = new Decimal(6.62606957e-34) // Joule * seconds;
