@@ -7,7 +7,6 @@ import { DEG2RAD } from '@/constants'
 import { getJulianCentury } from '@/juliandays'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from '@/fk5'
-import { getMeanObliquityOfEcliptic, getNutationInLongitude, getTrueObliquityOfEcliptic } from '@/earth/nutation'
 import { getDecimalValue } from '@/sexagesimal'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
@@ -160,7 +159,7 @@ function getApparentEclipticLongitude (jd: JulianDay | number): Degree {
   let Longitude = getGeometricFK5EclipticLongitude(jd)
 
   // Apply the correction in longitude due to nutation
-  Longitude = Longitude.plus(getDecimalValue(0, 0, getNutationInLongitude(jd)))
+  Longitude = Longitude.plus(getDecimalValue(0, 0, Earth.getNutationInLongitude(jd)))
 
   // Apply the correction in longitude due to aberration
   const R = Earth.getRadiusVector(jd)
@@ -200,7 +199,7 @@ function getApparentEquatorialCoordinates (jd: JulianDay | number): EquatorialCo
   return transformEclipticToEquatorial(
     getApparentEclipticLongitude(jd),
     getApparentEclipticLatitude(jd),
-    getTrueObliquityOfEcliptic(jd)
+    Earth.getTrueObliquityOfEcliptic(jd)
   )
 }
 
@@ -272,7 +271,7 @@ function getEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinate
   return transformEclipticToEquatorial(
     getGeocentricEclipticLongitude(jd),
     getGeocentricEclipticLatitude(jd),
-    getMeanObliquityOfEcliptic(jd)
+    Earth.getMeanObliquityOfEcliptic(jd)
   )
 }
 
@@ -285,7 +284,7 @@ function getEquatorialCoordinatesJ2000 (jd: JulianDay | number): EquatorialCoord
   return transformEclipticToEquatorial(
     getGeocentricEclipticLongitudeJ2000(jd),
     getGeocentricEclipticLatitudeJ2000(jd),
-    getMeanObliquityOfEcliptic(jd)
+    Earth.getMeanObliquityOfEcliptic(jd)
   )
 }
 
