@@ -1,6 +1,6 @@
 import { Earth } from './earth'
 import { Moon } from './earth/moon'
-import * as Sun from './sun'
+import { Sun } from './sun'
 
 import { Mercury } from './planets/mercury'
 import { Venus } from './planets/venus'
