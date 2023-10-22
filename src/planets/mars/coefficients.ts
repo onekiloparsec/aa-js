@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js'
+
 export const g_L0MarsCoefficients =
   [
     [620347712, 0, 0],
@@ -70,7 +72,7 @@ export const g_L0MarsCoefficients =
     [105, 0.785, 8827.390],
     [100, 3.243, 11773.377]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L1MarsCoefficients =
@@ -122,7 +124,7 @@ export const g_L1MarsCoefficients =
     [27, 3.89, 1221.85],
     [27, 5.11, 2700.72]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L2MarsCoefficients =
@@ -161,7 +163,7 @@ export const g_L2MarsCoefficients =
     [6, 5.48, 1592.60],
     [6, 2.34, 3097.88]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L3MarsCoefficients =
@@ -179,7 +181,7 @@ export const g_L3MarsCoefficients =
     [3, 4.59, 3185.19],
     [3, 0.65, 553.57]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L4MarsCoefficients =
@@ -193,7 +195,7 @@ export const g_L4MarsCoefficients =
     [1, 0.49, 16703.06],
     [1, 1.32, 242.73]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L5MarsCoefficients =
@@ -201,7 +203,7 @@ export const g_L5MarsCoefficients =
     [1, 3.14, 0],
     [1, 4.04, 6681.22]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B0MarsCoefficients =
@@ -223,7 +225,7 @@ export const g_B0MarsCoefficients =
     [143, 3.213, 3340.630],
     [139, 2.418, 8962.455]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B1MarsCoefficients =
@@ -238,7 +240,7 @@ export const g_B1MarsCoefficients =
     [33, 3.46, 5621.84],
     [26, 2.48, 2281.23]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B2MarsCoefficients =
@@ -251,7 +253,7 @@ export const g_B2MarsCoefficients =
     [12, 2.24, 3337.09],
     [8, 2.25, 16703.06]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B3MarsCoefficients =
@@ -261,7 +263,7 @@ export const g_B3MarsCoefficients =
     [14, 1.80, 6681.22],
     [3, 3.45, 10021.84]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B4MarsCoefficients =
@@ -270,7 +272,7 @@ export const g_B4MarsCoefficients =
     [11, 3.46, 3340.61],
     [1, 0.50, 6681.22]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R0MarsCoefficients =
@@ -321,7 +323,7 @@ export const g_R0MarsCoefficients =
     [176, 5.953, 3870.303],
     [164, 3.799, 4136.910]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R1MarsCoefficients =
@@ -354,7 +356,7 @@ export const g_R1MarsCoefficients =
     [48, 2.29, 2914.01],
     [39, 2.32, 4136.91]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R2MarsCoefficients =
@@ -371,7 +373,7 @@ export const g_R2MarsCoefficients =
     [10, 5.39, 1059.38],
     [10, 0.42, 796.30]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R3MarsCoefficients =
@@ -383,7 +385,7 @@ export const g_R3MarsCoefficients =
     [5, 3.14, 0],
     [3, 0.43, 16703.06]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R4MarsCoefficients =
@@ -393,5 +395,5 @@ export const g_R4MarsCoefficients =
     [6, 4.46, 10021.84],
     [2, 4.84, 13362.45]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })

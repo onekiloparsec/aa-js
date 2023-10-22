@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js'
+
 export const gL0EarthCoefficients =
   [
     [175347046, 0, 0],
@@ -65,7 +67,7 @@ export const gL0EarthCoefficients =
     [30, 2.74, 1349.87],
     [25, 3.16, 4690.48]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gL1EarthCoefficients =
@@ -105,7 +107,7 @@ export const gL1EarthCoefficients =
     [6, 2.65, 9437.76],
     [6, 4.67, 4690.48]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gL2EarthCoefficients =
@@ -131,7 +133,7 @@ export const gL2EarthCoefficients =
     [2, 4.38, 5223.69],
     [2, 3.75, 0.98]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gL3EarthCoefficients =
@@ -144,7 +146,7 @@ export const gL3EarthCoefficients =
     [1, 5.30, 18849.23],
     [1, 5.97, 242.73]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gL4EarthCoefficients =
@@ -153,14 +155,14 @@ export const gL4EarthCoefficients =
     [8, 4.13, 6283.08],
     [1, 3.84, 12566.15]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gL5EarthCoefficients =
   [
     [1, 3.14, 0]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gB0EarthCoefficients =
@@ -171,7 +173,7 @@ export const gB0EarthCoefficients =
     [44, 3.70, 2352.87],
     [32, 4.00, 1577.34]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gB1EarthCoefficients =
@@ -179,7 +181,7 @@ export const gB1EarthCoefficients =
     [9, 3.90, 5507.55],
     [6, 1.73, 5223.69]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gR0EarthCoefficients =
@@ -225,7 +227,7 @@ export const gR0EarthCoefficients =
     [28, 1.90, 6279.55],
     [26, 4.59, 10447.39]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gR1EarthCoefficients =
@@ -241,7 +243,7 @@ export const gR1EarthCoefficients =
     [9, 1.42, 6275.96],
     [9, 0.27, 5486.78]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gR2EarthCoefficients =
@@ -253,7 +255,7 @@ export const gR2EarthCoefficients =
     [6, 1.87, 5573.14],
     [3, 5.47, 18849.23]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gR3EarthCoefficients =
@@ -261,14 +263,14 @@ export const gR3EarthCoefficients =
     [145, 4.273, 6283.076],
     [7, 3.92, 12566.15]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gR4EarthCoefficients =
   [
     [4, 2.56, 6283.08]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gL1EarthCoefficientsJ2000 =
@@ -308,7 +310,7 @@ export const gL1EarthCoefficientsJ2000 =
     [6, 2.65, 9437.76],
     [6, 4.67, 4690.48]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gL2EarthCoefficientsJ2000 =
@@ -334,7 +336,7 @@ export const gL2EarthCoefficientsJ2000 =
     [2, 4.38, 5223.69],
     [2, 3.75, 0.98]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gL3EarthCoefficientsJ2000 =
@@ -347,7 +349,7 @@ export const gL3EarthCoefficientsJ2000 =
     [1, 5.97, 242.73],
     [1, 5.54, 18849.23]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gL4EarthCoefficientsJ2000 =
@@ -355,7 +357,7 @@ export const gL4EarthCoefficientsJ2000 =
     [8, 4.14, 6283.08],
     [1, 3.28, 12566.15]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gB1EarthCoefficientsJ2000 =
@@ -368,7 +370,7 @@ export const gB1EarthCoefficientsJ2000 =
     [8, 1.79, 5223.69],
     [6, 5.20, 2352.87]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gB2EarthCoefficientsJ2000 =
@@ -378,7 +380,7 @@ export const gB2EarthCoefficientsJ2000 =
     [134, 0.644, 12566.152],
     [7, 1.07, 18849.23]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gB3EarthCoefficientsJ2000 =
@@ -387,7 +389,7 @@ export const gB3EarthCoefficientsJ2000 =
     [17, 3.14, 0],
     [4, 0.12, 12566.15]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const gB4EarthCoefficientsJ2000 =
@@ -395,5 +397,5 @@ export const gB4EarthCoefficientsJ2000 =
     [6, 2.27, 6283.08],
     [1, 0, 0]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })

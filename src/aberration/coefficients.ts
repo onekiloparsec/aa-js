@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js'
+
 export const g_AberrationCoefficients =
   [
     //L2   L3   L4  L5  L6  L7  L8  Ldash D   Mdash F   xsin      xsint xcos    xcost ysin   ysint ycos     ycost zsin   zsint zcos    zcost
@@ -39,29 +41,29 @@ export const g_AberrationCoefficients =
     [0, 0, 0, 0, 0, 0, 0, 1, -2, 0, 0, 5, 0, 0, 0, 0, 0, -5, 0, 0, 0, -2, 0],
   ].map(a => {
     return {
-      L2: a[0],
-      L3: a[1],
-      L4: a[2],
-      L5: a[3],
-      L6: a[4],
-      L7: a[5],
-      L8: a[6],
-      Ldash: a[7],
-      D: a[8],
-      Mdash: a[9],
-      F: a[10],
-      xsin: a[11],
-      xsint: a[12],
-      xcos: a[13],
-      xcost: a[14],
-      ysin: a[15],
-      ysint: a[16],
-      ycos: a[17],
-      ycost: a[18],
-      zsin: a[19],
-      zsint: a[20],
-      zcos: a[21],
-      zcost: a[22]
+      L2: new Decimal(a[0]),
+      L3: new Decimal(a[1]),
+      L4: new Decimal(a[2]),
+      L5: new Decimal(a[3]),
+      L6: new Decimal(a[4]),
+      L7: new Decimal(a[5]),
+      L8: new Decimal(a[6]),
+      Ldash: new Decimal(a[7]),
+      D: new Decimal(a[8]),
+      Mdash: new Decimal(a[9]),
+      F: new Decimal(a[10]),
+      xsin: new Decimal(a[11]),
+      xsint: new Decimal(a[12]),
+      xcos: new Decimal(a[13]),
+      xcost: new Decimal(a[14]),
+      ysin: new Decimal(a[15]),
+      ysint: new Decimal(a[16]),
+      ycos: new Decimal(a[17]),
+      ycost: new Decimal(a[18]),
+      zsin: new Decimal(a[19]),
+      zsint: new Decimal(a[20]),
+      zcos: new Decimal(a[21]),
+      zcost: new Decimal(a[22])
     }
   })
 

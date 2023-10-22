@@ -1,9 +1,10 @@
-
 // See AA. Table 47.A, pp 339-340
 // Periodic terms for the longitude Epsilon_l and distance Epsilon_r of the Moon.
 // The unit is 0.000001 degree for Epsilon_l and 0.001 for Epsilon_r
 
 // Argument (multiple of D, M, Mprime, F)
+import Decimal from 'decimal.js'
+
 export const gMoonCoefficients1 =
   [
     [0, 0, 1, 0],
@@ -67,7 +68,7 @@ export const gMoonCoefficients1 =
     [2, 0, 3, 0],
     [2, 0, -1, -2]
   ].map((a) => {
-    return { D: a[0], M: a[1], Mdash: a[2], F: a[3] }
+    return { D: new Decimal(a[0]), M: new Decimal(a[1]), Mdash: new Decimal(a[2]), F: new Decimal(a[3]) }
   })
 
 export const gMoonCoefficients2 =
@@ -133,7 +134,7 @@ export const gMoonCoefficients2 =
     [294, 0],
     [0, 8752]
   ].map((a) => {
-    return { A: a[0], B: a[1] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]) }
   })
 
 export const gMoonCoefficients3 =
@@ -199,7 +200,7 @@ export const gMoonCoefficients3 =
     [4, -1, 0, -1],
     [2, -2, 0, 1]
   ].map((a) => {
-    return { D: a[0], M: a[1], Mdash: a[2], F: a[3] }
+    return { D: new Decimal(a[0]), M: new Decimal(a[1]), Mdash: new Decimal(a[2]), F: new Decimal(a[3]) }
   })
 
 export const gMoonCoefficients4 =
@@ -264,4 +265,6 @@ export const gMoonCoefficients4 =
     -119,
     115,
     107
-  ]
+  ].map((a) => {
+    return new Decimal(a)
+  })
