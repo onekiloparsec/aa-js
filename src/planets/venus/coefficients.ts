@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js'
+
 export const g_L0VenusCoefficients =
   [
     [317614667, 0, 0],
@@ -25,7 +27,7 @@ export const g_L0VenusCoefficients =
     [128, 0.962, 5661.332],
     [106, 1.537, 801.821]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L1VenusCoefficients =
@@ -43,7 +45,7 @@ export const g_L1VenusCoefficients =
     [30, 1.25, 5507.55],
     [25, 6.11, 10404.73]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L2VenusCoefficients =
@@ -57,7 +59,7 @@ export const g_L2VenusCoefficients =
     [7, 1.52, 1577.34],
     [6, 1.00, 191.45]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L3VenusCoefficients =
@@ -66,7 +68,7 @@ export const g_L3VenusCoefficients =
     [78, 3.67, 20426.57],
     [26, 0, 0]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L4VenusCoefficients =
@@ -75,14 +77,14 @@ export const g_L4VenusCoefficients =
     [3, 5.21, 20426.57],
     [2, 2.51, 10213.29]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L5VenusCoefficients =
   [
     [1, 3.14, 0]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B0VenusCoefficients =
@@ -97,7 +99,7 @@ export const g_B0VenusCoefficients =
     [120, 3.705, 2352.866],
     [108, 4.539, 22003.915]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B1VenusCoefficients =
@@ -107,7 +109,7 @@ export const g_B1VenusCoefficients =
     [199, 0, 0],
     [197, 2.530, 30639.857]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B2VenusCoefficients =
@@ -117,7 +119,7 @@ export const g_B2VenusCoefficients =
     [173, 5.256, 20426.571],
     [27, 3.87, 30639.86]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B3VenusCoefficients =
@@ -127,14 +129,14 @@ export const g_B3VenusCoefficients =
     [6, 0.77, 20426.57],
     [3, 5.44, 30639.86]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B4VenusCoefficients =
   [
     [14, 0.32, 10213.29]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R0VenusCoefficients =
@@ -152,7 +154,7 @@ export const g_R0VenusCoefficients =
     [126, 2.728, 1577.344],
     [119, 3.020, 10404.734]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R1VenusCoefficients =
@@ -161,7 +163,7 @@ export const g_R1VenusCoefficients =
     [234, 1.772, 20426.571],
     [234, 3.142, 0]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R2VenusCoefficients =
@@ -170,19 +172,19 @@ export const g_R2VenusCoefficients =
     [16, 5.47, 20426.57],
     [13, 0, 0]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R3VenusCoefficients =
   [
     [50, 3.22, 10213.29]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R4VenusCoefficients =
   [
     [1, 0.92, 10213.29]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })

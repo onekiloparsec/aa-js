@@ -1,17 +1,11 @@
-import { AstronomicalUnit, Equinox, JulianDay, KilometerPerSecond } from '@/types'
+import Decimal from 'decimal.js'
+import { JulianDay } from '@/types'
 import { getFractionalYear } from '@/dates'
-import {
-  getPlanetInstantaneousVelocity,
-  getPlanetVelocityAtAphelion,
-  getPlanetVelocityAtPerihelion
-} from '../elliptical'
-import { getRadiusVector } from './coordinates'
-import { orbitalElements, orbitalElementsJ2000 } from './constants'
 
 // The value of K must be an integer
-function getK (jd: JulianDay): number {
+function getK (jd: JulianDay | number): Decimal {
   const decimalYear = getFractionalYear(jd)
-  return Math.floor(1.62549 * (decimalYear - 2000.53))
+  return Decimal.floor(new Decimal(1.62549).mul(decimalYear.minus(2000.53)))
 }
 
 /**
@@ -19,9 +13,11 @@ function getK (jd: JulianDay): number {
  * @param {JulianDay} jd The julian day
  * @returns {JulianDay}
  */
-export function getAphelion (jd: JulianDay): JulianDay {
-  const kdash = getK(jd) + 0.5
-  return 2451738.233 + 224.7008188 * kdash - 0.0000000327 * kdash * kdash
+export function getAphelion (jd: JulianDay | number): JulianDay {
+  const kdash = getK(jd).plus(0.5)
+  return new Decimal(2451738.233)
+    .plus(new Decimal(224.7008188).mul(kdash))
+    .minus(new Decimal(0.0000000327).mul(kdash.pow(2)))
 }
 
 /**
@@ -29,7 +25,9 @@ export function getAphelion (jd: JulianDay): JulianDay {
  * @param {JulianDay} jd The julian day
  * @returns {JulianDay}
  */
-export function getPerihelion (jd: JulianDay): JulianDay {
+export function getPerihelion (jd: JulianDay | number): JulianDay {
   const k = getK(jd)
-  return 2451738.233 + 224.7008188 * k - 0.0000000327 * k * k
+  return new Decimal(2451738.233)
+    .plus(new Decimal(224.7008188).mul(k))
+    .minus(new Decimal(0.0000000327).mul(k.pow(2)))
 }
