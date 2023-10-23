@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js'
+
 export const g_L0NeptuneCoefficients =
   [
     [531188633, 0, 0],
@@ -39,7 +41,7 @@ export const g_L0NeptuneCoefficients =
     [103, 4.404, 70.328],
     [102, 5.705, 0.112]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L1NeptuneCoefficients =
@@ -63,7 +65,7 @@ export const g_L1NeptuneCoefficients =
     [29, 5.17, 2.45],
     [26, 5.25, 168.05]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L2NeptuneCoefficients =
@@ -76,7 +78,7 @@ export const g_L2NeptuneCoefficients =
     [9, 4.43, 35.16],
     [7, 0.54, 2.45]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L3NeptuneCoefficients =
@@ -86,14 +88,14 @@ export const g_L3NeptuneCoefficients =
     [12, 6.04, 1.48],
     [12, 6.11, 38.13]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L4NeptuneCoefficients =
   [
     [114, 3.142, 0]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B0NeptuneCoefficients =
@@ -116,7 +118,7 @@ export const g_B0NeptuneCoefficients =
     [206, 4.257, 529.691],
     [140, 3.530, 137.033]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B1NeptuneCoefficients =
@@ -135,7 +137,7 @@ export const g_B1NeptuneCoefficients =
     [37, 5.76, 2.97],
     [26, 5.22, 213.30]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B2NeptuneCoefficients =
@@ -147,7 +149,7 @@ export const g_B2NeptuneCoefficients =
     [30, 1.61, 39.62],
     [6, 5.61, 74.78]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B3NeptuneCoefficients =
@@ -157,14 +159,14 @@ export const g_B3NeptuneCoefficients =
     [2, 2.37, 36.65],
     [2, 5.33, 76.27]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B4NeptuneCoefficients =
   [
     [6, 2.67, 38.13]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R0NeptuneCoefficients =
@@ -202,7 +204,7 @@ export const g_R0NeptuneCoefficients =
     [2306, 2.8096, 70.3282],
     [2087, 0.6186, 33.9402]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R1NeptuneCoefficients =
@@ -223,7 +225,7 @@ export const g_R1NeptuneCoefficients =
     [572, 3.401, 484.444],
     [561, 2.887, 498.671]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R2NeptuneCoefficients =
@@ -234,12 +236,12 @@ export const g_R2NeptuneCoefficients =
     [156, 4.594, 182.280],
     [127, 2.848, 35.164]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R3NeptuneCoefficients =
   [
     [166, 4.552, 38.133]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
