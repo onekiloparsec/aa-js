@@ -1,9 +1,10 @@
+import Decimal from 'decimal.js'
 import { RAD2DEG } from '@/constants'
 import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '@/types'
-import { fmod360, fmod90 } from '@/utils'
+import { getJulianMillenium } from '@/juliandays'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/earth/nutation'
-
+import { fmod360, fmod90 } from '@/utils'
 import {
   g_B0MarsCoefficients,
   g_B1MarsCoefficients,
@@ -22,8 +23,6 @@ import {
   g_R3MarsCoefficients,
   g_R4MarsCoefficients
 } from './coefficients'
-import Decimal from 'decimal.js'
-import { getJulianMillenium } from '@/juliandays'
 
 /**
  * Ecliptic longitude
@@ -98,7 +97,6 @@ export function getRadiusVector (jd: JulianDay | number) {
       .plus(R4.mul(rho.pow(4)))
   )
     .dividedBy(1e8)
-
 }
 
 /**
