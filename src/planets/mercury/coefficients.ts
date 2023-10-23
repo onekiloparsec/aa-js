@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js'
+
 export const g_L0MercuryCoefficients =
   [
     [440250710, 0, 0],
@@ -39,7 +41,7 @@ export const g_L0MercuryCoefficients =
     [118, 2.781, 77204.327],
     [106, 4.206, 19804.827]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L1MercuryCoefficients =
@@ -61,7 +63,7 @@ export const g_L1MercuryCoefficients =
     [28, 3.04, 51066.43],
     [27, 5.09, 234791.13]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L2MercuryCoefficients =
@@ -77,7 +79,7 @@ export const g_L2MercuryCoefficients =
     [15, 4.63, 1109.38],
     [12, 0.79, 208703.23]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L3MercuryCoefficients = [
@@ -90,7 +92,7 @@ export const g_L3MercuryCoefficients = [
   [7, 5.82, 156527.42],
   [3, 2.57, 182615.32]
 ].map((a) => {
-  return { A: a[0], B: a[1], C: a[2] }
+  return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
 })
 
 export const g_L4MercuryCoefficients = [
@@ -101,13 +103,13 @@ export const g_L4MercuryCoefficients = [
   [1, 4.50, 104351.61],
   [1, 1.27, 130439.52]
 ].map((a) => {
-  return { A: a[0], B: a[1], C: a[2] }
+  return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
 })
 
 export const g_L5MercuryCoefficients = [
   [1, 3.14, 0]
 ].map((a) => {
-  return { A: a[0], B: a[1], C: a[2] }
+  return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
 })
 
 export const g_B0MercuryCoefficients = [
@@ -126,7 +128,7 @@ export const g_B0MercuryCoefficients = [
   [121, 1.813, 53285.185],
   [100, 5.657, 20426.571]
 ].map((a) => {
-  return { A: a[0], B: a[1], C: a[2] }
+  return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
 })
 
 export const g_B1MercuryCoefficients = [
@@ -142,7 +144,7 @@ export const g_B1MercuryCoefficients = [
   [28, 0.29, 27197.28],
   [26, 5.98, 234791.13]
 ].map((a) => {
-  return { A: a[0], B: a[1], C: a[2] }
+  return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
 })
 
 export const g_B2MercuryCoefficients = [
@@ -156,7 +158,7 @@ export const g_B2MercuryCoefficients = [
   [18, 4.67, 182615.32],
   [7, 1.43, 208703.23]
 ].map((a) => {
-  return { A: a[0], B: a[1], C: a[2] }
+  return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
 })
 
 export const g_B3MercuryCoefficients = [
@@ -168,14 +170,14 @@ export const g_B3MercuryCoefficients = [
   [3, 3.12, 130439.52],
   [2, 6.27, 156527.42]
 ].map((a) => {
-  return { A: a[0], B: a[1], C: a[2] }
+  return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
 })
 
 export const g_B4MercuryCoefficients = [
   [4, 1.75, 26087.90],
   [1, 3.14, 0]
 ].map((a) => {
-  return { A: a[0], B: a[1], C: a[2] }
+  return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
 })
 
 export const g_R0MercuryCoefficients = [
@@ -193,7 +195,7 @@ export const g_R0MercuryCoefficients = [
   [142, 6.253, 24978.525],
   [100, 3.734, 21535.950]
 ].map((a) => {
-  return { A: a[0], B: a[1], C: a[2] }
+  return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
 })
 
 export const g_R1MercuryCoefficients = [
@@ -206,7 +208,7 @@ export const g_R1MercuryCoefficients = [
   [153, 1.061, 156527.419],
   [39, 4.11, 182615.32]
 ].map((a) => {
-  return { A: a[0], B: a[1], C: a[2] }
+  return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
 })
 
 export const g_R2MercuryCoefficients = [
@@ -218,7 +220,7 @@ export const g_R2MercuryCoefficients = [
   [22, 3.14, 0],
   [13, 5.80, 156527.42]
 ].map((a) => {
-  return { A: a[0], B: a[1], C: a[2] }
+  return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
 })
 
 export const g_R3MercuryCoefficients = [
@@ -228,5 +230,5 @@ export const g_R3MercuryCoefficients = [
   [5, 4.44, 104351.61],
   [2, 1.21, 130439.52]
 ].map((a) => {
-  return { A: a[0], B: a[1], C: a[2] }
+  return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
 })
