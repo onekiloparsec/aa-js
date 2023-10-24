@@ -1,5 +1,5 @@
 import Decimal from 'decimal.js'
-import { Degree, JulianDay, PlanetOrbitalElements } from '@/types'
+import { AstronomicalUnit, Degree, JulianDay, LengthArray } from '@/types'
 import { getJulianCentury } from '@/juliandays'
 
 function getValue (jd: JulianDay | number, elementValues: [Decimal, Decimal, Decimal, Decimal]) {
@@ -10,26 +10,26 @@ function getValue (jd: JulianDay | number, elementValues: [Decimal, Decimal, Dec
     .plus(new Decimal(elementValues[3]).mul(T.pow(3)))
 }
 
-export function getPlanetMeanLongitude (jd: JulianDay | number, planetElements: PlanetOrbitalElements): Degree {
-  return getValue(jd, planetElements.meanLongitude)
+export function getPlanetMeanLongitude (jd: JulianDay | number, meanLongitude: LengthArray<Degree, 4>): Degree {
+  return getValue(jd, meanLongitude)
 }
 
-export function getPlanetSemiMajorAxis (jd: JulianDay | number, planetElements: PlanetOrbitalElements): Degree {
-  return getValue(jd, planetElements.semiMajorAxis)
+export function getPlanetSemiMajorAxis (jd: JulianDay | number, semiMajorAxis: LengthArray<AstronomicalUnit, 4>): Degree {
+  return getValue(jd, semiMajorAxis)
 }
 
-export function getPlanetEccentricity (jd: JulianDay | number, planetElements: PlanetOrbitalElements): Decimal {
-  return getValue(jd, planetElements.eccentricity)
+export function getPlanetEccentricity (jd: JulianDay | number, eccentricity: LengthArray<Decimal, 4>): Decimal {
+  return getValue(jd, eccentricity)
 }
 
-export function getPlanetInclination (jd: JulianDay | number, planetElements: PlanetOrbitalElements): Degree {
-  return getValue(jd, planetElements.inclination)
+export function getPlanetInclination (jd: JulianDay | number, inclination: LengthArray<Degree, 4>): Degree {
+  return getValue(jd, inclination)
 }
 
-export function getPlanetLongitudeOfAscendingNode (jd: JulianDay | number, planetElements: PlanetOrbitalElements): Degree {
-  return getValue(jd, planetElements.longitudeOfAscendingNode)
+export function getPlanetLongitudeOfAscendingNode (jd: JulianDay | number, longitudeOfAscendingNode: LengthArray<Degree, 4>): Degree {
+  return getValue(jd, longitudeOfAscendingNode)
 }
 
-export function getPlanetLongitudeOfPerihelion (jd: JulianDay | number, planetElements: PlanetOrbitalElements): Degree {
-  return getValue(jd, planetElements.longitudeOfPerihelion)
+export function getPlanetLongitudeOfPerihelion (jd: JulianDay | number, longitudeOfPerihelion: LengthArray<Degree, 4>): Degree {
+  return getValue(jd, longitudeOfPerihelion)
 }

@@ -6,7 +6,7 @@ import {
   getEquatorialCoordinates,
   getRadiusVector
 } from './coordinates'
-import { constants, orbitalElements, orbitalElementsJ2000 } from './constants'
+import { constants, orbitalElements } from './constants'
 import { getAphelion, getPerihelion } from './base'
 import {
   getGeocentricDistance,
@@ -73,6 +73,5 @@ export const Jupiter: JupiterPlanet = {
   getPlanetocentricDeclinationOfTheSun,
   // Fixed values
   constants,
-  orbitalElements,
-  orbitalElementsJ2000,
+  orbitalElements
 }

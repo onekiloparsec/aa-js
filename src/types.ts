@@ -306,20 +306,6 @@ export type PlanetConstants = {
   escapeVelocity: KilometerPerSecond
 }
 
-export type LengthArray<T, N extends number, R extends T[] = []> = Decimal extends N ? T[] : R['length'] extends N ? R : LengthArray<T, N, [T, ...R]>;
-
-/**
- * Elements of Planetary Orbits
- */
-export type PlanetOrbitalElements = {
-  semiMajorAxis: LengthArray<AstronomicalUnit, 4>
-  meanLongitude: LengthArray<Degree, 4>
-  eccentricity: LengthArray<Decimal, 4>
-  inclination: LengthArray<Degree, 4>
-  longitudeOfAscendingNode: LengthArray<Degree, 4>
-  longitudeOfPerihelion: LengthArray<Degree, 4>
-}
-
 export type SingleCoordinateDegreeAtJulianDayFunction = (jd: JulianDay | number) => Degree
 export type EclipticCoordinatesAtJulianDayFunction = (jd: JulianDay | number) => EclipticCoordinates
 export type EquatorialCoordinatesAtJulianDayFunction = (jd: JulianDay | number) => EquatorialCoordinates
@@ -365,7 +351,6 @@ export class Planet {
   // Fixed values
   constants: PlanetConstants
   orbitalElements: PlanetOrbitalElements
-  orbitalElementsJ2000: PlanetOrbitalElements
 }
 
 export class MinorPlanet {
@@ -458,4 +443,27 @@ export enum Obliquity {
 export enum Equinox {
   MeanOfTheDate,
   StandardJ2000
+}
+
+
+export type LengthArray<T, N extends number, R extends T[] = []> = Decimal extends N ? T[] : R['length'] extends N ? R : LengthArray<T, N, [T, ...R]>;
+
+/**
+ * Elements of Planetary Orbits
+ */
+export type PlanetOrbitalElements = {
+  semiMajorAxis: LengthArray<AstronomicalUnit, 4>
+  eccentricity: LengthArray<Decimal, 4>,
+  [Equinox.MeanOfTheDate]: {
+    meanLongitude: LengthArray<Degree, 4>
+    inclination: LengthArray<Degree, 4>
+    longitudeOfAscendingNode: LengthArray<Degree, 4>
+    longitudeOfPerihelion: LengthArray<Degree, 4>
+  },
+  [Equinox.StandardJ2000]: {
+    meanLongitude: LengthArray<Degree, 4>
+    inclination: LengthArray<Degree, 4>
+    longitudeOfAscendingNode: LengthArray<Degree, 4>
+    longitudeOfPerihelion: LengthArray<Degree, 4>
+  }
 }

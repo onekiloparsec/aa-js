@@ -1,5 +1,5 @@
 import Decimal from 'decimal.js'
-import { AstronomicalUnit, Degree, LengthArray, PlanetConstants, PlanetOrbitalElements } from '@/types'
+import { AstronomicalUnit, Degree, Equinox, LengthArray, PlanetConstants, PlanetOrbitalElements } from '@/types'
 
 /**
  * Planet constants, copied from the JPL
@@ -19,47 +19,43 @@ export const constants: PlanetConstants = {
 }
 
 /**
- * Orbital Elements for the mean equinox of date
- * Reference: Astronomical Algorithms, J. Meus, pp. 212-213 (Table 31.A).
+ * Orbital Elements for the mean equinox of date and std J2000
+ * Reference: Astronomical Algorithms, J. Meus, pp. 212-215 (Table 31.A & 31.B).
  */
 export const orbitalElements: PlanetOrbitalElements = {
-  meanLongitude: [34.351_519, 3036.302_7748, 0.000_223_30, 0.000_000_037]
-    .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
-
   semiMajorAxis: [5.202_603_209, 0.000_000_1913, 0, 0]
     .map(v => new Decimal(v)) as LengthArray<AstronomicalUnit, 4>,
 
   eccentricity: [0.048_497_93, 0.000_163_225, -0.000_000_4714, -0.000_000_002_01]
     .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
 
-  inclination: [1.303_267, -0.005_4965, 0.000_004_66, -0.000_000_002]
-    .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
+  [Equinox.MeanOfTheDate]: {
+    meanLongitude: [34.351_519, 3036.302_7748, 0.000_223_30, 0.000_000_037]
+      .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
 
-  longitudeOfAscendingNode: [100.464_407, 1.020_9774, 0.000_403_15, 0.000_000_404]
-    .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
+    inclination: [1.303_267, -0.005_4965, 0.000_004_66, -0.000_000_002]
+      .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
 
-  longitudeOfPerihelion: [14.331_207, 1.612_6352, 0.001_030_42, -0.000_004_464]
-    .map(v => new Decimal(v)) as LengthArray<Degree, 4>
+    longitudeOfAscendingNode: [100.464_407, 1.020_9774, 0.000_403_15, 0.000_000_404]
+      .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
+
+    longitudeOfPerihelion: [14.331_207, 1.612_6352, 0.001_030_42, -0.000_004_464]
+      .map(v => new Decimal(v)) as LengthArray<Degree, 4>
+  },
+
+  [Equinox.StandardJ2000]: {
+    meanLongitude: [34.351_519, 3034.905_6606, -0.000_085_01, 0.000_000_016]
+      .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
+
+    inclination: [1.303_267, -0.001_9877, 0.000_033_20, 0.000_000_097]
+      .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
+
+    longitudeOfAscendingNode: [100.464_407, 0.176_7232, 0.000_907, -0.000_007_272]
+      .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
+
+    longitudeOfPerihelion: [14.331_207, 0.215_5209, 0.000_722_11, -0.000_004_485]
+      .map(v => new Decimal(v)) as LengthArray<Degree, 4>
+  }
 }
 
-/**
- * Orbital Elements for the standard equinox J2000
- * Reference: Astronomical Algorithms, J. Meus, pp. 212-213 (Table 31.B).
- */
-export const orbitalElementsJ2000: PlanetOrbitalElements = {
-  meanLongitude: [34.351_519, 3034.905_6606, -0.000_085_01, 0.000_000_016]
-    .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
-
-  semiMajorAxis: orbitalElements.semiMajorAxis,
-  eccentricity: orbitalElements.eccentricity,
-
-  inclination: [1.303_267, -0.001_9877, 0.000_033_20, 0.000_000_097]
-    .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
-
-  longitudeOfAscendingNode: [100.464_407, 0.176_7232, 0.000_907, -0.000_007_272]
-    .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
-
-  longitudeOfPerihelion: [14.331_207, 0.215_5209, 0.000_722_11, -0.000_004_485]
-    .map(v => new Decimal(v)) as LengthArray<Degree, 4>
-}
 

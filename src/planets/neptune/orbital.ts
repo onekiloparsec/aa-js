@@ -7,7 +7,7 @@ import {
   getPlanetMeanLongitude,
   getPlanetSemiMajorAxis
 } from '../orbital'
-import { orbitalElements, orbitalElementsJ2000 } from './constants'
+import { orbitalElements } from './constants'
 import Decimal from 'decimal.js'
 
 /**
@@ -17,8 +17,7 @@ import Decimal from 'decimal.js'
  * @returns {Degree} The mean longitude
  */
 export function getMeanLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
-  const elements = (equinox === Equinox.MeanOfTheDate) ? orbitalElements : orbitalElementsJ2000
-  return getPlanetMeanLongitude(jd, elements)
+  return getPlanetMeanLongitude(jd, orbitalElements[equinox].meanLongitude)
 }
 
 /**
@@ -28,8 +27,7 @@ export function getMeanLongitude (jd: JulianDay | number, equinox: Equinox = Equ
  * @returns {Degree} The semi major axis
  */
 export function getSemiMajorAxis (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
-  const elements = (equinox === Equinox.MeanOfTheDate) ? orbitalElements : orbitalElementsJ2000
-  return getPlanetSemiMajorAxis(jd, elements)
+  return getPlanetSemiMajorAxis(jd, orbitalElements.semiMajorAxis)
 }
 
 /**
@@ -39,8 +37,7 @@ export function getSemiMajorAxis (jd: JulianDay | number, equinox: Equinox = Equ
  * @returns {Degree} The orbit eccentricity
  */
 export function getEccentricity (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Decimal {
-  const elements = (equinox === Equinox.MeanOfTheDate) ? orbitalElements : orbitalElementsJ2000
-  return getPlanetEccentricity(jd, elements)
+  return getPlanetEccentricity(jd, orbitalElements.eccentricity)
 }
 
 /**
@@ -50,8 +47,7 @@ export function getEccentricity (jd: JulianDay | number, equinox: Equinox = Equi
  * @returns {Degree} The orbit inclination
  */
 export function getInclination (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
-  const elements = (equinox === Equinox.MeanOfTheDate) ? orbitalElements : orbitalElementsJ2000
-  return getPlanetInclination(jd, elements)
+  return getPlanetInclination(jd, orbitalElements[equinox].inclination)
 }
 
 /**
@@ -61,8 +57,7 @@ export function getInclination (jd: JulianDay | number, equinox: Equinox = Equin
  * @returns {Degree} The longitude of ascending node
  */
 export function getLongitudeOfAscendingNode (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
-  const elements = (equinox === Equinox.MeanOfTheDate) ? orbitalElements : orbitalElementsJ2000
-  return getPlanetLongitudeOfAscendingNode(jd, elements)
+  return getPlanetLongitudeOfAscendingNode(jd, orbitalElements[equinox].longitudeOfAscendingNode)
 }
 
 /**
@@ -72,6 +67,5 @@ export function getLongitudeOfAscendingNode (jd: JulianDay | number, equinox: Eq
  * @returns {Degree} The longitude of perihelion
  */
 export function getLongitudeOfPerihelion (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
-  const elements = (equinox === Equinox.MeanOfTheDate) ? orbitalElements : orbitalElementsJ2000
-  return getPlanetLongitudeOfPerihelion(jd, elements)
+  return getPlanetLongitudeOfPerihelion(jd, orbitalElements[equinox].longitudeOfPerihelion)
 }
