@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js'
+
 export const g_L0UranusCoefficients =
   [
     [548129294, 0, 0],
@@ -92,7 +94,7 @@ export const g_L0UranusCoefficients =
     [104, 1.458, 24.379],
     [103, 0.681, 14.978]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L1UranusCoefficients =
@@ -155,7 +157,7 @@ export const g_L1UranusCoefficients =
     [26, 4.99, 137.03],
     [25, 5.74, 380.13]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L2UranusCoefficients =
@@ -196,7 +198,7 @@ export const g_L2UranusCoefficients =
     [6, 4.52, 151.05],
     [6, 5.73, 462.02]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L3UranusCoefficients =
@@ -220,7 +222,7 @@ export const g_L3UranusCoefficients =
     [2, 0.86, 145.63],
     [2, 5.66, 9.56]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L4UranusCoefficients =
@@ -230,7 +232,7 @@ export const g_L4UranusCoefficients =
     [3, 0.35, 11.05],
     [1, 3.42, 56.62]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B0UranusCoefficients =
@@ -264,7 +266,7 @@ export const g_B0UranusCoefficients =
     [106, 0.941, 70.328],
     [102, 2.619, 78.714]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B1UranusCoefficients =
@@ -290,7 +292,7 @@ export const g_B1UranusCoefficients =
     [27, 5.34, 213.30],
     [26, 0.42, 380.13]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B2UranusCoefficients =
@@ -307,7 +309,7 @@ export const g_B2UranusCoefficients =
     [10, 5.00, 224.34],
     [8, 6.27, 78.71]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B3UranusCoefficients =
@@ -317,14 +319,14 @@ export const g_B3UranusCoefficients =
     [6, 4.01, 149.56],
     [3, 5.78, 73.30]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B4UranusCoefficients =
   [
     [6, 2.85, 74.78]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R0UranusCoefficients =
@@ -389,7 +391,7 @@ export const g_R0UranusCoefficients =
     [2364, 0.4425, 554.0700],
     [2183, 2.9404, 305.3462]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R1UranusCoefficients =
@@ -430,7 +432,7 @@ export const g_R1UranusCoefficients =
     [530, 5.917, 213.299],
     [528, 5.151, 2.969]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R2UranusCoefficients =
@@ -454,7 +456,7 @@ export const g_R2UranusCoefficients =
     [149, 4.898, 127.472],
     [129, 2.081, 3.181]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R3UranusCoefficients =
@@ -470,7 +472,7 @@ export const g_R3UranusCoefficients =
     [34, 3.82, 76.27],
     [32, 3.60, 131.40]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R4UranusCoefficients =
@@ -478,5 +480,5 @@ export const g_R4UranusCoefficients =
     [53, 3.01, 74.78],
     [10, 1.91, 56.62]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
