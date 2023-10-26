@@ -27,7 +27,7 @@ export const orbitalElements: PlanetOrbitalElements = {
     .map(v => new Decimal(v)) as LengthArray<AstronomicalUnit, 4>,
 
   eccentricity: [0.009_455_75, 0.000_006_033, 0, -0.000_000_000_05]
-    .map(v => new Decimal(v)) as LengthArray<Degree, 4>,
+    .map(v => new Decimal(v)) as LengthArray<Decimal, 4>,
 
   [Equinox.MeanOfTheDate]: {
     meanLongitude: [304.348_665, 219.883_3092, 0.000_308_82, 0.000_000_018]
