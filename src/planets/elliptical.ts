@@ -3,6 +3,7 @@ import { DEG2RAD, ONE, PI, RAD2DEG, THREE, TWO } from '@/constants'
 import {
   AstronomicalUnit,
   Day,
+  Degree,
   EclipticCoordinates,
   JulianDay,
   KilometerPerSecond,
@@ -26,12 +27,15 @@ export type EllipticalDistance = {
   z: AstronomicalUnit
   Delta: AstronomicalUnit
   tau: Day
+  l: Degree
+  b: Degree
+  r: AstronomicalUnit
 }
 
-function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
-                                            eclipticLongitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
-                                            eclipticLatitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
-                                            radiusVectorFunc: QuantityInAstronomicalUnitAtJulianDayFunction): EllipticalDistance {
+export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
+                                                   eclipticLongitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
+                                                   eclipticLatitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
+                                                   radiusVectorFunc: QuantityInAstronomicalUnitAtJulianDayFunction): EllipticalDistance {
   // Calculate the position of the Earth first
   const earthCoords = {
     L: earthGetEclipticLongitude(jd).mul(DEG2RAD),
@@ -50,7 +54,10 @@ function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
     y: new Decimal(0),
     z: new Decimal(0),
     Delta: new Decimal(0),
-    tau: new Decimal(0)
+    tau: new Decimal(0),
+    l: new Decimal(0),
+    b: new Decimal(0),
+    r: new Decimal(0)
   }
 
   let JD0 = new Decimal(jd)
@@ -89,6 +96,10 @@ function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
         .sqrt()
 
       distanceDetails.tau = getLightTimeFromDistance(distanceDetails.Delta)
+
+      distanceDetails.l = coords.L
+      distanceDetails.b = coords.B
+      distanceDetails.r = coords.R
 
       // Prepare for the next loop
       JD0 = new Decimal(jd).minus(distanceDetails.tau)
