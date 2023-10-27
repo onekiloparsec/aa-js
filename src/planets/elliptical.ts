@@ -114,7 +114,7 @@ export function getPlanetGeocentricEclipticCoordinates (jd: JulianDay | number,
 
   const geocentricEclipticCoordinates: EclipticCoordinates = {
     longitude: fmod360(Decimal.atan2(details.y, details.x).mul(RAD2DEG)),
-    latitude: fmod90(Decimal.atan2(details.z, details.x.pow(2).plus(details.y.pow(2)).sqrt()).mul(RAD2DEG))
+    latitude: fmod90(Decimal.atan2(details.z, Decimal.sqrt(details.x.pow(2).plus(details.y.pow(2)))).mul(RAD2DEG))
   }
 
   // Adjust for Aberration
