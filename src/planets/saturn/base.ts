@@ -1,10 +1,11 @@
+import Decimal from 'decimal.js'
 import { JulianDay } from '@/types'
 import { getFractionalYear } from '@/dates'
 
 // The value of K must be an integer
-function getK (jd: JulianDay): number {
+function getK (jd: JulianDay | number): Decimal {
   const decimalYear = getFractionalYear(jd)
-  return Math.floor(0.03393 * (decimalYear - 2003.52))
+  return Decimal.floor(new Decimal(0.03393).mul(decimalYear.minus(2003.52)))
 }
 
 /**
@@ -12,9 +13,11 @@ function getK (jd: JulianDay): number {
  * @param {JulianDay} jd The julian day
  * @returns {JulianDay}
  */
-export function getAphelion (jd: JulianDay): JulianDay {
-  const kdash = getK(jd) + 0.5
-  return 2452830.12 + 10764.21676 * kdash + 0.000827 * kdash * kdash
+export function getAphelion (jd: JulianDay | number): JulianDay {
+  const kdash = getK(jd).plus(0.5)
+  return new Decimal(2452830.12)
+    .plus(new Decimal(10764.21676).mul(kdash))
+    .plus(new Decimal(0.000827).mul(kdash.pow(2)))
 }
 
 /**
@@ -22,7 +25,9 @@ export function getAphelion (jd: JulianDay): JulianDay {
  * @param {JulianDay} jd The julian day
  * @returns {JulianDay}
  */
-export function getPerihelion (jd: JulianDay): JulianDay {
+export function getPerihelion (jd: JulianDay | number): JulianDay {
   const k = getK(jd)
-  return 2452830.12 + 10764.21676 * k + 0.000827 * k * k
+  return new Decimal(2452830.12)
+    .plus(new Decimal(10764.21676).mul(k))
+    .plus(new Decimal(0.000827).mul(k.pow(2)))
 }

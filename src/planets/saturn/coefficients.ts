@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js'
+
 export const g_L0SaturnCoefficients =
   [
     [87401354, 0, 0],
@@ -91,7 +93,7 @@ export const g_L0SaturnCoefficients =
     [103, 1.197, 1685.052],
     [101, 4.965, 269.921]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L1SaturnCoefficients =
@@ -176,7 +178,7 @@ export const g_L1SaturnCoefficients =
     [28, 2.74, 265.99],
     [26, 4.51, 340.77]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L2SaturnCoefficients =
@@ -245,7 +247,7 @@ export const g_L2SaturnCoefficients =
     [6, 4.46, 284.15],
     [6, 5.93, 405.26]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L3SaturnCoefficients =
@@ -299,7 +301,7 @@ export const g_L3SaturnCoefficients =
     [2, 4.16, 223.59],
     [2, 3.07, 654.12]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L4SaturnCoefficients =
@@ -332,7 +334,7 @@ export const g_L4SaturnCoefficients =
     [2, 5.19, 302.16],
     [1, 1.55, 191.96]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_L5SaturnCoefficients =
@@ -350,7 +352,7 @@ export const g_L5SaturnCoefficients =
     [1, 0.24, 440.83],
     [1, 3.14, 0]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B0SaturnCoefficients =
@@ -390,7 +392,7 @@ export const g_B0SaturnCoefficients =
     [116, 3.109, 216.480],
     [114, 0.963, 210.118]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B1SaturnCoefficients =
@@ -428,7 +430,7 @@ export const g_B1SaturnCoefficients =
     [27, 4.65, 1066.50],
     [27, 4.44, 11.05]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B2SaturnCoefficients =
@@ -463,7 +465,7 @@ export const g_B2SaturnCoefficients =
     [6, 1.16, 117.32],
     [6, 3.61, 860.31]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B3SaturnCoefficients =
@@ -490,7 +492,7 @@ export const g_B3SaturnCoefficients =
     [3, 0.63, 103.09],
     [2, 3.72, 216.48]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B4SaturnCoefficients =
@@ -508,7 +510,7 @@ export const g_B4SaturnCoefficients =
     [1, 1.72, 440.83],
     [1, 6.18, 639.90]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_B5SaturnCoefficients =
@@ -516,7 +518,7 @@ export const g_B5SaturnCoefficients =
     [8, 2.82, 206.19],
     [1, 0.51, 220.41]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R0SaturnCoefficients =
@@ -566,7 +568,7 @@ export const g_R0SaturnCoefficients =
     [2174, 0.0151, 340.7709],
     [2024, 5.0541, 11.0457]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R1SaturnCoefficients =
@@ -610,7 +612,7 @@ export const g_R1SaturnCoefficients =
     [599, 2.549, 217.231],
     [503, 2.130, 3.932]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R2SaturnCoefficients =
@@ -648,7 +650,7 @@ export const g_R2SaturnCoefficients =
     [133, 2.594, 191.958],
     [132, 5.933, 309.278]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R3SaturnCoefficients =
@@ -682,7 +684,7 @@ export const g_R3SaturnCoefficients =
     [38, 5.94, 88.87],
     [32, 4.01, 21.34]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R4SaturnCoefficients =
@@ -711,7 +713,7 @@ export const g_R4SaturnCoefficients =
     [9, 0.68, 216.48],
     [8, 1.27, 234.64]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
 
 export const g_R5SaturnCoefficients =
@@ -735,5 +737,5 @@ export const g_R5SaturnCoefficients =
     [2, 3.32, 95.98],
     [2, 0.56, 117.32]
   ].map((a) => {
-    return { A: a[0], B: a[1], C: a[2] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
   })
