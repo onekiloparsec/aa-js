@@ -307,7 +307,9 @@ export type PlanetConstants = {
 }
 
 export type SingleCoordinateDegreeAtJulianDayFunction = (jd: JulianDay | number) => Degree
+export type SingleCoordinateDegreeWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox: Equinox) => Degree
 export type EclipticCoordinatesAtJulianDayFunction = (jd: JulianDay | number) => EclipticCoordinates
+export type EclipticCoordinatesWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox: Equinox) => EclipticCoordinates
 export type EquatorialCoordinatesAtJulianDayFunction = (jd: JulianDay | number) => EquatorialCoordinates
 export type JulianDayForJulianDayFunction = (jd: JulianDay | number) => JulianDay
 
@@ -420,9 +422,9 @@ export class NaturalMoon {
 }
 
 export class EarthPlanet {
-  getEclipticLongitude: SingleCoordinateDegreeAtJulianDayFunction
-  getEclipticLatitude: SingleCoordinateDegreeAtJulianDayFunction
-  getEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
+  getEclipticLongitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
+  getEclipticLatitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
+  getEclipticCoordinates: EclipticCoordinatesWithEquinoxAtJulianDayFunction
   getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
   getFlatteningCorrections: Function
   getMeanAnomaly: QuantityAtJulianDayFunction

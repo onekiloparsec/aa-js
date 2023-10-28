@@ -99,12 +99,13 @@ export function getEclipticLatitude (jd: JulianDay | number, equinox: Equinox = 
 /**
  * Heliocentric coordinates, see AA p.218, 219
  * @param {JulianDay} jd The julian day
+ * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {EclipticCoordinates}
  */
-export function getEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
+export function getEclipticCoordinates (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): EclipticCoordinates {
   return {
-    longitude: getEclipticLongitude(jd),
-    latitude: getEclipticLatitude(jd)
+    longitude: getEclipticLongitude(jd, equinox),
+    latitude: getEclipticLatitude(jd, equinox)
   }
 }
 
