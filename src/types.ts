@@ -425,8 +425,6 @@ export class EarthPlanet {
   getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
   getFlatteningCorrections: Function
   getMeanAnomaly: QuantityAtJulianDayFunction
-  getEclipticLongitudeJ2000: SingleCoordinateDegreeAtJulianDayFunction
-  getEclipticLatitudeJ2000: SingleCoordinateDegreeAtJulianDayFunction
   getEccentricity: QuantityAtJulianDayFunction
   getNutationInLongitude: QuantityInArcSecondAtJulianDayFunction
   getNutationInObliquity: QuantityInArcSecondAtJulianDayFunction
