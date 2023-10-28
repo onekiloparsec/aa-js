@@ -20,7 +20,6 @@ import {
   getGeocentricEquatorialCoordinates,
 } from './elliptical'
 
-// I know, this is a minor planet...
 export const Pluto: MinorPlanet = {
   getEclipticLongitude,
   getEclipticLatitude,
