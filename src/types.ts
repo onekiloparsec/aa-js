@@ -306,15 +306,29 @@ export type PlanetConstants = {
   escapeVelocity: KilometerPerSecond
 }
 
+export enum Obliquity {
+  Mean,
+  True
+}
+
+export enum Equinox {
+  MeanOfTheDate,
+  StandardJ2000
+}
+
+
 export type SingleCoordinateDegreeAtJulianDayFunction = (jd: JulianDay | number) => Degree
-export type SingleCoordinateDegreeWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox: Equinox) => Degree
 export type EclipticCoordinatesAtJulianDayFunction = (jd: JulianDay | number) => EclipticCoordinates
-export type EclipticCoordinatesWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox: Equinox) => EclipticCoordinates
 export type EquatorialCoordinatesAtJulianDayFunction = (jd: JulianDay | number) => EquatorialCoordinates
 export type JulianDayForJulianDayFunction = (jd: JulianDay | number) => JulianDay
 
+export type SingleCoordinateDegreeWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox: Equinox) => Degree
+export type EclipticCoordinatesWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox: Equinox) => EclipticCoordinates
+export type EquatorialCoordinatesWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox: Equinox) => EquatorialCoordinates
+
 export type QuantityAtJulianDayFunction = (jd: JulianDay | number) => Decimal
 export type QuantityInDegreeAtJulianDayFunction = (jd: JulianDay | number) => Degree
+export type QuantityInDegreeAtJulianCenturyFunction = (jd: JulianCentury | number) => Degree
 export type QuantityInMagnitudeAtJulianDayFunction = (jd: JulianDay | number) => Magnitude
 export type QuantityInAstronomicalUnitAtJulianDayFunction = (jd: JulianDay | number) => AstronomicalUnit
 export type QuantityInKilometerPerSecondAtJulianDayFunction = (jd: JulianDay | number) => KilometerPerSecond
@@ -436,16 +450,24 @@ export interface EarthPlanet {
   Moon: NaturalMoon
 }
 
-export enum Obliquity {
-  Mean,
-  True
+export interface NaturalSun {
+  getMeanAnomaly: QuantityInDegreeAtJulianDayFunction
+  getTrueAnomaly: QuantityInDegreeAtJulianDayFunction
+  getEquationOfTheCenter: Function
+  getMeanLongitudeReferredToMeanEquinoxOfDate: QuantityInDegreeAtJulianCenturyFunction
+  getGeometricEclipticLongitude: QuantityInDegreeAtJulianDayFunction
+  getGeocentricEclipticLongitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
+  getGeocentricEclipticLatitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
+  getGeometricFK5EclipticLongitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
+  getGeometricFK5EclipticLatitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
+  getEclipticCoordinates: EclipticCoordinatesWithEquinoxAtJulianDayFunction
+  getEquatorialCoordinates: EquatorialCoordinatesWithEquinoxAtJulianDayFunction
+  getApparentEclipticLongitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
+  getApparentEclipticLatitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
+  getApparentEclipticCoordinates: EclipticCoordinatesWithEquinoxAtJulianDayFunction
+  getApparentEquatorialCoordinates: EquatorialCoordinatesWithEquinoxAtJulianDayFunction
+  getVariationGeometricEclipticLongitude: QuantityInDegreeAtJulianDayFunction
 }
-
-export enum Equinox {
-  MeanOfTheDate,
-  StandardJ2000
-}
-
 
 export type LengthArray<T, N extends number, R extends T[] = []> = Decimal extends N ? T[] : R['length'] extends N ? R : LengthArray<T, N, [T, ...R]>;
 
