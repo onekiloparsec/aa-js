@@ -1,4 +1,4 @@
-import * as utils from '@/src/utils'
+import * as utils from '@/utils'
 import Decimal from 'decimal.js'
 
 describe('utils', () => {

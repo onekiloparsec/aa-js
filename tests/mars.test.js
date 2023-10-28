@@ -1,4 +1,5 @@
-import { Mars, juliandays } from '../src'
+import { Mars } from '@/planets'
+import * as juliandays from '@/juliandays'
 
 
 // See AA p.291, Example 42.a, see also SwiftAA
@@ -7,10 +8,10 @@ test('check physical details', () => {
   const jd = juliandays.getJulianDay(UTCDate)
 
   const earthDec = Mars.getPlanetocentricDeclinationOfTheEarth(jd)
-  expect(earthDec).toBeCloseTo(12.44)// deg
+  expect(earthDec.toNumber()).toBeCloseTo(12.44)// deg
 
   const sunDec = Mars.getPlanetocentricDeclinationOfTheSun(jd)
-  expect(sunDec).toBeCloseTo(-2.76)// deg
+  expect(sunDec.toNumber()).toBeCloseTo(-2.76)// deg
 
   // const posAngle = mars.positionAngleOfNorthernRotationPole(jd)
   // expect(posAngle).toBeCloseTo(347.64)// deg
@@ -25,6 +26,6 @@ test('check physical details', () => {
   // expect(posDefectIllum).toBeCloseTo(279.91) // deg
 
   const apparentDiameter = Mars.getEquatorialSemiDiameter(jd)
-  expect(apparentDiameter).toBeCloseTo(10.75 / 2) // arcsec
+  expect(apparentDiameter.toNumber()).toBeCloseTo(10.75 / 2) // arcsec
 })
 
