@@ -23,20 +23,18 @@ export function getMeanLongitude (jd: JulianDay | number, equinox: Equinox = Equ
 /**
  * Computes the orbit semi major axis at a given time.
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree} The semi major axis
  */
-export function getSemiMajorAxis (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
+export function getSemiMajorAxis (jd: JulianDay | number): Degree {
   return getPlanetSemiMajorAxis(jd, orbitalElements.semiMajorAxis)
 }
 
 /**
  * Computes the orbit eccentricity
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree} The orbit eccentricity
  */
-export function getEccentricity (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Decimal {
+export function getEccentricity (jd: JulianDay | number): Decimal {
   return getPlanetEccentricity(jd, orbitalElements.eccentricity)
 }
 
