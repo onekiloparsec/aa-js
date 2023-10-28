@@ -57,7 +57,7 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number) {
 /**
  * Computes the object instantaneous velocity in the orbit
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
+ * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {KilometerPerSecond} The velocity
  */
 export function getInstantaneousVelocity (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
@@ -67,7 +67,7 @@ export function getInstantaneousVelocity (jd: JulianDay | number, equinox: Equin
 /**
  * Computes the object's velocity at perihelion
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
+ * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {KilometerPerSecond} The velocity
  */
 export function getVelocityAtPerihelion (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
@@ -77,7 +77,7 @@ export function getVelocityAtPerihelion (jd: JulianDay | number, equinox: Equino
 /**
  * Computes the object's velocity at aphelion
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
+ * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {KilometerPerSecond} The velocity
  */
 export function getVelocityAtAphelion (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
@@ -87,7 +87,7 @@ export function getVelocityAtAphelion (jd: JulianDay | number, equinox: Equinox 
 /**
  * Computes the object's length of orbit ellipse
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
+ * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {AstronomicalUnit} The ellipse length
  */
 export function getLengthOfEllipse (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): AstronomicalUnit {

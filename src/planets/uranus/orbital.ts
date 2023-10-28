@@ -13,7 +13,7 @@ import Decimal from 'decimal.js'
 /**
  * Computes the orbit mean longitude at a given time.
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
+ * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree} The mean longitude
  */
 export function getMeanLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
@@ -23,7 +23,7 @@ export function getMeanLongitude (jd: JulianDay | number, equinox: Equinox = Equ
 /**
  * Computes the orbit semi major axis at a given time.
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
+ * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree} The semi major axis
  */
 export function getSemiMajorAxis (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
@@ -33,7 +33,7 @@ export function getSemiMajorAxis (jd: JulianDay | number, equinox: Equinox = Equ
 /**
  * Computes the orbit eccentricity
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
+ * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree} The orbit eccentricity
  */
 export function getEccentricity (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Decimal {
@@ -43,7 +43,7 @@ export function getEccentricity (jd: JulianDay | number, equinox: Equinox = Equi
 /**
  * Computes the orbit inclination
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
+ * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree} The orbit inclination
  */
 export function getInclination (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
@@ -53,7 +53,7 @@ export function getInclination (jd: JulianDay | number, equinox: Equinox = Equin
 /**
  * Computes the longitude of the ascending node
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
+ * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree} The longitude of ascending node
  */
 export function getLongitudeOfAscendingNode (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
@@ -63,7 +63,7 @@ export function getLongitudeOfAscendingNode (jd: JulianDay | number, equinox: Eq
 /**
  * Computes the longitude of the perihelion
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used (MeanOfTheDate or StandardJ2000)
+ * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree} The longitude of perihelion
  */
 export function getLongitudeOfPerihelion (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
