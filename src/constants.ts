@@ -21,7 +21,6 @@ export const TWO = new Decimal(2)
 export const THREE = new Decimal(3)
 export const FOUR = new Decimal(4)
 export const FIVE = new Decimal(5)
-export const TEN = new Decimal(10)
 export const MINUSONE = new Decimal(-1)
 
 export const J1970: JulianDay = new Decimal(2440588.0)
@@ -113,8 +112,20 @@ export const ABSOLUTE_ZERO_TEMPERATURE_CELSIUS = new Decimal(-273.15)
 //   [6, 'goldenHourEnd', 'goldenHour']
 // ]
 
-export const SUN_EVENTS_ALTITUDES: Degree[] = [new Decimal(-0.833), new Decimal(-6), new Decimal(-12), new Decimal(-18)]
-export const SUN_EXTENDED_EVENTS_ALTITUDES: Degree[] = [new Decimal(6), new Decimal(-0.3), new Decimal(-0.833), new Decimal(-6), new Decimal(-12), new Decimal(-18)]
+export const SUN_EVENTS_ALTITUDES: Degree[] = [
+  new Decimal(-0.833),
+  new Decimal(-6),
+  new Decimal(-12),
+  new Decimal(-18)
+]
+export const SUN_EXTENDED_EVENTS_ALTITUDES: Degree[] = [
+  new Decimal(6),
+  new Decimal(-0.3),
+  new Decimal(-0.833),
+  new Decimal(-6),
+  new Decimal(-12),
+  new Decimal(-18)
+]
 
 // See AA. p 101 for Rise & Set
 export const STANDARD_ALTITUDE_STARS = new Decimal(-0.5667)
