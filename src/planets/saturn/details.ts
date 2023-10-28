@@ -17,10 +17,8 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
   const R = Earth.getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
   return fmod360(
-    (
-      Decimal.acos(r.pow(2).plus(Delta.pow(2)).minus(R.pow(2))
-        .dividedBy(TWO.mul(r).mul(Delta)))
-    ).mul(RAD2DEG)
+    Decimal.acos((r.pow(2).plus(Delta.pow(2)).minus(R.pow(2)))
+        .dividedBy(TWO.mul(r).mul(Delta))).mul(RAD2DEG)
   )
 }
 
