@@ -26,8 +26,6 @@ import {
   g_R5SaturnCoefficients
 } from './coefficients'
 
-const cos = Math.cos
-
 /**
  * Ecliptic longitude
  * @param {JulianDay} jd The julian day
