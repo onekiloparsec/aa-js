@@ -1,3 +1,5 @@
+import Decimal from 'decimal.js'
+
 export const g_PlutoArgumentCoefficients =
   [
     [0, 0, 1],
@@ -44,7 +46,7 @@ export const g_PlutoArgumentCoefficients =
     [3, 0, -1],
     [3, 0, 0]
   ].map((a) => {
-    return { J: a[0], S: a[1], P: a[2] }
+    return { J: new Decimal(a[0]), S: new Decimal(a[1]), P: new Decimal(a[2]) }
   })
 
 export const g_PlutoLongitudeCoefficients =
@@ -93,7 +95,7 @@ export const g_PlutoLongitudeCoefficients =
     [5, -3],
     [0, 0]
   ].map((a) => {
-    return { A: a[0], B: a[1] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]) }
   })
 
 export const g_PlutoLatitudeCoefficients =
@@ -142,7 +144,7 @@ export const g_PlutoLatitudeCoefficients =
     [0, 0],
     [1, 0]
   ].map((a) => {
-    return { A: a[0], B: a[1] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]) }
   })
 
 export const g_PlutoRadiusCoefficients =
@@ -191,5 +193,5 @@ export const g_PlutoRadiusCoefficients =
     [19, 35],
     [10, 3]
   ].map((a) => {
-    return { A: a[0], B: a[1] }
+    return { A: new Decimal(a[0]), B: new Decimal(a[1]) }
   })

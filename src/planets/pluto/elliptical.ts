@@ -12,7 +12,7 @@ import { getTrueObliquityOfEcliptic } from '@/earth/nutation'
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
  */
-export function getGeocentricDistance (jd: JulianDay): AstronomicalUnit {
+export function getGeocentricDistance (jd: JulianDay | number): AstronomicalUnit {
   return getPlanetGeocentricDistance(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
 }
 
@@ -24,7 +24,7 @@ export function getGeocentricDistance (jd: JulianDay): AstronomicalUnit {
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
  */
-export function getGeocentricEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
+export function getGeocentricEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
   return getPlanetGeocentricEclipticCoordinates(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
 }
 
@@ -37,7 +37,7 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay): EclipticCoordi
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
  */
-export function getGeocentricEquatorialCoordinates (jd: JulianDay) {
+export function getGeocentricEquatorialCoordinates (jd: JulianDay | number) {
   const geocentricEclipticCoordinates = getGeocentricEclipticCoordinates(jd)
   return transformEclipticToEquatorial(
     geocentricEclipticCoordinates.longitude,

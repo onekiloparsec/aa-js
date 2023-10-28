@@ -1,5 +1,6 @@
+import Decimal from 'decimal.js'
 import { Degree, JulianDay, Magnitude } from '@/types'
-import { DEG2RAD, RAD2DEG } from '@/constants'
+import { DEG2RAD, ONE, RAD2DEG, TWO } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
 import { getRadiusVector } from './coordinates'
@@ -10,11 +11,15 @@ import { getGeocentricDistance } from './elliptical'
  * @param {JulianDay} jd The julian day
  * @return {Degree}
  */
-export function getPhaseAngle (jd: JulianDay): Degree {
+export function getPhaseAngle (jd: JulianDay | number): Degree {
   const r = getRadiusVector(jd)
   const R = Earth.getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
-  return fmod360(RAD2DEG * (Math.acos((r * r + Delta * Delta - R * R) / (2 * r * Delta))))
+  return fmod360(
+    Decimal.acos((r.pow(2).plus(Delta.pow(2)).minus(R.pow(2)))
+      .dividedBy(TWO.mul(r).mul(Delta)))
+      .mul(RAD2DEG)
+  )
 }
 
 /**
@@ -22,9 +27,9 @@ export function getPhaseAngle (jd: JulianDay): Degree {
  * @param {JulianDay} jd The julian day
  * @returns {number}
  */
-export function getIlluminatedFraction (jd: JulianDay): number {
-  const phaseAngle = getPhaseAngle(jd) * DEG2RAD
-  return (1 + Math.cos(phaseAngle)) / 2
+export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
+  const i = getPhaseAngle(jd).mul(DEG2RAD)
+  return (ONE.plus(Decimal.cos(i))).dividedBy(2)
 }
 
 /**
@@ -35,10 +40,11 @@ export function getIlluminatedFraction (jd: JulianDay): number {
  * @param {JulianDay} jd The julian day
  * @returns {Magnitude}
  */
-export function getMagnitude (jd: JulianDay): Magnitude {
+export function getMagnitude (jd: JulianDay | number): Magnitude {
   const r = getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
-  return -1.00 + 5 * Math.log10(r * Delta)
+  return new Decimal(-1.00)
+    .plus(new Decimal(5).mul(Decimal.log10(r.mul(Delta))))
 }
 
 /**
@@ -51,9 +57,9 @@ export function getMagnitude (jd: JulianDay): Magnitude {
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
  */
-export function getEquatorialSemiDiameter (jd: JulianDay): Degree {
+export function getEquatorialSemiDiameter (jd: JulianDay | number): Degree {
   const Delta = getGeocentricDistance(jd)
-  return 2.07 / Delta
+  return new Decimal(2.07).dividedBy(Delta)
 }
 
 /**
@@ -64,6 +70,6 @@ export function getEquatorialSemiDiameter (jd: JulianDay): Degree {
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
  */
-export function getPolarSemiDiameter (jd: JulianDay): Degree {
+export function getPolarSemiDiameter (jd: JulianDay | number): Degree {
   return getEquatorialSemiDiameter(jd)
 }
