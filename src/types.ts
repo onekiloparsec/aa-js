@@ -320,7 +320,7 @@ export type QuantityInAstronomicalUnitAtJulianDayFunction = (jd: JulianDay | num
 export type QuantityInKilometerPerSecondAtJulianDayFunction = (jd: JulianDay | number) => KilometerPerSecond
 export type QuantityInArcSecondAtJulianDayFunction = (jd: JulianDay | number) => ArcSecond
 
-export class Planet {
+export interface Planet {
   // Heliocentric coordinates
   getEclipticLongitude: SingleCoordinateDegreeAtJulianDayFunction
   getEclipticLatitude: SingleCoordinateDegreeAtJulianDayFunction
@@ -355,7 +355,7 @@ export class Planet {
   orbitalElements: PlanetOrbitalElements
 }
 
-export class MinorPlanet {
+export interface MinorPlanet {
   getEclipticLongitude: SingleCoordinateDegreeAtJulianDayFunction
   getEclipticLatitude: SingleCoordinateDegreeAtJulianDayFunction
   getEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
@@ -372,7 +372,7 @@ export class MinorPlanet {
   constants: PlanetConstants
 }
 
-export class SaturnRingSystem {
+export interface SaturnRingSystem {
   majorAxis: ArcSecond
   minorAxis: ArcSecond
   northPolePositionAngle: Degree
@@ -383,22 +383,22 @@ export class SaturnRingSystem {
 
 export type SaturnRingSystemFunction = (jd: JulianDay) => SaturnRingSystem
 
-export class MarsPlanet extends Planet {
+export interface MarsPlanet extends Planet {
   getPlanetocentricDeclinationOfTheSun: QuantityInDegreeAtJulianDayFunction
   getPlanetocentricDeclinationOfTheEarth: QuantityInDegreeAtJulianDayFunction
 }
 
-export class SaturnPlanet extends Planet {
+export interface SaturnPlanet extends Planet {
   getRingSystemDetails: SaturnRingSystemFunction
 }
 
-export class JupiterPlanet extends Planet {
+export interface JupiterPlanet extends Planet {
   getCentralMeridianLongitudes: Function
   getPlanetocentricDeclinationOfTheSun: QuantityInDegreeAtJulianDayFunction
   getPlanetocentricDeclinationOfTheEarth: QuantityInDegreeAtJulianDayFunction
 }
 
-export class NaturalMoon {
+export interface NaturalMoon {
   getMeanLongitude: QuantityInDegreeAtJulianDayFunction
   getMeanElongation: QuantityInDegreeAtJulianDayFunction
   getMeanAnomaly: QuantityInDegreeAtJulianDayFunction
@@ -421,7 +421,7 @@ export class NaturalMoon {
   getPositionAngleOfTheBrightLimb: QuantityInDegreeAtJulianDayFunction
 }
 
-export class EarthPlanet {
+export interface EarthPlanet {
   getEclipticLongitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
   getEclipticLatitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
   getEclipticCoordinates: EclipticCoordinatesWithEquinoxAtJulianDayFunction
