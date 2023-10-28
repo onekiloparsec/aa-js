@@ -416,6 +416,7 @@ export class NaturalMoon {
   getPhaseAngle: QuantityInDegreeAtJulianDayFunction
   getIlluminatedFraction: QuantityAtJulianDayFunction
   getEquatorialHorizontalParallax: QuantityInDegreeAtJulianDayFunction
+  getPositionAngleOfTheBrightLimb: QuantityInDegreeAtJulianDayFunction
 }
 
 export class EarthPlanet {

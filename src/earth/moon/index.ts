@@ -1,3 +1,4 @@
+import { NaturalMoon } from '@/types'
 import {
   getApparentEquatorialCoordinates,
   getArgumentOfLatitude,
@@ -16,9 +17,12 @@ import {
   radiusVectorToHorizontalParallax,
   trueLongitudeOfAscendingNode
 } from './coordinates'
-
-import { getEquatorialHorizontalParallax, getIlluminatedFraction, getPhaseAngle } from './details'
-import { NaturalMoon } from '@/types'
+import {
+  getEquatorialHorizontalParallax,
+  getIlluminatedFraction,
+  getPhaseAngle,
+  getPositionAngleOfTheBrightLimb
+} from './details'
 
 export const Moon: NaturalMoon = {
   getMeanLongitude,
@@ -39,5 +43,6 @@ export const Moon: NaturalMoon = {
   getApparentEquatorialCoordinates,
   getPhaseAngle,
   getIlluminatedFraction,
-  getEquatorialHorizontalParallax
+  getEquatorialHorizontalParallax,
+  getPositionAngleOfTheBrightLimb
 }
