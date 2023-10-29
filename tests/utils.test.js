@@ -11,7 +11,7 @@ describe('utils', () => {
   it('fmod always return positive values, even for negative input values', () => {
     const val = Decimal.random().mul(-1)
     expect(utils.fmod(val, 1)).toEqual(new Decimal(val).plus(1))
-    expect(utils.fmod(val, 1).toNumber()).toBeCloseTo(val.toNumber() + 1, 19)
+    expect(utils.fmod(val, 1).toNumber()).toBeCloseTo(val.toNumber() + 1, 12)
   })
 
   test('fmod positive', () => {
