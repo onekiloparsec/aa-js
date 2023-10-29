@@ -7,6 +7,7 @@
 // by Ned Wright
 // 25 Jul 1999
 // Copyright Edward L. Wright, all rights reserved.
+// https://www.astro.ucla.edu/~wright/CosmoCalc.html
 //
 // Adapted/modernized by Stuart Lowe @ dotAstronomy 2012, Heidelberg
 //
