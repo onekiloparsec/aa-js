@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js'
 import { RAD2DEG } from '@/constants'
-import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '@/types'
+import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '@/types'
 import { getJulianMillenium } from '@/juliandays'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/earth/nutation'
@@ -81,7 +81,7 @@ export function getEclipticLatitude (jd: JulianDay | number): Degree {
  * @param {JulianDay} jd The julian day
  * @return {AstronomicalUnit}
  */
-export function getRadiusVector (jd: JulianDay | number) {
+export function getRadiusVector (jd: JulianDay | number): AstronomicalUnit {
   const rho = getJulianMillenium(jd)
 
   const R0 = g_R0MarsCoefficients.reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(rho))))), new Decimal(0))

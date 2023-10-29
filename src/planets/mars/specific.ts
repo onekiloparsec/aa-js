@@ -1,21 +1,36 @@
 import Decimal from 'decimal.js'
-import { Degree, JulianDay } from '@/types'
+import { AstronomicalUnit, Degree, JulianCentury, JulianDay, Radian } from '@/types'
 import { DEG2RAD, MINUSONE, RAD2DEG, ZERO } from '@/constants'
 import { getLightTimeFromDistance } from '@/distances'
 import { getJulianCentury } from '@/juliandays'
-import { Earth } from '@/earth'
+import {
+  getEclipticLatitude as getEarthEclipticLatitude,
+  getEclipticLongitude as getEarthEclipticLongitude,
+  getRadiusVector as getEarthRadiusVector
+} from '@/earth/coordinates'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
-function computeMarsDetails (jd: JulianDay | number) {
+function computeMarsDetails (jd: JulianDay | number): {
+  T: JulianCentury,
+  Lambda0: Radian,
+  Beta0: Radian,
+  lambda: Radian,
+  beta: Radian,
+  l: Radian,
+  b: Radian,
+  r: AstronomicalUnit,
+  Delta: AstronomicalUnit
+} {
   const T = getJulianCentury(jd)
 
-  const Lambda0 = new Decimal(352.9065).plus(new Decimal(1.17330).mul(T))
-  const Beta0 = new Decimal(63.2818).minus(new Decimal(0.00394).mul(T))
+  // See AA, Equ 42.1, p.288
+  const Lambda0 = (new Decimal(352.9065).plus(new Decimal(1.17330).mul(T))).mul(DEG2RAD)
+  const Beta0 = (new Decimal(63.2818).minus(new Decimal(0.00394).mul(T))).mul(DEG2RAD)
 
   // Step 2
-  const l0 = Earth.getEclipticLongitude(jd).mul(DEG2RAD)
-  const b0 = Earth.getEclipticLatitude(jd).mul(DEG2RAD)
-  const R = Earth.getRadiusVector(jd)
+  const l0 = getEarthEclipticLongitude(jd).mul(DEG2RAD)
+  const b0 = getEarthEclipticLatitude(jd).mul(DEG2RAD)
+  const R = getEarthRadiusVector(jd)
 
   let previousLightTravelTime = ZERO
   let lightTravelTime = ZERO
@@ -52,26 +67,27 @@ function computeMarsDetails (jd: JulianDay | number) {
   }
 
   // Step 5
-  const lambda = Decimal.atan2(y, x).mul(RAD2DEG)
-  const beta = Decimal.atan2(z, Decimal.sqrt(x.pow(2).plus(y.pow(2)))).mul(RAD2DEG)
+  const lambda = Decimal.atan2(y, x)
+  const beta = Decimal.atan2(z, Decimal.sqrt(x.pow(2).plus(y.pow(2))))
 
   return { T, Lambda0, Beta0, lambda, beta, l, b, r, Delta }
 }
 
 /**
  * The planetocentric declination of the Earth.
- * When it is positive, the planet' northern pole is tilted towards the Earth.
+ * When it is positive, the planet northern pole is tilted towards the Earth.
  * @param jd
  */
-export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay | number) {
+export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay | number): Degree {
   const { Lambda0, Beta0, lambda, beta } = computeMarsDetails(jd)
 
-  const value1 = MINUSONE.mul(Beta0.mul(DEG2RAD).sin())
-    .mul(beta.mul(DEG2RAD).sin())
+  const value1 = MINUSONE
+    .mul(Decimal.sin(Beta0))
+    .mul(Decimal.sin(beta))
 
-  const value2 = Beta0.mul(DEG2RAD.cos())
-    .mul(beta.mul(DEG2RAD).cos())
-    .mul(DEG2RAD.mul(Lambda0.minus(lambda)).cos())
+  const value2 = Decimal.cos(Beta0)
+    .mul(Decimal.cos(beta))
+    .mul(Decimal.cos(Lambda0.minus(lambda)))
 
   // details.DE
   return Decimal.asin(value1.minus(value2)).mul(RAD2DEG)
@@ -79,7 +95,7 @@ export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay | number) 
 
 /**
  * The planetocentric declination of the Sun.
- * When it is positive, the planet' northern pole is tilted towards the sun.
+ * When it is positive, the planet northern pole is tilted towards the sun.
  * @param jd
  */
 export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay | number): Degree {
@@ -87,16 +103,19 @@ export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay | number): D
 
   // Step 7
   const N = new Decimal(49.5581).plus(new Decimal(0.7721).mul(T))
-  const ldash = l.minus(new Decimal(0.00697).dividedBy(r))
-  const bdash = b.minus(new Decimal(0.000225).mul(Decimal.cos((l.minus(N)).mul(DEG2RAD).dividedBy(r))))
+  const [ldeg, bdeg] = [l.mul(RAD2DEG), b.mul(RAD2DEG)]
+  const ldash: Degree = ldeg.minus(new Decimal(0.00697).dividedBy(r))
+  const bdash: Degree = bdeg.minus(new Decimal(0.000225)
+    .mul(Decimal.cos((ldeg.minus(N)).mul(DEG2RAD)))
+    .dividedBy(r))
 
   // Step 8
-  const value1 = MINUSONE.mul(Beta0.mul(DEG2RAD).sin())
-    .mul(bdash.mul(DEG2RAD).sin())
+  const value1 = MINUSONE.mul(Decimal.sin(Beta0))
+    .mul(Decimal.sin(bdash.mul(DEG2RAD)))
 
-  const value2 = Beta0.mul(DEG2RAD.cos())
-    .mul(bdash.mul(DEG2RAD).cos())
-    .mul(DEG2RAD.mul(Lambda0.minus(ldash)).cos())
+  const value2 = Decimal.cos(Beta0)
+    .mul(Decimal.cos(bdash.mul(DEG2RAD)))
+    .mul(Decimal.cos(Lambda0.minus(ldash.mul(DEG2RAD))))
 
   // details.DS
   return Decimal.asin(value1.minus(value2)).mul(RAD2DEG)
