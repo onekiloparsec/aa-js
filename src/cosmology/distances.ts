@@ -68,9 +68,8 @@ export function getAngularSizeDistance (H0: KilometerPerSecondPerMegaParsec | nu
  * @returns {number} Megaparsec / arcsecond
  */
 export function getAngularSizeScale (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number, z: Decimal | number): KiloparsecPerArcsecond {
-  const DA = getAngularSizeDistance(H0, omegaMat, omegaVac, z)
-  const DA_Mpc = (SPEED_OF_LIGHT.dividedBy(H0)).mul(DA)
-  return DA_Mpc.dividedBy(206.264806)
+  const DA_Mpc = getAngularSizeDistance(H0, omegaMat, omegaVac, z)
+  return DA_Mpc.dividedBy(206.264806) // to get kpc instead of MPC
 }
 
 /**

@@ -64,15 +64,15 @@ describe('cosmology', () => {
     expect(cosmology.getAngularSizeDistance(69.6, 0.286, 0.714, 1000).toNumber()).toBeCloseTo(13.92, 2)
   })
 
-  test('get angular size scale (Mpc)', () => {
+  test('get angular size scale (kpc/")', () => {
     expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 0).toNumber()).toEqual(0)
-    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 0.1).toNumber()).toBeCloseTo(383.0, 1)
-    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 1).toNumber()).toBeCloseTo(1675.3, 1)
-    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 2).toNumber()).toBeCloseTo(1757.6, 1)
-    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 3).toNumber()).toBeCloseTo(1620.3, 1)
-    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 10).toNumber()).toBeCloseTo(877.6, 1)
-    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 100).toNumber()).toBeCloseTo(127.6, 1)
-    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 1000).toNumber()).toBeCloseTo(13.92, 2)
+    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 0.1).toNumber()).toBeCloseTo(1.857, 1)
+    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 1).toNumber()).toBeCloseTo(8.122, 1)
+    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 2).toNumber()).toBeCloseTo(8.521, 1)
+    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 3).toNumber()).toBeCloseTo(7.855, 1)
+    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 10).toNumber()).toBeCloseTo(4.255, 1)
+    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 100).toNumber()).toBeCloseTo(0.619, 1)
+    expect(cosmology.getAngularSizeScale(69.6, 0.286, 0.714, 1000).toNumber()).toBeCloseTo(0.067, 2)
   })
 
   test('get luminosity distance (Mpc)', () => {
