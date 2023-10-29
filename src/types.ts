@@ -1,4 +1,5 @@
 import Decimal from 'decimal.js'
+import { getGeocentricEclipticCoordinates } from '@/earth/moon/coordinates'
 
 /**
  * Angular degree
@@ -417,9 +418,10 @@ export interface NaturalMoon {
   getMeanElongation: QuantityInDegreeAtJulianDayFunction
   getMeanAnomaly: QuantityInDegreeAtJulianDayFunction
   getArgumentOfLatitude: QuantityInDegreeAtJulianDayFunction
-  getEclipticLongitude: QuantityInDegreeAtJulianDayFunction
-  getEclipticLatitude: QuantityInDegreeAtJulianDayFunction
-  getEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
+  getGeocentricEclipticLongitude: QuantityInDegreeAtJulianDayFunction
+  getGeocentricEclipticLatitude: QuantityInDegreeAtJulianDayFunction
+  getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
+  getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
   getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
   radiusVectorToHorizontalParallax: Function
   horizontalParallaxToRadiusVector: Function
@@ -427,8 +429,6 @@ export interface NaturalMoon {
   getMeanLongitudePerigee: QuantityInDegreeAtJulianDayFunction
   trueLongitudeOfAscendingNode: QuantityInDegreeAtJulianDayFunction
   horizontalParallax: QuantityInDegreeAtJulianDayFunction
-  getEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
-  getApparentEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
   getPhaseAngle: QuantityInDegreeAtJulianDayFunction
   getIlluminatedFraction: QuantityAtJulianDayFunction
   getEquatorialHorizontalParallax: QuantityInDegreeAtJulianDayFunction
@@ -460,12 +460,11 @@ export interface NaturalSun {
   getGeocentricEclipticLatitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
   getGeometricFK5EclipticLongitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
   getGeometricFK5EclipticLatitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
-  getEclipticCoordinates: EclipticCoordinatesWithEquinoxAtJulianDayFunction
-  getEquatorialCoordinates: EquatorialCoordinatesWithEquinoxAtJulianDayFunction
-  getApparentEclipticLongitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
-  getApparentEclipticLatitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
-  getApparentEclipticCoordinates: EclipticCoordinatesWithEquinoxAtJulianDayFunction
-  getApparentEquatorialCoordinates: EquatorialCoordinatesWithEquinoxAtJulianDayFunction
+  getGeocentricEclipticCoordinates: EclipticCoordinatesWithEquinoxAtJulianDayFunction
+  getGeocentricEquatorialCoordinates: EquatorialCoordinatesWithEquinoxAtJulianDayFunction
+  getApparentGeocentricEclipticLongitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
+  getApparentGeocentricEclipticLatitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
+  getApparentGeocentricEclipticCoordinates: EclipticCoordinatesWithEquinoxAtJulianDayFunction
   getVariationGeometricEclipticLongitude: QuantityInDegreeAtJulianDayFunction
 }
 

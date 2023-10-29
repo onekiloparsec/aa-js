@@ -1,5 +1,5 @@
 import Decimal from 'decimal.js'
-import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer } from '@/types'
+import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer, Obliquity } from '@/types'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianCentury } from '@/juliandays'
 import { DEG2RAD, RAD2DEG, TWO } from '@/constants'
@@ -78,7 +78,7 @@ export function getArgumentOfLatitude (jd: JulianDay | number): Degree {
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
  */
-export function getEclipticLongitude (jd: JulianDay | number): Degree {
+export function getGeocentricEclipticLongitude (jd: JulianDay | number): Degree {
   const Ldash = getMeanLongitude(jd).mul(DEG2RAD)
   const D = getMeanElongation(jd).mul(DEG2RAD)
   const M = Sun.getMeanAnomaly(jd).mul(DEG2RAD)
@@ -119,7 +119,7 @@ export function getEclipticLongitude (jd: JulianDay | number): Degree {
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
  */
-export function getEclipticLatitude (jd: JulianDay | number): Degree {
+export function getGeocentricEclipticLatitude (jd: JulianDay | number): Degree {
   const Ldash = getMeanLongitude(jd).mul(DEG2RAD)
   const D = getMeanElongation(jd).mul(DEG2RAD)
   const M = Sun.getMeanAnomaly(jd).mul(DEG2RAD)
@@ -160,11 +160,26 @@ export function getEclipticLatitude (jd: JulianDay | number): Degree {
  * @param {JulianDay} jd The julian day
  * @returns {EclipticCoordinates}
  */
-export function getEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
+export function getGeocentricEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
   return {
-    longitude: getEclipticLongitude(jd),
-    latitude: getEclipticLatitude(jd)
+    longitude: getGeocentricEclipticLongitude(jd),
+    latitude: getGeocentricEclipticLatitude(jd)
   }
+}
+
+/**
+ * Geocentric equatorial coordinates
+ * @see getApparentEquatorialCoordinates
+ * @param {JulianDay} jd The julian day
+ * @param {Obliquity} obliquity The obloquity of the ecliptic. Default = Mean Obliquity.
+ * @returns {EquatorialCoordinates}
+ */
+export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinates {
+  return transformEclipticToEquatorial(
+    getGeocentricEclipticLongitude(jd),
+    getGeocentricEclipticLatitude(jd),
+    (obliquity === Obliquity.Mean) ? getMeanObliquityOfEcliptic(jd) : getTrueObliquityOfEcliptic(jd)
+  )
 }
 
 /**
@@ -192,6 +207,16 @@ export function getRadiusVector (jd: JulianDay | number): Kilometer {
   }, new Decimal(0))
 
   return new Decimal(385000.56).plus(SigmaR.dividedBy(1000))
+}
+
+
+/**
+ * Horizontal parallax
+ * @param {JulianDay} jd The julian day
+ * @return {Degree}
+ */
+export function horizontalParallax (jd: JulianDay | number): Degree {
+  return radiusVectorToHorizontalParallax(getRadiusVector(jd))
 }
 
 /**
@@ -268,39 +293,3 @@ export function trueLongitudeOfAscendingNode (jd: JulianDay | number): Degree {
   return fmod360(TrueAscendingNode)
 }
 
-/**
- * Horizontal parallax
- * @param {JulianDay} jd The julian day
- * @return {Degree}
- */
-export function horizontalParallax (jd: JulianDay | number): Degree {
-  return radiusVectorToHorizontalParallax(getRadiusVector(jd))
-}
-
-/**
- * Heliocentric equatorial coordinates
- * @see getApparentEquatorialCoordinates
- * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinates}
- */
-export function getEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinates {
-  return transformEclipticToEquatorial(
-    getEclipticLongitude(jd),
-    getEclipticLatitude(jd),
-    getMeanObliquityOfEcliptic(jd)
-  )
-}
-
-/**
- * Apparent heliocentric equatorial coordinates (using the true obliquity of the ecliptic)
- * @see getTrueObliquityOfEcliptic
- * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinates}
- */
-export function getApparentEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinates {
-  return transformEclipticToEquatorial(
-    getEclipticLongitude(jd),
-    getEclipticLatitude(jd),
-    getTrueObliquityOfEcliptic(jd)
-  )
-}

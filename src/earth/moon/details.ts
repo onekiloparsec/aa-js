@@ -3,11 +3,11 @@ import { Degree, JulianDay } from '@/types'
 import { DEG2RAD, H2RAD, ONE_UA_IN_KILOMETERS, RAD2DEG } from '@/constants'
 import { getRadiusVector as getEarthRadiusVector } from '@/earth/coordinates'
 import { Sun } from '@/sun'
-import { getEquatorialCoordinates, getRadiusVector } from './coordinates'
+import { getGeocentricEquatorialCoordinates, getRadiusVector } from './coordinates'
 
 export function getGeocentricElongation (jd: JulianDay | number): Degree {
-  const sunCoords = Sun.getEquatorialCoordinates(jd)
-  const moonCoords = getEquatorialCoordinates(jd)
+  const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd)
+  const moonCoords = getGeocentricEquatorialCoordinates(jd)
 
   const decRadSun = sunCoords.declination.mul(DEG2RAD)
   const decRadMoon = moonCoords.declination.mul(DEG2RAD)
@@ -42,8 +42,8 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
  * @return {Degree}
  */
 export function getPositionAngleOfTheBrightLimb (jd: JulianDay | number): Degree {
-  const sunCoords = Sun.getEquatorialCoordinates(jd)
-  const moonCoords = getEquatorialCoordinates(jd)
+  const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd)
+  const moonCoords = getGeocentricEquatorialCoordinates(jd)
 
   const alpha0 = sunCoords.rightAscension.mul(H2RAD)
   const alpha = moonCoords.rightAscension.mul(H2RAD)
