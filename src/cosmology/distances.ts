@@ -1,6 +1,6 @@
 import Decimal from 'decimal.js'
 import { HALF, MINUSONE, ONE, SPEED_OF_LIGHT } from '@/constants'
-import { KilometerPerSecondPerMegaParsec, MegaParsec } from '@/types'
+import { KilometerPerSecondPerMegaParsec, KiloparsecPerArcsecond, MegaParsec } from '@/types'
 import { getDCMRIntegral } from './utils'
 import { getOmegaK } from './omegas'
 
@@ -67,7 +67,7 @@ export function getAngularSizeDistance (H0: KilometerPerSecondPerMegaParsec | nu
  * @param {number} z The redshift
  * @returns {number} Megaparsec / arcsecond
  */
-export function getAngularSizeScale (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number, z: Decimal | number): Decimal {
+export function getAngularSizeScale (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number, z: Decimal | number): KiloparsecPerArcsecond {
   const DA = getAngularSizeDistance(H0, omegaMat, omegaVac, z)
   const DA_Mpc = (SPEED_OF_LIGHT.dividedBy(H0)).mul(DA)
   return DA_Mpc.dividedBy(206.264806)

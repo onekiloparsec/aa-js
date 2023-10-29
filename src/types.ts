@@ -85,6 +85,10 @@ export type MegaParsec = Decimal
  */
 export type GigaParsec3 = Decimal
 /**
+ * kpc/".
+ */
+export type KiloparsecPerArcsecond = Decimal
+/**
  * Logarithmic scale of luminosity
  */
 export type Magnitude = Decimal;
