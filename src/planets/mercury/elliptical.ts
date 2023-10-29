@@ -62,7 +62,7 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number) {
  * @returns {KilometerPerSecond} The velocity
  */
 export function getInstantaneousVelocity (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
-  return getPlanetInstantaneousVelocity(getRadiusVector(jd), getSemiMajorAxis(jd, equinox))
+  return getPlanetInstantaneousVelocity(getRadiusVector(jd), getSemiMajorAxis(jd))
 }
 
 /**
@@ -72,7 +72,7 @@ export function getInstantaneousVelocity (jd: JulianDay | number, equinox: Equin
  * @returns {KilometerPerSecond} The velocity
  */
 export function getVelocityAtPerihelion (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
-  return getPlanetVelocityAtPerihelion(getEccentricity(jd, equinox), getSemiMajorAxis(jd, equinox))
+  return getPlanetVelocityAtPerihelion(getEccentricity(jd), getSemiMajorAxis(jd))
 }
 
 /**
@@ -82,7 +82,7 @@ export function getVelocityAtPerihelion (jd: JulianDay | number, equinox: Equino
  * @returns {KilometerPerSecond} The velocity
  */
 export function getVelocityAtAphelion (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
-  return getPlanetVelocityAtAphelion(getEccentricity(jd, equinox), getSemiMajorAxis(jd, equinox))
+  return getPlanetVelocityAtAphelion(getEccentricity(jd), getSemiMajorAxis(jd))
 }
 
 /**
@@ -92,5 +92,5 @@ export function getVelocityAtAphelion (jd: JulianDay | number, equinox: Equinox 
  * @returns {AstronomicalUnit} The ellipse length
  */
 export function getLengthOfEllipse (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): AstronomicalUnit {
-  return getPlanetLengthOfEllipse(getEccentricity(jd, equinox), getSemiMajorAxis(jd, equinox))
+  return getPlanetLengthOfEllipse(getEccentricity(jd), getSemiMajorAxis(jd))
 }
