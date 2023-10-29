@@ -1,8 +1,8 @@
 import Decimal from 'decimal.js'
-import { ONE } from '@/constants'
+import { HALF, ONE } from '@/constants'
 import { GYr, KilometerPerSecondPerMegaParsec } from '@/types'
-import { getDCMRIntegral, Tyr } from './utils'
-
+import { getADot, getDCMRIntegral, INTEGRAL_POINTS_NUMBER, Tyr } from './utils'
+import { getOmegaK, getOmegaR } from './omegas'
 
 
 /**
@@ -13,11 +13,18 @@ import { getDCMRIntegral, Tyr } from './utils'
  * @returns {GYr}
  */
 export function getUniverseAge (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number): GYr {
-  // Different func, ignoring a!
-  const zage = getDCMRIntegral(H0, omegaMat, omegaVac, 0, (a, adot) => ONE.dividedBy(adot))
-  // TODO: It is probably wrong
-  // let zage = az * age / INTEGRAL_POINTS_NUMBER
-  return zage.mul(Tyr.dividedBy(H0))
+  const az = new Decimal(1.0)
+  const omegaR = getOmegaR(H0)
+  const omegaK = getOmegaK(H0, omegaMat, omegaVac)
+
+  let age = new Decimal(0)
+  for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
+    const a = az.mul(HALF.plus(i)).dividedBy(INTEGRAL_POINTS_NUMBER)
+    const adot = getADot(a, omegaK, omegaMat, omegaR, omegaVac)
+    age = age.plus(ONE.dividedBy(adot))
+  }
+  age = age.dividedBy(INTEGRAL_POINTS_NUMBER)
+  return age.mul(Tyr.dividedBy(H0))
 }
 
 /**
@@ -29,10 +36,18 @@ export function getUniverseAge (H0: KilometerPerSecondPerMegaParsec | number, om
  * @returns {GYr}
  */
 export function getUniverseAgeAtRedshift (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): GYr {
-  // Different func, ignoring a!
-  const zage = getDCMRIntegral(H0, omegaMat, omegaVac, z, (a, adot) => ONE.dividedBy(adot))
-  // TODO: It is probably wrong
-  // let zage = az * age / INTEGRAL_POINTS_NUMBER
+  const az = ONE.dividedBy(ONE.plus(z))
+  const omegaR = getOmegaR(H0)
+  const omegaK = getOmegaK(H0, omegaMat, omegaVac)
+
+  let age = new Decimal(0)
+  for (let i = 0; i < INTEGRAL_POINTS_NUMBER; i++) {
+    const a = az.mul(HALF.plus(i)).dividedBy(INTEGRAL_POINTS_NUMBER)
+    const adot = getADot(a, omegaK, omegaMat, omegaR, omegaVac)
+    age = age.plus(ONE.dividedBy(adot))
+  }
+
+  const zage = az.mul(age).dividedBy(INTEGRAL_POINTS_NUMBER)
 
   // correction for annihilations of particles not present now like e+/e-
   // added 13-Aug-03 based on T_vs_t.f

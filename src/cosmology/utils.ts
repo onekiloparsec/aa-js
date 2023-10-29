@@ -3,7 +3,7 @@ import { KilometerPerSecondPerMegaParsec } from '@/types'
 import { HALF, ONE } from '@/constants'
 import { getOmegaK, getOmegaR } from './omegas'
 
-const INTEGRAL_POINTS_NUMBER = 2000
+export const INTEGRAL_POINTS_NUMBER = 2000
 export const Tyr = new Decimal(977.8) // coefficient for converting 1/H into Gyr
 
 export function getADot (a: Decimal, omegaK: Decimal, omegaMat: Decimal | number, omegaR: Decimal, omegaVac: Decimal | number): Decimal {
