@@ -9,13 +9,15 @@ import {
 import { constants, orbitalElements } from './constants'
 import { getAphelion, getPerihelion } from './base'
 import {
+  getAccurateRiseTransitSet,
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
   getInstantaneousVelocity,
   getLengthOfEllipse,
+  getRiseTransitSet,
   getVelocityAtAphelion,
-  getVelocityAtPerihelion
+  getVelocityAtPerihelion,
 } from './elliptical'
 import {
   getEquatorialSemiDiameter,
@@ -48,6 +50,8 @@ export const Neptune: Planet = {
   getVelocityAtPerihelion,
   getVelocityAtAphelion,
   getLengthOfEllipse,
+  getRiseTransitSet,
+  getAccurateRiseTransitSet,
   // Planet orbital properties
   getMeanLongitude,
   getEccentricity,

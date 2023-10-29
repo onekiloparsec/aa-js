@@ -1,8 +1,9 @@
-import { AstronomicalUnit, EclipticCoordinates, JulianDay } from '@/types'
-import { getPlanetGeocentricDistance, getPlanetGeocentricEclipticCoordinates } from '../elliptical'
-import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
+import { AstronomicalUnit, EclipticCoordinates, GeographicCoordinates, JulianDay, RiseTransitSet } from '@/types'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getTrueObliquityOfEcliptic } from '@/earth/nutation'
+import { getPlanetGeocentricDistance, getPlanetGeocentricEclipticCoordinates } from '../elliptical'
+import { getPlanetAccurateRiseTransitSet, getPlanetRiseTransitSet } from '../risetransitsets'
+import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
 /**
  * Geocentric distance (distance between the planet and Earth's center).
@@ -45,3 +46,25 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number) {
     getTrueObliquityOfEcliptic(jd)
   )
 }
+
+
+/**
+ * Computes the (low-accuracy but fast) times of the rise, transit and set of the planet.
+ * @param  {JulianDay} jd The julian day
+ * @param {GeographicCoordinates} geoCoords The observer location.
+ * @returns {AstronomicalUnit} The ellipse length
+ */
+export function getRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates): RiseTransitSet {
+  return getPlanetRiseTransitSet(jd, geoCoords, getGeocentricEquatorialCoordinates)
+}
+
+/**
+ * Computes the accurate (better than a minute) times of the rise, transit and set of the planet.
+ * @param  {JulianDay} jd The julian day
+ * @param {GeographicCoordinates} geoCoords The observer location.
+ * @returns {AstronomicalUnit} The ellipse length
+ */
+export function getAccurateRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates): RiseTransitSet {
+  return getPlanetAccurateRiseTransitSet(jd, geoCoords, getGeocentricEquatorialCoordinates)
+}
+

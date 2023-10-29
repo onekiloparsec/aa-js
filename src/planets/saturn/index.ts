@@ -6,16 +6,18 @@ import {
   getEquatorialCoordinates,
   getRadiusVector
 } from './coordinates'
-import { constants, orbitalElements, orbitalElementsJ2000 } from './constants'
+import { constants, orbitalElements } from './constants'
 import { getAphelion, getPerihelion } from './base'
 import {
+  getAccurateRiseTransitSet,
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
   getInstantaneousVelocity,
   getLengthOfEllipse,
+  getRiseTransitSet,
   getVelocityAtAphelion,
-  getVelocityAtPerihelion
+  getVelocityAtPerihelion,
 } from './elliptical'
 import {
   getEquatorialSemiDiameter,
@@ -49,6 +51,8 @@ export const Saturn: SaturnPlanet = {
   getVelocityAtPerihelion,
   getVelocityAtAphelion,
   getLengthOfEllipse,
+  getRiseTransitSet,
+  getAccurateRiseTransitSet,
   // Planet orbital properties
   getMeanLongitude,
   getEccentricity,
@@ -67,6 +71,5 @@ export const Saturn: SaturnPlanet = {
   getRingSystemDetails,
   // Fixed values
   constants,
-  orbitalElements,
-  orbitalElementsJ2000,
+  orbitalElements
 }

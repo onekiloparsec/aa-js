@@ -15,7 +15,9 @@ import {
   getInstantaneousVelocity,
   getLengthOfEllipse,
   getVelocityAtAphelion,
-  getVelocityAtPerihelion
+  getVelocityAtPerihelion,
+  getRiseTransitSet,
+  getAccurateRiseTransitSet
 } from './elliptical'
 import {
   getEquatorialSemiDiameter,
@@ -48,6 +50,8 @@ export const Venus: Planet = {
   getVelocityAtPerihelion,
   getVelocityAtAphelion,
   getLengthOfEllipse,
+  getRiseTransitSet,
+  getAccurateRiseTransitSet,
   // Planet orbital properties
   getMeanLongitude,
   getEccentricity,

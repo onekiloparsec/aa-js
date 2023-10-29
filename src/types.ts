@@ -1,5 +1,4 @@
 import Decimal from 'decimal.js'
-import { getGeocentricEclipticCoordinates } from '@/earth/moon/coordinates'
 
 /**
  * Angular degree
@@ -335,6 +334,8 @@ export type QuantityInAstronomicalUnitAtJulianDayFunction = (jd: JulianDay | num
 export type QuantityInKilometerPerSecondAtJulianDayFunction = (jd: JulianDay | number) => KilometerPerSecond
 export type QuantityInArcSecondAtJulianDayFunction = (jd: JulianDay | number) => ArcSecond
 
+export type RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction = (jd: JulianDay | number, geoCoords: GeographicCoordinates) => RiseTransitSet
+
 export interface Planet {
   // Heliocentric coordinates
   getEclipticLongitude: SingleCoordinateDegreeAtJulianDayFunction
@@ -351,6 +352,8 @@ export interface Planet {
   getVelocityAtPerihelion: QuantityInKilometerPerSecondAtJulianDayFunction
   getVelocityAtAphelion: QuantityInKilometerPerSecondAtJulianDayFunction
   getLengthOfEllipse: QuantityInAstronomicalUnitAtJulianDayFunction
+  getRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction
+  getAccurateRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction
   // Planet orbital properties
   getMeanLongitude: QuantityInDegreeAtJulianDayFunction
   getEccentricity: QuantityAtJulianDayFunction
@@ -378,6 +381,8 @@ export interface MinorPlanet {
   getGeocentricDistance: QuantityInAstronomicalUnitAtJulianDayFunction
   getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
   getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
+  getRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction
+  getAccurateRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction
   getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
   getPhaseAngle: JulianDayForJulianDayFunction
   getIlluminatedFraction: QuantityAtJulianDayFunction

@@ -15,9 +15,11 @@ import {
   getPolarSemiDiameter
 } from './details'
 import {
+  getAccurateRiseTransitSet,
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
+  getRiseTransitSet,
 } from './elliptical'
 
 export const Pluto: MinorPlanet = {
@@ -28,6 +30,8 @@ export const Pluto: MinorPlanet = {
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
+  getRiseTransitSet,
+  getAccurateRiseTransitSet,
   getRadiusVector,
   getPhaseAngle,
   getIlluminatedFraction,

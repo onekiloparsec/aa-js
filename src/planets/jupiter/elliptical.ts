@@ -1,4 +1,14 @@
-import { AstronomicalUnit, EclipticCoordinates, Equinox, JulianDay, KilometerPerSecond } from '@/types'
+import {
+  AstronomicalUnit,
+  EclipticCoordinates,
+  GeographicCoordinates,
+  JulianDay,
+  KilometerPerSecond,
+  Obliquity,
+  RiseTransitSet
+} from '@/types'
+import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/earth/nutation'
+import { transformEclipticToEquatorial } from '@/coordinates'
 import {
   getPlanetGeocentricDistance,
   getPlanetGeocentricEclipticCoordinates,
@@ -7,10 +17,9 @@ import {
   getPlanetVelocityAtAphelion,
   getPlanetVelocityAtPerihelion
 } from '../elliptical'
+import { getPlanetAccurateRiseTransitSet, getPlanetRiseTransitSet } from '../risetransitsets'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 import { getEccentricity, getSemiMajorAxis } from './orbital'
-import { transformEclipticToEquatorial } from '@/coordinates'
-import { getTrueObliquityOfEcliptic } from '@/earth/nutation'
 
 /**
  * Geocentric distance (distance between the planet and Earth's center).
@@ -43,53 +52,71 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number): Eclip
  * @see getEquatorialCoordinates
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
+ * @param {Obliquity} obliquity The obliquity of the ecliptic. Mean or True. Default = Mean.
  * @returns {EquatorialCoordinates}
  */
-export function getGeocentricEquatorialCoordinates (jd: JulianDay | number) {
+export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean) {
   const geocentricEclipticCoordinates = getGeocentricEclipticCoordinates(jd)
   return transformEclipticToEquatorial(
     geocentricEclipticCoordinates.longitude,
     geocentricEclipticCoordinates.latitude,
-    getTrueObliquityOfEcliptic(jd)
+    (obliquity === Obliquity.Mean) ? getMeanObliquityOfEcliptic(jd) : getTrueObliquityOfEcliptic(jd)
   )
 }
 
 /**
  * Computes the object instantaneous velocity in the orbit
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {KilometerPerSecond} The velocity
  */
-export function getInstantaneousVelocity (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
+export function getInstantaneousVelocity (jd: JulianDay | number): KilometerPerSecond {
   return getPlanetInstantaneousVelocity(getRadiusVector(jd), getSemiMajorAxis(jd))
 }
 
 /**
  * Computes the object's velocity at perihelion
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {KilometerPerSecond} The velocity
  */
-export function getVelocityAtPerihelion (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
+export function getVelocityAtPerihelion (jd: JulianDay | number): KilometerPerSecond {
   return getPlanetVelocityAtPerihelion(getEccentricity(jd), getSemiMajorAxis(jd))
 }
 
 /**
  * Computes the object's velocity at aphelion
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {KilometerPerSecond} The velocity
  */
-export function getVelocityAtAphelion (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): KilometerPerSecond {
+export function getVelocityAtAphelion (jd: JulianDay | number): KilometerPerSecond {
   return getPlanetVelocityAtAphelion(getEccentricity(jd), getSemiMajorAxis(jd))
 }
 
 /**
  * Computes the object's length of orbit ellipse
  * @param  {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {AstronomicalUnit} The ellipse length
  */
-export function getLengthOfEllipse (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): AstronomicalUnit {
+export function getLengthOfEllipse (jd: JulianDay | number): AstronomicalUnit {
   return getPlanetLengthOfEllipse(getEccentricity(jd), getSemiMajorAxis(jd))
+}
+
+
+/**
+ * Computes the (low-accuracy but fast) times of the rise, transit and set of the planet.
+ * @param  {JulianDay} jd The julian day
+ * @param {GeographicCoordinates} geoCoords The observer location.
+ * @returns {AstronomicalUnit} The ellipse length
+ */
+export function getRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates): RiseTransitSet {
+  return getPlanetRiseTransitSet(jd, geoCoords, getGeocentricEquatorialCoordinates)
+}
+
+/**
+ * Computes the accurate (better than a minute) times of the rise, transit and set of the planet.
+ * @param  {JulianDay} jd The julian day
+ * @param {GeographicCoordinates} geoCoords The observer location.
+ * @returns {AstronomicalUnit} The ellipse length
+ */
+export function getAccurateRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates): RiseTransitSet {
+  return getPlanetAccurateRiseTransitSet(jd, geoCoords, getGeocentricEquatorialCoordinates)
 }

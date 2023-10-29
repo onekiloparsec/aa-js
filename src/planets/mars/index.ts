@@ -1,6 +1,6 @@
 /**
  @module Mars
-*/
+ */
 import { MarsPlanet } from '@/types'
 import {
   getEclipticCoordinates,
@@ -12,11 +12,13 @@ import {
 import { constants, orbitalElements } from './constants'
 import { getAphelion, getPerihelion } from './base'
 import {
+  getAccurateRiseTransitSet,
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
   getInstantaneousVelocity,
   getLengthOfEllipse,
+  getRiseTransitSet,
   getVelocityAtAphelion,
   getVelocityAtPerihelion
 } from './elliptical'
@@ -52,6 +54,8 @@ export const Mars: MarsPlanet = {
   getVelocityAtPerihelion,
   getVelocityAtAphelion,
   getLengthOfEllipse,
+  getRiseTransitSet,
+  getAccurateRiseTransitSet,
   // Planet orbital properties
   getMeanLongitude,
   getEccentricity,
