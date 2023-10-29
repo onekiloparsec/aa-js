@@ -17,27 +17,27 @@ describe('rise transit & sets', () => {
   })
 
 // See AA, pp 103 & 104
-//   test('approximate Venus on 1988 March 20 at Boston', () => {
-//     const date = new Date(Date.UTC(1988, 2, 20, 0, 0, 0))
-//     const jd = juliandays.getJulianDay(date)
-//     const coordsBoston = { latitude: 42.3333, longitude: -71.0833 }
-//     const coordsVenus = { rightAscension: 41.73129, declination: 18.44092 }
-//     const results = transits.getRiseSetTransitTimes(
-//       jd,
-//       coordsVenus.rightAscension * constants.DEG2H,
-//       coordsVenus.declination,
-//       coordsBoston.longitude,
-//       coordsBoston.latitude
-//     )
-//     expect(results.transit.isCircumpolar).toBeFalsy()
-//     expect(results.transit.isAboveHorizon).toBeTruthy()
-//     expect(results.transit.isAboveAltitude).toBeTruthy()
-//     expect(results.rise.utc).toBeCloseTo(24 * 0.51766, 2)
-//     // expect(results.transit.utc).toBeCloseTo(24 * 0.81980, 1)
-//     expect(results.set.utc).toBeCloseTo(24 * 0.12130, 6)
-//     expect(results.rise.julianDay < results.transit.julianDay).toBeTruthy()
-//     expect(results.transit.julianDay < results.set.julianDay).toBeTruthy()
-//   })
+  test('approximate Venus on 1988 March 20 at Boston', () => {
+    const date = new Date(Date.UTC(1988, 2, 20, 0, 0, 0))
+    const jd = juliandays.getJulianDay(date)
+    const coordsBoston = { latitude: 42.3333, longitude: -71.0833 }
+    const coordsVenus = { rightAscension: 41.73129, declination: 18.44092 }
+    const results = risetransitsets.getRiseSetTransitTimes(
+      jd,
+      coordsVenus.rightAscension * constants.DEG2H,
+      coordsVenus.declination,
+      coordsBoston.longitude,
+      coordsBoston.latitude
+    )
+    expect(results.transit.isCircumpolar).toBeFalsy()
+    expect(results.transit.isAboveHorizon).toBeTruthy()
+    expect(results.transit.isAboveAltitude).toBeTruthy()
+    expect(results.rise.utc.toNumber()).toBeCloseTo(24 * 0.51766, 1)
+    expect(results.transit.utc.toNumber()).toBeCloseTo(24 * 0.81980, 1)
+    expect(results.set.utc.toNumber()).toBeCloseTo(24 * 0.12130, 2)
+    expect(results.rise.julianDay.lessThan(results.transit.julianDay)).toBeTruthy()
+    expect(results.transit.julianDay.lessThan(results.set.julianDay)).toBeTruthy()
+  })
 
 
 // See AA, pp 103 & 104
