@@ -1,7 +1,7 @@
 aa-js
 ============
 
-[![Build Status](https://travis-ci.org/onekiloparsec/aa-js.svg?branch=master)](https://travis-ci.org/onekiloparsec/aa-js)
+![build and test](https://github.com/onekiloparsec/aa-js/actions/workflows/nodejs.yml/badge.svg?branch=master)
 
 Astronomical Algorithms in JavaScript.
 
