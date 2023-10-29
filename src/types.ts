@@ -322,9 +322,9 @@ export type EclipticCoordinatesAtJulianDayFunction = (jd: JulianDay | number) =>
 export type EquatorialCoordinatesAtJulianDayFunction = (jd: JulianDay | number) => EquatorialCoordinates
 export type JulianDayForJulianDayFunction = (jd: JulianDay | number) => JulianDay
 
-export type SingleCoordinateDegreeWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox: Equinox) => Degree
-export type EclipticCoordinatesWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox: Equinox) => EclipticCoordinates
-export type EquatorialCoordinatesWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox: Equinox) => EquatorialCoordinates
+export type SingleCoordinateDegreeWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox?: Equinox) => Degree
+export type EclipticCoordinatesWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox?: Equinox) => EclipticCoordinates
+export type EquatorialCoordinatesWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox?: Equinox) => EquatorialCoordinates
 
 export type QuantityAtJulianDayFunction = (jd: JulianDay | number) => Decimal
 export type QuantityInDegreeAtJulianDayFunction = (jd: JulianDay | number) => Degree

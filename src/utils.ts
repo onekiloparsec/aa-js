@@ -1,5 +1,8 @@
 import Decimal from 'decimal.js'
-import { Degree, Hour } from '@/types'
+import { Degree, Hour, JulianDay } from '@/types'
+import dayjs from 'dayjs'
+import { getDate, getJulianDay } from '@/juliandays'
+import { getSexagesimalValue } from '@/sexagesimal'
 
 
 export function fmod (a: number | Decimal, b: number | Decimal): Decimal {
@@ -20,6 +23,18 @@ export function fmod360 (degrees: Degree): Degree {
   return fmod(degrees, 360)
 }
 
+export function fmod180 (degrees: Degree): Degree {
+  let result = fmod360(degrees)
+
+  if (result.greaterThan(180)) {
+    result = result.minus(360)
+  } else if (result.lessThan(-180)) {
+    result = result.plus(360)
+  }
+
+  return result
+}
+
 export function fmod90 (degrees: Degree): Degree {
   let result = fmod360(degrees)
 
@@ -32,4 +47,16 @@ export function fmod90 (degrees: Degree): Degree {
   }
 
   return result
+}
+
+export function getJDatUTC (jd: JulianDay | number, utc: Hour): JulianDay {
+  const utcMoment = dayjs.utc(getDate(jd))
+  const sexa = getSexagesimalValue(utc)
+  return getJulianDay(
+    utcMoment
+      .hour(sexa.radix.toNumber())
+      .minute(sexa.minutes.toNumber())
+      .second(sexa.seconds.toNumber())
+      .toDate()
+  )!
 }
