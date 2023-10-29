@@ -1,14 +1,17 @@
 import Decimal from 'decimal.js'
-import { AstronomicalUnit, Day, Degree, JulianDay, JupiterRadius, Kilometer, Radian, SolarRadius } from '@/types'
+import { AstronomicalUnit, Day, Degree, Hour, JulianDay, JupiterRadius, Kilometer, Radian, SolarRadius } from '@/types'
 import {
   DEG2RAD,
+  H2RAD,
   ONE,
   ONE_JUPITER_RADIUS_IN_KILOMETERS,
   ONE_SOLAR_RADIUS_IN_KILOMETERS,
   ONE_UA_IN_KILOMETERS,
   PI,
+  RAD2DEG,
   TWO
 } from '@/constants'
+import { getLocalSiderealTime } from '@/juliandays'
 
 
 /**
@@ -67,4 +70,22 @@ export function getExoplanetTransitDetails (orbitalPeriod: Day | number,
   const end = center.plus(duration.dividedBy(2))
 
   return { duration, start, center, end }
+}
+
+
+// If transitJD is undefined, the altitude of the transit to the local meridian will be computed.
+// If transitJD is provided, it is assumed to be the JD of which we want the local altitude.
+// It can be that of a transit... or not.
+export function getTransitAltitude (ra: Hour | number, dec: Degree | number, lng: Degree | number, lat: Degree | number, transitJD: JulianDay | number | undefined = undefined): Degree {
+  // See AA. P.93 eq. 13.6 (and p.92 for H).
+  let cosH = new Decimal(1)
+  if (transitJD !== undefined && transitJD !== null) {
+    const lmst = getLocalSiderealTime(transitJD, lng)
+    cosH = Decimal.cos((lmst.minus(ra)).mul(H2RAD))
+  }
+  const dlat = new Decimal(lat).mul(DEG2RAD)
+  const ddec = new Decimal(lat).mul(DEG2RAD)
+  return Decimal.asin(
+    dlat.sin().mul(ddec.sin()).plus(dlat.cos().mul(ddec.cos()).mul(cosH))
+  ).mul(RAD2DEG)
 }

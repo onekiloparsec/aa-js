@@ -15,7 +15,7 @@ export function getGeocentricElongation (jd: JulianDay | number): Degree {
 
   const raRadSun = sunCoords.rightAscension.mul(H2RAD)
   const raRadMoon = moonCoords.rightAscension.mul(H2RAD)
-  const coss = decRadSun.cos().mul(decRadMoon.cos()).mul((raRadSun.minus(raRadMoon)).cos())
+  const coss = decRadSun.cos().mul(decRadMoon.cos()).mul(Decimal.cos(raRadSun.minus(raRadMoon)))
 
   // See first equation 48.2 of AA, p. 345.
   return Decimal.acos(sins.plus(coss)).mul(RAD2DEG)

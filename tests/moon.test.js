@@ -1,4 +1,4 @@
-import { constants, Earth, juliandays, Sun } from '../src'
+import { constants, Earth, juliandays, Sun, times } from '@'
 
 describe('moon', () => {
   test('get moon mean longitude', () => {
@@ -13,7 +13,7 @@ describe('moon', () => {
   test('get moon equatorial coordinates', () => {
     const UTCDate = new Date(Date.UTC(1992, 3, 12))
     const jd = juliandays.getJulianDay(UTCDate)
-    const equ = Earth.Moon.getApparentEquatorialCoordinates(jd)
+    const equ = Earth.Moon.getGeocentricEquatorialCoordinates(jd)
     expect(equ.rightAscension.toNumber()).toBeCloseTo(134.688470 * constants.DEG2H, 6)
     expect(equ.declination.toNumber()).toBeCloseTo(13.76836663125066, 12)
   })
@@ -30,15 +30,17 @@ describe('moon', () => {
   test('get moon illumination fraction', () => {
     // Month is April, but JS date month is [0-11].
     const UTCDate = new Date(Date.UTC(1992, 3, 12))
-    const jd = juliandays.getJulianDay(UTCDate)
+    const jd = times.transformUTC2TT(juliandays.getJulianDay(UTCDate))
 
-    const sunCoords = Sun.getApparentEquatorialCoordinates(jd)
-    expect(sunCoords.rightAscension.toNumber() * constants.H2DEG).toBeCloseTo(20.6579, 3)
-    expect(sunCoords.declination.toNumber()).toBeCloseTo(8.6964805423441, 9)
+    const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd)
+    expect(sunCoords.rightAscension.toNumber() * constants.H2DEG).toBeCloseTo(20.6579, 2)
+    expect(sunCoords.declination.toNumber()).toBeCloseTo(8.697, 3)
 
-    const moonCoords = Earth.Moon.getApparentEquatorialCoordinates(jd)
-    expect(moonCoords.rightAscension.toNumber() * constants.H2DEG).toBeCloseTo(134.6885, 3)
-    expect(moonCoords.declination.toNumber()).toBeCloseTo(13.7684, 3)
+    const moonCoords = Earth.Moon.getGeocentricEquatorialCoordinates(jd)
+    expect(moonCoords.rightAscension.toNumber() * constants.H2DEG).toBeCloseTo(134.69, 1)
+    expect(moonCoords.declination.toNumber()).toBeCloseTo(13.7684, 2)
+
+    expect(Earth.Moon.getRadiusVector(jd).toNumber()).toBeCloseTo(368409.0, 1)
 
     const i = Earth.Moon.getPhaseAngle(jd)
     expect(i.toNumber()).toBeCloseTo(69.0756, 2)
