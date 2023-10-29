@@ -1,6 +1,6 @@
 import * as juliandays from '@/juliandays'
 import * as constants from '@/constants'
-import { Sun } from '@/sun.js'
+import { Sun } from '@/sun'
 
 describe('sun', () => {
   test('get sun geometric longitude mean equinox of the date (AA p.165)', () => {
@@ -20,10 +20,10 @@ describe('sun', () => {
   })
 
 
-  test('get sun apparent equatorial coordinates (AA p.165)', () => {
+  test('get sun geocentric equatorial coordinates (AA p.165)', () => {
     const UTCDate = new Date(Date.UTC(1992, 9, 13))
     const jd = juliandays.getJulianDay(UTCDate)
-    const equ = Sun.getApparentEquatorialCoordinates(jd)
+    const equ = Sun.getGeocentricEquatorialCoordinates(jd)
     expect(equ.rightAscension).toBeCloseTo(13.225389, 3) // accuracy is bad, as in SwiftAA !
     expect(equ.declination).toBeCloseTo(-7.78507, 2) // accuracy is bad, as in SwiftAA !
   })
@@ -31,8 +31,8 @@ describe('sun', () => {
   test('get another sun apparent equatorial coordinates AA p.343', () => {
     const UTCDate = new Date(Date.UTC(1992, 3, 12))
     const jd = juliandays.getJulianDay(UTCDate)
-    const equ = Sun.getApparentEquatorialCoordinates(jd)
-    expect(equ.rightAscension * constants.H2DEG).toBeCloseTo(20.6579, 3)
+    const equ = Sun.getGeocentricEquatorialCoordinates(jd)
+    expect(equ.rightAscension * constants.H2DEG).toBeCloseTo(20.6589, 3)
     expect(equ.declination).toBeCloseTo(8.6964, 3)
   })
 
