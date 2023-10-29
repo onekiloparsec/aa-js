@@ -17,6 +17,7 @@ export function getGeocentricElongation (jd: JulianDay | number): Degree {
   const raRadMoon = moonCoords.rightAscension.mul(H2RAD)
   const coss = decRadSun.cos().mul(decRadMoon.cos()).mul((raRadSun.minus(raRadMoon)).cos())
 
+  // See first equation 48.2 of AA, p. 345.
   return Decimal.acos(sins.plus(coss)).mul(RAD2DEG)
 }
 
@@ -26,6 +27,7 @@ export function getGeocentricElongation (jd: JulianDay | number): Degree {
  * @return {Degree}
  */
 export function getPhaseAngle (jd: JulianDay | number): Degree {
+  // Geocentric elongation of the Moon from the Sun
   const psi = getGeocentricElongation(jd).mul(DEG2RAD)
   // Distance Earth-Moon
   const Delta = getRadiusVector(jd) // kilometer
