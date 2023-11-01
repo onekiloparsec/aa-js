@@ -12,7 +12,7 @@ import {
 } from '@/types'
 import { getNutationInLongitude } from '@/earth/nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from '@/fk5'
-import { getEclipticAberration } from '@/aberration'
+import { getAnnualEclipticAberration } from '@/earth/aberration'
 import { getLightTimeFromDistance } from '@/distances'
 import { fmod360, fmod90 } from '@/utils'
 import {
@@ -129,12 +129,12 @@ export function getPlanetGeocentricEclipticCoordinates (jd: JulianDay | number,
   }
 
   // Adjust for Aberration
-  const aberration = getEclipticAberration(jd,
+  const aberration = getAnnualEclipticAberration(jd,
     geocentricEclipticCoordinates.longitude,
     geocentricEclipticCoordinates.latitude
   )
-  geocentricEclipticCoordinates.longitude = geocentricEclipticCoordinates.longitude.plus(aberration.X)
-  geocentricEclipticCoordinates.latitude = geocentricEclipticCoordinates.latitude.plus(aberration.Y)
+  geocentricEclipticCoordinates.longitude = geocentricEclipticCoordinates.longitude.plus(aberration.DeltaLongitude)
+  geocentricEclipticCoordinates.latitude = geocentricEclipticCoordinates.latitude.plus(aberration.DeltaLatitude)
 
   // Convert to the FK5 system
   const deltaLong = getCorrectionInLongitude(jd,
