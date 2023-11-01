@@ -131,6 +131,16 @@ export const SUN_EXTENDED_EVENTS_ALTITUDES: Degree[] = [
 ]
 
 // See AA. p 101 for Rise & Set
-export const STANDARD_ALTITUDE_STARS = new Decimal('-0.5667') // works for planets too.
-export const STANDARD_ALTITUDE_MOON = new Decimal('0.125')
-export const STANDARD_ALTITUDE_SUN = new Decimal('-0.8333')
+export const STANDARD_ALTITUDE_STARS: Degree = new Decimal('-0.5667') // works for planets too.
+export const STANDARD_ALTITUDE_MOON: Degree = new Decimal('0.125')
+export const STANDARD_ALTITUDE_SUN: Degree = new Decimal('-0.8333')
+
+// Wikipedia
+export const MOON_SYNODIC_PERIOD: Day = new Decimal(29.530_587_705_76)
+
+export enum MoonPhase {
+  New,
+  FirstQuarter,
+  Full,
+  LastQuarter
+}
