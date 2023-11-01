@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 
 /**
  * Angular degree
@@ -326,8 +326,8 @@ export enum Obliquity {
 }
 
 export enum Equinox {
-  MeanOfTheDate,
-  StandardJ2000
+  MeanOfTheDate = 'MeanOfTheDate',
+  StandardJ2000 = 'StandardJ2000'
 }
 
 
