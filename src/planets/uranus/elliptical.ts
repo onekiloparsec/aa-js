@@ -23,7 +23,7 @@ import { getEccentricity, getSemiMajorAxis } from './orbital'
 
 /**
  * Geocentric distance (distance between the planet and Earth's center).
- * It takes into account the effects of aberration (light-time travel & Earth motion).
+ * It takes into account the effects of light-time travel & Earth nutation and annual aberration.
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
@@ -35,7 +35,7 @@ export function getGeocentricDistance (jd: JulianDay | number): AstronomicalUnit
 
 /**
  * Geocentric apparent ecliptic coordinates
- * It takes into account the effects of aberration (light-time travel & Earth motion).
+ * It takes into account the effects of light-time travel & Earth nutation and annual aberration.
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
@@ -47,7 +47,7 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number): Eclip
 
 /**
  * Geocentric apparent equatorial coordinates
- * It takes into account the effects of aberration (light-time travel & Earth motion) and Earth nutation
+ * It takes into account the effects of light-time travel & Earth nutation and annual aberration
  * (through the use of True Obliquity of Ecliptic at the time of JD).
  * @see getEquatorialCoordinates
  * @see getGeocentricEclipticCoordinates
