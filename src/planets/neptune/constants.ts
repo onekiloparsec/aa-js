@@ -23,7 +23,7 @@ export const constants: PlanetConstants = {
  * Reference: Astronomical Algorithms, J. Meus, pp. 212-215 (Table 31.A & 31.B).
  */
 export const orbitalElements: PlanetOrbitalElements = {
-  semiMajorAxis: ['30.110_386_869', '-0.000_000_1663, 0']
+  semiMajorAxis: ['30.110_386_869', '-0.000_000_1663', '0']
     .map(v => new Decimal(v)) as LengthArray<AstronomicalUnit, 4>,
 
   eccentricity: ['0.009_455_75', '0.000_006_033', '0', '-0.000_000_000_05']
