@@ -102,32 +102,32 @@ export function getAccurateAnnualEquatorialAberration (jd: JulianDay | number, A
 /**
  * Equatorial (annual) aberration
  * It is due to the orbital motion of the Earth around the barycenter of the Solar system.
- * See getAccurateEquatorialAberration for high-accuracy algorithm, taking into account the total velocity of the Earth
+ * See getAccurateAnnualEquatorialAberration for high-accuracy algorithm, taking into account the total velocity of the Earth
  * relative to the barycenter of the solar system.
- * @see {getAccurateEquatorialAberration}
+ * @see {getAccurateAnnualEquatorialAberration}
  * @param {JulianDay} jd The julian day
  * @param {Hour} Alpha The right ascension
  * @param {Degree} Delta The declination
  * @return {EclipticCoordinatesCorrection} The coordinates corrections in ArcSeconds
  */
 export function getAnnualEquatorialAberration (jd: JulianDay | number, Alpha: Hour | number, Delta: Degree | number): EquatorialCoordinatesCorrection {
-  const e = getEccentricity(jd)
+  const e: Decimal = getEccentricity(jd)
 
-  const pi = getLongitudeOfPerihelion(jd)
-  const cosPi = pi.mul(DEG2RAD).cos()
-  const sinPi = pi.mul(DEG2RAD).sin()
+  const pi: Radian = getLongitudeOfPerihelion(jd).degreesToRadians()
+  const cosPi = pi.cos()
+  const sinPi = pi.sin()
 
-  const epsilon = getTrueObliquityOfEcliptic(jd).mul(DEG2RAD)
+  const epsilon = getTrueObliquityOfEcliptic(jd).degreesToRadians()
   const cosEpsilon = epsilon.cos()
   const tanEpsilon = epsilon.tan()
 
   // Use the geoMETRIC longitude. See AA p.151
-  const sunLongitude = Sun.getGeometricEclipticLongitude(jd).mul(DEG2RAD)
+  const sunLongitude: Radian = Sun.getGeometricEclipticLongitude(jd).degreesToRadians()
   const cosLong = sunLongitude.cos()
   const sinLong = sunLongitude.sin()
 
-  const ra = new Decimal(Alpha).mul(H2RAD)
-  const dec = new Decimal(Delta).mul(DEG2RAD)
+  const ra: Radian = new Decimal(Alpha).hoursToRadians()
+  const dec: Radian = new Decimal(Delta).degreesToRadians()
   const cosAlpha = ra.cos()
   const sinAlpha = ra.sin()
   const cosDelta = dec.cos()
@@ -137,13 +137,13 @@ export function getAnnualEquatorialAberration (jd: JulianDay | number, Alpha: Ho
 
   const A0 = cosAlpha.mul(cosLong).mul(cosEpsilon).plus(sinAlpha.mul(sinLong))
   const A1 = cosAlpha.mul(cosPi).mul(cosEpsilon).plus(sinAlpha.mul(sinPi))
-  const DeltaRightAscension = (MINUSONE.mul(k).mul(A0.dividedBy(cosDelta)))
+  const DeltaRightAscension: ArcSecond = (MINUSONE.mul(k).mul(A0.dividedBy(cosDelta)))
     .plus(e.mul(k).mul(A1).dividedBy(cosDelta))
 
   const D0 = (tanEpsilon.mul(cosDelta)).minus(sinAlpha.mul(sinDelta))
   const D1 = cosLong.mul(cosEpsilon).mul(D0).plus(cosAlpha.mul(sinDelta).mul(sinLong))
   const D2 = cosPi.mul(cosEpsilon).mul(D0).plus(cosAlpha.mul(sinDelta).mul(sinPi))
-  const DeltaDeclination = (MINUSONE.mul(k).mul(D1)).plus(e.mul(k).mul(D2))
+  const DeltaDeclination: ArcSecond = (MINUSONE.mul(k).mul(D1)).plus(e.mul(k).mul(D2))
 
   return { DeltaRightAscension, DeltaDeclination }
 }
@@ -162,18 +162,18 @@ export function getAnnualEclipticAberration (jd: JulianDay | number, Lambda: Deg
   const k = CONSTANT_OF_ABERRATION
 
   // Use the geoMETRIC longitude. See AA p.151
-  const sunLongitude = Sun.getGeometricEclipticLongitude(jd).mul(DEG2RAD)
-  const LambdaRad = new Decimal(Lambda).mul(DEG2RAD)
-  const BetaRad = new Decimal(Beta).mul(DEG2RAD)
+  const sunLongitude: Radian = Sun.getGeometricEclipticLongitude(jd).degreesToRadians()
+  const LambdaRad: Radian = new Decimal(Lambda).degreesToRadians()
+  const BetaRad: Radian = new Decimal(Beta).degreesToRadians()
 
   const X0 = MINUSONE.mul(k).mul(Decimal.cos(sunLongitude.minus(LambdaRad)))
   const X1 = e.mul(k).mul(Decimal.cos(pi.minus(LambdaRad)))
-  const X = (X0.plus(X1)).dividedBy(Decimal.cos(BetaRad)).dividedBy(3600)
+  const X: ArcSecond = (X0.plus(X1)).dividedBy(Decimal.cos(BetaRad)).dividedBy(3600)
 
   const Y0 = MINUSONE.mul(k).mul(Decimal.sin(BetaRad))
   const Y1 = Decimal.sin(sunLongitude.minus(LambdaRad))
   const Y2 = e.mul(Decimal.sin(pi.minus(LambdaRad)))
-  const Y = Y0.mul(Y1.minus(Y2)).dividedBy(3600)
+  const Y: ArcSecond = Y0.mul(Y1.minus(Y2)).dividedBy(3600)
 
   return { DeltaLongitude: X, DeltaLatitude: Y }
 }
@@ -189,15 +189,15 @@ export function getAnnualEclipticAberration (jd: JulianDay | number, Lambda: Deg
  * @return {EclipticCoordinatesCorrection} The coordinates corrections in ArcSeconds
  */
 export function getNutationEquatorialAberration (jd: JulianDay | number, Alpha: Hour | number, Delta: Degree | number): EquatorialCoordinatesCorrection {
-  const epsilon: Radian = getMeanObliquityOfEcliptic(jd).mul(DEG2RAD)
+  const epsilon: Radian = getMeanObliquityOfEcliptic(jd).degreesToRadians()
   const cosEpsilon = epsilon.cos()
   const sinEpsilon = epsilon.sin()
 
   const DeltaEpsilon: ArcSecond = getNutationInObliquity(jd)
   const DeltaPsi: ArcSecond = getNutationInLongitude(jd)
 
-  const ra = new Decimal(Alpha).hoursToRadians()
-  const dec = new Decimal(Delta).degreesToRadians()
+  const ra: Radian = new Decimal(Alpha).hoursToRadians()
+  const dec: Radian = new Decimal(Delta).degreesToRadians()
   const cosAlpha = ra.cos()
   const sinAlpha = ra.sin()
   const tanDelta = dec.tan()
