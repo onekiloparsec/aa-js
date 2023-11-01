@@ -1,5 +1,5 @@
 import Decimal from 'decimal.js'
-import { DEG2H, DEG2RAD, H2RAD, RAD2DEG, RAD2H } from '@/constants'
+import { DEG2H, DEG2RAD, H2DEG, H2RAD, RAD2DEG, RAD2H } from '@/constants'
 import { Degree, Hour, Radian } from '@/types'
 
 declare module 'decimal.js' {
@@ -31,7 +31,7 @@ Decimal.prototype.hoursToRadians = function (): Radian {
 }
 
 Decimal.prototype.hoursToDegrees = function (): Degree {
-  return this.mul(DEG2H)
+  return this.mul(H2DEG)
 }
 
 Decimal.prototype.radiansToDegrees = function (): Degree {
