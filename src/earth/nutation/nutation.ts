@@ -3,7 +3,6 @@
  */
 import Decimal from '@/decimal'
 import { ArcSecond, Degree, JulianDay } from '@/types'
-import { DEG2RAD } from '@/constants'
 import { getDecimalValue } from '@/sexagesimal'
 import { getJulianCentury } from '@/juliandays'
 import { Sun } from '@/sun'
@@ -32,7 +31,7 @@ export function getNutationInLongitude (jd: JulianDay | number): ArcSecond {
 
     return sum.plus(
       (val.sincoeff1.plus(val.sincoeff2.mul(T)))
-        .mul(argument.mul(DEG2RAD).sin().mul(0.0001))
+        .mul(Decimal.sin(argument.degreesToRadians()).mul(0.0001))
     )
   }, new Decimal(0))
 }
@@ -59,7 +58,7 @@ export function getNutationInObliquity (jd: JulianDay | number): ArcSecond {
 
     return sum.plus(
       (val.coscoeff1.plus(val.coscoeff2.mul(T)))
-        .mul(argument.mul(DEG2RAD).cos().mul(0.0001))
+        .mul(Decimal.cos(argument.degreesToRadians()).mul(0.0001))
     )
   }, new Decimal(0))
 }
@@ -73,9 +72,9 @@ export function getNutationInObliquity (jd: JulianDay | number): ArcSecond {
  * @see getTrueObliquityOfEcliptic
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
- */export function getMeanObliquityOfEcliptic (jd: JulianDay | number): Degree {
-  const U = (new Decimal(jd).minus(2451545)).dividedBy(3652500)
-
+ */
+export function getMeanObliquityOfEcliptic (jd: JulianDay | number): Degree {
+  const U = (new Decimal(jd).minus('2451545')).dividedBy('3652500')
   return getDecimalValue(23, 26, 21.448)
     .minus(getDecimalValue(0, 0, 4680.93).mul(U))
     .minus(getDecimalValue(0, 0, 1.55).mul(U.pow(2)))
