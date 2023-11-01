@@ -32,7 +32,7 @@
     ],
     "typeRoots": [
       "node_modules/@types",
-      "src/types.ts"
+      "src/types"
     ],
     "paths": {
       "@/*": [
