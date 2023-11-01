@@ -1,5 +1,6 @@
 import { constants, Earth, juliandays, Sun, times } from '@'
 import { getDecimalValue } from '@/sexagesimal'
+import { MOON_SYNODIC_PERIOD, MoonPhase } from '@/constants'
 
 describe('moon', () => {
   test('get moon mean longitude', () => {
@@ -52,5 +53,28 @@ describe('moon', () => {
     expect(i.toNumber()).toBeCloseTo(69.0756, 2)
     const k = Earth.Moon.getIlluminatedFraction(jd)
     expect(k.toNumber()).toBeCloseTo(0.6786, 3)
+  })
+
+  // See example 49.a, AA p 353.
+  test('get time of new moon', () => {
+    // Mid-february
+    const UTCDate = new Date(Date.UTC(1977, 1, 12))
+    const T = juliandays.getJulianCentury(juliandays.getJulianDay(UTCDate))
+    expect(T.toNumber()).toBeCloseTo(-0.228_81, 4)
+    const newMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhase.New)
+    expect(newMoonJD.toNumber()).toBeCloseTo(2443_192.941_02, 5)
+  })
+
+  // See example 49.a, AA p 353.
+  test('get new moon age', () => {
+    const UTCDate = new Date(Date.UTC(1977, 1, 12))
+    const newMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhase.New)
+    expect(Earth.Moon.getAge(newMoonJD).toNumber()).toEqual(0)
+    const fqMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhase.FirstQuarter)
+    expect(Earth.Moon.getAge(fqMoonJD).toNumber()).toBeCloseTo(MOON_SYNODIC_PERIOD.dividedBy(4).toNumber(), 6)
+    const fullMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhase.Full)
+    expect(Earth.Moon.getAge(fullMoonJD).toNumber()).toBeCloseTo(MOON_SYNODIC_PERIOD.dividedBy(2).toNumber(), 5)
+    const lqMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhase.LastQuarter)
+    expect(Earth.Moon.getAge(lqMoonJD).toNumber()).toBeCloseTo(MOON_SYNODIC_PERIOD.mul(3).dividedBy(4).toNumber(), 5)
   })
 })

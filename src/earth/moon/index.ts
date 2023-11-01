@@ -23,6 +23,7 @@ import {
   getPhaseAngle,
   getPositionAngleOfTheBrightLimb
 } from './details'
+import { getAge, getTimeOfMeanPhase } from './phases'
 
 export const Moon: NaturalMoon = {
   getMeanLongitude,
@@ -44,5 +45,7 @@ export const Moon: NaturalMoon = {
   getPhaseAngle,
   getIlluminatedFraction,
   getEquatorialHorizontalParallax,
-  getPositionAngleOfTheBrightLimb
+  getPositionAngleOfTheBrightLimb,
+  getTimeOfMeanPhase,
+  getAge
 }
