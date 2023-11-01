@@ -5,7 +5,7 @@ aa-js
 
 Astronomical Algorithms in JavaScript.
 
-**The ongoing rewrite for v3 will have arbitrary-precision, thanks
+**The new v3 has arbitrary-precision, thanks
 to [decimal.js](https://github.com/MikeMcl/decimal.js).**
 
 Other
@@ -26,39 +26,43 @@ in [Arcsecond.io](https://www.arcsecond.io).
 I am the author of the Swift version too. It's
 called [SwiftAA](https://github.com/onekiloparsec/SwiftAA).
 
-Main Changes in the upcoming V3
+Main Changes in V3
 ================
 
 - **All algorithms based on arbitrary-precision operations thanks
   to [decimal.js](https://github.com/MikeMcl/decimal.js).**
 - `nutation` module moved inside the `earth` module.
 - Moved all (non-Earth) planets modules inside a `planets` folder.
-- Addition of numerous orbital getters for planets (mean longitude, semi-major axis, inclination, eccentricity...)
+- **Addition of numerous orbital getters for planets** (mean longitude, semi-major axis, inclination, eccentricity...)
 - Much easier and cleaner distinction between *heliocentric* and *geocentric* coordinates of planets.
-- Added a transformation from equatorial to topocentric coordinates.
+- Added a transformation from equatorial to *topocentric* coordinates.
 - Important bugfix on `getPositionAngle` and `getPhaseAngle` in the `Moon` module.
 
 Available Modules
 ================
 
 * Planets: all the (static and dynamic) details, coordinates, quantities about
-  `Mercury`, `Venus`, `Mars`, `Jupiter`, `Saturn`, `Neptune` and of
-  course `Pluto`: planet constants, aphelion, perihelion, phase angle,
-  illuminated fraction, magnitude, semi-diameters.
+  `Mercury`, `Venus`, `Mars`, `Jupiter`, `Saturn`, `Neptune` and of course `Pluto`: planet constants, aphelion,
+  perihelion, phase angle, illuminated fraction, magnitude, semi-diameters, heliocentric & geocentric coordinates,
+  distance from earth, velocities, orbital details etc.
 * In addition, for `Mars`: the planetocentric declination of the Sun and the
-  Earth
+  Earth.
 * In addition, for `Jupiter`: the planetocentric declination of the Sun and the
-  Earth
-* In addition for `Saturn`: the details of the rings system
-* `Earth` & `Moon`: all the coordinates, and many details about the Moon
-* `Sun`: mean & true anomaly, coordinates
+  Earth.
+* In addition, for `Saturn`: the details of the rings system.
+* `Earth` & `Moon`: all the coordinates, and many details about the Moon.
+* `nutation`: in longitude, for obliquity, true & mean obliquity of the ecliptic.
+* `Sun`: mean & true anomaly, coordinates.
+* `aberration`: ecliptic and equatorial.
 * `juliandays`: creation, transformation, local mean sidereal time.
-* `cosmology`: the cosmology calculator from Ned Wright's, but re-implemented
-* `distances`: all the conversions of distances
-* `nutation`: in longitude, for obliquity, true & mean obliquity of the ecliptic
-* `precession`: all the precession functions between epochs for coordinates
-* `sexagesimal`: utilities for manipulating sexagesimals
-* `transits`: get rise, transit and set hours, dates, julian days, as well
+* `times`: transformation between UTC, TT, AI, UT1...
+* `cosmology`: the cosmology calculator from Ned Wright's, but re-implemented, and tested.
+* `distances`: all the conversions of small and extra-galactic distances.
+* `precession`: all the precession functions between epochs for coordinates.
+* `sexagesimal`: utilities for transforming values between decimal and sexagesimal.
+* `risetransitset`: get rise, transit and set hours, dates, julian days, as well
+  as altitude.
+* `exoplanets`: **WIP** module to hold exoplanet transit details calculations.
   as altitude.
 
 Installation
