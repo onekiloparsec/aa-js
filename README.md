@@ -35,8 +35,10 @@ Main Changes in V3
 - Moved all (non-Earth) planets modules inside a `planets` folder.
 - **Addition of numerous orbital getters for planets** (mean longitude, semi-major axis, inclination, eccentricity...)
 - Much easier and cleaner distinction between *heliocentric* and *geocentric* coordinates of planets.
+- Added easy accessor for apparent geocentric equatorial coordinates of planets.
 - Added a transformation from equatorial to *topocentric* coordinates.
 - Important bugfix on `getPositionAngle` and `getPhaseAngle` in the `Moon` module.
+- Added easy accessors for rise, transit and set times for every planet.
 
 Available Modules
 ================
@@ -50,10 +52,10 @@ Available Modules
 * In addition, for `Jupiter`: the planetocentric declination of the Sun and the
   Earth.
 * In addition, for `Saturn`: the details of the rings system.
-* `Earth` & `Moon`: all the coordinates, and many details about the Moon.
-* `nutation`: in longitude, for obliquity, true & mean obliquity of the ecliptic.
 * `Sun`: mean & true anomaly, coordinates.
-* `aberration`: ecliptic and equatorial.
+* `Earth` & `Moon`: all the coordinates, many details about the Moon, including nutation and aberration.
+* Inside `Earth` module: `nutation`: in longitude, for obliquity, true & mean obliquity of the ecliptic.
+* Inside `Earth` module: `aberration`: ecliptic and equatorial.
 * `juliandays`: creation, transformation, local mean sidereal time.
 * `times`: transformation between UTC, TT, AI, UT1...
 * `cosmology`: the cosmology calculator from Ned Wright's, but re-implemented, and tested.
