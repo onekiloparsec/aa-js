@@ -166,6 +166,7 @@ export function getMeanAnomaly (jd: JulianDay | number): Degree {
  * @param  {JulianDay} jd The julian day
  * @returns {Decimal} The eccentricity (comprise between 0==circular, and 1).
  */
+
 export function getEccentricity (jd: JulianDay | number): Decimal {
   const T = getJulianCentury(jd)
   return new Decimal(0.016_708_634).minus(T.mul(0.000_042_037)).minus(T.pow(2).mul(0.000_000_1267))

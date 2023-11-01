@@ -1,5 +1,5 @@
-import Decimal from '@/decimal'
 import { constants, Earth, juliandays, Sun, times } from '@'
+import { getDecimalValue } from '@/sexagesimal'
 
 describe('moon', () => {
   test('get moon mean longitude', () => {
@@ -10,13 +10,18 @@ describe('moon', () => {
     expect(Earth.Moon.getMeanElongation(245123456).toNumber()).toBe(175.566305716)
   })
 
-// See example 47.a, AA p 343.
+  // See example 47.a, AA p 343.
   test('get moon equatorial coordinates', () => {
     const UTCDate = new Date(Date.UTC(1992, 3, 12))
     const jd = juliandays.getJulianDay(UTCDate)
-    const equ = Earth.Moon.getGeocentricEquatorialCoordinates(jd)
-    expect(equ.rightAscension.toNumber()).toBeCloseTo(134.688470 * constants.DEG2H, 4)
-    expect(equ.declination.toNumber()).toBeCloseTo(13.76812, 4)
+    expect(jd.toNumber()).toEqual(2448724.5)
+
+    expect(Earth.Moon.getGeocentricEclipticLongitude(jd).toNumber()).toBeCloseTo(133.162_655, 6)
+    expect(Earth.Moon.getGeocentricEclipticLatitude(jd).toNumber()).toBeCloseTo(-3.229_126, 6)
+
+    const equ = Earth.Moon.getApparentGeocentricEquatorialCoordinates(jd)
+    expect(equ.rightAscension.toNumber()).toBeCloseTo(getDecimalValue(8, 58, 45.12).toNumber(), 4)
+    expect(equ.declination.toNumber()).toBeCloseTo(13.768_368, 4)
   })
 
 // See example 48.a, AA p 347.

@@ -9,16 +9,16 @@ export function getGeocentricElongation (jd: JulianDay | number): Degree {
   const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd)
   const moonCoords = getGeocentricEquatorialCoordinates(jd)
 
-  const decRadSun = sunCoords.declination.mul(DEG2RAD)
-  const decRadMoon = moonCoords.declination.mul(DEG2RAD)
+  const decRadSun = sunCoords.declination.degreesToRadians()
+  const decRadMoon = moonCoords.declination.degreesToRadians()
   const sins = decRadSun.sin().mul(decRadMoon.sin())
 
-  const raRadSun = sunCoords.rightAscension.mul(H2RAD)
-  const raRadMoon = moonCoords.rightAscension.mul(H2RAD)
+  const raRadSun = sunCoords.rightAscension.hoursToRadians()
+  const raRadMoon = moonCoords.rightAscension.hoursToRadians()
   const coss = decRadSun.cos().mul(decRadMoon.cos()).mul(Decimal.cos(raRadSun.minus(raRadMoon)))
 
   // See first equation 48.2 of AA, p. 345.
-  return Decimal.acos(sins.plus(coss)).mul(RAD2DEG)
+  return Decimal.acos(sins.plus(coss)).radiansToDegrees()
 }
 
 /**
@@ -28,12 +28,12 @@ export function getGeocentricElongation (jd: JulianDay | number): Degree {
  */
 export function getPhaseAngle (jd: JulianDay | number): Degree {
   // Geocentric elongation of the Moon from the Sun
-  const psi = getGeocentricElongation(jd).mul(DEG2RAD)
+  const psi = getGeocentricElongation(jd).degreesToRadians()
   // Distance Earth-Moon
   const Delta = getRadiusVector(jd) // kilometer
   // Distance Earth-Sun
   const R = getEarthRadiusVector(jd).mul(ONE_UA_IN_KILOMETERS) // -> kilometer
-  return Decimal.atan2(R.mul(psi.sin()), Delta.minus(R.mul(psi.cos()))).mul(RAD2DEG)
+  return Decimal.atan2(R.mul(psi.sin()), Delta.minus(R.mul(psi.cos()))).radiansToDegrees()
 }
 
 /**
@@ -47,17 +47,17 @@ export function getPositionAngleOfTheBrightLimb (jd: JulianDay | number): Degree
   const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd)
   const moonCoords = getGeocentricEquatorialCoordinates(jd)
 
-  const alpha0 = sunCoords.rightAscension.mul(H2RAD)
-  const alpha = moonCoords.rightAscension.mul(H2RAD)
-  const delta0 = sunCoords.declination.mul(DEG2RAD)
-  const delta = moonCoords.declination.mul(DEG2RAD)
+  const alpha0 = sunCoords.rightAscension.hoursToRadians()
+  const alpha = moonCoords.rightAscension.hoursToRadians()
+  const delta0 = sunCoords.declination.degreesToRadians()
+  const delta = moonCoords.declination.degreesToRadians()
 
   const y = delta0.cos().mul((alpha0.minus(alpha)).sin())
 
   const x = delta0.sin().mul(delta.cos())
     .minus(delta0.cos().mul(delta.sin()).mul((alpha0.minus(alpha)).cos()))
 
-  return Decimal.atan2(y, x).mul(RAD2DEG)
+  return Decimal.atan2(y, x).radiansToDegrees()
 }
 
 /**
@@ -67,7 +67,7 @@ export function getPositionAngleOfTheBrightLimb (jd: JulianDay | number): Degree
  * @returns {number}
  */
 export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
-  const phaseAngle = getPhaseAngle(jd).mul(DEG2RAD)
+  const phaseAngle = getPhaseAngle(jd).degreesToRadians()
   return (new Decimal(1).plus(Decimal.cos(phaseAngle))).dividedBy(2)
 }
 
@@ -77,5 +77,5 @@ export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
  * @returns {Degree}
  */
 export function getEquatorialHorizontalParallax (jd: JulianDay | number): Degree {
-  return Decimal.asin(new Decimal(6378.14).dividedBy(getRadiusVector(jd))).mul(RAD2DEG)
+  return Decimal.asin(new Decimal(6378.14).dividedBy(getRadiusVector(jd))).radiansToDegrees()
 }

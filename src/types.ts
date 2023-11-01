@@ -441,6 +441,7 @@ export interface NaturalMoon {
   getGeocentricEclipticLatitude: QuantityInDegreeAtJulianDayFunction
   getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
   getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
+  getApparentGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
   getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
   radiusVectorToHorizontalParallax: Function
   horizontalParallaxToRadiusVector: Function
