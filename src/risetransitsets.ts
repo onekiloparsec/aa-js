@@ -160,7 +160,7 @@ export function getAccurateRiseSetTransitTimes (jd: JulianDay | number,
   const jd0 = getJulianDayMidnight(jd)
 
   // Calculate the Greenwich sidereal time in degrees
-  const Theta0 = getLocalSiderealTime(jd0, 0).mul(H2DEG)
+  const Theta0 = getLocalSiderealTime(jd0, 0).hoursToDegrees()
   const mTimes = getMTimes(jd, ra[1], dec[1], lng, lat, alt)
 
   result.transit.utc = mTimes.m0.mul(24)

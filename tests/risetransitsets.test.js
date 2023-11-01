@@ -3,12 +3,14 @@ import * as risetransitsets from '@/risetransitsets'
 import * as constants from '@/constants'
 import { STANDARD_ALTITUDE_STARS } from '@/constants'
 import * as juliandays from '@/juliandays'
+import { getJulianDayMidnight } from '@/juliandays'
 import { Venus } from '@/planets'
+import { getDecimalValue, getSexagesimalValue } from '@/sexagesimal'
 
 describe('rise transit & sets', () => {
-
   test('circumpolar transit', () => {
-    const results = risetransitsets.getRiseSetTransitTimes(juliandays.getJulianDay(), 0, -89.23, 0, -70, STANDARD_ALTITUDE_STARS, 0)
+    const jd = juliandays.getJulianDay()
+    const results = risetransitsets.getRiseSetTransitTimes(jd, 0, -89.23, 0, -70, STANDARD_ALTITUDE_STARS, 0)
     expect(results.transit.isCircumpolar).toBeTruthy()
     expect(results.transit.isAboveHorizon).toBeTruthy()
     expect(results.transit.isAboveAltitude).toBeTruthy()
@@ -45,22 +47,47 @@ describe('rise transit & sets', () => {
     const date = new Date(Date.UTC(1988, 2, 20, 0, 0, 0))
     const jd = juliandays.getJulianDay(date)
     const coordsBoston = { latitude: 42.3333, longitude: -71.0833 }
-    const rasVenus = [constants.DEG2H.mul(40.68021), constants.DEG2H.mul(41.73129), constants.DEG2H.mul(42.78204)]
-    const decVenus = [18.04762, 18.44092, 18.82742]
+
+    const Theta0 = juliandays.getLocalSiderealTime(getJulianDayMidnight(jd), 0).hoursToDegrees()
+    expect(Theta0.toNumber()).toBeCloseTo(177.742_08, 2)
+
+    // In TD not UT, see AA p.103
+    const rasVenus = [
+      getDecimalValue(2, 42, 43.25),
+      getDecimalValue(2, 46, 55.51),
+      getDecimalValue(2, 51, 7.69)
+    ]
+    const decVenus = [
+      getDecimalValue(18, 2, 54.4),
+      getDecimalValue(18, 26, 27.3),
+      getDecimalValue(18, 18, 49, 38.7)
+    ]
     const results = risetransitsets.getAccurateRiseSetTransitTimes(
       jd,
       rasVenus,
       decVenus,
       coordsBoston.longitude,
-      coordsBoston.latitude
+      coordsBoston.latitude,
+      STANDARD_ALTITUDE_STARS,
+      2
     )
     expect(results.transit.isCircumpolar).toBeFalsy()
     expect(results.transit.isAboveHorizon).toBeTruthy()
     expect(results.transit.isAboveAltitude).toBeTruthy()
-    // Our results don't agree perfectly with AA decimals, probably ours are made with greater precision from the start.
-    expect(results.rise.utc.toNumber()).toBeCloseTo(24 * 0.51766, 1)
-    expect(results.transit.utc.toNumber()).toBeCloseTo(24 * 0.81980, 1)
-    expect(results.set.utc).toBeCloseTo(24 * 0.12130, 1)
+
+    // Our results don't agree perfectly with AA decimals?
+    let { radix, minutes } = getSexagesimalValue(results.rise.utc)
+    expect(radix.toNumber()).toEqual(12)
+    expect(minutes.toNumber()).toEqual(26); // in AA, it is 25
+
+    ({ radix, minutes } = getSexagesimalValue(results.transit.utc))
+    expect(radix.toNumber()).toEqual(19)
+    expect(minutes.toNumber()).toEqual(40); // in AA, it is 41
+
+    ({ radix, minutes } = getSexagesimalValue(results.set.utc))
+    expect(radix.toNumber()).toEqual(2)
+    expect(minutes.toNumber()).toEqual(54)
+
     expect(results.rise.julianDay.toNumber() < results.transit.julianDay.toNumber()).toBeTruthy()
     expect(results.transit.julianDay.toNumber() < results.set.julianDay.toNumber()).toBeTruthy()
   })
