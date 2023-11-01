@@ -1,7 +1,7 @@
 /**
  @module GlobalConstants
  */
-import Decimal from '@/decimal'
+import Decimal from 'decimal.js'
 import {
   Day,
   Degree,
