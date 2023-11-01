@@ -15,10 +15,10 @@ function getK (jd: JulianDay | number): Decimal {
  * @returns {JulianDay}
  */
 export function getAphelion (jd: JulianDay | number): JulianDay {
-  const kdash = getK(jd).plus(0.5)
-  return new Decimal(2451738.233)
-    .plus(new Decimal(224.7008188).mul(kdash))
-    .minus(new Decimal(0.0000000327).mul(kdash.pow(2)))
+  const kdash = getK(jd).plus('0.5')
+  return new Decimal('2451738.233')
+    .plus(new Decimal('224.700_8188').mul(kdash))
+    .minus(new Decimal('0.000_000_0327').mul(kdash.pow(2)))
 }
 
 /**
@@ -28,7 +28,7 @@ export function getAphelion (jd: JulianDay | number): JulianDay {
  */
 export function getPerihelion (jd: JulianDay | number): JulianDay {
   const k = getK(jd)
-  return new Decimal(2451738.233)
-    .plus(new Decimal(224.7008188).mul(k))
-    .minus(new Decimal(0.0000000327).mul(k.pow(2)))
+  return new Decimal('2451738.233')
+    .plus(new Decimal('224.7008188').mul(k))
+    .minus(new Decimal('0.000_000_0327').mul(k.pow(2)))
 }
