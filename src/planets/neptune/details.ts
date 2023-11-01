@@ -1,6 +1,6 @@
 import Decimal from '@/decimal'
 import { Degree, JulianDay, Magnitude } from '@/types'
-import { DEG2RAD, ONE, RAD2DEG, TWO } from '@/constants'
+import { DEG2RAD, FIVE, ONE, RAD2DEG, TWO } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
 import { getRadiusVector } from './coordinates'
@@ -42,7 +42,7 @@ export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
 export function getMagnitude (jd: JulianDay | number): Magnitude {
   const r = getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
-  return new Decimal(-6.87).plus(new Decimal(5).mul(Decimal.log10(r.mul(Delta))))
+  return new Decimal('-6.87').plus(FIVE.mul(Decimal.log10(r.mul(Delta))))
 }
 
 /**
@@ -57,7 +57,7 @@ export function getMagnitude (jd: JulianDay | number): Magnitude {
  */
 export function getEquatorialSemiDiameter (jd: JulianDay | number): Degree {
   const Delta = getGeocentricDistance(jd)
-  return new Decimal(33.50).dividedBy(Delta)
+  return new Decimal('33.50').dividedBy(Delta)
 }
 
 /**
