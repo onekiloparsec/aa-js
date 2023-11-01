@@ -21,6 +21,10 @@ jobs:
         run: |
           npm ci --ignore-scripts
           npm run build --if-present
-          npm run test
+          npm run test:coverage
         env:
           CI: true
+      - name: codecov report
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
