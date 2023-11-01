@@ -361,6 +361,7 @@ export interface Planet {
   getGeocentricDistance: QuantityInAstronomicalUnitAtJulianDayFunction
   getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
   getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
+  getApparentGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
   // Planet elliptical properties
   getInstantaneousVelocity: QuantityInKilometerPerSecondAtJulianDayFunction
   getVelocityAtPerihelion: QuantityInKilometerPerSecondAtJulianDayFunction

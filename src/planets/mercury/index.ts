@@ -13,6 +13,7 @@ import {
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
+  getApparentGeocentricEquatorialCoordinates,
   getInstantaneousVelocity,
   getLengthOfEllipse,
   getRiseTransitSet,
@@ -45,6 +46,7 @@ export const Mercury: Planet = {
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
+  getApparentGeocentricEquatorialCoordinates,
   // Planet elliptical properties
   getInstantaneousVelocity,
   getVelocityAtPerihelion,

@@ -12,6 +12,7 @@ import {
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
+  getApparentGeocentricEquatorialCoordinates,
   getInstantaneousVelocity,
   getLengthOfEllipse,
   getVelocityAtAphelion,
@@ -45,6 +46,7 @@ export const Venus: Planet = {
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
+  getApparentGeocentricEquatorialCoordinates,
   // Planet elliptical properties
   getInstantaneousVelocity,
   getVelocityAtPerihelion,

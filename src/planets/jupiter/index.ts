@@ -13,6 +13,7 @@ import {
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
+  getApparentGeocentricEquatorialCoordinates,
   getInstantaneousVelocity,
   getLengthOfEllipse,
   getRiseTransitSet,
@@ -50,6 +51,7 @@ export const Jupiter: JupiterPlanet = {
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
+  getApparentGeocentricEquatorialCoordinates,
   // Planet elliptical properties
   getInstantaneousVelocity,
   getVelocityAtPerihelion,
