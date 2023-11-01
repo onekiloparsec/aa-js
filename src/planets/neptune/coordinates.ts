@@ -20,7 +20,7 @@ import {
   g_R2NeptuneCoefficients,
   g_R3NeptuneCoefficients
 } from './coefficients'
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 
 
 /**

@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer, Obliquity } from '@/types'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianCentury } from '@/juliandays'

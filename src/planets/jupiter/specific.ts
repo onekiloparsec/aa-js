@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { Degree, JulianDay } from '@/types'
 import { DEG2RAD, FOUR, MINUSONE, RAD2DEG, TWO } from '@/constants'
 import { fmod360 } from '@/utils'

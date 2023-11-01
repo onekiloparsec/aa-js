@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 
 export const g_L0JupiterCoefficients =
   [

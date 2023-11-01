@@ -1,5 +1,5 @@
 import * as utils from '@/utils'
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 
 describe('utils', () => {
   it('fmod works for positive values', () => {

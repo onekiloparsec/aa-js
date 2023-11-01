@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { RAD2DEG } from '@/constants'
 import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '@/types'
 import { getJulianMillenium } from '@/juliandays'

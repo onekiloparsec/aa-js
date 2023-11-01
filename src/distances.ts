@@ -1,7 +1,7 @@
 /**
  @module Distances
  */
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { FIVE, HUBBLE_CONSTANT, ONE, ONE_UA_IN_KILOMETERS, PC2LY, PC2UA, PI, SPEED_OF_LIGHT } from '@/constants'
 import {
   ArcSecond,

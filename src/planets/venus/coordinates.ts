@@ -22,7 +22,7 @@ import {
   g_R3VenusCoefficients,
   g_R4VenusCoefficients
 } from './coefficients'
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 
 /**
  * Ecliptic longitude

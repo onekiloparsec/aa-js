@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { Sexagesimal } from '@/types'
 
 export function getDecimalValue (d: Decimal | number, m: Decimal | number, s: Decimal | number): Decimal {

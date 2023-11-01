@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { AstronomicalUnit, Degree, JulianCentury, JulianDay, Radian } from '@/types'
 import { DEG2RAD, MINUSONE, RAD2DEG, ZERO } from '@/constants'
 import { getLightTimeFromDistance } from '@/distances'

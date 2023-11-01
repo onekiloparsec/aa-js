@@ -1,3 +1,4 @@
+import Decimal from '@/decimal'
 import { constants, Earth, juliandays, Sun, times } from '@'
 
 describe('moon', () => {

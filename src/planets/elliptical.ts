@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { DEG2RAD, ONE, PI, RAD2DEG, THREE, TWO } from '@/constants'
 import {
   AstronomicalUnit,

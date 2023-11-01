@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { HALF, ONE } from '@/constants'
 import { GYr, KilometerPerSecondPerMegaParsec } from '@/types'
 import { getADot, getDCMRIntegral, INTEGRAL_POINTS_NUMBER, Tyr } from './utils'

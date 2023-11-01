@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { JulianDay } from '@/types'
 import { gLeapSecondCoefficients } from './coefficients'
 import { getCumulativeLeapSeconds, getDeltaT } from './utils'

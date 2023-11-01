@@ -21,7 +21,7 @@ import {
   g_R3UranusCoefficients,
   g_R4UranusCoefficients
 } from './coefficients'
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 
 const cos = Math.cos
 

@@ -1,5 +1,5 @@
 import { AstronomicalUnit, Degree, Equinox, LengthArray, PlanetConstants, PlanetOrbitalElements } from '@/types'
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 
 /**
  * Planet constants, copied from the JPL

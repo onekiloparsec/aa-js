@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 import { DAYMS, DEG2H, J1970, MJD_START } from './constants'
 import { Degree, Hour, JulianCentury, JulianDay, JulianMillenium } from './types'
 import { fmod24, fmod360, isNumber } from './utils'
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 
 
 /**

@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { HALF, MINUSONE, ONE, SPEED_OF_LIGHT } from '@/constants'
 import { KilometerPerSecondPerMegaParsec, KiloparsecPerArcsecond, MegaParsec } from '@/types'
 import { getDCMRIntegral } from './utils'

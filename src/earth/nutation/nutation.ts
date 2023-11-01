@@ -1,7 +1,7 @@
 /**
  @module Nutation
  */
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { ArcSecond, Degree, JulianDay } from '@/types'
 import { DEG2RAD } from '@/constants'
 import { getDecimalValue } from '@/sexagesimal'

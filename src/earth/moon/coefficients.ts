@@ -3,7 +3,7 @@
 // The unit is 0.000001 degree for Epsilon_l and 0.001 for Epsilon_r
 
 // Argument (multiple of D, M, Mprime, F)
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 
 export const gMoonCoefficients1 =
   [

@@ -1,7 +1,7 @@
 /**
  @module Coordinates
  */
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import {
   AstronomicalUnit,
   Degree,

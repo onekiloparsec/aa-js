@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { AstronomicalUnit, Degree, JulianDay, LengthArray } from '@/types'
 import { getJulianCentury } from '@/juliandays'
 

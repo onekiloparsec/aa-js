@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { Degree, JulianDay } from '@/types'
 import { DEG2RAD, H2RAD, ONE_UA_IN_KILOMETERS, RAD2DEG } from '@/constants'
 import { getRadiusVector as getEarthRadiusVector } from '@/earth/coordinates'

@@ -1,7 +1,7 @@
 import { JulianDay } from '@/types'
 import { gDeltaTValues, gLeapSecondCoefficients } from './coefficients'
 import { getFractionalYear } from '@/dates'
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { MINUSONE } from '@/constants'
 
 export function getDeltaT (jd: JulianDay | number): Decimal {

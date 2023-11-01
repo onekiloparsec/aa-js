@@ -1,6 +1,6 @@
 import { JulianDay } from '@/types'
 import { getFractionalYear } from '@/dates'
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 
 // The value of K must be an integer
 function getK (jd: JulianDay | number): Decimal {

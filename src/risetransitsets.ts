@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import { Degree, Hour, JulianDay, LengthArray, RiseSetTransit } from '@/types'

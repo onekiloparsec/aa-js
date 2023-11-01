@@ -1,7 +1,7 @@
 /**
  @module Sun
  */
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import {
   Degree,
   EclipticCoordinates,

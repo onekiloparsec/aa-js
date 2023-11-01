@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import { MINUSONE, ONE, PI, SPEED_OF_LIGHT } from '@/constants'
 import { GigaParsec3, KilometerPerSecondPerMegaParsec } from '@/types'
 import { getDCMRIntegral } from './utils'

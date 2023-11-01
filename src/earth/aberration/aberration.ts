@@ -1,4 +1,4 @@
-import Decimal from 'decimal.js'
+import Decimal from '@/decimal'
 import {
   ArcSecond,
   Coordinates3D,
@@ -196,8 +196,8 @@ export function getNutationEquatorialAberration (jd: JulianDay | number, Alpha: 
   const DeltaEpsilon: ArcSecond = getNutationInObliquity(jd)
   const DeltaPsi: ArcSecond = getNutationInLongitude(jd)
 
-  const ra = new Decimal(Alpha).mul(H2RAD)
-  const dec = new Decimal(Delta).mul(DEG2RAD)
+  const ra = new Decimal(Alpha).hoursToRadians()
+  const dec = new Decimal(Delta).degreesToRadians()
   const cosAlpha = ra.cos()
   const sinAlpha = ra.sin()
   const tanDelta = dec.tan()
