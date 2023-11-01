@@ -225,6 +225,16 @@ export type TransitInternals = {
   cosH0: Decimal | number | undefined
 }
 
+export type EclipticCoordinatesCorrection = {
+  DeltaLongitude: Degree
+  DeltaLatitude: Degree
+}
+
+export type EquatorialCoordinatesCorrection = {
+  DeltaRightAscension: Hour
+  DeltaDeclination: Degree
+}
+
 /**
  * The various elements of the transit of an object
  */
@@ -456,6 +466,10 @@ export interface EarthPlanet {
   getNutationInObliquity: QuantityInArcSecondAtJulianDayFunction
   getMeanObliquityOfEcliptic: QuantityInDegreeAtJulianDayFunction
   getTrueObliquityOfEcliptic: QuantityInDegreeAtJulianDayFunction
+  getEarthVelocity: Function,
+  getEclipticAberration: Function,
+  getEquatorialAberration: Function,
+  getAccurateEquatorialAberration: Function,
   Moon: NaturalMoon
 }
 

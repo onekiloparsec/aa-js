@@ -162,12 +162,24 @@ export function getMeanAnomaly (jd: JulianDay | number): Degree {
 
 /**
  * Eccentricity of the orbit
+ * See AA p.163 (and AA p.151)
  * @param  {JulianDay} jd The julian day
- * @returns {Number} The eccentricity (comprise between 0==circular, and 1).
+ * @returns {Decimal} The eccentricity (comprise between 0==circular, and 1).
  */
 export function getEccentricity (jd: JulianDay | number): Decimal {
   const T = getJulianCentury(jd)
-  return new Decimal(1).minus(T.mul(0.002516)).minus(T.pow(2).mul(0.0000074))
+  return new Decimal(0.016_708_634).minus(T.mul(0.000_042_037)).minus(T.pow(2).mul(0.000_000_1267))
+}
+
+/**
+ * Longitude of perihelion
+ * See AA p.151
+ * @param  {JulianDay} jd The julian day
+ * @returns {Degree} The longitude of perihelion
+ */
+export function getLongitudeOfPerihelion (jd: JulianDay | number): Degree {
+  const T = getJulianCentury(jd)
+  return new Decimal(102.937_35).plus(T.mul(1.719_46)).plus(T.pow(2).mul(0.000_46))
 }
 
 /**

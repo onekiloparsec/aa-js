@@ -41,6 +41,8 @@ export const DEG2H: Hour = new Decimal(24).dividedBy(360)
 export const SPEED_OF_LIGHT: KilometerPerSecond = new Decimal(299792.458)
 export const SPEED_OF_LIGHT_APPROX = new Decimal(300000.0)
 
+export const CONSTANT_OF_ABERRATION = new Decimal(20.49552) // See AA p.151
+
 export const SIDEREAL_OVER_SOLAR_RATE: Day = new Decimal(1.0027379093)	// Sidereal / solar rate.
 export const AVERAGE_JULIAN_YEAR: Day = new Decimal(365.25)		// See Observer's handbook (1999 - RAS of Canada).
 export const AVERAGE_GREGORIAN_YEAR: Day = new Decimal(365.2425)		//

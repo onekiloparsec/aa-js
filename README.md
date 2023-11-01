@@ -31,7 +31,7 @@ Main Changes in V3
 
 - **All algorithms based on arbitrary-precision operations thanks
   to [decimal.js](https://github.com/MikeMcl/decimal.js).**
-- `nutation` module moved inside the `earth` module.
+- `nutation` and `aberration` modules moved inside the `earth` module.
 - Moved all (non-Earth) planets modules inside a `planets` folder.
 - **Addition of numerous orbital getters for planets** (mean longitude, semi-major axis, inclination, eccentricity...)
 - Much easier and cleaner distinction between *heliocentric* and *geocentric* coordinates of planets.

@@ -10,11 +10,17 @@ import {
 } from './coordinates'
 import { Moon } from './moon'
 import {
+  getMeanObliquityOfEcliptic,
   getNutationInLongitude,
   getNutationInObliquity,
-  getMeanObliquityOfEcliptic,
   getTrueObliquityOfEcliptic
 } from './nutation'
+import {
+  getAccurateEquatorialAberration,
+  getEarthVelocity,
+  getEclipticAberration,
+  getEquatorialAberration
+} from './aberration'
 
 export const Earth: EarthPlanet = {
   getEclipticLongitude,
@@ -28,5 +34,9 @@ export const Earth: EarthPlanet = {
   getNutationInObliquity,
   getMeanObliquityOfEcliptic,
   getTrueObliquityOfEcliptic,
+  getEarthVelocity,
+  getEclipticAberration,
+  getEquatorialAberration,
+  getAccurateEquatorialAberration,
   Moon
 }

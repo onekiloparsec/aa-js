@@ -6,7 +6,6 @@ import { Jupiter, Mars, Mercury, Neptune, Pluto, Saturn, Uranus, Venus } from '.
 
 export * as constants from './constants'
 
-export * as aberration from './aberration'
 export * as coordinates from './coordinates'
 export * as cosmology from './cosmology'
 export * as dates from './dates'
