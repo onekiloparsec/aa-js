@@ -1,4 +1,5 @@
 import Decimal from '@/decimal'
+import { getRadiusVectorInKilometer } from '@/earth/moon/coordinates'
 
 /**
  * Angular degree
@@ -443,7 +444,7 @@ export interface NaturalMoon {
   getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
   getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
   getApparentGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
-  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
+  getRadiusVectorInKilometer: QuantityInAstronomicalUnitAtJulianDayFunction
   radiusVectorToHorizontalParallax: Function
   horizontalParallaxToRadiusVector: Function
   getMeanLongitudeAscendingNode: QuantityInDegreeAtJulianDayFunction

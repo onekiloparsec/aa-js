@@ -200,7 +200,7 @@ export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | numb
  * @param {JulianDay} jd The julian day
  * @returns {Kilometer}
  */
-export function getRadiusVector (jd: JulianDay | number): Kilometer {
+export function getRadiusVectorInKilometer (jd: JulianDay | number): Kilometer {
   const D = getMeanElongation(jd).mul(DEG2RAD)
   const M = Sun.getMeanAnomaly(jd).mul(DEG2RAD)
   const Mdash = getMeanAnomaly(jd).mul(DEG2RAD)
@@ -231,7 +231,7 @@ export function getRadiusVector (jd: JulianDay | number): Kilometer {
  * @return {Degree}
  */
 export function horizontalParallax (jd: JulianDay | number): Degree {
-  return radiusVectorToHorizontalParallax(getRadiusVector(jd))
+  return radiusVectorToHorizontalParallax(getRadiusVectorInKilometer(jd))
 }
 
 /**

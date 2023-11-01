@@ -1,9 +1,9 @@
 import Decimal from '@/decimal'
-import { Degree, JulianDay } from '@/types'
-import { DEG2RAD, H2RAD, ONE_UA_IN_KILOMETERS, RAD2DEG } from '@/constants'
-import { getRadiusVector as getEarthRadiusVector } from '@/earth/coordinates'
 import { Sun } from '@/sun'
-import { getGeocentricEquatorialCoordinates, getRadiusVector } from './coordinates'
+import { ONE_UA_IN_KILOMETERS } from '@/constants'
+import { Degree, JulianDay, Kilometer, Radian } from '@/types'
+import { getRadiusVector as getEarthRadiusVector } from '@/earth/coordinates'
+import { getGeocentricEquatorialCoordinates, getRadiusVectorInKilometer } from './coordinates'
 
 export function getGeocentricElongation (jd: JulianDay | number): Degree {
   const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd)
@@ -28,11 +28,11 @@ export function getGeocentricElongation (jd: JulianDay | number): Degree {
  */
 export function getPhaseAngle (jd: JulianDay | number): Degree {
   // Geocentric elongation of the Moon from the Sun
-  const psi = getGeocentricElongation(jd).degreesToRadians()
+  const psi: Radian = getGeocentricElongation(jd).degreesToRadians()
   // Distance Earth-Moon
-  const Delta = getRadiusVector(jd) // kilometer
+  const Delta: Kilometer = getRadiusVectorInKilometer(jd) // kilometer!!!
   // Distance Earth-Sun
-  const R = getEarthRadiusVector(jd).mul(ONE_UA_IN_KILOMETERS) // -> kilometer
+  const R: Kilometer = getEarthRadiusVector(jd).mul(ONE_UA_IN_KILOMETERS)
   return Decimal.atan2(R.mul(psi.sin()), Delta.minus(R.mul(psi.cos()))).radiansToDegrees()
 }
 
@@ -77,5 +77,5 @@ export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
  * @returns {Degree}
  */
 export function getEquatorialHorizontalParallax (jd: JulianDay | number): Degree {
-  return Decimal.asin(new Decimal(6378.14).dividedBy(getRadiusVector(jd))).radiansToDegrees()
+  return Decimal.asin(new Decimal('6378.14').dividedBy(getRadiusVectorInKilometer(jd))).radiansToDegrees()
 }

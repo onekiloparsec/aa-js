@@ -28,7 +28,7 @@ describe('moon', () => {
   test('get moon radius vector', () => {
     const UTCDate = new Date(Date.UTC(1992, 3, 12))
     const jd = juliandays.getJulianDay(UTCDate)
-    const rv = Earth.Moon.getRadiusVector(jd)
+    const rv = Earth.Moon.getRadiusVectorInKilometer(jd)
     expect(rv.toNumber()).toBeCloseTo(368409.68, 1) // km, second param is number of digits checked.
   })
 
@@ -46,10 +46,10 @@ describe('moon', () => {
     expect(moonCoords.rightAscension.toNumber() * constants.H2DEG).toBeCloseTo(134.69, 1)
     expect(moonCoords.declination.toNumber()).toBeCloseTo(13.7684, 2)
 
-    expect(Earth.Moon.getRadiusVector(jd).toNumber()).toBeCloseTo(368409.0, 1)
+    expect(Earth.Moon.getRadiusVectorInKilometer(jd).toNumber()).toBeCloseTo(368409.0, 1)
 
     const i = Earth.Moon.getPhaseAngle(jd)
-    expect(i.toNumber()).toBeCloseTo(69.067, 2)
+    expect(i.toNumber()).toBeCloseTo(69.0756, 2)
     const k = Earth.Moon.getIlluminatedFraction(jd)
     expect(k.toNumber()).toBeCloseTo(0.6786, 3)
   })
