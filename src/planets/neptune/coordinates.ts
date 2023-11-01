@@ -1,9 +1,9 @@
-import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '@/types'
-import { RAD2DEG } from '@/constants'
+import Decimal from '@/decimal'
+import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '@/types'
+import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/earth/nutation'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianMillenium } from '@/juliandays'
 import { fmod360, fmod90 } from '@/utils'
-import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/earth/nutation'
 import {
   g_B0NeptuneCoefficients,
   g_B1NeptuneCoefficients,
@@ -20,7 +20,6 @@ import {
   g_R2NeptuneCoefficients,
   g_R3NeptuneCoefficients
 } from './coefficients'
-import Decimal from '@/decimal'
 
 
 /**
@@ -45,7 +44,7 @@ export function getEclipticLongitude (jd: JulianDay | number): Degree {
   )
     .dividedBy(1e8)
 
-  return fmod360(value.mul(RAD2DEG))
+  return fmod360(value.radiansToDegrees())
 }
 
 /**
@@ -70,7 +69,7 @@ export function getEclipticLatitude (jd: JulianDay | number): Degree {
   )
     .dividedBy(1e8)
 
-  return fmod90(value.mul(RAD2DEG))
+  return fmod90(value.radiansToDegrees())
 }
 
 /**
