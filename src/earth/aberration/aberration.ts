@@ -1,17 +1,24 @@
 import Decimal from 'decimal.js'
 import {
+  ArcSecond,
   Coordinates3D,
   Degree,
   EclipticCoordinatesCorrection,
   EquatorialCoordinatesCorrection,
   Hour,
-  JulianDay
+  JulianDay,
+  Radian
 } from '@/types'
 import { CONSTANT_OF_ABERRATION, DEG2RAD, H2RAD, MINUSONE, RAD2DEG, RAD2H, ZERO } from '@/constants'
 import { Sun } from '@/sun'
 import { getJulianCentury } from '@/juliandays'
 import { getEccentricity, getLongitudeOfPerihelion } from '../coordinates'
-import { getTrueObliquityOfEcliptic } from '../nutation'
+import {
+  getMeanObliquityOfEcliptic,
+  getNutationInLongitude,
+  getNutationInObliquity,
+  getTrueObliquityOfEcliptic
+} from '../nutation'
 import { g_AberrationCoefficients } from './coefficients'
 
 
@@ -70,7 +77,7 @@ export function getEarthVelocity (jd: JulianDay | number): Coordinates3D {
  * @param {Degree} Delta The equatorial declination
  * @return {Coordinates2D}
  */
-export function getAccurateEquatorialAberration (jd: JulianDay | number, Alpha: Hour | number, Delta: Degree | number): EquatorialCoordinatesCorrection {
+export function getAccurateAnnualEquatorialAberration (jd: JulianDay | number, Alpha: Hour | number, Delta: Degree | number): EquatorialCoordinatesCorrection {
   const ra = new Decimal(Alpha).mul(H2RAD)
   const dec = new Decimal(Delta).mul(DEG2RAD)
 
@@ -101,9 +108,9 @@ export function getAccurateEquatorialAberration (jd: JulianDay | number, Alpha: 
  * @param {JulianDay} jd The julian day
  * @param {Hour} Alpha The right ascension
  * @param {Degree} Delta The declination
- * @return {EclipticCoordinatesCorrection} The coordinates corrections
+ * @return {EclipticCoordinatesCorrection} The coordinates corrections in ArcSeconds
  */
-export function getEquatorialAberration (jd: JulianDay | number, Alpha: Hour | number, Delta: Degree | number): EquatorialCoordinatesCorrection {
+export function getAnnualEquatorialAberration (jd: JulianDay | number, Alpha: Hour | number, Delta: Degree | number): EquatorialCoordinatesCorrection {
   const e = getEccentricity(jd)
 
   const pi = getLongitudeOfPerihelion(jd)
@@ -147,9 +154,9 @@ export function getEquatorialAberration (jd: JulianDay | number, Alpha: Hour | n
  * @param {JulianDay} jd The julian day
  * @param {Degree} Lambda The ecliptic longitude
  * @param {Degree} Beta The ecliptic latitude
- * @return {EclipticCoordinatesCorrection} The coordinates corrections
+ * @return {EclipticCoordinatesCorrection} The coordinates corrections in ArcSeconds
  */
-export function getEclipticAberration (jd: JulianDay | number, Lambda: Degree | number, Beta: Degree | number): EclipticCoordinatesCorrection {
+export function getAnnualEclipticAberration (jd: JulianDay | number, Lambda: Degree | number, Beta: Degree | number): EclipticCoordinatesCorrection {
   const e = getEccentricity(jd)
   const pi = getLongitudeOfPerihelion(jd)
   const k = CONSTANT_OF_ABERRATION
@@ -169,4 +176,39 @@ export function getEclipticAberration (jd: JulianDay | number, Lambda: Degree | 
   const Y = Y0.mul(Y1.minus(Y2)).dividedBy(3600)
 
   return { DeltaLongitude: X, DeltaLatitude: Y }
+}
+
+/**
+ * Equatorial aberration due to nutation.
+ * Warning: this is valid is not near the celestial poles (say < 1").
+ * This is useful for stars, whose position are often given in equatorial coordinates.
+ * For planets, use the `getApparentEquatorialCoordinates` methods instead.
+ * @param {JulianDay} jd The julian day
+ * @param {Hour} Alpha The right ascension
+ * @param {Degree} Delta The declination
+ * @return {EclipticCoordinatesCorrection} The coordinates corrections in ArcSeconds
+ */
+export function getNutationEquatorialAberration (jd: JulianDay | number, Alpha: Hour | number, Delta: Degree | number): EquatorialCoordinatesCorrection {
+  const epsilon: Radian = getMeanObliquityOfEcliptic(jd).mul(DEG2RAD)
+  const cosEpsilon = epsilon.cos()
+  const sinEpsilon = epsilon.sin()
+
+  const DeltaEpsilon: ArcSecond = getNutationInObliquity(jd)
+  const DeltaPsi: ArcSecond = getNutationInLongitude(jd)
+
+  const ra = new Decimal(Alpha).mul(H2RAD)
+  const dec = new Decimal(Delta).mul(DEG2RAD)
+  const cosAlpha = ra.cos()
+  const sinAlpha = ra.sin()
+  const tanDelta = dec.tan()
+
+  const A0 = cosEpsilon.plus(sinEpsilon.mul(sinAlpha).mul(tanDelta))
+  const A1 = cosAlpha.mul(tanDelta)
+  const DeltaRightAscension = DeltaPsi.mul(A0).minus(DeltaEpsilon.mul(A1))
+
+  const D0 = sinEpsilon.mul(cosAlpha)
+  const D1 = sinAlpha
+  const DeltaDeclination = DeltaPsi.mul(D0).plus(DeltaEpsilon.mul(D1))
+
+  return { DeltaRightAscension, DeltaDeclination }
 }

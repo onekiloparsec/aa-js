@@ -1,13 +1,15 @@
 import {
-  getAccurateEquatorialAberration,
   getEarthVelocity,
-  getEclipticAberration,
-  getEquatorialAberration
+  getAccurateAnnualEquatorialAberration,
+  getAnnualEclipticAberration,
+  getAnnualEquatorialAberration,
+  getNutationEquatorialAberration
 } from './aberration'
 
 export {
   getEarthVelocity,
-  getEclipticAberration,
-  getEquatorialAberration,
-  getAccurateEquatorialAberration
+  getAccurateAnnualEquatorialAberration,
+  getAnnualEclipticAberration,
+  getAnnualEquatorialAberration,
+  getNutationEquatorialAberration
 }

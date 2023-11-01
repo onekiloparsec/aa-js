@@ -1,5 +1,4 @@
 import Decimal from 'decimal.js'
-import { getEclipticLongitudeRange, getLongitudeOfPerihelion } from '@/earth/coordinates'
 
 /**
  * Angular degree
@@ -227,13 +226,13 @@ export type TransitInternals = {
 }
 
 export type EclipticCoordinatesCorrection = {
-  DeltaLongitude: Degree
-  DeltaLatitude: Degree
+  DeltaLongitude: ArcSecond
+  DeltaLatitude: ArcSecond
 }
 
 export type EquatorialCoordinatesCorrection = {
-  DeltaRightAscension: Hour
-  DeltaDeclination: Degree
+  DeltaRightAscension: ArcSecond
+  DeltaDeclination: ArcSecond
 }
 
 /**
@@ -469,10 +468,11 @@ export interface EarthPlanet {
   getNutationInObliquity: QuantityInArcSecondAtJulianDayFunction
   getMeanObliquityOfEcliptic: QuantityInDegreeAtJulianDayFunction
   getTrueObliquityOfEcliptic: QuantityInDegreeAtJulianDayFunction
-  getEarthVelocity: Function,
-  getEclipticAberration: Function,
-  getEquatorialAberration: Function,
-  getAccurateEquatorialAberration: Function,
+  getEarthVelocity: Function
+  getAccurateAnnualEquatorialAberration: Function
+  getAnnualEclipticAberration: Function
+  getAnnualEquatorialAberration: Function
+  getNutationEquatorialAberration: Function
   Moon: NaturalMoon
 }
 
