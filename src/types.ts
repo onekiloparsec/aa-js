@@ -1,4 +1,5 @@
 import Decimal from 'decimal.js'
+import { getEclipticLongitudeRange, getLongitudeOfPerihelion } from '@/earth/coordinates'
 
 /**
  * Angular degree
@@ -456,12 +457,14 @@ export interface NaturalMoon {
 
 export interface EarthPlanet {
   getEclipticLongitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
+  getEclipticLongitudeRange: Function
   getEclipticLatitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
   getEclipticCoordinates: EclipticCoordinatesWithEquinoxAtJulianDayFunction
   getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
   getFlatteningCorrections: Function
   getMeanAnomaly: QuantityAtJulianDayFunction
   getEccentricity: QuantityAtJulianDayFunction
+  getLongitudeOfPerihelion: QuantityInDegreeAtJulianDayFunction
   getNutationInLongitude: QuantityInArcSecondAtJulianDayFunction
   getNutationInObliquity: QuantityInArcSecondAtJulianDayFunction
   getMeanObliquityOfEcliptic: QuantityInDegreeAtJulianDayFunction

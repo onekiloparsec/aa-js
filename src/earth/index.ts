@@ -4,9 +4,11 @@ import {
   getEclipticCoordinates,
   getEclipticLatitude,
   getEclipticLongitude,
+  getEclipticLongitudeRange,
   getFlatteningCorrections,
   getMeanAnomaly,
   getRadiusVector,
+  getLongitudeOfPerihelion
 } from './coordinates'
 import { Moon } from './moon'
 import {
@@ -24,12 +26,14 @@ import {
 
 export const Earth: EarthPlanet = {
   getEclipticLongitude,
+  getEclipticLongitudeRange,
   getEclipticLatitude,
   getEclipticCoordinates,
   getRadiusVector,
   getFlatteningCorrections,
   getMeanAnomaly,
   getEccentricity,
+  getLongitudeOfPerihelion,
   getNutationInLongitude,
   getNutationInObliquity,
   getMeanObliquityOfEcliptic,
