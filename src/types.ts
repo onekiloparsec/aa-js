@@ -1,5 +1,4 @@
 import Decimal from '@/decimal'
-import { getRadiusVectorInKilometer } from '@/earth/moon/coordinates'
 
 /**
  * Angular degree
@@ -55,6 +54,10 @@ export type JulianCentury = Decimal;
  * Julian millenium (= time interval of 365250 days)
  */
 export type JulianMillenium = Decimal;
+/**
+ * Julian Ephemeris Day
+ */
+export type JulianEphemerisDay = Decimal;
 export type ArcMinute = Decimal;
 export type ArcSecond = Decimal;
 /**
@@ -455,11 +458,13 @@ export interface NaturalMoon {
   getIlluminatedFraction: QuantityAtJulianDayFunction
   getEquatorialHorizontalParallax: QuantityInDegreeAtJulianDayFunction
   getPositionAngleOfTheBrightLimb: QuantityInDegreeAtJulianDayFunction
+  getTimeOfMeanPhase: Function
+  getAge: QuantityAtJulianDayFunction
 }
 
 export interface EarthPlanet {
   getEclipticLongitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
-  getEclipticLongitudeRange: Function
+  getEclipticLongitudinalRotation: Function
   getEclipticLatitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
   getEclipticCoordinates: EclipticCoordinatesWithEquinoxAtJulianDayFunction
   getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction

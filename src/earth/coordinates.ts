@@ -70,14 +70,13 @@ export function getEclipticLongitude (jd: JulianDay | number, equinox: Equinox =
 }
 
 /**
- * Heliocentric coordinates longitude range between two dates.
- * Corresponds to AA+ CAAEarth::EclipticLongitude
+ * Heliocentric coordinates longitudinal rotation between two dates.
  * @param jdStart {JulianDay} The starting julian day.
  * @param jdEnd {JulianDay} The ending julian day.
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree}
  */
-export function getEclipticLongitudeRange (jdStart: JulianDay | number, jdEnd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
+export function getEclipticLongitudinalRotation (jdStart: JulianDay | number, jdEnd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   return getEclipticLongitudeValue(jdEnd, equinox).minus(getEclipticLongitudeValue(jdStart, equinox))
 }
 

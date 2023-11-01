@@ -4,7 +4,7 @@ import {
   getEclipticCoordinates,
   getEclipticLatitude,
   getEclipticLongitude,
-  getEclipticLongitudeRange,
+  getEclipticLongitudinalRotation,
   getFlatteningCorrections,
   getMeanAnomaly,
   getRadiusVector,
@@ -27,7 +27,7 @@ import {
 
 export const Earth: EarthPlanet = {
   getEclipticLongitude,
-  getEclipticLongitudeRange,
+  getEclipticLongitudinalRotation,
   getEclipticLatitude,
   getEclipticCoordinates,
   getRadiusVector,
