@@ -3,9 +3,9 @@ aa-js
 
 ![build and test](https://github.com/onekiloparsec/aa-js/actions/workflows/nodejs.yml/badge.svg?branch=master) [![codecov](https://codecov.io/gh/onekiloparsec/aa-js/graph/badge.svg?token=EfRJpZ4OTu)](https://codecov.io/gh/onekiloparsec/aa-js)
 
-Astronomical Algorithms in JavaScript.
+Astronomical Algorithms in JavaScript (TypeScript).
 
-**The new v3 has arbitrary-precision, thanks
+**The new v3 has arbitrary-precision computations, thanks
 to [decimal.js](https://github.com/MikeMcl/decimal.js).**
 
 Other
