@@ -28,14 +28,8 @@ import {
   gR4EarthCoefficients
 } from './coefficients'
 
-/**
- * Heliocentric coordinates longitude, see AA p.218, 219
- * Corresponds to AA+ CAAEarth::EclipticLongitude
- * @param {JulianDay} jd The julian day
- * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
- * @returns {Degree}
- */
-export function getEclipticLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
+
+function getEclipticLongitudeValue (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   const tau = getJulianMillenium(jd)
 
   const coeffs0 = (equinox === Equinox.MeanOfTheDate) ? gL0EarthCoefficients : gL0EarthCoefficients
@@ -61,7 +55,30 @@ export function getEclipticLongitude (jd: JulianDay | number, equinox: Equinox =
       .plus(L5.mul(tau.pow(5)))
   ).dividedBy(1e8)
 
-  return fmod360(value.mul(RAD2DEG))
+  return value.mul(RAD2DEG)
+}
+
+/**
+ * Heliocentric coordinates longitude, see AA p.218, 219
+ * Corresponds to AA+ CAAEarth::EclipticLongitude
+ * @param {JulianDay} jd The julian day
+ * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
+ * @returns {Degree}
+ */
+export function getEclipticLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
+  return fmod360(getEclipticLongitudeValue(jd, equinox))
+}
+
+/**
+ * Heliocentric coordinates longitude range between two dates.
+ * Corresponds to AA+ CAAEarth::EclipticLongitude
+ * @param jdStart {JulianDay} The starting julian day.
+ * @param jdEnd {JulianDay} The ending julian day.
+ * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
+ * @returns {Degree}
+ */
+export function getEclipticLongitudeRange (jdStart: JulianDay | number, jdEnd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
+  return getEclipticLongitudeValue(jdEnd, equinox).minus(getEclipticLongitudeValue(jdStart, equinox))
 }
 
 /**
