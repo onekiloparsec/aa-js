@@ -5,7 +5,8 @@ import { getDecimalYear } from '@/dates'
 // The value of K must be an integer
 function getK (jd: JulianDay | number): Decimal {
   const decimalYear = getDecimalYear(jd)
-  return Decimal.floor(new Decimal(0.01190).mul(decimalYear.minus(2051.1)))
+  const decimalK = new Decimal(0.01190).mul(decimalYear.minus(2051.1))
+  return decimalK.isPositive() ? Decimal.floor(decimalK) : Decimal.ceil(decimalK)
 }
 
 /**
