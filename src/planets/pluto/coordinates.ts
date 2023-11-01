@@ -1,7 +1,7 @@
 import Decimal from '@/decimal'
 import { DEG2RAD } from '@/constants'
 import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '@/types'
-import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/earth/nutation'
+import { getMeanObliquityOfEcliptic, getNutationInLongitude, getTrueObliquityOfEcliptic } from '@/earth/nutation'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianCentury } from '@/juliandays'
 import { fmod360, fmod90 } from '@/utils'
@@ -109,7 +109,7 @@ export function getEquatorialCoordinates (jd: JulianDay | number): EquatorialCoo
  */
 export function getApparentEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinates {
   return transformEclipticToEquatorial(
-    getEclipticLongitude(jd),
+    getEclipticLongitude(jd).plus(getNutationInLongitude(jd).dividedBy(3600)),
     getEclipticLatitude(jd),
     getTrueObliquityOfEcliptic(jd)
   )
