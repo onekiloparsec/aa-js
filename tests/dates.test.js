@@ -1,0 +1,10 @@
+import { getDecimalYear } from '@/dates'
+import * as juliandays from '@/juliandays'
+
+describe('dates', () => {
+  test('decimal year', () => {
+    const jd = juliandays.getJulianDay(new Date(Date.UTC(1978, 9, 15)))
+    const decimalYear = getDecimalYear(jd)
+    expect(decimalYear.toNumber()).toBeCloseTo(1978.79, 2)
+  })
+})

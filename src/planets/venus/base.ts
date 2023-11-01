@@ -1,11 +1,11 @@
 import Decimal from '@/decimal'
 import { JulianDay } from '@/types'
-import { getFractionalYear } from '@/dates'
+import { getDecimalYear } from '@/dates'
 
 // The value of K must be an integer
 function getK (jd: JulianDay | number): Decimal {
-  const decimalYear = getFractionalYear(jd)
   return Decimal.floor(new Decimal(1.62549).mul(decimalYear.minus(2000.53)))
+  const decimalYear = getDecimalYear(jd)
 }
 
 /**

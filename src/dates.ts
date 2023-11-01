@@ -1,6 +1,6 @@
 import Decimal from '@/decimal'
 import { JulianDay } from '@/types'
-import { getDate } from '@/juliandays'
+import { getDate, getJulianDay } from '@/juliandays'
 
 export function isDateAfterPapalReform (year: number, Month: number, Day: number): boolean {
   return ((year > 1582) || ((year === 1582) && (Month > 10)) || ((year === 1582) && (Month === 10) && (Day >= 15)))
@@ -50,3 +50,10 @@ export function getFractionalYear (jd: JulianDay | number, isGregorianCalendar: 
   return new Decimal(year).plus(new Decimal(jd).minus(getFullScaleJulianDay(year, 1, 1))).dividedBy(daysInYear)
 }
 
+
+export function getDecimalYear (jd: JulianDay | number, isGregorianCalendar: boolean = true): Decimal {
+  const year = getDate(jd).getFullYear()
+  const daysInYear = (isLeapYear(year, isGregorianCalendar)) ? 366 : 365
+  const januaryFirstDate = new Date(Date.UTC(year, 0, 0, 0, 0, 0, 0))
+  return new Decimal(year).plus((new Decimal(jd).minus(getJulianDay(januaryFirstDate)!)).dividedBy(daysInYear))
+}
