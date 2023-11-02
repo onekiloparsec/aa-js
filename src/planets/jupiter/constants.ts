@@ -1,9 +1,23 @@
+/**
+ @module Jupiter
+ */
 import Decimal from '@/decimal'
 import { AstronomicalUnit, Degree, Equinox, LengthArray, PlanetConstants, PlanetOrbitalElements } from '@/types'
 
 /**
  * Planet constants, copied from the JPL
- * Reference: https://ssd.jpl.nasa.gov/?planet_phys_par
+ * Reference: {@link https://ssd.jpl.nasa.gov/?planet_phys_par}
+ * @property {Kilometer} equatorialRadius Planet's equatorial radius
+ * @property {Kilometer} meanRadius Planet's mean radius
+ * @property {Kilogram24} mass Planet's mass
+ * @property {GramPerCubicCentimeter} bulkDensity Planet's bulk density
+ * @property {Day} siderealRotationPeriod Planet's sidereal rotation period
+ * @property {Year} siderealOrbitPeriod Planet's orbit rotation period
+ * @property {Magnitude} visualMagnitude Planet's visual magnitude
+ * @property {Albedo} geometricAlbedo Planet's geometric albedo
+ * @property {MeterPerSquareSecond} equatorialGravity Planet's equatorial gravity
+ * @property {KilometerPerSecond} Planet's escale velocity
+ * @memberof module:Jupiter
  */
 export const constants: PlanetConstants = {
   equatorialRadius: new Decimal('71492.0'),
@@ -21,6 +35,7 @@ export const constants: PlanetConstants = {
 /**
  * Orbital Elements for the mean equinox of date and std J2000
  * Reference: Astronomical Algorithms, J. Meus, pp. 212-215 (Table 31.A & 31.B).
+ * @memberof module:Jupiter
  */
 export const orbitalElements: PlanetOrbitalElements = {
   semiMajorAxis: ['5.202_603_209', '0.000_000_1913', '0', '0']

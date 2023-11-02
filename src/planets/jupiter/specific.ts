@@ -43,6 +43,13 @@ function computeJupiterDetails (jd: JulianDay | number) {
   return { alpha, delta, r, Delta }
 }
 
+/**
+ * The planetocentric declination of the Earth.
+ * When it is positive, the planet northern pole is tilted towards the Earth.
+ * @param {JulianDay | number} jd
+ * @returns {Degree}
+ * @memberof module:Jupiter
+ */
 export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay | number): Degree {
   const d = new Decimal(jd).minus(2433282.5)
   const T1 = d.dividedBy(36525)
@@ -73,6 +80,13 @@ export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay | number): D
   return Decimal.asin(value1.minus(value2)).radiansToDegrees()
 }
 
+/**
+ * The planetocentric declination of the Sun.
+ * When it is positive, the planet northern pole is tilted towards the sun.
+ * @param {JulianDay | number} jd
+ * @returns {Degree}
+ * @memberof module:Jupiter
+ */
 export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay | number): Degree {
   const d = new Decimal(jd).minus(2433282.5)
   const T1 = d.dividedBy(36525)
@@ -89,6 +103,12 @@ export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay | number):
   return Decimal.asin(value1.minus(value2)).radiansToDegrees()
 }
 
+/**
+ * Central meridian longitudes
+ * @param {JulianDay | number} jd The julian day
+ * @returns {Object}
+ * @memberof module:Jupiter
+ */
 export function getCentralMeridianLongitudes (jd: JulianDay | number): Object {
   const d = new Decimal(jd).minus('2433282.5')
   const T1 = d.dividedBy('36525')

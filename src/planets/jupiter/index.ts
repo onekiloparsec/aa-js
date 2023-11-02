@@ -1,3 +1,6 @@
+/**
+ @module Jupiter
+ */
 import { JupiterPlanet } from '@/types'
 import {
   getEclipticCoordinates,

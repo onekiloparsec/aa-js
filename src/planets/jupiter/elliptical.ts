@@ -29,6 +29,7 @@ import { getEccentricity, getSemiMajorAxis } from './orbital'
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
+ * @memberof module:Jupiter
  */
 export function getGeocentricDistance (jd: JulianDay | number): AstronomicalUnit {
   return getPlanetGeocentricDistance(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
@@ -41,6 +42,7 @@ export function getGeocentricDistance (jd: JulianDay | number): AstronomicalUnit
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
+ * @memberof module:Jupiter
  */
 export function getGeocentricEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
   return getPlanetGeocentricEclipticCoordinates(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
@@ -53,6 +55,7 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number): Eclip
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
+ * @memberof module:Jupiter
  */
 export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
   return getPlanetApparentGeocentricEclipticCoordinates(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
@@ -66,6 +69,7 @@ export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number
  * @param {JulianDay} jd The julian day
  * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
  * @returns {EquatorialCoordinates}
+ * @memberof module:Jupiter
  */
 export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean) {
   const geocentricEclipticCoordinates = getGeocentricEclipticCoordinates(jd)
@@ -83,6 +87,7 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obli
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
+ * @memberof module:Jupiter
  */
 export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number) {
   const apparentGeocentricEclipticCoordinates = getApparentGeocentricEclipticCoordinates(jd)
@@ -97,6 +102,7 @@ export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | numb
  * Computes the object instantaneous velocity in the orbit
  * @param  {JulianDay} jd The julian day
  * @returns {KilometerPerSecond} The velocity
+ * @memberof module:Jupiter
  */
 export function getInstantaneousVelocity (jd: JulianDay | number): KilometerPerSecond {
   return getPlanetInstantaneousVelocity(getRadiusVector(jd), getSemiMajorAxis(jd))
@@ -106,6 +112,7 @@ export function getInstantaneousVelocity (jd: JulianDay | number): KilometerPerS
  * Computes the object's velocity at perihelion
  * @param  {JulianDay} jd The julian day
  * @returns {KilometerPerSecond} The velocity
+ * @memberof module:Jupiter
  */
 export function getVelocityAtPerihelion (jd: JulianDay | number): KilometerPerSecond {
   return getPlanetVelocityAtPerihelion(getEccentricity(jd), getSemiMajorAxis(jd))
@@ -115,6 +122,7 @@ export function getVelocityAtPerihelion (jd: JulianDay | number): KilometerPerSe
  * Computes the object's velocity at aphelion
  * @param  {JulianDay} jd The julian day
  * @returns {KilometerPerSecond} The velocity
+ * @memberof module:Jupiter
  */
 export function getVelocityAtAphelion (jd: JulianDay | number): KilometerPerSecond {
   return getPlanetVelocityAtAphelion(getEccentricity(jd), getSemiMajorAxis(jd))
@@ -124,6 +132,7 @@ export function getVelocityAtAphelion (jd: JulianDay | number): KilometerPerSeco
  * Computes the object's length of orbit ellipse
  * @param  {JulianDay} jd The julian day
  * @returns {AstronomicalUnit} The ellipse length
+ * @memberof module:Jupiter
  */
 export function getLengthOfEllipse (jd: JulianDay | number): AstronomicalUnit {
   return getPlanetLengthOfEllipse(getEccentricity(jd), getSemiMajorAxis(jd))
@@ -134,6 +143,7 @@ export function getLengthOfEllipse (jd: JulianDay | number): AstronomicalUnit {
  * @param  {JulianDay} jd The julian day
  * @param {GeographicCoordinates} geoCoords The observer location.
  * @returns {AstronomicalUnit} The ellipse length
+ * @memberof module:Jupiter
  */
 export function getRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates): RiseTransitSet {
   return getPlanetRiseTransitSet(jd, geoCoords, getGeocentricEquatorialCoordinates)
@@ -144,6 +154,7 @@ export function getRiseTransitSet (jd: JulianDay | number, geoCoords: Geographic
  * @param  {JulianDay} jd The julian day
  * @param {GeographicCoordinates} geoCoords The observer location.
  * @returns {AstronomicalUnit} The ellipse length
+ * @memberof module:Jupiter
  */
 export function getAccurateRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates): RiseTransitSet {
   return getPlanetAccurateRiseTransitSet(jd, geoCoords, getGeocentricEquatorialCoordinates)
