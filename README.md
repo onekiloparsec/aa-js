@@ -39,6 +39,7 @@ Main Changes in V3
 - Added a transformation from equatorial to *topocentric* coordinates.
 - Important bugfix on `getPositionAngle` and `getPhaseAngle` in the `Moon` module.
 - Added easy accessors for rise, transit and set times for every planet.
+- Numerous bugfixes, and added methods for dates, julian days
 
 Available Modules
 ================
@@ -53,9 +54,10 @@ Available Modules
   Earth.
 * In addition, for `Saturn`: the details of the rings system.
 * `Sun`: mean & true anomaly, coordinates.
-* `Earth` & `Moon`: all the coordinates, many details about the Moon, including nutation and aberration.
+* `Earth`: all the coordinates, mean anomaly, radius vector (distance) etc.
 * Inside `Earth` module: `nutation`: in longitude, for obliquity, true & mean obliquity of the ecliptic.
 * Inside `Earth` module: `aberration`: ecliptic and equatorial.
+* `Earth.Moon`: phases, age, apparent coordinates etc.
 * `juliandays`: creation, transformation, local mean sidereal time.
 * `times`: transformation between UTC, TT, AI, UT1...
 * `cosmology`: the cosmology calculator from Ned Wright's, but re-implemented, and tested.
