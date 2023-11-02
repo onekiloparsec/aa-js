@@ -60,6 +60,7 @@ export function getMagnitude (jd: JulianDay | number): Magnitude {
  * occultations.
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Mars
  */
 export function getEquatorialSemiDiameter (jd: JulianDay | number): Degree {
   const Delta = getGeocentricDistance(jd)
@@ -73,6 +74,7 @@ export function getEquatorialSemiDiameter (jd: JulianDay | number): Degree {
  * @see getEquatorialSemiDiameter
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Mars
  */
 export function getPolarSemiDiameter (jd: JulianDay | number): Degree {
   return getEquatorialSemiDiameter(jd)

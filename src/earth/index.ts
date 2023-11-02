@@ -1,3 +1,6 @@
+/**
+ @module Earth
+ */
 import { EarthPlanet } from '@/types'
 import {
   getEccentricity,

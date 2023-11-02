@@ -13,6 +13,7 @@ function getK (jd: JulianDay | number): Decimal {
  * Aphelion (time of passage at the closest point to the Sun)
  * @param {JulianDay} jd The julian day
  * @returns {JulianDay}
+ * @memberof module:Uranus
  */
 export function getAphelion (jd: JulianDay | number): JulianDay {
   const kdash = getK(jd).plus('0.5')
@@ -25,6 +26,7 @@ export function getAphelion (jd: JulianDay | number): JulianDay {
  * Perihelion (time of passage at the farthest point to the Sun)
  * @param {JulianDay} jd The julian day
  * @returns {JulianDay}
+ * @memberof module:Uranus
  */
 export function getPerihelion (jd: JulianDay | number): JulianDay {
   const k = getK(jd)

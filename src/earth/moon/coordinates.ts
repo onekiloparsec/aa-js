@@ -1,17 +1,18 @@
 import Decimal from '@/decimal'
 import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer, Obliquity } from '@/types'
-import { getMeanObliquityOfEcliptic, getNutationInLongitude, getTrueObliquityOfEcliptic } from '@/earth/nutation'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianCentury } from '@/juliandays'
 import { DEG2RAD, ONE, TWO } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Sun } from '@/sun'
+import { getMeanObliquityOfEcliptic, getNutationInLongitude, getTrueObliquityOfEcliptic } from '../nutation'
 import { gMoonCoefficients1, gMoonCoefficients2, gMoonCoefficients3, gMoonCoefficients4 } from './coefficients'
 
 /**
  * Mean longitude
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getMeanLongitude (jd: JulianDay | number): Degree {
   const T = getJulianCentury(jd)
@@ -28,6 +29,7 @@ export function getMeanLongitude (jd: JulianDay | number): Degree {
  * Mean elongation
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getMeanElongation (jd: JulianDay | number): Degree {
   const T = getJulianCentury(jd)
@@ -44,6 +46,7 @@ export function getMeanElongation (jd: JulianDay | number): Degree {
  * Mean anomaly
  * @param {JulianDay} jd The julian day
  * @return {Degree}
+ * @memberof module:Earth
  */
 export function getMeanAnomaly (jd: JulianDay | number): Degree {
   const T = getJulianCentury(jd)
@@ -60,6 +63,7 @@ export function getMeanAnomaly (jd: JulianDay | number): Degree {
  * Argument of latitude
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getArgumentOfLatitude (jd: JulianDay | number): Degree {
   const T = getJulianCentury(jd)
@@ -76,6 +80,7 @@ export function getArgumentOfLatitude (jd: JulianDay | number): Degree {
  * Ecliptic longitude
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getGeocentricEclipticLongitude (jd: JulianDay | number): Degree {
   const Ldash = getMeanLongitude(jd).degreesToRadians()
@@ -115,6 +120,7 @@ export function getGeocentricEclipticLongitude (jd: JulianDay | number): Degree 
  * Ecliptic latitude
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getGeocentricEclipticLatitude (jd: JulianDay | number): Degree {
   const Ldash = getMeanLongitude(jd).degreesToRadians()
@@ -157,6 +163,7 @@ export function getGeocentricEclipticLatitude (jd: JulianDay | number): Degree {
  * Ecliptic coordinates
  * @param {JulianDay} jd The julian day
  * @returns {EclipticCoordinates}
+ * @memberof module:Earth
  */
 export function getGeocentricEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
   return {
@@ -171,6 +178,7 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number): Eclip
  * @param {JulianDay} jd The julian day
  * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
  * @returns {EquatorialCoordinates}
+ * @memberof module:Earth
  */
 export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinates {
   return transformEclipticToEquatorial(
@@ -185,6 +193,7 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obli
  * @see getApparentEquatorialCoordinates
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
+ * @memberof module:Earth
  */
 export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinates {
   return transformEclipticToEquatorial(
@@ -199,6 +208,7 @@ export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | numb
  * Radius vector (distance Earth-Moon) in kilometers!
  * @param {JulianDay} jd The julian day
  * @returns {Kilometer}
+ * @memberof module:Earth
  */
 export function getRadiusVectorInKilometer (jd: JulianDay | number): Kilometer {
   const D = getMeanElongation(jd).degreesToRadians()
@@ -229,6 +239,7 @@ export function getRadiusVectorInKilometer (jd: JulianDay | number): Kilometer {
  * Horizontal parallax
  * @param {JulianDay} jd The julian day
  * @return {Degree}
+ * @memberof module:Earth
  */
 export function horizontalParallax (jd: JulianDay | number): Degree {
   return radiusVectorToHorizontalParallax(getRadiusVectorInKilometer(jd))
@@ -238,6 +249,7 @@ export function horizontalParallax (jd: JulianDay | number): Degree {
  * Transforms a radius vector into horizontal parallax
  * @param {Kilometer} radiusVector The radius vector
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function radiusVectorToHorizontalParallax (radiusVector: Kilometer | number): Degree {
   return Decimal.asin(new Decimal('6378.14').dividedBy(radiusVector)).radiansToDegrees()
@@ -247,6 +259,7 @@ export function radiusVectorToHorizontalParallax (radiusVector: Kilometer | numb
  * Transforms an horizontal parallax into a radius vector
  * @param {Degree} horizontalParallax
  * @returns {Kilometer}
+ * @memberof module:Earth
  */
 export function horizontalParallaxToRadiusVector (horizontalParallax: Degree | number): Kilometer {
   return new Decimal('6378.14').dividedBy(Decimal.sin(new Decimal(DEG2RAD).mul(horizontalParallax)))
@@ -256,6 +269,7 @@ export function horizontalParallaxToRadiusVector (horizontalParallax: Degree | n
  * Mean longitude of the ascending node
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getMeanLongitudeAscendingNode (jd: JulianDay | number): Degree {
   const T = getJulianCentury(jd)
@@ -272,6 +286,7 @@ export function getMeanLongitudeAscendingNode (jd: JulianDay | number): Degree {
  * Mean longitude of perigee
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getMeanLongitudePerigee (jd: JulianDay | number): Degree {
   const T = getJulianCentury(jd)
@@ -288,6 +303,7 @@ export function getMeanLongitudePerigee (jd: JulianDay | number): Degree {
  * The true longitude of the ascending node
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function trueLongitudeOfAscendingNode (jd: JulianDay | number): Degree {
   let TrueAscendingNode = getMeanLongitudeAscendingNode(jd)

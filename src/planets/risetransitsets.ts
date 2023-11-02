@@ -2,6 +2,7 @@ import Decimal from '@/decimal'
 import { EquatorialCoordinatesAtJulianDayFunction, GeographicCoordinates, JulianDay, RiseTransitSet } from '@/types'
 import * as risetransitsets from '@/risetransitsets'
 
+/** @private */
 export function getPlanetRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates, getCoordsFunc: EquatorialCoordinatesAtJulianDayFunction): RiseTransitSet {
   const coords = getCoordsFunc(new Decimal(jd))
   return risetransitsets.getRiseTransitSetTimes(
@@ -13,6 +14,7 @@ export function getPlanetRiseTransitSet (jd: JulianDay | number, geoCoords: Geog
   )
 }
 
+/** @private */
 export function getPlanetAccurateRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates, getCoordsFunc: EquatorialCoordinatesAtJulianDayFunction): RiseTransitSet {
   const coords0 = getCoordsFunc(new Decimal(jd).minus(1))
   const coords1 = getCoordsFunc(new Decimal(jd))

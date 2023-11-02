@@ -1,6 +1,3 @@
-/**
- @category Planets
- */
 import { Mercury } from './mercury'
 import { Venus } from './venus'
 import { Mars } from './mars'

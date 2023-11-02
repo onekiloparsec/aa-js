@@ -10,6 +10,7 @@ import { getGeocentricDistance } from './elliptical'
  * Phase angle (angle Sun-planet-Earth).
  * @param {JulianDay} jd The julian day
  * @return {Degree}
+ * @memberof module:Pluto
  */
 export function getPhaseAngle (jd: JulianDay | number): Degree {
   const r = getRadiusVector(jd)
@@ -26,6 +27,7 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
  * Illuminated fraction of the planet as seen from the Earth. Between 0 and 1.
  * @param {JulianDay} jd The julian day
  * @returns {number}
+ * @memberof module:Pluto
  */
 export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
   const i = getPhaseAngle(jd).degreesToRadians()
@@ -39,6 +41,7 @@ export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
  * instead of Mueller's
  * @param {JulianDay} jd The julian day
  * @returns {Magnitude}
+ * @memberof module:Pluto
  */
 export function getMagnitude (jd: JulianDay | number): Magnitude {
   const r = getRadiusVector(jd)
@@ -56,6 +59,7 @@ export function getMagnitude (jd: JulianDay | number): Magnitude {
  * occultations.
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Pluto
  */
 export function getEquatorialSemiDiameter (jd: JulianDay | number): Degree {
   const Delta = getGeocentricDistance(jd)
@@ -69,6 +73,7 @@ export function getEquatorialSemiDiameter (jd: JulianDay | number): Degree {
  * @see getEquatorialSemiDiameter
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Pluto
  */
 export function getPolarSemiDiameter (jd: JulianDay | number): Degree {
   return getEquatorialSemiDiameter(jd)

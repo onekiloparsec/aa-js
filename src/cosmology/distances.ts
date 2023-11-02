@@ -11,6 +11,7 @@ import { getOmegaK } from './omegas'
  * @param {number} omegaVac Omega Vacuum
  * @param {number} z The redshift
  * @returns {MegaParsec}
+ * @memberof module:Cosmology
  */
 export function getComovingRadialDistance (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number, z: Decimal | number): MegaParsec {
   const DCMR = getDCMRIntegral(H0, omegaMat, omegaVac, z, (a, adot) => ONE.dividedBy(a.mul(adot)))
@@ -24,6 +25,7 @@ export function getComovingRadialDistance (H0: KilometerPerSecondPerMegaParsec |
  * @param {number} omegaVac Omega Vacuum
  * @param {number} z The redshift
  * @returns {number}
+ * @memberof module:Cosmology
  */
 export function getTangentialComovingDistance (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number, z: Decimal | number): Decimal {
   const DCMR = getDCMRIntegral(H0, omegaMat, omegaVac, z, (a, adot) => ONE.dividedBy(a.mul(adot)))
@@ -52,6 +54,7 @@ export function getTangentialComovingDistance (H0: KilometerPerSecondPerMegaPars
  * @param {number} omegaVac Omega Vacuum
  * @param {number} z The redshift
  * @returns {MegaParsec}
+ * @memberof module:Cosmology
  */
 export function getAngularSizeDistance (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number, z: Decimal | number): MegaParsec {
   const az = ONE.dividedBy(ONE.plus(z))
@@ -66,6 +69,7 @@ export function getAngularSizeDistance (H0: KilometerPerSecondPerMegaParsec | nu
  * @param {number} omegaVac Omega Vacuum
  * @param {number} z The redshift
  * @returns {number} Megaparsec / arcsecond
+ * @memberof module:Cosmology
  */
 export function getAngularSizeScale (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number, z: Decimal | number): KiloparsecPerArcsecond {
   const DA_Mpc = getAngularSizeDistance(H0, omegaMat, omegaVac, z)
@@ -79,6 +83,7 @@ export function getAngularSizeScale (H0: KilometerPerSecondPerMegaParsec | numbe
  * @param {number} omegaVac Omega Vacuum
  * @param {number} z The redshift
  * @returns {MegaParsec}
+ * @memberof module:Cosmology
  */
 export function getLuminosityDistance (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number, z: Decimal | number): MegaParsec {
   const az = ONE.dividedBy(ONE.plus(z))

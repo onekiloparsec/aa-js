@@ -12,6 +12,7 @@ import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './co
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
+ * @memberof module:Pluto
  */
 export function getGeocentricDistance (jd: JulianDay | number): AstronomicalUnit {
   return getPlanetGeocentricDistance(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
@@ -24,6 +25,7 @@ export function getGeocentricDistance (jd: JulianDay | number): AstronomicalUnit
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
+ * @memberof module:Pluto
  */
 export function getGeocentricEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
   return getPlanetGeocentricEclipticCoordinates(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
@@ -37,6 +39,7 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number): Eclip
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
  * @returns {EquatorialCoordinates}
+ * @memberof module:Pluto
  */
 export function getGeocentricEquatorialCoordinates (jd: JulianDay | number) {
   const geocentricEclipticCoordinates = getGeocentricEclipticCoordinates(jd)
@@ -52,7 +55,8 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number) {
  * Computes the (low-accuracy but fast) times of the rise, transit and set of the planet.
  * @param  {JulianDay} jd The julian day
  * @param {GeographicCoordinates} geoCoords The observer location.
- * @returns {AstronomicalUnit} The ellipse length
+ * @returns {RiseTransitSet} The rise, transit and set times
+ * @memberof module:Pluto
  */
 export function getRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates): RiseTransitSet {
   return getPlanetRiseTransitSet(jd, geoCoords, getGeocentricEquatorialCoordinates)
@@ -62,7 +66,8 @@ export function getRiseTransitSet (jd: JulianDay | number, geoCoords: Geographic
  * Computes the accurate (better than a minute) times of the rise, transit and set of the planet.
  * @param  {JulianDay} jd The julian day
  * @param {GeographicCoordinates} geoCoords The observer location.
- * @returns {AstronomicalUnit} The ellipse length
+ * @returns {RiseTransitSet} The rise, transit and set times
+ * @memberof module:Pluto
  */
 export function getAccurateRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates): RiseTransitSet {
   return getPlanetAccurateRiseTransitSet(jd, geoCoords, getGeocentricEquatorialCoordinates)

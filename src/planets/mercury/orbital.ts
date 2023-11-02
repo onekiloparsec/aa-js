@@ -15,6 +15,7 @@ import { orbitalElements } from './constants'
  * @param  {JulianDay} jd The julian day
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree} The mean longitude
+ * @memberof module:Mercury
  */
 export function getMeanLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   return getPlanetMeanLongitude(jd, orbitalElements[equinox].meanLongitude)
@@ -24,6 +25,7 @@ export function getMeanLongitude (jd: JulianDay | number, equinox: Equinox = Equ
  * Computes the orbit semi major axis at a given time.
  * @param  {JulianDay} jd The julian day
  * @returns {Degree} The semi major axis
+ * @memberof module:Mercury
  */
 export function getSemiMajorAxis (jd: JulianDay | number): Degree {
   return getPlanetSemiMajorAxis(jd, orbitalElements.semiMajorAxis)
@@ -33,6 +35,7 @@ export function getSemiMajorAxis (jd: JulianDay | number): Degree {
  * Computes the orbit eccentricity
  * @param  {JulianDay} jd The julian day
  * @returns {Degree} The orbit eccentricity
+ * @memberof module:Mercury
  */
 export function getEccentricity (jd: JulianDay | number): Decimal {
   return getPlanetEccentricity(jd, orbitalElements.eccentricity)
@@ -43,6 +46,7 @@ export function getEccentricity (jd: JulianDay | number): Decimal {
  * @param  {JulianDay} jd The julian day
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree} The orbit inclination
+ * @memberof module:Mercury
  */
 export function getInclination (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   return getPlanetInclination(jd, orbitalElements[equinox].inclination)
@@ -53,6 +57,7 @@ export function getInclination (jd: JulianDay | number, equinox: Equinox = Equin
  * @param  {JulianDay} jd The julian day
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree} The longitude of ascending node
+ * @memberof module:Mercury
  */
 export function getLongitudeOfAscendingNode (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   return getPlanetLongitudeOfAscendingNode(jd, orbitalElements[equinox].longitudeOfAscendingNode)
@@ -63,6 +68,7 @@ export function getLongitudeOfAscendingNode (jd: JulianDay | number, equinox: Eq
  * @param  {JulianDay} jd The julian day
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree} The longitude of perihelion
+ * @memberof module:Mercury
  */
 export function getLongitudeOfPerihelion (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   return getPlanetLongitudeOfPerihelion(jd, orbitalElements[equinox].longitudeOfPerihelion)

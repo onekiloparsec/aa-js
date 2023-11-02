@@ -9,6 +9,7 @@ import { getOmegaK } from './omegas'
  * @param {number} omegaK Omega Curvature (= 1 - Omega Total)
  * @param {number} DCMR
  * @returns {GigaParsec3}
+ * @memberof module:Cosmology
  */
 export function getComovingVolume (omegaK: Decimal | number, DCMR: Decimal | number): GigaParsec3 {
   const x = Decimal.sqrt(Decimal.abs(omegaK)).mul(DCMR)
@@ -35,6 +36,7 @@ export function getComovingVolume (omegaK: Decimal | number, DCMR: Decimal | num
  * @param {number} omegaVac Omega Vacuum
  * @param {number} z The redshift
  * @returns {GigaParsec3}
+ * @memberof module:Cosmology
  */
 export function getComovingVolumeWithinRedshift (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): GigaParsec3 {
   const omegaK = getOmegaK(H0, omegaMat, omegaVac)

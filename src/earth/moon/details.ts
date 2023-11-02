@@ -5,6 +5,12 @@ import { Degree, JulianDay, Kilometer, Radian } from '@/types'
 import { getRadiusVector as getEarthRadiusVector } from '@/earth/coordinates'
 import { getGeocentricEquatorialCoordinates, getRadiusVectorInKilometer } from './coordinates'
 
+/**
+ * The geocentric elongation of the moon
+ * @param {JulianDay | number} jd
+ * @returns {Degree}
+ * @memberof module:Earth
+ */
 export function getGeocentricElongation (jd: JulianDay | number): Degree {
   const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd)
   const moonCoords = getGeocentricEquatorialCoordinates(jd)
@@ -25,6 +31,7 @@ export function getGeocentricElongation (jd: JulianDay | number): Degree {
  * The phase angle (angle Sun-Moon-Earth)
  * @param {JulianDay} jd The julian day
  * @return {Degree}
+ * @memberof module:Earth
  */
 export function getPhaseAngle (jd: JulianDay | number): Degree {
   // Geocentric elongation of the Moon from the Sun
@@ -42,6 +49,7 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
  * the Moon, reckoned eastward from the North Point of the disk (not from the axis of rotation of the lunar globe).
  * @param {JulianDay} jd The julian day
  * @return {Degree}
+ * @memberof module:Earth
  */
 export function getPositionAngleOfTheBrightLimb (jd: JulianDay | number): Degree {
   const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd)
@@ -65,6 +73,7 @@ export function getPositionAngleOfTheBrightLimb (jd: JulianDay | number): Degree
  * Between 0 and 1.
  * @param {JulianDay} jd The julian day
  * @returns {number}
+ * @memberof module:Earth
  */
 export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
   const phaseAngle = getPhaseAngle(jd).degreesToRadians()
@@ -75,6 +84,7 @@ export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
  * Equatorial horizontal parallax
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getEquatorialHorizontalParallax (jd: JulianDay | number): Degree {
   return Decimal.asin(new Decimal('6378.14').dividedBy(getRadiusVectorInKilometer(jd))).radiansToDegrees()

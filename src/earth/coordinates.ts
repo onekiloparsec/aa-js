@@ -1,3 +1,6 @@
+/**
+ @module Earth
+ */
 import Decimal from '@/decimal'
 import { AstronomicalUnit, Degree, EclipticCoordinates, Equinox, JulianDay, Meter, Radian } from '@/types'
 import { EARTH_EQUATORIAL_RADIUS, EARTH_RADIUS_FLATTENING_FACTOR } from '@/constants'
@@ -64,6 +67,7 @@ function getEclipticLongitudeValue (jd: JulianDay | number, equinox: Equinox = E
  * @param {JulianDay} jd The julian day
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getEclipticLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   return fmod360(getEclipticLongitudeValue(jd, equinox))
@@ -75,6 +79,7 @@ export function getEclipticLongitude (jd: JulianDay | number, equinox: Equinox =
  * @param jdEnd {JulianDay} The ending julian day.
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getEclipticLongitudinalRotation (jdStart: JulianDay | number, jdEnd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   return getEclipticLongitudeValue(jdEnd, equinox).minus(getEclipticLongitudeValue(jdStart, equinox))
@@ -86,6 +91,7 @@ export function getEclipticLongitudinalRotation (jdStart: JulianDay | number, jd
  * @param {JulianDay} jd The julian day
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getEclipticLatitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   const tau = getJulianMillenium(jd)
@@ -117,6 +123,7 @@ export function getEclipticLatitude (jd: JulianDay | number, equinox: Equinox = 
  * @param {JulianDay} jd The julian day
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {EclipticCoordinates}
+ * @memberof module:Earth
  */
 export function getEclipticCoordinates (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): EclipticCoordinates {
   return {
@@ -130,6 +137,7 @@ export function getEclipticCoordinates (jd: JulianDay | number, equinox: Equinox
  * Corresponds to AA+ CAAEarth::RadiusVector
  * @param {JulianDay} jd The julian day
  * @returns {AstronomicalUnit}
+ * @memberof module:Earth
  */
 export function getRadiusVector (jd: JulianDay | number): AstronomicalUnit {
   const tau = getJulianMillenium(jd)
@@ -154,6 +162,7 @@ export function getRadiusVector (jd: JulianDay | number): AstronomicalUnit {
  * would have if it moved around the Sun with a constant angular velocity.
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getMeanAnomaly (jd: JulianDay | number): Degree {
   return Sun.getMeanAnomaly(jd)
@@ -164,8 +173,8 @@ export function getMeanAnomaly (jd: JulianDay | number): Degree {
  * See AA p.163 (and AA p.151)
  * @param  {JulianDay} jd The julian day
  * @returns {Decimal} The eccentricity (comprise between 0==circular, and 1).
+ * @memberof module:Earth
  */
-
 export function getEccentricity (jd: JulianDay | number): Decimal {
   const T = getJulianCentury(jd)
   return new Decimal(0.016_708_634).minus(T.mul(0.000_042_037)).minus(T.pow(2).mul(0.000_000_1267))
@@ -176,6 +185,7 @@ export function getEccentricity (jd: JulianDay | number): Decimal {
  * See AA p.151
  * @param  {JulianDay} jd The julian day
  * @returns {Degree} The longitude of perihelion
+ * @memberof module:Earth
  */
 export function getLongitudeOfPerihelion (jd: JulianDay | number): Degree {
   const T = getJulianCentury(jd)
@@ -188,6 +198,7 @@ export function getLongitudeOfPerihelion (jd: JulianDay | number): Degree {
  * @param  {Meter} height The observer heights above Earth surface.
  * @param {Degree} lat The observer's geographic latitude
  * @returns {Number} The quantities
+ * @memberof module:Earth
  */
 export function getFlatteningCorrections (height: Meter | number, lat: Degree | number) {
   const earthRadius: Meter = EARTH_EQUATORIAL_RADIUS.mul(1000)

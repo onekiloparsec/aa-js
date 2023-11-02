@@ -142,7 +142,7 @@ export function getLengthOfEllipse (jd: JulianDay | number): AstronomicalUnit {
  * Computes the (low-accuracy but fast) times of the rise, transit and set of the planet.
  * @param  {JulianDay} jd The julian day
  * @param {GeographicCoordinates} geoCoords The observer location.
- * @returns {AstronomicalUnit} The ellipse length
+ * @returns {RiseTransitSet} The rise, transit and set times
  * @memberof module:Jupiter
  */
 export function getRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates): RiseTransitSet {
@@ -153,7 +153,7 @@ export function getRiseTransitSet (jd: JulianDay | number, geoCoords: Geographic
  * Computes the accurate (better than a minute) times of the rise, transit and set of the planet.
  * @param  {JulianDay} jd The julian day
  * @param {GeographicCoordinates} geoCoords The observer location.
- * @returns {AstronomicalUnit} The ellipse length
+ * @returns {RiseTransitSet} The rise, transit and set times
  * @memberof module:Jupiter
  */
 export function getAccurateRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates): RiseTransitSet {

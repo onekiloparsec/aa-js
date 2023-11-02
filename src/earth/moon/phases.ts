@@ -29,6 +29,7 @@ function getPhaseK (jd: JulianDay | number, phase: MoonPhaseQuarter): Decimal {
  * @param {JulianDay} jd The julian day
  * @param {MoonPhase} phase The requested phase
  * @return {JulianDay}
+ * @memberof module:Earth
  */
 export function getTimeOfMeanPhase (jd: JulianDay | number, phase: MoonPhaseQuarter): JulianDay {
   const k = getPhaseK(jd, phase)
@@ -45,6 +46,7 @@ export function getTimeOfMeanPhase (jd: JulianDay | number, phase: MoonPhaseQuar
  * This is a low-accuracy age of the moon, using the average moon synodic period.
  * @param {JulianDay} jd The julian day
  * @return {JulianDay}
+ * @memberof module:Earth
  */
 export function getAge (jd: JulianDay | number): Day {
   const djd = new Decimal(jd)
@@ -59,6 +61,7 @@ export function getAge (jd: JulianDay | number): Day {
  * The age name of the Moon cycle (New, WaxingCresent, FirstQuarter etc.)
  * @param {JulianDay} jd The julian day
  * @return {MoonPhase} The moon phase name
+ * @memberof module:Earth
  */
 export function getAgeName (jd: JulianDay | number): MoonPhase {
   const frac = getAge(jd).dividedBy(MOON_SYNODIC_PERIOD)

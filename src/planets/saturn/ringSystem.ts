@@ -9,6 +9,12 @@ import { Earth } from '@/earth'
 import { getPlanetDistanceDetailsFromEarth } from '../elliptical'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
+/**
+ * The details of Saturn's ring system.
+ * @param {JulianDay | number} jd
+ * @returns {SaturnRingSystem}
+ * @memberof module:Saturn
+ */
 export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem {
   const T = getJulianCentury(jd)
 

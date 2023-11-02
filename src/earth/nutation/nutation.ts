@@ -1,6 +1,3 @@
-/**
- @module Nutation
- */
 import Decimal from '@/decimal'
 import { ArcSecond, Degree, JulianDay } from '@/types'
 import { getDecimalValue } from '@/sexagesimal'
@@ -13,6 +10,7 @@ import { gNutationCoefficients } from './coefficients'
  * Nutation in longitude
  * @param {JulianDay} jd The julian day
  * @return {ArcSecond}
+ * @memberof module:Earth
  */
 export function getNutationInLongitude (jd: JulianDay | number): ArcSecond {
   const T = getJulianCentury(jd)
@@ -40,6 +38,7 @@ export function getNutationInLongitude (jd: JulianDay | number): ArcSecond {
  * Nutation in obliquity
  * @param {JulianDay} jd The julian day
  * @returns {ArcSecond}
+ * @memberof module:Earth
  */
 export function getNutationInObliquity (jd: JulianDay | number): ArcSecond {
   const T = getJulianCentury(jd)
@@ -72,6 +71,7 @@ export function getNutationInObliquity (jd: JulianDay | number): ArcSecond {
  * @see getTrueObliquityOfEcliptic
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getMeanObliquityOfEcliptic (jd: JulianDay | number): Degree {
   const U = (new Decimal(jd).minus('2451545')).dividedBy('3652500')
@@ -97,6 +97,7 @@ export function getMeanObliquityOfEcliptic (jd: JulianDay | number): Degree {
  * @see getMeanObliquityOfEcliptic
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Earth
  */
 export function getTrueObliquityOfEcliptic (jd: JulianDay | number): Degree {
   return getMeanObliquityOfEcliptic(jd).plus(getNutationInObliquity(jd).dividedBy(3600))

@@ -11,6 +11,7 @@ import { getOmegaK, getOmegaR } from './omegas'
  * @param {number} omegaMat
  * @param {number} omegaVac
  * @returns {GYr}
+ * @memberof module:Cosmology
  */
 export function getUniverseAge (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number): GYr {
   const az = new Decimal(1.0)
@@ -34,6 +35,7 @@ export function getUniverseAge (H0: KilometerPerSecondPerMegaParsec | number, om
  * @param {number} omegaVac Omega Vacuum
  * @param {number} z The redshift
  * @returns {GYr}
+ * @memberof module:Cosmology
  */
 export function getUniverseAgeAtRedshift (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): GYr {
   const az = ONE.dividedBy(ONE.plus(z))
@@ -77,6 +79,7 @@ export function getUniverseAgeAtRedshift (H0: KilometerPerSecondPerMegaParsec, o
  * @param {number} omegaVac Omega Vacuum
  * @param {number} z The redshift
  * @returns {GYr}
+ * @memberof module:Cosmology
  */
 export function getLightTravelTime (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): GYr {
   // Different func, ignoring a!

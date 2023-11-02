@@ -1,3 +1,6 @@
+/**
+ @module Pluto
+ */
 import { MinorPlanet } from '@/types'
 import {
   getEclipticCoordinates,

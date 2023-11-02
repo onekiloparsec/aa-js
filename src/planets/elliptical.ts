@@ -10,17 +10,12 @@ import {
   QuantityInAstronomicalUnitAtJulianDayFunction,
   SingleCoordinateDegreeAtJulianDayFunction
 } from '@/types'
-import { getNutationInLongitude } from '@/earth/nutation'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from '@/fk5'
-import { getAnnualEclipticAberration } from '@/earth/aberration'
 import { getLightTimeFromDistance } from '@/distances'
 import { fmod360, fmod90 } from '@/utils'
-import {
-  getEclipticLatitude as earthGetEclipticLatitude,
-  getEclipticLongitude as earthGetEclipticLongitude,
-  getRadiusVector as earthGetRadiusVector
-} from '@/earth/coordinates'
+import { Earth } from '@/earth'
 
+/** @private */
 export type EllipticalDistance = {
   x: AstronomicalUnit
   y: AstronomicalUnit
@@ -32,15 +27,16 @@ export type EllipticalDistance = {
   r: AstronomicalUnit
 }
 
+/** @private */
 export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
                                                    eclipticLongitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
                                                    eclipticLatitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
                                                    radiusVectorFunc: QuantityInAstronomicalUnitAtJulianDayFunction): EllipticalDistance {
   // Calculate the position of the Earth first
   const earthCoords = {
-    L: earthGetEclipticLongitude(jd).degreesToRadians(),
-    B: earthGetEclipticLatitude(jd).degreesToRadians(),
-    R: earthGetRadiusVector(jd)
+    L: Earth.getEclipticLongitude(jd).degreesToRadians(),
+    B: Earth.getEclipticLatitude(jd).degreesToRadians(),
+    R: Earth.getRadiusVector(jd)
   }
 
   // Iterate to find the positions adjusting for light-time correction if required
@@ -109,6 +105,7 @@ export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
   return distanceDetails
 }
 
+/** @private */
 export function getPlanetGeocentricDistance (jd: JulianDay | number,
                                              eclipticLongitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
                                              eclipticLatitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
@@ -117,6 +114,7 @@ export function getPlanetGeocentricDistance (jd: JulianDay | number,
 }
 
 
+/** @private */
 export function getPlanetGeocentricEclipticCoordinates (jd: JulianDay | number,
                                                         eclipticLongitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
                                                         eclipticLatitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
@@ -129,6 +127,7 @@ export function getPlanetGeocentricEclipticCoordinates (jd: JulianDay | number,
   }
 }
 
+/** @private */
 export function getPlanetApparentGeocentricEclipticCoordinates (jd: JulianDay | number,
                                                                 eclipticLongitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
                                                                 eclipticLatitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
@@ -136,7 +135,7 @@ export function getPlanetApparentGeocentricEclipticCoordinates (jd: JulianDay | 
   const geocentricEclipticCoordinates = getPlanetGeocentricEclipticCoordinates(jd, eclipticLongitudeFunc, eclipticLatitudeFunc, radiusVectorFunc)
 
   // Adjust for Aberration
-  const aberration = getAnnualEclipticAberration(jd,
+  const aberration = Earth.getAnnualEclipticAberration(jd,
     geocentricEclipticCoordinates.longitude,
     geocentricEclipticCoordinates.latitude
   )
@@ -153,30 +152,20 @@ export function getPlanetApparentGeocentricEclipticCoordinates (jd: JulianDay | 
   geocentricEclipticCoordinates.latitude = geocentricEclipticCoordinates.latitude.plus(deltaLat)
 
   // Correct for nutation
-  const longitudeNutation = getNutationInLongitude(jd)
+  const longitudeNutation = Earth.getNutationInLongitude(jd)
   geocentricEclipticCoordinates.longitude = geocentricEclipticCoordinates.longitude
     .plus(longitudeNutation.dividedBy(3600))
 
   return geocentricEclipticCoordinates
 }
 
-/**
- * Computes the object instantaneous velocity in the orbit
- * @param  {AstronomicalUnit} r The radius vector, or distance of the object from the Sun.
- * @param  {AstronomicalUnit} a The semi-major axis of the object orbit.
- * @returns {KilometerPerSecond} The velocity
- */
+/** @private */
 export function getPlanetInstantaneousVelocity (r: AstronomicalUnit | number, a: AstronomicalUnit | number): KilometerPerSecond {
   return new Decimal('42.1219')
     .mul(Decimal.sqrt(ONE.dividedBy(r).minus(ONE.dividedBy(TWO.mul(a)))))
 }
 
-/**
- * Computes the planet's velocity at perihelion
- * @param  {number} e The eccentricity of the planet's orbit
- * @param  {AstronomicalUnit} a The semi-major axis of the object orbit.
- * @returns {KilometerPerSecond} The velocity
- */
+/** @private */
 export function getPlanetVelocityAtPerihelion (e: Decimal | number, a: AstronomicalUnit | number): KilometerPerSecond {
   return new Decimal('29.7847')
     .dividedBy(Decimal.sqrt(a)
@@ -184,12 +173,7 @@ export function getPlanetVelocityAtPerihelion (e: Decimal | number, a: Astronomi
         .dividedBy(ONE.minus(e)))))
 }
 
-/**
- * Computes the planet's velocity at aphelion
- * @param  {number} e The eccentricity of the planet's orbit
- * @param  {AstronomicalUnit} a The semi-major axis of the object orbit.
- * @returns {KilometerPerSecond} The velocity
- */
+/** @private */
 export function getPlanetVelocityAtAphelion (e: Decimal | number, a: AstronomicalUnit | number): KilometerPerSecond {
   return new Decimal('29.7847')
     .dividedBy(Decimal.sqrt(a)
@@ -197,12 +181,7 @@ export function getPlanetVelocityAtAphelion (e: Decimal | number, a: Astronomica
         .dividedBy(ONE.plus(e)))))
 }
 
-/**
- * Computes the planet's length of orbit ellipse
- * @param  {number} e The eccentricity of the planet's orbit
- * @param  {AstronomicalUnit} a The semi-major axis of the object orbit.
- * @returns {AstronomicalUnit} The ellipse length
- */
+/** @private */
 export function getPlanetLengthOfEllipse (e: Decimal | number, a: AstronomicalUnit | number): AstronomicalUnit {
   const de = new Decimal(e)
   const da = new Decimal(a)
