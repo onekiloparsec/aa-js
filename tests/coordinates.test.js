@@ -56,7 +56,7 @@ describe('coordinates', () => {
     const lambda = getEclipticLongitudeFromEquatorial(pollux.rightAscension, pollux.declination)
     expect(lambda.toNumber()).toBeCloseTo(113.215629, 6)
     const beta = getEclipticLatitudeFromEquatorial(pollux.rightAscension, pollux.declination)
-    expect(beta).toBeCloseTo(6.684170, 6)
+    expect(beta.toNumber()).toBeCloseTo(6.684170, 6)
   })
 
 
@@ -76,16 +76,16 @@ describe('coordinates', () => {
     const jd = getJulianDay(date)
     const palomar = { longitude: getDecimalValue(7, 47, 27, false) * H2DEG, latitude: 33.356111, height: 1706 }
     const corrections = getFlatteningCorrections(palomar.height, palomar.latitude)
-    expect(corrections.rhocosphi).toBeCloseTo(0.836339, 6)
-    expect(corrections.rhosinphi).toBeCloseTo(0.546861, 6)
+    expect(corrections.rhocosphi.toNumber()).toBeCloseTo(0.836339, 6)
+    expect(corrections.rhosinphi.toNumber()).toBeCloseTo(0.546861, 6)
     const coordsAlt = Mars.getGeocentricEquatorialCoordinates(jd)
-    expect(coordsAlt.rightAscension * H2DEG).toBeCloseTo(339.530208, 1)
-    expect(coordsAlt.declination).toBeCloseTo(-15.771083, 2)
+    expect(coordsAlt.rightAscension.hoursToDegrees().toDP(6)).toBeCloseTo(339.530208, 2)
+    expect(coordsAlt.declination.toDP(6).toNumber()).toBeCloseTo(-15.771083, 3)
     const coords = { rightAscension: getDecimalValue(22, 38, 7.25), declination: getDecimalValue(-15, 46, 15.9) }
     const distance = Mars.getGeocentricDistance(jd)
-    expect(distance).toBeCloseTo(0.37276, 4)
+    expect(distance.toNumber()).toBeCloseTo(0.37276, 4)
     const topoCoords = transformEquatorialToTopocentric(jd, coords, distance, palomar)
-    expect(topoCoords.rightAscension).toBeCloseTo(getDecimalValue(22, 38, 8.54), 3)
-    expect(topoCoords.declination).toBeCloseTo(getDecimalValue(-15, 46, 30), 2)
+    expect(topoCoords.rightAscension.toNumber()).toBeCloseTo(getDecimalValue(22, 38, 8.54), 3)
+    expect(topoCoords.declination.toNumber()).toBeCloseTo(getDecimalValue(-15, 46, 30), 2)
   })
 })
