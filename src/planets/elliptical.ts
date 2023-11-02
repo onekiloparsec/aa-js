@@ -203,7 +203,7 @@ export function getPlanetVelocityAtAphelion (e: Decimal | number, a: Astronomica
  * @param  {AstronomicalUnit} a The semi-major axis of the object orbit.
  * @returns {AstronomicalUnit} The ellipse length
  */
-export function getPlanetLengthOfEllipse (e: Decimal | number, a: AstronomicalUnit): AstronomicalUnit {
+export function getPlanetLengthOfEllipse (e: Decimal | number, a: AstronomicalUnit | number): AstronomicalUnit {
   const de = new Decimal(e)
   const da = new Decimal(a)
   const db = da.mul(Decimal.sqrt(ONE.minus(de.pow(2))))
