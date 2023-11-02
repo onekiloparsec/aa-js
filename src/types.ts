@@ -1,5 +1,4 @@
 import Decimal from '@/decimal'
-import { getAgeName } from '@/earth/moon/phases'
 
 /**
  * Angular degree
@@ -365,6 +364,7 @@ export interface Planet {
   // Geocentric coordinates
   getGeocentricDistance: QuantityInAstronomicalUnitAtJulianDayFunction
   getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
+  getApparentGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
   getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
   getApparentGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
   // Planet elliptical properties

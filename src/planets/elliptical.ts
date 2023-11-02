@@ -123,10 +123,17 @@ export function getPlanetGeocentricEclipticCoordinates (jd: JulianDay | number,
                                                         radiusVectorFunc: QuantityInAstronomicalUnitAtJulianDayFunction): EclipticCoordinates {
   const details = getPlanetDistanceDetailsFromEarth(jd, eclipticLongitudeFunc, eclipticLatitudeFunc, radiusVectorFunc)
 
-  const geocentricEclipticCoordinates: EclipticCoordinates = {
+  return {
     longitude: fmod360(Decimal.atan2(details.y, details.x).mul(RAD2DEG)),
     latitude: fmod90(Decimal.atan2(details.z, Decimal.sqrt(details.x.pow(2).plus(details.y.pow(2)))).mul(RAD2DEG))
   }
+}
+
+export function getPlanetApparentGeocentricEclipticCoordinates (jd: JulianDay | number,
+                                                                eclipticLongitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
+                                                                eclipticLatitudeFunc: SingleCoordinateDegreeAtJulianDayFunction,
+                                                                radiusVectorFunc: QuantityInAstronomicalUnitAtJulianDayFunction): EclipticCoordinates {
+  const geocentricEclipticCoordinates = getPlanetGeocentricEclipticCoordinates(jd, eclipticLongitudeFunc, eclipticLatitudeFunc, radiusVectorFunc)
 
   // Adjust for Aberration
   const aberration = getAnnualEclipticAberration(jd,
