@@ -167,7 +167,8 @@ export function getPlanetApparentGeocentricEclipticCoordinates (jd: JulianDay | 
  * @returns {KilometerPerSecond} The velocity
  */
 export function getPlanetInstantaneousVelocity (r: AstronomicalUnit | number, a: AstronomicalUnit | number): KilometerPerSecond {
-  return new Decimal(42.1219).mul(Decimal.sqrt(ONE.dividedBy(r).minus(ONE.dividedBy(TWO.mul(a)))))
+  return new Decimal('42.1219')
+    .mul(Decimal.sqrt(ONE.dividedBy(r).minus(ONE.dividedBy(TWO.mul(a)))))
 }
 
 /**
