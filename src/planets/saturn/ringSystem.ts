@@ -10,17 +10,12 @@ import {
 } from '@/types'
 import { DEG2RAD, H2RAD, PI, RAD2DEG } from '@/constants'
 import { transformEclipticToEquatorial } from '@/coordinates'
-import { getNutationInLongitude, getTrueObliquityOfEcliptic } from '@/earth/nutation'
 import { getPlanetDistanceDetailsFromEarth } from '@/planets/elliptical'
 import { getLightTimeFromDistance } from '@/distances'
 import { getJulianCentury } from '@/juliandays'
 import { fmod360 } from '@/utils'
+import { Earth } from '@/earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
-import {
-  getEclipticLatitude as earthGetEclipticLatitude,
-  getEclipticLongitude as earthGetEclipticLongitude,
-  getRadiusVector as earthGetRadiusVector
-} from '@/earth/coordinates'
 
 export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem {
   const T = getJulianCentury(jd)
@@ -43,9 +38,9 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
   // Step 2.
   // Heliocentric longitude, latitude and radius vector of the Earth, referred to the eclliptic and
   // mean equinox of the date.
-  const l0: Radian = earthGetEclipticLongitude(jd).mul(DEG2RAD)
-  const b0: Radian = earthGetEclipticLatitude(jd).mul(DEG2RAD)
-  const R: AstronomicalUnit = earthGetRadiusVector(jd)
+  const l0: Radian = Earth.getEclipticLongitude(jd).mul(DEG2RAD)
+  const b0: Radian = Earth.getEclipticLatitude(jd).mul(DEG2RAD)
+  const R: AstronomicalUnit = Earth.getRadiusVector(jd)
 
   // Step 3. Calculate the corresponding coordinates l,b,r for Saturn but for the instance t-lightraveltime
   // Starting point: 9 AU, because Earth-Saturn distance is always between 8.0 and 11.1 AU (AA p.318).
@@ -108,8 +103,8 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
   const DeltaU: Degree = fmod360(Decimal.abs(U1.minus(U2)).mul(RAD2DEG))
 
   // Step 10. Calculate the Nutation and Obliquity
-  const epsilon: Degree = getTrueObliquityOfEcliptic(jd)
-  const deltaPsi: Degree = getNutationInLongitude(jd)
+  const epsilon: Degree = Earth.getTrueObliquityOfEcliptic(jd)
+  const deltaPsi: Degree = Earth.getNutationInLongitude(jd)
 
   // Step 11. Calculate the ecliptical longitude and latitude of the northern pole of the ring plane
   const lambda0: Degree = Omega.minus(PI.dividedBy(2)).mul(RAD2DEG)
