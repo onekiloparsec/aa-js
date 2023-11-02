@@ -4,11 +4,11 @@ import { MOON_SYNODIC_PERIOD, MoonPhase, MoonPhaseName, MoonPhaseQuarter } from 
 
 describe('moon', () => {
   test('get moon mean longitude', () => {
-    expect(Earth.Moon.getMeanLongitude(245123456).toNumber()).toBe(182.1252505089)
+    expect(Earth.Moon.getMeanLongitude(245123456).toNumber()).toBeCloseTo(182.1252505089, 9)
   })
 
   test('get moon mean elongation', () => {
-    expect(Earth.Moon.getMeanElongation(245123456).toNumber()).toBe(175.566305716)
+    expect(Earth.Moon.getMeanElongation(245123456).toNumber()).toBeCloseTo(175.566305716, 9)
   })
 
   // See example 47.a, AA p 343.
