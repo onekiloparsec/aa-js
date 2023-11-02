@@ -138,9 +138,31 @@ export const STANDARD_ALTITUDE_SUN: Degree = new Decimal('-0.8333')
 // Wikipedia
 export const MOON_SYNODIC_PERIOD: Day = new Decimal(29.530_587_705_76)
 
-export enum MoonPhase {
+export enum MoonPhaseQuarter {
   New,
   FirstQuarter,
   Full,
   LastQuarter
+}
+
+export enum MoonPhase {
+  New,
+  WaxingCrescent,
+  FirstQuarter,
+  WaxingGibbous,
+  Full,
+  WaningGibbous,
+  LastQuarter,
+  WaningCrescent
+}
+
+export const MOON_PHASE_UPPER_LIMITS = {
+  [MoonPhase.New]: new Decimal('0.033863193308711'),
+  [MoonPhase.WaxingCrescent]: new Decimal('0.216136806691289'),
+  [MoonPhase.FirstQuarter]: new Decimal('0.283863193308711'),
+  [MoonPhase.WaxingGibbous]: new Decimal('0.466136806691289'),
+  [MoonPhase.Full]: new Decimal('0.533863193308711'),
+  [MoonPhase.WaningGibbous]: new Decimal('0.716136806691289'),
+  [MoonPhase.LastQuarter]: new Decimal('0.783863193308711'),
+  [MoonPhase.WaningCrescent]: new Decimal('0.966136806691289')
 }

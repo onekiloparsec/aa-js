@@ -1,4 +1,5 @@
 import Decimal from '@/decimal'
+import { getAgeName } from '@/earth/moon/phases'
 
 /**
  * Angular degree
@@ -459,7 +460,8 @@ export interface NaturalMoon {
   getEquatorialHorizontalParallax: QuantityInDegreeAtJulianDayFunction
   getPositionAngleOfTheBrightLimb: QuantityInDegreeAtJulianDayFunction
   getTimeOfMeanPhase: Function
-  getAge: QuantityAtJulianDayFunction
+  getAge: QuantityAtJulianDayFunction,
+  getAgeName: Function
 }
 
 export interface EarthPlanet {

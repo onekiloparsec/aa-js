@@ -1,6 +1,6 @@
 import { constants, Earth, juliandays, Sun, times } from '@'
 import { getDecimalValue } from '@/sexagesimal'
-import { MOON_SYNODIC_PERIOD, MoonPhase } from '@/constants'
+import { MOON_SYNODIC_PERIOD, MoonPhase, MoonPhaseName, MoonPhaseQuarter } from '@/constants'
 
 describe('moon', () => {
   test('get moon mean longitude', () => {
@@ -66,15 +66,28 @@ describe('moon', () => {
   })
 
   // See example 49.a, AA p 353.
-  test('get new moon age', () => {
+  test('get moon age', () => {
     const UTCDate = new Date(Date.UTC(1977, 1, 12))
-    const newMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhase.New)
+    const newMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhaseQuarter.New)
     expect(Earth.Moon.getAge(newMoonJD).toNumber()).toEqual(0)
-    const fqMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhase.FirstQuarter)
+    const fqMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhaseQuarter.FirstQuarter)
     expect(Earth.Moon.getAge(fqMoonJD).toNumber()).toBeCloseTo(MOON_SYNODIC_PERIOD.dividedBy(4).toNumber(), 6)
-    const fullMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhase.Full)
+    const fullMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhaseQuarter.Full)
     expect(Earth.Moon.getAge(fullMoonJD).toNumber()).toBeCloseTo(MOON_SYNODIC_PERIOD.dividedBy(2).toNumber(), 5)
-    const lqMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhase.LastQuarter)
+    const lqMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhaseQuarter.LastQuarter)
     expect(Earth.Moon.getAge(lqMoonJD).toNumber()).toBeCloseTo(MOON_SYNODIC_PERIOD.mul(3).dividedBy(4).toNumber(), 5)
+  })
+
+  // See example 49.a, AA p 353.
+  test('get moon age name', () => {
+    const UTCDate = new Date(Date.UTC(1977, 1, 12))
+    const newMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhaseQuarter.New)
+    expect(Earth.Moon.getAgeName(newMoonJD)).toEqual(MoonPhase.New)
+    const fqMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhaseQuarter.FirstQuarter)
+    expect(Earth.Moon.getAgeName(fqMoonJD)).toEqual(MoonPhase.FirstQuarter)
+    const fullMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhaseQuarter.Full)
+    expect(Earth.Moon.getAgeName(fullMoonJD)).toEqual(MoonPhase.Full)
+    const lqMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhaseQuarter.LastQuarter)
+    expect(Earth.Moon.getAgeName(lqMoonJD)).toEqual(MoonPhase.LastQuarter)
   })
 })
