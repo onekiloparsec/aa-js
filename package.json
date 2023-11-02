@@ -27,7 +27,7 @@
     "test:unit": "vitest",
     "test:coverage": "vitest run --coverage",
     "tdocs": "rimraf docs && typedoc --categorizeByGroup --entryPointStrategy expand --out docs src/index.ts",
-    "bdocs": "rimraf docs && jsdoc src -c jsdoc.json -t ./node_modules/better-docs -d docs --package package.json --readme README.md"
+    "bdocs": "rimraf docs && jsdoc src -c jsdoc.json -t ./node_modules/better-docs -d docs --readme README.md"
   },
   "repository": {
     "type": "git",
