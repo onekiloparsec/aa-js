@@ -3,9 +3,10 @@
  */
 import dayjs from 'dayjs'
 import Decimal from '@/decimal'
-import { DAYMS, DEG2H, J1970, MJD_START } from './constants'
-import { Degree, Hour, JulianCentury, JulianDay, JulianMillenium } from './types'
+import { DAYMS, DEG2H, J1970, MJD_START, ONE_DAY_IN_SECONDS } from './constants'
+import { ArcSecond, Degree, Hour, JulianCentury, JulianDay, JulianMillenium, Radian } from './types'
 import { fmod24, fmod360, isNumber } from './utils'
+import { getNutationInLongitude, getTrueObliquityOfEcliptic } from '@/earth/nutation'
 
 
 /**
@@ -66,6 +67,19 @@ export function getLocalSiderealTime (jd: JulianDay | number, lng: Degree | numb
     .minus(T.pow(3).dividedBy(38710000))
 
   return fmod24(fmod360(gmst).plus(lng).mul(DEG2H))
+}
+
+/**
+ * The apparent local mean sidereal time (sun's clock time) for a given julian day, corrected for the
+ * nutation, at a given longitude on Earth
+ * @param {JulianDay} jd The julian day
+ * @param {Degree} lng The longitude
+ * @return {Hour}
+ */
+export function getApparentLocalSiderealTime (jd: JulianDay | number, lng: Degree | number): Hour {
+  const epsilon: Radian = getTrueObliquityOfEcliptic(jd).degreesToRadians()
+  const deltaPsi: ArcSecond = getNutationInLongitude(jd)
+  return getLocalSiderealTime(jd, lng).plus(deltaPsi.mul(epsilon.cos()).degreeToHours().dividedBy(ONE_DAY_IN_SECONDS))
 }
 
 /**

@@ -1,4 +1,5 @@
-import { juliandays } from '../src'
+import { juliandays } from '@'
+import { getDecimalValue } from '@/sexagesimal'
 
 describe('julian days', () => {
   test('build julianday with date', () => {
@@ -40,5 +41,21 @@ describe('julian days', () => {
     expect(midnightUTCDate.getUTCHours()).toEqual(0)
     expect(midnightUTCDate.getUTCMinutes()).toEqual(0)
     expect(midnightUTCDate.getUTCSeconds()).toEqual(0)
+  })
+
+  // See AA p 88
+  test('mean sidereal time at Greenwhich', () => {
+    // April 10th, 1987, 0h UT.
+    const UTCDate = new Date(Date.UTC(1987, 3, 10, 0, 0, 0))
+    const jd = juliandays.getJulianDay(UTCDate)
+    expect(juliandays.getLocalSiderealTime(jd, 0).toNumber()).toBeCloseTo(getDecimalValue(13, 10, 46.3668), 4)
+  })
+
+  // See AA p 88
+  test('apparent sidereal time at Greenwhich', () => {
+    // April 10th, 1987, 0h UT.
+    const UTCDate = new Date(Date.UTC(1987, 3, 10, 0, 0, 0))
+    const jd = juliandays.getJulianDay(UTCDate)
+    expect(juliandays.getApparentLocalSiderealTime(jd, 0).toNumber()).toBeCloseTo(getDecimalValue(13, 10, 46.1351), 3)
   })
 })
