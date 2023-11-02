@@ -15,15 +15,15 @@ export function isNumber (v: any): boolean {
   return !x.isNaN() && x.isFinite()
 }
 
-export function fmod24 (hours: Hour): Hour {
+export function fmod24 (hours: Hour | number): Hour {
   return fmod(hours, 24)
 }
 
-export function fmod360 (degrees: Degree): Degree {
+export function fmod360 (degrees: Degree | number): Degree {
   return fmod(degrees, 360)
 }
 
-export function fmod180 (degrees: Degree): Degree {
+export function fmod180 (degrees: Degree | number): Degree {
   let result = fmod360(degrees)
 
   if (result.greaterThan(180)) {
@@ -35,7 +35,7 @@ export function fmod180 (degrees: Degree): Degree {
   return result
 }
 
-export function fmod90 (degrees: Degree): Degree {
+export function fmod90 (degrees: Degree | number): Degree {
   let result = fmod360(degrees)
 
   if (result.greaterThan(270)) {
@@ -49,7 +49,7 @@ export function fmod90 (degrees: Degree): Degree {
   return result
 }
 
-export function getJDatUTC (jd: JulianDay | number, utc: Hour): JulianDay {
+export function getJDatUTC (jd: JulianDay | number, utc: Hour | number): JulianDay {
   const utcMoment = dayjs.utc(getDate(jd))
   const sexa = getSexagesimalValue(utc)
   return getJulianDay(
