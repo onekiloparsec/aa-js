@@ -1,9 +1,10 @@
+import Decimal from '@/decimal'
 import { RAD2DEG } from '@/constants'
-import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '@/types'
-import { getMeanObliquityOfEcliptic, getTrueObliquityOfEcliptic } from '@/earth/nutation'
+import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Obliquity } from '@/types'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianMillenium } from '@/juliandays'
 import { fmod360, fmod90 } from '@/utils'
+import { Earth } from '@/earth'
 import {
   g_B0UranusCoefficients,
   g_B1UranusCoefficients,
@@ -21,10 +22,12 @@ import {
   g_R3UranusCoefficients,
   g_R4UranusCoefficients
 } from './coefficients'
-import Decimal from '@/decimal'
 
-const cos = Math.cos
-
+/**
+ * Ecliptic longitude
+ * @param {JulianDay} jd The julian day
+ * @returns {Degree}
+ */
 export function getEclipticLongitude (jd: JulianDay | number): Degree {
   const rho = getJulianMillenium(jd)
 
@@ -94,7 +97,7 @@ export function getRadiusVector (jd: JulianDay | number) {
 }
 
 /**
- * Ecliptic coordinates
+ * Heliocentric ecliptic coordinates
  * @param {JulianDay} jd The julian day
  * @returns {EclipticCoordinates}
  */
@@ -106,30 +109,16 @@ export function getEclipticCoordinates (jd: JulianDay | number): EclipticCoordin
 }
 
 /**
- * Equatorial coordinates
+ * Heliocentric equatorial coordinates
  * @see getApparentEquatorialCoordinates
  * @param {JulianDay} jd The julian day
+ * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
  * @returns {EquatorialCoordinates}
  */
-export function getEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinates {
+export function getEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getEclipticLongitude(jd),
     getEclipticLatitude(jd),
-    getMeanObliquityOfEcliptic(jd)
+    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd)
   )
 }
-
-/**
- * Apparent equatorial coordinates
- * @see getEquatorialCoordinates
- * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinates}
- */
-export function getApparentEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinates {
-  return transformEclipticToEquatorial(
-    getEclipticLongitude(jd),
-    getEclipticLatitude(jd),
-    getTrueObliquityOfEcliptic(jd)
-  )
-}
-

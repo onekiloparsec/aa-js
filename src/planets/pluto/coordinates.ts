@@ -1,10 +1,10 @@
 import Decimal from '@/decimal'
 import { DEG2RAD } from '@/constants'
-import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay } from '@/types'
-import { getMeanObliquityOfEcliptic, getNutationInLongitude, getTrueObliquityOfEcliptic } from '@/earth/nutation'
+import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Obliquity } from '@/types'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianCentury } from '@/juliandays'
 import { fmod360, fmod90 } from '@/utils'
+import { Earth } from '@/earth'
 import {
   g_PlutoArgumentCoefficients,
   g_PlutoLatitudeCoefficients,
@@ -76,7 +76,7 @@ export function getRadiusVector (jd: JulianDay | number): AstronomicalUnit {
 }
 
 /**
- * Ecliptic coordinates
+ * Heliocentric ecliptic coordinates
  * @param {JulianDay} jd The julian day
  * @returns {EclipticCoordinates}
  */
@@ -88,29 +88,16 @@ export function getEclipticCoordinates (jd: JulianDay | number): EclipticCoordin
 }
 
 /**
- * Equatorial coordinates
+ * Heliocentric equatorial coordinates
  * @see getApparentEquatorialCoordinates
  * @param {JulianDay} jd The julian day
+ * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
  * @returns {EquatorialCoordinates}
  */
-export function getEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinates {
+export function getEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getEclipticLongitude(jd),
     getEclipticLatitude(jd),
-    getMeanObliquityOfEcliptic(jd)
-  )
-}
-
-/**
- * Apparent equatorial coordinates
- * @see getEquatorialCoordinates
- * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinates}
- */
-export function getApparentEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinates {
-  return transformEclipticToEquatorial(
-    getEclipticLongitude(jd).plus(getNutationInLongitude(jd).dividedBy(3600)),
-    getEclipticLatitude(jd),
-    getTrueObliquityOfEcliptic(jd)
+    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd)
   )
 }

@@ -1,3 +1,4 @@
+import Decimal from '@/decimal'
 import { getJulianMillenium } from '@/juliandays'
 import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Obliquity } from '@/types'
 import { transformEclipticToEquatorial } from '@/coordinates'
@@ -22,7 +23,6 @@ import {
   g_R3VenusCoefficients,
   g_R4VenusCoefficients
 } from './coefficients'
-import Decimal from '@/decimal'
 
 /**
  * Ecliptic longitude
