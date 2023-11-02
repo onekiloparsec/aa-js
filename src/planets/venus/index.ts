@@ -9,16 +9,17 @@ import {
 import { constants, orbitalElements } from './constants'
 import { getAphelion, getPerihelion } from './base'
 import {
+  getAccurateRiseTransitSet,
+  getApparentGeocentricEclipticCoordinates,
+  getApparentGeocentricEquatorialCoordinates,
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
-  getApparentGeocentricEquatorialCoordinates,
   getInstantaneousVelocity,
   getLengthOfEllipse,
-  getVelocityAtAphelion,
-  getVelocityAtPerihelion,
   getRiseTransitSet,
-  getAccurateRiseTransitSet
+  getVelocityAtAphelion,
+  getVelocityAtPerihelion
 } from './elliptical'
 import {
   getEquatorialSemiDiameter,
@@ -45,6 +46,7 @@ export const Venus: Planet = {
   // Geocentric coordinates
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
+  getApparentGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
   getApparentGeocentricEquatorialCoordinates,
   // Planet elliptical properties
