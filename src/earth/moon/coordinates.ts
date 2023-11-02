@@ -201,10 +201,10 @@ export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | numb
  * @returns {Kilometer}
  */
 export function getRadiusVectorInKilometer (jd: JulianDay | number): Kilometer {
-  const D = getMeanElongation(jd).mul(DEG2RAD)
-  const M = Sun.getMeanAnomaly(jd).mul(DEG2RAD)
-  const Mdash = getMeanAnomaly(jd).mul(DEG2RAD)
-  const F = getArgumentOfLatitude(jd).mul(DEG2RAD)
+  const D = getMeanElongation(jd).degreesToRadians()
+  const M = Sun.getMeanAnomaly(jd).degreesToRadians()
+  const Mdash = getMeanAnomaly(jd).degreesToRadians()
+  const F = getArgumentOfLatitude(jd).degreesToRadians()
 
   const T = getJulianCentury(jd)
   const E = ONE.minus(T.mul('0.002_516')).minus(T.pow(2).mul('0.000_0074'))
