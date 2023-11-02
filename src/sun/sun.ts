@@ -2,15 +2,7 @@
  @module Sun
  */
 import Decimal from '@/decimal'
-import {
-  Degree,
-  EclipticCoordinates,
-  EquatorialCoordinates,
-  Equinox,
-  JulianCentury,
-  JulianDay,
-  NaturalSun
-} from '@/types'
+import { Degree, EclipticCoordinates, EquatorialCoordinates, Equinox, JulianCentury, JulianDay } from '@/types'
 import { DEG2RAD } from '@/constants'
 import { getJulianCentury } from '@/juliandays'
 import { transformEclipticToEquatorial } from '@/coordinates'
@@ -24,7 +16,7 @@ import { Earth } from '@/earth'
  * @param  {JulianDay} jd The julian day
  * @returns {Degree} The sun mean anomaly
  */
-function getMeanAnomaly (jd: JulianDay | number): Degree {
+export function getMeanAnomaly (jd: JulianDay | number): Degree {
   const T = getJulianCentury(jd)
   // In AA++ (C++) implementation, values differ a little bit. But we prefer textbook AA values to ensure tests validity
   // In AA++ : fmod360(357.5291092 + 35999.0502909 * T - 0.0001536 * T2 + T3 / 24490000)
@@ -39,7 +31,7 @@ function getMeanAnomaly (jd: JulianDay | number): Degree {
  * @param  {JulianDay} jd The julian day
  * @returns {Degree} The Sun true anomaly
  */
-function getTrueAnomaly (jd: JulianDay | number): Degree {
+export function getTrueAnomaly (jd: JulianDay | number): Degree {
   const T = getJulianCentury(jd)
   const M = getMeanAnomaly(jd)
   const C = getEquationOfTheCenter(T, M)
@@ -53,7 +45,7 @@ function getTrueAnomaly (jd: JulianDay | number): Degree {
  * @param {Degree} M
  * @return {Degree}
  */
-function getEquationOfTheCenter (T: JulianCentury | number, M: Degree | number): Degree {
+export function getEquationOfTheCenter (T: JulianCentury | number, M: Degree | number): Degree {
   return (
     new Decimal(1.914602)
       .minus(new Decimal(0.004817).mul(T))
@@ -72,7 +64,7 @@ function getEquationOfTheCenter (T: JulianCentury | number, M: Degree | number):
  * @param {JulianCentury} T The julian century
  * @return {Degree}
  */
-function getMeanLongitudeReferredToMeanEquinoxOfDate (T: JulianCentury | number): Degree {
+export function getMeanLongitudeReferredToMeanEquinoxOfDate (T: JulianCentury | number): Degree {
   return fmod360(
     new Decimal(280.46646)
       .plus(new Decimal(36000.76983).mul(T))
@@ -89,7 +81,7 @@ function getMeanLongitudeReferredToMeanEquinoxOfDate (T: JulianCentury | number)
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
  */
-function getGeometricEclipticLongitude (jd: JulianDay | number): Degree {
+export function getGeometricEclipticLongitude (jd: JulianDay | number): Degree {
   const T = getJulianCentury(jd)
   const L0 = getMeanLongitudeReferredToMeanEquinoxOfDate(T)
   const M = getMeanAnomaly(jd)
@@ -105,7 +97,7 @@ function getGeometricEclipticLongitude (jd: JulianDay | number): Degree {
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree}
  */
-function getGeocentricEclipticLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
+export function getGeocentricEclipticLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   return fmod360(Earth.getEclipticLongitude(jd, equinox).plus(180))
 }
 
@@ -115,14 +107,14 @@ function getGeocentricEclipticLongitude (jd: JulianDay | number, equinox: Equino
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns {Degree}
  */
-function getGeocentricEclipticLatitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
+export function getGeocentricEclipticLatitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   return new Decimal(-1).mul(Earth.getEclipticLatitude(jd, equinox))
 }
 
 // --- Conversion from high-accuracy geocentric coordinates of the Sun to the FK5 system. See AA p 166
 
 // See AA+ CAASun::GeometricFK5EclipticLongitude
-function getGeometricFK5EclipticLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
+export function getGeometricFK5EclipticLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   // Convert to the FK5 system
   let Longitude = getGeocentricEclipticLongitude(jd, equinox)
   const Latitude = getGeocentricEclipticLatitude(jd, equinox)
@@ -131,7 +123,7 @@ function getGeometricFK5EclipticLongitude (jd: JulianDay | number, equinox: Equi
 }
 
 // See AA+ CAASun::GeometricFK5EclipticLatitude
-function getGeometricFK5EclipticLatitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
+export function getGeometricFK5EclipticLatitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
   // Convert to the FK5 system
   const Longitude = getGeocentricEclipticLongitude(jd, equinox)
   let Latitude = getGeocentricEclipticLatitude(jd, equinox)
@@ -147,7 +139,7 @@ function getGeometricFK5EclipticLatitude (jd: JulianDay | number, equinox: Equin
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns EclipticCoordinates
  */
-function getGeocentricEclipticCoordinates (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): EclipticCoordinates {
+export function getGeocentricEclipticCoordinates (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): EclipticCoordinates {
   return {
     longitude: getGeocentricEclipticLongitude(jd, equinox),
     latitude: getGeocentricEclipticLatitude(jd, equinox)
@@ -160,7 +152,7 @@ function getGeocentricEclipticCoordinates (jd: JulianDay | number, equinox: Equi
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
  * @returns EquatorialCoordinates
  */
-function getGeocentricEquatorialCoordinates (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): EquatorialCoordinates {
+export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getGeocentricEclipticLongitude(jd, equinox),
     getGeocentricEclipticLatitude(jd, equinox),
@@ -175,7 +167,7 @@ function getGeocentricEquatorialCoordinates (jd: JulianDay | number, equinox: Eq
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
  */
-function getApparentGeocentricEclipticLongitude (jd: JulianDay | number): Degree {
+export function getApparentGeocentricEclipticLongitude (jd: JulianDay | number): Degree {
   let Longitude = getGeometricFK5EclipticLongitude(jd)
 
   // Apply the correction in longitude due to nutation
@@ -194,7 +186,7 @@ function getApparentGeocentricEclipticLongitude (jd: JulianDay | number): Degree
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
  */
-function getApparentGeocentricEclipticLatitude (jd: JulianDay | number): Degree {
+export function getApparentGeocentricEclipticLatitude (jd: JulianDay | number): Degree {
   return getGeometricFK5EclipticLatitude(jd)
 }
 
@@ -204,7 +196,7 @@ function getApparentGeocentricEclipticLatitude (jd: JulianDay | number): Degree 
  * @param {JulianDay} jd The julian day
  * @returns {EclipticCoordinates}
  */
-function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
+export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
   return {
     longitude: getApparentGeocentricEclipticLongitude(jd),
     latitude: getApparentGeocentricEclipticLatitude(jd)
@@ -216,7 +208,7 @@ function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number): Ecli
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
  */
-function getVariationGeometricEclipticLongitude (jd: JulianDay | number): Degree {
+export function getVariationGeometricEclipticLongitude (jd: JulianDay | number): Degree {
   // D is the number of days since the epoch
   const D = new Decimal(jd).minus(2451545.00)
   const tau = D.dividedBy(365250)
@@ -244,23 +236,5 @@ function getVariationGeometricEclipticLongitude (jd: JulianDay | number): Degree
     .plus(new Decimal(0.021).mul(tau.pow(2)).mul(Decimal.sin(deg2rad.mul(new Decimal(205.0482).plus(new Decimal(719987.4571).mul(tau))))))
     .plus(new Decimal(0.004).mul(tau.pow(2)).mul(Decimal.sin(deg2rad.mul(new Decimal(297.8610).plus(new Decimal(4452671.1152).mul(tau))))))
     .plus(new Decimal(0.010).mul(tau.pow(3)).mul(Decimal.sin(deg2rad.mul(new Decimal(154.7066).plus(new Decimal(359993.7286).mul(tau))))))
-}
-
-export const Sun: NaturalSun = {
-  getMeanAnomaly,
-  getTrueAnomaly,
-  getEquationOfTheCenter,
-  getMeanLongitudeReferredToMeanEquinoxOfDate,
-  getGeometricEclipticLongitude,
-  getGeocentricEclipticLongitude,
-  getGeocentricEclipticLatitude,
-  getGeometricFK5EclipticLongitude,
-  getGeometricFK5EclipticLatitude,
-  getGeocentricEclipticCoordinates,
-  getGeocentricEquatorialCoordinates,
-  getApparentGeocentricEclipticLongitude,
-  getApparentGeocentricEclipticLatitude,
-  getApparentGeocentricEclipticCoordinates,
-  getVariationGeometricEclipticLongitude,
 }
 
