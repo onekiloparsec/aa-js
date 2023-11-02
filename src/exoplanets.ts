@@ -1,14 +1,11 @@
 import Decimal from '@/decimal'
 import { AstronomicalUnit, Day, Degree, Hour, JulianDay, JupiterRadius, Kilometer, Radian, SolarRadius } from '@/types'
 import {
-  DEG2RAD,
-  H2RAD,
   ONE,
   ONE_JUPITER_RADIUS_IN_KILOMETERS,
   ONE_SOLAR_RADIUS_IN_KILOMETERS,
   ONE_UA_IN_KILOMETERS,
   PI,
-  RAD2DEG,
   TWO
 } from '@/constants'
 import { getLocalSiderealTime } from '@/juliandays'
@@ -46,7 +43,7 @@ export function getExoplanetTransitDetails (orbitalPeriod: Day | number,
                                             radius: JupiterRadius | number,
                                             semiMajorAxis: AstronomicalUnit | number,
                                             parentStarRadius: SolarRadius | number) {
-  let f = (PI.dividedBy(2)).minus(new Decimal(lambdaAngle).mul(DEG2RAD))
+  let f = (PI.dividedBy(2)).minus(new Decimal(lambdaAngle).degreesToRadians())
   const e = new Decimal(eccentricity)
   const P = new Decimal(orbitalPeriod)
   const E = TWO.mul(Decimal.atan(Decimal.sqrt((ONE.minus(e)).dividedBy(ONE.plus(e))).mul(Decimal.tan(f.dividedBy(2)))))
@@ -81,11 +78,11 @@ export function getTransitAltitude (ra: Hour | number, dec: Degree | number, lng
   let cosH = new Decimal(1)
   if (transitJD !== undefined && transitJD !== null) {
     const lmst = getLocalSiderealTime(transitJD, lng)
-    cosH = Decimal.cos((lmst.minus(ra)).mul(H2RAD))
+    cosH = Decimal.cos((lmst.minus(ra)).hoursToRadians())
   }
-  const dlat = new Decimal(lat).mul(DEG2RAD)
-  const ddec = new Decimal(lat).mul(DEG2RAD)
+  const dlat = new Decimal(lat).degreesToRadians()
+  const ddec = new Decimal(lat).degreesToRadians()
   return Decimal.asin(
     dlat.sin().mul(ddec.sin()).plus(dlat.cos().mul(ddec.cos()).mul(cosH))
-  ).mul(RAD2DEG)
+  ).radiansToDegrees()
 }

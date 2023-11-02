@@ -1,6 +1,6 @@
 import Decimal from '@/decimal'
 import { AstronomicalUnit, Degree, EclipticCoordinates, Equinox, JulianDay, Meter, Radian } from '@/types'
-import { DEG2RAD, EARTH_EQUATORIAL_RADIUS, EARTH_RADIUS_FLATTENING_FACTOR, RAD2DEG } from '@/constants'
+import { EARTH_EQUATORIAL_RADIUS, EARTH_RADIUS_FLATTENING_FACTOR } from '@/constants'
 import { getJulianCentury, getJulianMillenium } from '@/juliandays'
 import { fmod360, fmod90 } from '@/utils'
 import { Sun } from '@/sun'
@@ -55,7 +55,7 @@ function getEclipticLongitudeValue (jd: JulianDay | number, equinox: Equinox = E
       .plus(L5.mul(tau.pow(5)))
   ).dividedBy(1e8)
 
-  return value.mul(RAD2DEG)
+  return value.radiansToDegrees()
 }
 
 /**
@@ -109,7 +109,7 @@ export function getEclipticLatitude (jd: JulianDay | number, equinox: Equinox = 
       .plus(B4.mul(tau.pow(4)))
   ).dividedBy(1e8)
 
-  return fmod90(value.mul(RAD2DEG))
+  return fmod90(value.radiansToDegrees())
 }
 
 /**
@@ -192,7 +192,7 @@ export function getLongitudeOfPerihelion (jd: JulianDay | number): Degree {
 export function getFlatteningCorrections (height: Meter | number, lat: Degree | number) {
   const earthRadius: Meter = EARTH_EQUATORIAL_RADIUS.mul(1000)
   const b_a: Decimal = new Decimal(1).minus(EARTH_RADIUS_FLATTENING_FACTOR)
-  const radLat: Radian = new Decimal(lat).mul(DEG2RAD)
+  const radLat: Radian = new Decimal(lat).degreesToRadians()
   const u: Radian = Decimal.atan(b_a.mul(radLat.tan())) // Radians
   const h = new Decimal(height).dividedBy(earthRadius)
   return {

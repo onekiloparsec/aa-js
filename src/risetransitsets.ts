@@ -2,7 +2,7 @@ import Decimal from '@/decimal'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import { Degree, Hour, JulianDay, LengthArray, RiseSetTransit } from '@/types'
-import { DEG2RAD, H2DEG, MINUSONE, RAD2DEG, STANDARD_ALTITUDE_STARS } from '@/constants'
+import { MINUSONE, STANDARD_ALTITUDE_STARS } from '@/constants'
 import { getJulianDayMidnight, getLocalSiderealTime } from '@/juliandays'
 import { fmod, fmod180, fmod360, getJDatUTC } from '@/utils'
 import { getDeltaT } from '@/times'
@@ -33,15 +33,15 @@ function getMTimes (jd: JulianDay | number, ra: Hour | number, dec: Degree | num
   const jd0 = getJulianDayMidnight(jd)
 
   // Calculate the Greenwich sidereal time in degrees
-  const Theta0 = getLocalSiderealTime(jd0, 0).mul(H2DEG)
+  const Theta0 = getLocalSiderealTime(jd0, 0).hoursToDegrees()
 
-  const sinh0 = Decimal.sin(new Decimal(alt).mul(DEG2RAD))
-  const sinPhi = Decimal.sin(new Decimal(lat).mul(DEG2RAD))
-  const sinDelta = Decimal.sin(new Decimal(dec).mul(DEG2RAD))
-  const cosPhi = Decimal.cos(new Decimal(lat).mul(DEG2RAD))
-  const cosDelta = Decimal.cos(new Decimal(dec).mul(DEG2RAD))
+  const sinh0 = Decimal.sin(new Decimal(alt).degreesToRadians())
+  const sinPhi = Decimal.sin(new Decimal(lat).degreesToRadians())
+  const sinDelta = Decimal.sin(new Decimal(dec).degreesToRadians())
+  const cosPhi = Decimal.cos(new Decimal(lat).degreesToRadians())
+  const cosDelta = Decimal.cos(new Decimal(dec).degreesToRadians())
 
-  const decRa = new Decimal(ra).mul(H2DEG)
+  const decRa = new Decimal(ra).hoursToDegrees()
 
   // Algorithms in AA use Positive West longitudes. The formula (15.2, p102):
   // const m0 = (alpha2 + Longitude - Theta0) / 360
@@ -54,7 +54,7 @@ function getMTimes (jd: JulianDay | number, ra: Hour | number, dec: Degree | num
 
   // Transit altitude: Equ 13.6, AA p93, with cosH = 1, that is H (hour angle) = 0
   const H: Degree = fmod180(Theta0.plus(lng).minus(decRa))
-  const altitude = Decimal.asin(sinPhi.mul(sinDelta).plus(cosPhi.mul(cosDelta).mul(H.mul(DEG2RAD).cos()))).mul(RAD2DEG)
+  const altitude = Decimal.asin(sinPhi.mul(sinDelta).plus(cosPhi.mul(cosDelta).mul(H.degreesToRadians().cos()))).radiansToDegrees()
 
   const result = {
     m0, // transit
@@ -66,7 +66,7 @@ function getMTimes (jd: JulianDay | number, ra: Hour | number, dec: Degree | num
   }
 
   if (!isCircumpolar) {
-    const H0 = Decimal.acos(cosH0).mul(RAD2DEG).dividedBy(360)
+    const H0 = Decimal.acos(cosH0).radiansToDegrees().dividedBy(360)
     // @ts-ignore
     result.m1 = fmod(m0.minus(H0), 1)
     // @ts-ignore
@@ -94,10 +94,10 @@ function getDeltaMTimes (m: Decimal,
   const alpha: Degree = getInterpolatedValue(ra[0], ra[1], ra[2], n)
   const delta: Degree = getInterpolatedValue(dec[0], dec[1], dec[2], n)
   const H: Degree = fmod180(theta0.plus(lng).minus(alpha))
-  const dlat = new Decimal(lat).mul(DEG2RAD)
+  const dlat = new Decimal(lat).degreesToRadians()
   // Below is the horizontal altitude for given hour angle.
-  const sinh = dlat.sin().mul(delta.mul(DEG2RAD).sin()).plus(dlat.cos().mul(delta.mul(DEG2RAD).cos()).mul(H.mul(DEG2RAD).cos()))
-  const h = sinh.asin().mul(RAD2DEG)
+  const sinh = dlat.sin().mul(delta.degreesToRadians().sin()).plus(dlat.cos().mul(delta.degreesToRadians().cos()).mul(H.degreesToRadians().cos()))
+  const h = sinh.asin().radiansToDegrees()
   return {
     Deltam: (isTransit) ?
       MINUSONE.mul(H).dividedBy(360) :
@@ -176,7 +176,7 @@ export function getAccurateRiseSetTransitTimes (jd: JulianDay | number,
 
   if (!mTimes.isCircumpolar) {
     const DeltaT = getDeltaT(jd)
-    const decRa = ra.map(v => new Decimal(v).mul(H2DEG)) as LengthArray<Degree, 3>
+    const decRa = ra.map(v => new Decimal(v).hoursToDegrees()) as LengthArray<Degree, 3>
     const decDec = dec.map(v => new Decimal(v)) as LengthArray<Degree, 3>
     const [decLng, decLat, decAlt] = [new Decimal(lng), new Decimal(lat), new Decimal(alt)]
 

@@ -1,6 +1,6 @@
 import Decimal from '@/decimal'
 import { AstronomicalUnit, Degree, JulianCentury, JulianDay, Radian } from '@/types'
-import { DEG2RAD, MINUSONE, RAD2DEG, ZERO } from '@/constants'
+import { MINUSONE, ZERO } from '@/constants'
 import { getLightTimeFromDistance } from '@/distances'
 import { getJulianCentury } from '@/juliandays'
 import { Earth } from '@/earth'
@@ -20,12 +20,12 @@ function computeMarsDetails (jd: JulianDay | number): {
   const T = getJulianCentury(jd)
 
   // See AA, Equ 42.1, p.288
-  const Lambda0 = (new Decimal(352.9065).plus(new Decimal(1.17330).mul(T))).mul(DEG2RAD)
-  const Beta0 = (new Decimal(63.2818).minus(new Decimal(0.00394).mul(T))).mul(DEG2RAD)
+  const Lambda0 = (new Decimal('352.9065').plus(new Decimal('1.173_30').mul(T))).degreesToRadians()
+  const Beta0 = (new Decimal('63.2818').minus(new Decimal('0.003_94').mul(T))).degreesToRadians()
 
   // Step 2
-  const l0 = Earth.getEclipticLongitude(jd).mul(DEG2RAD)
-  const b0 = Earth.getEclipticLatitude(jd).mul(DEG2RAD)
+  const l0 = Earth.getEclipticLongitude(jd).degreesToRadians()
+  const b0 = Earth.getEclipticLatitude(jd).degreesToRadians()
   const R = Earth.getRadiusVector(jd)
 
   let previousLightTravelTime = ZERO
@@ -43,8 +43,8 @@ function computeMarsDetails (jd: JulianDay | number): {
     let JD2 = new Decimal(jd).minus(lightTravelTime)
 
     // Step 3
-    l = getEclipticLongitude(JD2).mul(DEG2RAD)
-    b = getEclipticLatitude(JD2).mul(DEG2RAD)
+    l = getEclipticLongitude(JD2).degreesToRadians()
+    b = getEclipticLatitude(JD2).degreesToRadians()
     r = getRadiusVector(JD2)
 
     // Step 4
@@ -86,7 +86,7 @@ export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay | number):
     .mul(Decimal.cos(Lambda0.minus(lambda)))
 
   // details.DE
-  return Decimal.asin(value1.minus(value2)).mul(RAD2DEG)
+  return Decimal.asin(value1.minus(value2)).radiansToDegrees()
 }
 
 /**
@@ -98,23 +98,23 @@ export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay | number): D
   const { T, Lambda0, Beta0, l, b, r } = computeMarsDetails(jd)
 
   // Step 7
-  const N = new Decimal(49.5581).plus(new Decimal(0.7721).mul(T))
-  const [ldeg, bdeg] = [l.mul(RAD2DEG), b.mul(RAD2DEG)]
-  const ldash: Degree = ldeg.minus(new Decimal(0.00697).dividedBy(r))
-  const bdash: Degree = bdeg.minus(new Decimal(0.000225)
-    .mul(Decimal.cos((ldeg.minus(N)).mul(DEG2RAD)))
+  const N = new Decimal(49.5581).plus(new Decimal('0.7721').mul(T))
+  const [ldeg, bdeg] = [l.radiansToDegrees(), b.radiansToDegrees()]
+  const ldash: Degree = ldeg.minus(new Decimal('0.00697').dividedBy(r))
+  const bdash: Degree = bdeg.minus(new Decimal('0.000225')
+    .mul(Decimal.cos((ldeg.minus(N)).degreesToRadians()))
     .dividedBy(r))
 
   // Step 8
   const value1 = MINUSONE.mul(Decimal.sin(Beta0))
-    .mul(Decimal.sin(bdash.mul(DEG2RAD)))
+    .mul(Decimal.sin(bdash.degreesToRadians()))
 
   const value2 = Decimal.cos(Beta0)
-    .mul(Decimal.cos(bdash.mul(DEG2RAD)))
-    .mul(Decimal.cos(Lambda0.minus(ldash.mul(DEG2RAD))))
+    .mul(Decimal.cos(bdash.degreesToRadians()))
+    .mul(Decimal.cos(Lambda0.minus(ldash.degreesToRadians())))
 
   // details.DS
-  return Decimal.asin(value1.minus(value2)).mul(RAD2DEG)
+  return Decimal.asin(value1.minus(value2)).radiansToDegrees()
 }
 
 /// The geocentric position angle of Mars' northern rotation pole, also called position angle of axis. It is the angle

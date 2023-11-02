@@ -24,7 +24,7 @@ export function getEclipticLongitude (jd: JulianDay | number): Degree {
   const P = new Decimal(238.96).plus(new Decimal(144.9600).mul(T))
 
   const L = g_PlutoArgumentCoefficients.reduce((sum, value, index) => {
-    const alpha = (value.J.mul(J).plus(value.S.mul(S)).plus(value.P.mul(P))).mul(DEG2RAD)
+    const alpha = (value.J.mul(J).plus(value.S.mul(S)).plus(value.P.mul(P))).degreesToRadians()
     return sum
       .plus(g_PlutoLongitudeCoefficients[index].A.mul(alpha.sin()))
       .plus(g_PlutoLongitudeCoefficients[index].B.mul(alpha.cos()))
@@ -45,7 +45,7 @@ export function getEclipticLatitude (jd: JulianDay | number): Degree {
   const P = new Decimal(238.96).plus(new Decimal(144.9600).mul(T))
 
   const B = g_PlutoArgumentCoefficients.reduce((sum, value, index) => {
-    const alpha = (value.J.mul(J).plus(value.S.mul(S)).plus(value.P.mul(P))).mul(DEG2RAD)
+    const alpha = (value.J.mul(J).plus(value.S.mul(S)).plus(value.P.mul(P))).degreesToRadians()
     return sum
       .plus(g_PlutoLatitudeCoefficients[index].A.mul(alpha.sin()))
       .plus(g_PlutoLatitudeCoefficients[index].B.mul(alpha.cos()))
@@ -66,7 +66,7 @@ export function getRadiusVector (jd: JulianDay | number): AstronomicalUnit {
   const P = new Decimal(238.96).plus(new Decimal(144.9600).mul(T))
 
   const R = g_PlutoArgumentCoefficients.reduce((sum, value, index) => {
-    const alpha = (value.J.mul(J).plus(value.S.mul(S)).plus(value.P.mul(P))).mul(DEG2RAD)
+    const alpha = (value.J.mul(J).plus(value.S.mul(S)).plus(value.P.mul(P))).degreesToRadians()
     return sum
       .plus(g_PlutoRadiusCoefficients[index].A.mul(alpha.sin()))
       .plus(g_PlutoRadiusCoefficients[index].B.mul(alpha.cos()))

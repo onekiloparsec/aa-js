@@ -59,11 +59,11 @@ function getEquationOfTheCenter (T: JulianCentury | number, M: Degree | number):
       .minus(new Decimal(0.004817).mul(T))
       .minus(new Decimal(0.000014).mul(T).mul(T))
   )
-    .mul(Decimal.sin(new Decimal(M).mul(DEG2RAD)))
+    .mul(Decimal.sin(new Decimal(M).degreesToRadians()))
     .plus((new Decimal(0.019993)
       .minus(new Decimal(0.000101).mul(T)))
-      .mul(Decimal.sin(new Decimal(2).mul(M).mul(DEG2RAD))))
-    .plus(new Decimal(0.000289).mul(Decimal.sin(new Decimal(3).mul(M).mul(DEG2RAD))))
+      .mul(Decimal.sin(new Decimal(2).mul(M).degreesToRadians())))
+    .plus(new Decimal(0.000289).mul(Decimal.sin(new Decimal(3).mul(M).degreesToRadians())))
 }
 
 /**

@@ -6,7 +6,7 @@ declare module 'decimal.js' {
   interface Decimal {
     degreesToRadians (): Radian;
 
-    degreeToHours (): Hour;
+    degreesToHours (): Hour;
 
     hoursToRadians (): Radian;
 
@@ -22,7 +22,7 @@ Decimal.prototype.degreesToRadians = function (): Radian {
   return this.mul(DEG2RAD)
 }
 
-Decimal.prototype.degreeToHours = function (): Hour {
+Decimal.prototype.degreesToHours = function (): Hour {
   return this.mul(DEG2H)
 }
 

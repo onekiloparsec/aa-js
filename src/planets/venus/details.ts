@@ -1,6 +1,6 @@
 import Decimal from '@/decimal'
 import { Degree, JulianDay, Magnitude } from '@/types'
-import { DEG2RAD, ONE, RAD2DEG, TWO } from '@/constants'
+import { ONE, TWO } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
 import { getRadiusVector } from './coordinates'
@@ -17,7 +17,7 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
   const Delta = getGeocentricDistance(jd)
   return fmod360(
     Decimal.acos((r.pow(2).plus(Delta.pow(2)).minus(R.pow(2)))
-        .dividedBy(TWO.mul(r).mul(Delta))).mul(RAD2DEG)
+      .dividedBy(TWO.mul(r).mul(Delta))).radiansToDegrees()
   )
 }
 
@@ -27,7 +27,7 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
  * @returns {number}
  */
 export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
-  const i = getPhaseAngle(jd).mul(DEG2RAD)
+  const i = getPhaseAngle(jd).degreesToRadians()
   return (ONE.plus(Decimal.cos(i))).dividedBy(2)
 }
 
@@ -42,7 +42,7 @@ export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
 export function getMagnitude (jd: JulianDay | number): Magnitude {
   const r = getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
-  const i = getPhaseAngle(jd).mul(DEG2RAD)
+  const i = getPhaseAngle(jd).degreesToRadians()
   return new Decimal(-4.40)
     .plus(new Decimal(5).mul(Decimal.log10(r.mul(Delta))))
     .plus(new Decimal(0.0009).mul(i))

@@ -13,7 +13,7 @@ describe('aberration', () => {
     const utcDate = new Date(Date.UTC(2028, 10, 13, 19 / 24.))
     const jd = transformUTC2TT(getJulianDay(utcDate))
     const coords = { rightAscension: getDecimalValue(2, 46, 11.331), declination: getDecimalValue(49, 20, 54.54) }
-    // const coords = { rightAscension: new Decimal(41.5472).degreeToHours(), declination: 49.3485 }
+    // const coords = { rightAscension: new Decimal(41.5472).degreesToHours(), declination: 49.3485 }
 
     const DeltaEpsilon = getNutationInObliquity(jd)
     const DeltaPsi = getNutationInLongitude(jd)

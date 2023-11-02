@@ -3,7 +3,7 @@
  */
 import Decimal from '@/decimal'
 import { Degree, EquatorialCoordinates, Hour, JulianDay } from './types'
-import { DEG2RAD, H2DEG, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from './constants'
+import { J2000, JULIAN_DAY_B1950_0 } from './constants'
 
 /**
  * Precess equatorial coordinates from aa given epoch to another one
@@ -37,20 +37,20 @@ export function precessEquatorialCoordinates (ra0: Hour | number, dec0: Degree |
     .minus((new Decimal(0.42665).plus(new Decimal(0.000217).mul(T))).mul(t2))
     .minus(new Decimal(0.041833).mul(t3))
 
-  const cosDec0 = new Decimal(dec0).mul(DEG2RAD).cos()
-  const sinDec0 = new Decimal(dec0).mul(DEG2RAD).sin()
-  const cosTheta = theta.dividedBy(3600).mul(DEG2RAD).cos()
-  const sinTheta = theta.dividedBy(3600).mul(DEG2RAD).sin()
-  const degRa = new Decimal(ra0).mul(H2DEG)
-  const cosRA0xhi = (degRa.plus(xhi.dividedBy(3600))).mul(DEG2RAD).cos()
-  const sinRA0xhi = (degRa.plus(xhi.dividedBy(3600))).mul(DEG2RAD).sin()
+  const cosDec0 = new Decimal(dec0).degreesToRadians().cos()
+  const sinDec0 = new Decimal(dec0).degreesToRadians().sin()
+  const cosTheta = theta.dividedBy(3600).degreesToRadians().cos()
+  const sinTheta = theta.dividedBy(3600).degreesToRadians().sin()
+  const degRa = new Decimal(ra0).hoursToDegrees()
+  const cosRA0xhi = (degRa.plus(xhi.dividedBy(3600))).degreesToRadians().cos()
+  const sinRA0xhi = (degRa.plus(xhi.dividedBy(3600))).degreesToRadians().sin()
 
   const A = cosDec0.mul(sinRA0xhi)
   const B = cosTheta.mul(cosDec0).mul(cosRA0xhi).minus(sinTheta.mul(sinDec0))
   const C = sinTheta.mul(cosDec0).mul(cosRA0xhi).plus(cosTheta.mul(sinDec0))
 
-  const ra = Decimal.atan2(A, B).mul(RAD2DEG).plus(z.dividedBy(3600))
-  const dec = Decimal.asin(C).mul(RAD2DEG)
+  const ra = Decimal.atan2(A, B).radiansToDegrees().plus(z.dividedBy(3600))
+  const dec = Decimal.asin(C).radiansToDegrees()
 
   return {
     rightAscension: ra,

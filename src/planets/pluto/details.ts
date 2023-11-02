@@ -18,7 +18,7 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
   return fmod360(
     Decimal.acos((r.pow(2).plus(Delta.pow(2)).minus(R.pow(2)))
       .dividedBy(TWO.mul(r).mul(Delta)))
-      .mul(RAD2DEG)
+      .radiansToDegrees()
   )
 }
 
@@ -28,7 +28,7 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
  * @returns {number}
  */
 export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
-  const i = getPhaseAngle(jd).mul(DEG2RAD)
+  const i = getPhaseAngle(jd).degreesToRadians()
   return (ONE.plus(Decimal.cos(i))).dividedBy(2)
 }
 

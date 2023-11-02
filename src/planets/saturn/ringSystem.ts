@@ -1,6 +1,6 @@
 import Decimal from '@/decimal'
 import { ArcSecond, Degree, JulianDay, Radian, SaturnicentricCoordinates, SaturnRingSystem } from '@/types'
-import { DEG2RAD, PI } from '@/constants'
+import { PI } from '@/constants'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getLightTimeFromDistance } from '@/distances'
 import { getJulianCentury } from '@/juliandays'
@@ -71,9 +71,9 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
 
   // Step 7.
   // Calculate the longitude of the ascending node of Saturn's orbit
-  const N: Radian = (new Decimal(113.6655).plus(new Decimal(0.8771).mul(T))).mul(DEG2RAD)
-  const ldash: Radian = (l.minus(new Decimal(0.01759).dividedBy(r))).mul(DEG2RAD)
-  const bdash: Radian = (b.minus(new Decimal(0.000764).mul(Decimal.cos(lambda.minus(N))).dividedBy(r))).mul(DEG2RAD)
+  const N: Radian = (new Decimal('113.6655').plus(new Decimal(0.8771).mul(T))).degreesToRadians()
+  const ldash: Radian = (l.minus(new Decimal('0.017_59').dividedBy(r))).degreesToRadians()
+  const bdash: Radian = (b.minus(new Decimal('0.000_764').mul(Decimal.cos(lambda.minus(N))).dividedBy(r))).degreesToRadians()
 
   // Step 8.
   // Calculate Bdash, the Saturnicentric latitude of the Sun referred to the plane of the ring

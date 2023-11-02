@@ -3,7 +3,7 @@
  */
 import dayjs from 'dayjs'
 import Decimal from '@/decimal'
-import { DAYMS, DEG2H, J1970, MJD_START, ONE_DAY_IN_SECONDS } from './constants'
+import { DAYMS, J1970, MJD_START, ONE_DAY_IN_SECONDS } from './constants'
 import { ArcSecond, Degree, Hour, JulianCentury, JulianDay, JulianMillenium, Radian } from './types'
 import { fmod24, fmod360, isNumber } from './utils'
 import { Earth } from '@/earth'
@@ -66,7 +66,7 @@ export function getLocalSiderealTime (jd: JulianDay | number, lng: Degree | numb
     .plus(new Decimal(0.000387933).mul(T.pow(2)))
     .minus(T.pow(3).dividedBy(38710000))
 
-  return fmod24(fmod360(gmst).plus(lng).mul(DEG2H))
+  return fmod24(fmod360(gmst).plus(lng).degreesToHours())
 }
 
 /**
@@ -79,7 +79,7 @@ export function getLocalSiderealTime (jd: JulianDay | number, lng: Degree | numb
 export function getApparentLocalSiderealTime (jd: JulianDay | number, lng: Degree | number): Hour {
   const epsilon: Radian = Earth.getTrueObliquityOfEcliptic(jd).degreesToRadians()
   const deltaPsi: ArcSecond = Earth.getNutationInLongitude(jd)
-  return getLocalSiderealTime(jd, lng).plus(deltaPsi.mul(epsilon.cos()).degreeToHours().dividedBy(ONE_DAY_IN_SECONDS))
+  return getLocalSiderealTime(jd, lng).plus(deltaPsi.mul(epsilon.cos()).degreesToHours().dividedBy(ONE_DAY_IN_SECONDS))
 }
 
 /**

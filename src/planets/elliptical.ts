@@ -1,5 +1,5 @@
 import Decimal from '@/decimal'
-import { DEG2RAD, ONE, PI, RAD2DEG, THREE, TWO } from '@/constants'
+import { ONE, PI, THREE, TWO } from '@/constants'
 import {
   AstronomicalUnit,
   Day,
@@ -38,8 +38,8 @@ export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
                                                    radiusVectorFunc: QuantityInAstronomicalUnitAtJulianDayFunction): EllipticalDistance {
   // Calculate the position of the Earth first
   const earthCoords = {
-    L: earthGetEclipticLongitude(jd).mul(DEG2RAD),
-    B: earthGetEclipticLatitude(jd).mul(DEG2RAD),
+    L: earthGetEclipticLongitude(jd).degreesToRadians(),
+    B: earthGetEclipticLatitude(jd).degreesToRadians(),
     R: earthGetRadiusVector(jd)
   }
 
@@ -63,8 +63,8 @@ export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
   let JD0 = new Decimal(jd)
   while (continueIterations) {
     coords = {
-      L: eclipticLongitudeFunc(JD0).mul(DEG2RAD),
-      B: eclipticLatitudeFunc(JD0).mul(DEG2RAD),
+      L: eclipticLongitudeFunc(JD0).degreesToRadians(),
+      B: eclipticLatitudeFunc(JD0).degreesToRadians(),
       R: radiusVectorFunc(JD0)
     }
 
@@ -124,8 +124,8 @@ export function getPlanetGeocentricEclipticCoordinates (jd: JulianDay | number,
   const details = getPlanetDistanceDetailsFromEarth(jd, eclipticLongitudeFunc, eclipticLatitudeFunc, radiusVectorFunc)
 
   return {
-    longitude: fmod360(Decimal.atan2(details.y, details.x).mul(RAD2DEG)),
-    latitude: fmod90(Decimal.atan2(details.z, Decimal.sqrt(details.x.pow(2).plus(details.y.pow(2)))).mul(RAD2DEG))
+    longitude: fmod360(Decimal.atan2(details.y, details.x).radiansToDegrees()),
+    latitude: fmod90(Decimal.atan2(details.z, Decimal.sqrt(details.x.pow(2).plus(details.y.pow(2)))).radiansToDegrees())
   }
 }
 

@@ -9,7 +9,7 @@ import {
   JulianDay,
   Radian
 } from '@/types'
-import { CONSTANT_OF_ABERRATION, DEG2RAD, H2RAD, MINUSONE, RAD2DEG, RAD2H, ZERO } from '@/constants'
+import { CONSTANT_OF_ABERRATION, MINUSONE, ZERO } from '@/constants'
 import { Sun } from '@/sun'
 import { getJulianCentury } from '@/juliandays'
 import { getEccentricity, getLongitudeOfPerihelion } from '../coordinates'
@@ -78,8 +78,8 @@ export function getEarthVelocity (jd: JulianDay | number): Coordinates3D {
  * @return {Coordinates2D}
  */
 export function getAccurateAnnualEquatorialAberration (jd: JulianDay | number, Alpha: Hour | number, Delta: Degree | number): EquatorialCoordinatesCorrection {
-  const ra = new Decimal(Alpha).mul(H2RAD)
-  const dec = new Decimal(Delta).mul(DEG2RAD)
+  const ra = new Decimal(Alpha).hoursToRadians()
+  const dec = new Decimal(Delta).degreesToRadians()
 
   const cosAlpha = ra.cos()
   const sinAlpha = ra.sin()
@@ -96,7 +96,7 @@ export function getAccurateAnnualEquatorialAberration (jd: JulianDay | number, A
   const Y1 = velocity.Z.mul(cosDelta)
   const Y = (Y0.mul(sinDelta).minus(Y1)).dividedBy(c)
 
-  return { DeltaRightAscension: X.mul(RAD2H), DeltaDeclination: MINUSONE.mul(Y).mul(RAD2DEG) }
+  return { DeltaRightAscension: X.radiansToHours(), DeltaDeclination: MINUSONE.mul(Y).radiansToDegrees() }
 }
 
 /**
