@@ -75,6 +75,6 @@ export function precessEquatorialCoordinatesFromJ2000ToB1950 (ra0: Hour | number
  * @param {Degree} dec0 The initial declination
  * @returns {EquatorialCoordinates} The precessed coordinates
  */
-export function precessEquatorialCoordinatesFromB1950ToJ1000 (ra0: Hour | number, dec0: Degree | number): EquatorialCoordinates {
+export function precessEquatorialCoordinatesFromB1950ToJ2000 (ra0: Hour | number, dec0: Degree | number): EquatorialCoordinates {
   return precessEquatorialCoordinates(ra0, dec0, JULIAN_DAY_B1950_0, J2000)
 }
