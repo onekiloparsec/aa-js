@@ -121,7 +121,7 @@ function getDeltaMTimes (m: Decimal,
  * aberration (value = -0.5667 degree)
  * @param {number} iterations Positive number of iterations to use in computations, Default = 1.
  */
-export function getAccurateRiseSetTransitTimes (jd: JulianDay | number,
+export function getAccurateRiseTransitSetTimes (jd: JulianDay | number,
                                                 ra: LengthArray<Hour | number, 3>,
                                                 dec: LengthArray<Degree | number, 3>,
                                                 lng: Degree | number,
@@ -219,7 +219,7 @@ export function getAccurateRiseSetTransitTimes (jd: JulianDay | number,
  * Compute the times of rise, set and transit of an object at a given date,
  * and observer's location on Earth. It runs a low accuracy algoritm (very similar to the accurate ones,
  * but without iterations).
- * @see getAccurateRiseSetTransitTimes
+ * @see getAccurateRiseTransitSetTimes
  * @param {JulianDay} jd The julian day
  * @param {Hour} ra The equatorial right ascension of the object
  * @param {Degree} dec The The equatorial declination of the object
@@ -229,7 +229,7 @@ export function getAccurateRiseSetTransitTimes (jd: JulianDay | number,
  * for rise and set times. It's value isn't 0. For stars, it is affected by
  * aberration (value = -0.5667 degree)
  */
-export function getRiseSetTransitTimes (jd: JulianDay | number,
+export function getRiseTransitSetTimes (jd: JulianDay | number,
                                         ra: Hour | number,
                                         dec: Degree | number,
                                         lng: Degree | number,
