@@ -26,6 +26,7 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
  * Illuminated fraction of the planet as seen from the Earth. Between 0 and 1.
  * @param {JulianDay} jd The julian day
  * @returns {number}
+ * @memberof module:Mars
  */
 export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
   const i = getPhaseAngle(jd).degreesToRadians()
@@ -39,6 +40,7 @@ export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
  * instead of Mueller's
  * @param {JulianDay} jd The julian day
  * @returns {Magnitude}
+ * @memberof module:Mars
  */
 export function getMagnitude (jd: JulianDay | number): Magnitude {
   const r = getRadiusVector(jd)

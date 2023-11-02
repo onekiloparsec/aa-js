@@ -17,7 +17,7 @@ import { AstronomicalUnit, Degree, Equinox, LengthArray, PlanetConstants, Planet
  * @property {Albedo} geometricAlbedo Planet's geometric albedo
  * @property {MeterPerSquareSecond} equatorialGravity Planet's equatorial gravity
  * @property {KilometerPerSecond} Planet's escale velocity
- * @category Mars
+ * @memberof module:Mars
  */
 export const constants: PlanetConstants = {
   equatorialRadius: new Decimal('3396.19'),
@@ -37,7 +37,7 @@ export const constants: PlanetConstants = {
  * Reference: Astronomical Algorithms, J. Meus, pp. 212-215 (Table 31.A & 31.B).
  * @property {LengthArray<AstronomicalUnit, 4>} semiMajorAxis Terms to compute time-dependent planet's semi major-axis.
  * @property {LengthArray<Decimal, 4>} eccentricity Terms to compute time-dependent planet's eccentricity.
- * @category Mars
+ * @memberof module:Mars
  */
 export const orbitalElements: PlanetOrbitalElements = {
   semiMajorAxis: ['1.523_679_342', '0', '0', '0']

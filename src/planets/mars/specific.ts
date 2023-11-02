@@ -73,7 +73,7 @@ function computeMarsDetails (jd: JulianDay | number): {
  * The planetocentric declination of the Earth.
  * When it is positive, the planet northern pole is tilted towards the Earth.
  * @param {JulianDay} jd The julian day
- * @category Mars
+ * @memberof module:Mars
  */
 export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay | number): Degree {
   const { Lambda0, Beta0, lambda, beta } = computeMarsDetails(jd)
@@ -94,7 +94,7 @@ export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay | number):
  * The planetocentric declination of the Sun.
  * When it is positive, the planet northern pole is tilted towards the sun.
  * @param jd
- * @category Mars
+ * @memberof module:Mars
  */
 export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay | number): Degree {
   const { T, Lambda0, Beta0, l, b, r } = computeMarsDetails(jd)
