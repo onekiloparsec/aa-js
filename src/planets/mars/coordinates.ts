@@ -1,5 +1,4 @@
 import Decimal from '@/decimal'
-import { RAD2DEG } from '@/constants'
 import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Obliquity } from '@/types'
 import { getJulianMillenium } from '@/juliandays'
 import { transformEclipticToEquatorial } from '@/coordinates'
@@ -28,6 +27,7 @@ import {
  * Ecliptic longitude
  * @param {JulianDay} jd The julian day
  * @returns {Degree}
+ * @memberof module:Mars
  */
 export function getEclipticLongitude (jd: JulianDay | number): Degree {
   const rho = getJulianMillenium(jd)
@@ -55,6 +55,7 @@ export function getEclipticLongitude (jd: JulianDay | number): Degree {
  * Ecliptic latitude
  * @param {JulianDay} jd The julian day
  * @return {Degree}
+ * @memberof module:Mars
  */
 export function getEclipticLatitude (jd: JulianDay | number): Degree {
   const rho = getJulianMillenium(jd)
@@ -80,6 +81,7 @@ export function getEclipticLatitude (jd: JulianDay | number): Degree {
  * Radius vector (distance from the Sun)
  * @param {JulianDay} jd The julian day
  * @return {AstronomicalUnit}
+ * @memberof module:Mars
  */
 export function getRadiusVector (jd: JulianDay | number): AstronomicalUnit {
   const rho = getJulianMillenium(jd)
@@ -103,6 +105,7 @@ export function getRadiusVector (jd: JulianDay | number): AstronomicalUnit {
  * Heliocentric ecliptic coordinates
  * @param {JulianDay} jd The julian day
  * @returns {EclipticCoordinates}
+ * @memberof module:Mars
  */
 export function getEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
   return {
@@ -117,6 +120,7 @@ export function getEclipticCoordinates (jd: JulianDay | number): EclipticCoordin
  * @param {JulianDay} jd The julian day
  * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
  * @returns {EquatorialCoordinates}
+ * @memberof module:Mars
  */
 export function getEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinates {
   return transformEclipticToEquatorial(

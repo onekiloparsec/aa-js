@@ -1,3 +1,6 @@
+/**
+ @module Venus
+ */
 import { Planet } from '@/types'
 import {
   getEclipticCoordinates,

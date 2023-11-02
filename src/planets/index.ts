@@ -1,5 +1,5 @@
 /**
- @module Planets
+ @category Planets
  */
 import { Mercury } from './mercury'
 import { Venus } from './venus'

@@ -5,8 +5,19 @@ import Decimal from '@/decimal'
 import { AstronomicalUnit, Degree, Equinox, LengthArray, PlanetConstants, PlanetOrbitalElements } from '@/types'
 
 /**
- * Planet constants, copied from the JPL
- * Reference: https://ssd.jpl.nasa.gov/?planet_phys_par
+ * Planet constants, copied from the JPL, for completeness.
+ * Reference: {@link https://ssd.jpl.nasa.gov/?planet_phys_par}
+ * @property {Kilometer} equatorialRadius Planet's equatorial radius
+ * @property {Kilometer} meanRadius Planet's mean radius
+ * @property {Kilogram24} mass Planet's mass
+ * @property {GramPerCubicCentimeter} bulkDensity Planet's bulk density
+ * @property {Day} siderealRotationPeriod Planet's sidereal rotation period
+ * @property {Year} siderealOrbitPeriod Planet's orbit rotation period
+ * @property {Magnitude} visualMagnitude Planet's visual magnitude
+ * @property {Albedo} geometricAlbedo Planet's geometric albedo
+ * @property {MeterPerSquareSecond} equatorialGravity Planet's equatorial gravity
+ * @property {KilometerPerSecond} Planet's escale velocity
+ * @category Mars
  */
 export const constants: PlanetConstants = {
   equatorialRadius: new Decimal('3396.19'),
@@ -24,6 +35,9 @@ export const constants: PlanetConstants = {
 /**
  * Orbital Elements for the mean equinox of date and std J2000
  * Reference: Astronomical Algorithms, J. Meus, pp. 212-215 (Table 31.A & 31.B).
+ * @property {LengthArray<AstronomicalUnit, 4>} semiMajorAxis Terms to compute time-dependent planet's semi major-axis.
+ * @property {LengthArray<Decimal, 4>} eccentricity Terms to compute time-dependent planet's eccentricity.
+ * @category Mars
  */
 export const orbitalElements: PlanetOrbitalElements = {
   semiMajorAxis: ['1.523_679_342', '0', '0', '0']

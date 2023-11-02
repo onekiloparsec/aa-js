@@ -1,5 +1,8 @@
+/**
+ * AA
+ * @namespace
+ */
 import { Earth } from './earth'
-import { Moon } from './earth/moon'
 import { Sun } from './sun'
 
 import { Jupiter, Mars, Mercury, Neptune, Pluto, Saturn, Uranus, Venus } from './planets'
@@ -17,8 +20,6 @@ export * as sexagesimal from './sexagesimal'
 export * as times from './times'
 
 export { Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto }
-
-export { Moon }
 
 export const Planets = {
   Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto

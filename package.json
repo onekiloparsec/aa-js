@@ -26,7 +26,8 @@
     "lint:js:fix": "npm run lint:js -- --fix",
     "test:unit": "vitest",
     "test:coverage": "vitest run --coverage",
-    "docs": "rimraf docs && typedoc --categorizeByGroup --entryPointStrategy expand --out docs src/index.ts"
+    "tdocs": "rimraf docs && typedoc --categorizeByGroup --entryPointStrategy expand --out docs src/index.ts",
+    "bdocs": "rimraf docs && jsdoc src -c jsdoc.json -t ./node_modules/better-docs -d docs --package package.json --readme README.md"
   },
   "repository": {
     "type": "git",
@@ -58,10 +59,12 @@
   "devDependencies": {
     "@types/eslint": "^7.29.0",
     "@vitest/coverage-v8": "^0.34.2",
+    "better-docs": "^2.7.2",
     "caniuse-lite": "^1.0.30001549",
     "eslint": "^8.51.0",
     "rimraf": "^5.0.5",
     "source-map-loader": "^4.0.1",
+    "taffydb": "^2.7.3",
     "ts-loader": "^9.5.0",
     "typedoc": "^0.25.2",
     "typescript": "^5.2.2",

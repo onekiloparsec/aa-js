@@ -1,3 +1,6 @@
+/**
+ @module RiseTransitSet
+ */
 import Decimal from '@/decimal'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -19,15 +22,17 @@ function getInterpolatedValue (y1: Decimal | number, y2: Decimal | number, y3: D
   return new Decimal(y2).plus((dn.dividedBy(2)).mul(a.plus(b).plus(dn.mul(c))))
 }
 
-// See AA, p102
-function getMTimes (jd: JulianDay | number, ra: Hour | number, dec: Degree | number, lng: Degree | number, lat: Degree | number, alt: Degree | number = STANDARD_ALTITUDE_STARS): {
+type MTimes = {
   m0: Decimal,
   m1: Decimal | undefined,
   m2: Decimal | undefined,
   isCircumpolar: boolean,
   altitude: Degree,
   cosH0: Decimal
-} {
+}
+
+// See AA, p102
+function getMTimes (jd: JulianDay | number, ra: Hour | number, dec: Degree | number, lng: Degree | number, lat: Degree | number, alt: Degree | number = STANDARD_ALTITUDE_STARS): MTimes {
   // Getting the UT 0h on day D. See AA p.102.
   // It is not equal to the expected "0h Dynamical Time" of the coordinates ra and dec.
   const jd0 = getJulianDayMidnight(jd)
@@ -86,7 +91,7 @@ function getDeltaMTimes (m: Decimal,
                          lat: Degree,
                          alt: Degree = STANDARD_ALTITUDE_STARS): {
   Deltam: Decimal,
-  hourAngle: Degree
+  hourAngle: Degree,
   localAltitude: Degree
 } {
   const theta0: Degree = fmod360(Theta0.plus(new Decimal(360.985647).mul(m)))
@@ -112,8 +117,8 @@ function getDeltaMTimes (m: Decimal,
  * and observer's location on Earth. It runs multiple iterations to obtain an accurate
  * result which should be below the minute.
  * @param {JulianDay} jd The julian day
- * @param {[Hour, Hour, Hour]} ra The equatorial right ascension of the object
- * @param {[Degree, Degree, Degree]} dec The The equatorial declination of the object
+ * @param {LengthArray<Hour | number, 3>} ra The equatorial right ascension of the object
+ * @param {LengthArray<Degree | number, 3>} dec The The equatorial declination of the object
  * @param {Degree} lng The observer's longitude
  * @param {Degree} lat The observer's latitude
  * @param {Degree} alt The local altitude of the object's center to consider
@@ -131,8 +136,7 @@ export function getAccurateRiseTransitSetTimes (jd: JulianDay | number,
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
 
-  // @ts-ignore
-  const result: RiseSetTransit = {
+  const result: RiseTransitSet = {
     rise: {
       utc: undefined,
       julianDay: undefined
@@ -238,8 +242,7 @@ export function getRiseTransitSetTimes (jd: JulianDay | number,
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
 
-  // @ts-ignore
-  const result: RiseSetTransit = {
+  const result: RiseTransitSet = {
     rise: {
       utc: undefined,
       julianDay: undefined

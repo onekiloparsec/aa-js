@@ -1,3 +1,6 @@
+/**
+ @module Times
+ */
 import {
   transformTAI2TT,
   transformTT2TAI,

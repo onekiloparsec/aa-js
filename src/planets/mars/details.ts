@@ -10,6 +10,7 @@ import { getGeocentricDistance } from './elliptical'
  * Phase angle (angle Sun-planet-Earth).
  * @param {JulianDay} jd The julian day
  * @return {Degree}
+ * @memberof module:Mars
  */
 export function getPhaseAngle (jd: JulianDay | number): Degree {
   const r = getRadiusVector(jd)

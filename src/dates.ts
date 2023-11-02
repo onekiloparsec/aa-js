@@ -1,3 +1,6 @@
+/**
+ @module Dates
+ */
 import Decimal from '@/decimal'
 import { JulianDay } from '@/types'
 import { getDate, getJulianDay } from '@/juliandays'

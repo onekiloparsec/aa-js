@@ -1,14 +1,12 @@
+/**
+ @module Exoplanets
+ */
 import Decimal from '@/decimal'
 import { AstronomicalUnit, Day, Degree, Hour, JulianDay, JupiterRadius, Kilometer, Radian, SolarRadius } from '@/types'
-import {
-  ONE,
-  ONE_JUPITER_RADIUS_IN_KILOMETERS,
-  ONE_SOLAR_RADIUS_IN_KILOMETERS,
-  ONE_UA_IN_KILOMETERS,
-  PI,
-  TWO
-} from '@/constants'
+import { ONE, ONE_UA_IN_KILOMETERS, PI, TWO } from '@/constants'
 import { getLocalSiderealTime } from '@/juliandays'
+import { Jupiter } from '@/planets'
+import { Sun } from '@/sun'
 
 
 /**
@@ -48,8 +46,8 @@ export function getExoplanetTransitDetails (orbitalPeriod: Day | number,
   const P = new Decimal(orbitalPeriod)
   const E = TWO.mul(Decimal.atan(Decimal.sqrt((ONE.minus(e)).dividedBy(ONE.plus(e))).mul(Decimal.tan(f.dividedBy(2)))))
 
-  const Rstar: Kilometer = new Decimal(parentStarRadius).mul(ONE_SOLAR_RADIUS_IN_KILOMETERS)
-  const Rplanet: Kilometer = new Decimal(radius).mul(ONE_JUPITER_RADIUS_IN_KILOMETERS)
+  const Rstar: Kilometer = new Decimal(parentStarRadius).mul(Sun.constants.equatorialRadius)
+  const Rplanet: Kilometer = new Decimal(radius).mul(Jupiter.constants.equatorialRadius)
   const a: Kilometer = new Decimal(semiMajorAxis).mul(ONE_UA_IN_KILOMETERS)
 
   const df: Radian = Decimal.asin(((Rstar.plus(Rplanet)).dividedBy(a)).dividedBy(ONE.minus(e.mul(E.cos()))))
