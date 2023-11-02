@@ -62,6 +62,7 @@
     "better-docs": "^2.7.2",
     "caniuse-lite": "^1.0.30001549",
     "eslint": "^8.51.0",
+    "jsdoc": "^4.0.2",
     "rimraf": "^5.0.5",
     "source-map-loader": "^4.0.1",
     "taffydb": "^2.7.3",
