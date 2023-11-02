@@ -26,7 +26,7 @@
     "lint:js:fix": "npm run lint:js -- --fix",
     "test:unit": "vitest",
     "test:coverage": "vitest run --coverage",
-    "docs": "typedoc --out docs src/index.ts"
+    "docs": "rimraf docs && typedoc --categorizeByGroup --entryPointStrategy expand --out docs src/index.ts"
   },
   "repository": {
     "type": "git",
