@@ -1,3 +1,4 @@
+import Decimal from '@/decimal'
 import { Degree, Equinox, JulianDay } from '@/types'
 import {
   getPlanetEccentricity,
@@ -8,7 +9,6 @@ import {
   getPlanetSemiMajorAxis
 } from '../orbital'
 import { orbitalElements } from './constants'
-import Decimal from '@/decimal'
 
 /**
  * Computes the orbit mean longitude at a given time.

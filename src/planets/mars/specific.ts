@@ -3,11 +3,7 @@ import { AstronomicalUnit, Degree, JulianCentury, JulianDay, Radian } from '@/ty
 import { DEG2RAD, MINUSONE, RAD2DEG, ZERO } from '@/constants'
 import { getLightTimeFromDistance } from '@/distances'
 import { getJulianCentury } from '@/juliandays'
-import {
-  getEclipticLatitude as getEarthEclipticLatitude,
-  getEclipticLongitude as getEarthEclipticLongitude,
-  getRadiusVector as getEarthRadiusVector
-} from '@/earth/coordinates'
+import { Earth } from '@/earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
 function computeMarsDetails (jd: JulianDay | number): {
@@ -28,9 +24,9 @@ function computeMarsDetails (jd: JulianDay | number): {
   const Beta0 = (new Decimal(63.2818).minus(new Decimal(0.00394).mul(T))).mul(DEG2RAD)
 
   // Step 2
-  const l0 = getEarthEclipticLongitude(jd).mul(DEG2RAD)
-  const b0 = getEarthEclipticLatitude(jd).mul(DEG2RAD)
-  const R = getEarthRadiusVector(jd)
+  const l0 = Earth.getEclipticLongitude(jd).mul(DEG2RAD)
+  const b0 = Earth.getEclipticLatitude(jd).mul(DEG2RAD)
+  const R = Earth.getRadiusVector(jd)
 
   let previousLightTravelTime = ZERO
   let lightTravelTime = ZERO
