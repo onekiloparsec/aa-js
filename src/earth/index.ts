@@ -6,9 +6,9 @@ import {
   getEclipticLongitude,
   getEclipticLongitudinalRotation,
   getFlatteningCorrections,
+  getLongitudeOfPerihelion,
   getMeanAnomaly,
-  getRadiusVector,
-  getLongitudeOfPerihelion
+  getRadiusVector
 } from './coordinates'
 import { Moon } from './moon'
 import {
@@ -18,10 +18,10 @@ import {
   getTrueObliquityOfEcliptic
 } from './nutation'
 import {
-  getEarthVelocity,
   getAccurateAnnualEquatorialAberration,
   getAnnualEclipticAberration,
   getAnnualEquatorialAberration,
+  getEarthVelocity,
   getNutationEquatorialAberration
 } from './aberration'
 
