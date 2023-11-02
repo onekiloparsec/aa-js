@@ -1,5 +1,5 @@
 import Decimal from '@/decimal'
-import { ArcSecond, Degree, JulianDay, Magnitude } from '@/types'
+import { Degree, JulianDay, Magnitude } from '@/types'
 import { DEG2RAD, ONE, RAD2DEG, TWO } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
