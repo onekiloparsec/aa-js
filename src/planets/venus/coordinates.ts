@@ -48,7 +48,7 @@ export function getEclipticLongitude (jd: JulianDay | number): Degree {
   )
     .dividedBy(1e8)
 
-  return fmod360(value.mul(RAD2DEG))
+  return fmod360(value.radiansToDegrees())
 }
 
 /**
@@ -73,7 +73,7 @@ export function getEclipticLatitude (jd: JulianDay | number): Degree {
   )
     .dividedBy(1e8)
 
-  return fmod90(value.mul(RAD2DEG))
+  return fmod90(value.radiansToDegrees())
 }
 
 /**
