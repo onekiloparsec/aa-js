@@ -42,4 +42,6 @@ Decimal.prototype.radiansToHours = function (): Hour {
   return this.mul(RAD2H)
 }
 
+Decimal.set({ precision: 30, modulo: Decimal.EUCLID })
+
 export default Decimal

@@ -137,13 +137,6 @@ export type MeterPerSquareSecond = Decimal;
  */
 export type KilometerPerSecond = Decimal;
 
-export type EllipticalGeocentricDetails = {
-  apparentLightTime: Day
-  apparentGeocentricDistance: AstronomicalUnit
-  apparentGeocentricEclipticCoordinates: EclipticCoordinates
-  apparentGeocentricEquatorialCoordinates: EquatorialCoordinates
-}
-
 /**
  * Coordinates in the Equatorial system, that is in the system formed by
  * projecting the Earth equator onto the spherical sky.
@@ -224,11 +217,6 @@ export type Point = {
   y: Pixel
 }
 
-export type TransitInternals = {
-  m0: Decimal | number | undefined
-  cosH0: Decimal | number | undefined
-}
-
 export type EclipticCoordinatesCorrection = {
   DeltaLongitude: ArcSecond
   DeltaLatitude: ArcSecond
@@ -237,6 +225,11 @@ export type EclipticCoordinatesCorrection = {
 export type EquatorialCoordinatesCorrection = {
   DeltaRightAscension: ArcSecond
   DeltaDeclination: ArcSecond
+}
+
+export type TransitInternals = {
+  m0: Decimal | number | undefined
+  cosH0: Decimal | number | undefined
 }
 
 /**
@@ -268,37 +261,6 @@ export type RiseTransitSet = {
   }
 }
 
-export type RiseSetTransit = RiseTransitSet
-
-/**
- * The various elements of the inverse (nightly) transit of an object
- */
-export type InverseTransit = {
-  utc: Hour | undefined,
-  julianDay: JulianDay | undefined,
-  altitude: Degree | undefined,
-  refAltitude: Degree,
-  isBelowHorizon: boolean,
-  isBelowAltitude: boolean, // for when altitude is not that of horizon
-  isCircumpolar: boolean // no transit, no rise
-  internals: TransitInternals
-}
-
-/**
- * The various elements of the rise, set and transit of an object
- */
-export type SetInverseTransitRise = {
-  set: {
-    utc: Hour | undefined,
-    julianDay: JulianDay | undefined
-  },
-  inverseTransit: InverseTransit,
-  rise: {
-    utc: Hour | undefined,
-    julianDay: JulianDay | undefined
-  }
-}
-
 /**
  * Common constants of planets
  */
@@ -325,8 +287,8 @@ export type PlanetConstants = {
 }
 
 export enum Obliquity {
-  Mean,
-  True
+  Mean = 'Mean',
+  True = 'True'
 }
 
 export enum Equinox {

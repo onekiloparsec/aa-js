@@ -6,7 +6,7 @@ import { getSexagesimalValue } from '@/sexagesimal'
 
 
 export function fmod (a: number | Decimal, b: number | Decimal): Decimal {
-  Decimal.set({ modulo: Decimal.EUCLID }) // Result is always positive! See https://mikemcl.github.io/decimal.js/#modulo
+// Result is always positive! See https://mikemcl.github.io/decimal.js/#modulo
   return new Decimal(a).mod(b)
 }
 
