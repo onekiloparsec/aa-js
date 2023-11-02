@@ -128,5 +128,5 @@ export function getMegaparsecsFromRedshift (z: Decimal | number, hubbleConstant:
 }
 
 export function getLightTimeFromDistance (distance: AstronomicalUnit | number): Day {
-  return new Decimal(distance).mul(0.0057755183)
+  return new Decimal(distance).mul('0.005_775_5183')
 }
