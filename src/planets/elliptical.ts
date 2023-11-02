@@ -172,34 +172,34 @@ export function getPlanetInstantaneousVelocity (r: AstronomicalUnit | number, a:
 }
 
 /**
- * Computes the object's velocity at perihelion
- * @param  {number} e The eccentricity of the object's orbit
+ * Computes the planet's velocity at perihelion
+ * @param  {number} e The eccentricity of the planet's orbit
  * @param  {AstronomicalUnit} a The semi-major axis of the object orbit.
  * @returns {KilometerPerSecond} The velocity
  */
 export function getPlanetVelocityAtPerihelion (e: Decimal | number, a: AstronomicalUnit | number): KilometerPerSecond {
-  return new Decimal(29.7847)
+  return new Decimal('29.7847')
     .dividedBy(Decimal.sqrt(a)
       .mul(Decimal.sqrt(ONE.plus(e)
         .dividedBy(ONE.minus(e)))))
 }
 
 /**
- * Computes the object's velocity at aphelion
- * @param  {number} e The eccentricity of the object's orbit
+ * Computes the planet's velocity at aphelion
+ * @param  {number} e The eccentricity of the planet's orbit
  * @param  {AstronomicalUnit} a The semi-major axis of the object orbit.
  * @returns {KilometerPerSecond} The velocity
  */
 export function getPlanetVelocityAtAphelion (e: Decimal | number, a: AstronomicalUnit | number): KilometerPerSecond {
-  return new Decimal(29.7847)
+  return new Decimal('29.7847')
     .dividedBy(Decimal.sqrt(a)
       .mul(Decimal.sqrt(ONE.minus(e)
         .dividedBy(ONE.plus(e)))))
 }
 
 /**
- * Computes the object's length of orbit ellipse
- * @param  {number} e The eccentricity of the object's orbit
+ * Computes the planet's length of orbit ellipse
+ * @param  {number} e The eccentricity of the planet's orbit
  * @param  {AstronomicalUnit} a The semi-major axis of the object orbit.
  * @returns {AstronomicalUnit} The ellipse length
  */
