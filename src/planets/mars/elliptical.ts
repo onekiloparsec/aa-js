@@ -50,7 +50,7 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number): Eclip
  * @see getEquatorialCoordinates
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
- * @param {Obliquity} obliquity The obliquity of the ecliptic. Mean or True. Default = Mean.
+ * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
  * @returns {EquatorialCoordinates}
  */
 export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean) {
