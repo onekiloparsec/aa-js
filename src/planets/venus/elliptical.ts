@@ -7,7 +7,7 @@ import {
   Obliquity,
   RiseTransitSet
 } from '@/types'
-import { getMeanObliquityOfEcliptic, getNutationInLongitude, getTrueObliquityOfEcliptic } from '@/earth/nutation'
+import { Earth } from '@/earth'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import {
   getPlanetApparentGeocentricEclipticCoordinates,
@@ -72,7 +72,7 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obli
   return transformEclipticToEquatorial(
     geocentricEclipticCoordinates.longitude,
     geocentricEclipticCoordinates.latitude,
-    (obliquity === Obliquity.Mean) ? getMeanObliquityOfEcliptic(jd) : getTrueObliquityOfEcliptic(jd)
+    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd)
   )
 }
 
@@ -89,7 +89,7 @@ export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | numb
   return transformEclipticToEquatorial(
     apparentGeocentricEclipticCoordinates.longitude,
     apparentGeocentricEclipticCoordinates.latitude,
-    getTrueObliquityOfEcliptic(jd)
+    Earth.getTrueObliquityOfEcliptic(jd)
   )
 }
 
@@ -128,7 +128,6 @@ export function getVelocityAtAphelion (jd: JulianDay | number): KilometerPerSeco
 export function getLengthOfEllipse (jd: JulianDay | number): AstronomicalUnit {
   return getPlanetLengthOfEllipse(getEccentricity(jd), getSemiMajorAxis(jd))
 }
-
 
 /**
  * Computes the (low-accuracy but fast) times of the rise, transit and set of the planet.
