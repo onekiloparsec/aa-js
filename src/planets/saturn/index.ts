@@ -10,6 +10,8 @@ import { constants, orbitalElements } from './constants'
 import { getAphelion, getPerihelion } from './base'
 import {
   getAccurateRiseTransitSet,
+  getApparentGeocentricEclipticCoordinates,
+  getApparentGeocentricEquatorialCoordinates,
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
@@ -45,7 +47,9 @@ export const Saturn: SaturnPlanet = {
   // Geocentric coordinates
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
+  getApparentGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
+  getApparentGeocentricEquatorialCoordinates,
   // Planet elliptical properties
   getInstantaneousVelocity,
   getVelocityAtPerihelion,

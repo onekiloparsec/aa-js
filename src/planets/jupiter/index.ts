@@ -10,10 +10,11 @@ import { constants, orbitalElements } from './constants'
 import { getAphelion, getPerihelion } from './base'
 import {
   getAccurateRiseTransitSet,
+  getApparentGeocentricEclipticCoordinates,
+  getApparentGeocentricEquatorialCoordinates,
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
-  getApparentGeocentricEquatorialCoordinates,
   getInstantaneousVelocity,
   getLengthOfEllipse,
   getRiseTransitSet,
@@ -50,6 +51,7 @@ export const Jupiter: JupiterPlanet = {
   // Geocentric coordinates
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
+  getApparentGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
   getApparentGeocentricEquatorialCoordinates,
   // Planet elliptical properties
