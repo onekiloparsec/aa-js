@@ -1,6 +1,6 @@
 import Decimal from '@/decimal'
 import { Degree, JulianDay, Magnitude } from '@/types'
-import { DEG2RAD, FIVE, ONE, RAD2DEG, TWO } from '@/constants'
+import { FIVE, ONE, TWO } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
 import { getRingSystemDetails } from './ringSystem'
@@ -18,7 +18,7 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
   const Delta = getGeocentricDistance(jd)
   return fmod360(
     Decimal.acos((r.pow(2).plus(Delta.pow(2)).minus(R.pow(2)))
-        .dividedBy(TWO.mul(r).mul(Delta))).mul(RAD2DEG)
+      .dividedBy(TWO.mul(r).mul(Delta))).radiansToDegrees()
   )
 }
 
@@ -28,7 +28,7 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
  * @returns {number}
  */
 export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
-  const i = getPhaseAngle(jd).mul(DEG2RAD)
+  const i = getPhaseAngle(jd).degreesToRadians()
   return (ONE.plus(Decimal.cos(i))).dividedBy(2)
 }
 
@@ -45,15 +45,15 @@ export function getMagnitude (jd: JulianDay | number): Magnitude {
   const Delta = getGeocentricDistance(jd)
 
   const ringSystem = getRingSystemDetails(jd)
-  const B = ringSystem.earthCoordinates.latitude.mul(DEG2RAD)
-  const sinB = Decimal.sin(ringSystem.earthCoordinates.latitude)
+  const B = ringSystem.earthCoordinates.latitude.degreesToRadians()
+  const sinB = Decimal.sin(B)
   const DeltaU = ringSystem.saturnicentricSunEarthLongitudesDifference
 
-  return new Decimal(-8.88)
+  return new Decimal('-8.88')
     .plus(FIVE.mul(Decimal.log10(r.mul(Delta))))
-    .plus(new Decimal(0.044).mul(DeltaU.abs()))
-    .minus(new Decimal(2.60).mul(B.abs().sin()))
-    .plus(new Decimal(1.25).mul(sinB.pow(2)))
+    .plus(new Decimal('0.044').mul(DeltaU.abs()))
+    .minus(new Decimal('2.60').mul(B.abs().sin()))
+    .plus(new Decimal('1.25').mul(sinB.pow(2)))
 }
 
 /**
@@ -68,7 +68,7 @@ export function getMagnitude (jd: JulianDay | number): Magnitude {
  */
 export function getEquatorialSemiDiameter (jd: JulianDay | number): Degree {
   const Delta = getGeocentricDistance(jd)
-  return new Decimal(8.34).dividedBy(Delta)
+  return new Decimal('8.34').dividedBy(Delta)
 }
 
 /**

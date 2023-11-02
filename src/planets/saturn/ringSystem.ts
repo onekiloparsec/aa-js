@@ -1,20 +1,12 @@
 import Decimal from '@/decimal'
-import {
-  ArcSecond,
-  AstronomicalUnit,
-  Degree,
-  JulianDay,
-  Radian,
-  SaturnicentricCoordinates,
-  SaturnRingSystem
-} from '@/types'
-import { DEG2RAD, H2RAD, PI, RAD2DEG } from '@/constants'
+import { ArcSecond, Degree, JulianDay, Radian, SaturnicentricCoordinates, SaturnRingSystem } from '@/types'
+import { DEG2RAD, PI } from '@/constants'
 import { transformEclipticToEquatorial } from '@/coordinates'
-import { getPlanetDistanceDetailsFromEarth } from '@/planets/elliptical'
 import { getLightTimeFromDistance } from '@/distances'
 import { getJulianCentury } from '@/juliandays'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
+import { getPlanetDistanceDetailsFromEarth } from '../elliptical'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
 export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem {
@@ -23,24 +15,26 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
   // Step 1:
   // Inclination and Longitude of the ascending node of the plane of the ring referred to the ecliptic
   // and mean equinox of the date.
-  const i = (
-    new Decimal(28.075216)
-      .minus(new Decimal(0.012998).mul(T))
-      .plus(new Decimal(0.000004).mul(T.pow(2)))
-  ).mul(DEG2RAD)
+  const i: Radian = (
+    new Decimal('28.075_216')
+      .minus(new Decimal('0.012_998').mul(T))
+      .plus(new Decimal('0.000_004').mul(T.pow(2)))
+  ).degreesToRadians()
 
-  const Omega = (
-    new Decimal(169.508470)
-      .plus(new Decimal(1.394681).mul(T))
-      .plus(new Decimal(0.000412).plus(T.pow(2)))
-  ).mul(DEG2RAD)
+  const Omega: Radian = (
+    new Decimal('169.508_470')
+      .plus(new Decimal('1.394_681').mul(T))
+      .plus(new Decimal('0.000_412').plus(T.pow(2)))
+  ).degreesToRadians()
 
   // Step 2.
   // Heliocentric longitude, latitude and radius vector of the Earth, referred to the eclliptic and
   // mean equinox of the date.
-  const l0: Radian = Earth.getEclipticLongitude(jd).mul(DEG2RAD)
-  const b0: Radian = Earth.getEclipticLatitude(jd).mul(DEG2RAD)
-  const R: AstronomicalUnit = Earth.getRadiusVector(jd)
+  const l0: Radian = Earth.getEclipticLongitude(jd).degreesToRadians()
+  // b0 and l0 are only involved in the computation of Delta, the Saturn distance to Earth
+  // which is hidden in the computation of details = getPlanetDistanceDetailsFromEarth...
+  // const b0: Radian = Earth.getEclipticLatitude(jd).degreesToRadians()
+  // const R: AstronomicalUnit = Earth.getRadiusVector(jd)
 
   // Step 3. Calculate the corresponding coordinates l,b,r for Saturn but for the instance t-lightraveltime
   // Starting point: 9 AU, because Earth-Saturn distance is always between 8.0 and 11.1 AU (AA p.318).
@@ -49,7 +43,7 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
   const details = getPlanetDistanceDetailsFromEarth(JD1, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
   const [l, b, r] = [details.l, details.b, details.r]
 
-  //  Step 4.
+  // Step 4.
   const earthSaturnDistance = details.Delta
 
   // Step 5.
@@ -87,7 +81,7 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
   const Bdash: Degree = Decimal.asin(
     i.sin().mul(bdash.cos()).mul(Decimal.sin(ldash.minus(Omega)))
       .minus(i.cos().mul(bdash.sin()))
-  ).mul(RAD2DEG)
+  ).radiansToDegrees()
 
   // Step 9. Calculate DeltaU
   const U1: Radian = Decimal.atan2(
@@ -100,22 +94,22 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
     beta.cos().mul(Decimal.cos(lambda.minus(Omega)))
   )
 
-  const DeltaU: Degree = fmod360(Decimal.abs(U1.minus(U2)).mul(RAD2DEG))
+  const DeltaU: Degree = fmod360(Decimal.abs(U1.minus(U2)).radiansToDegrees())
 
   // Step 10. Calculate the Nutation and Obliquity
   const epsilon: Degree = Earth.getTrueObliquityOfEcliptic(jd)
   const deltaPsi: Degree = Earth.getNutationInLongitude(jd)
 
   // Step 11. Calculate the ecliptical longitude and latitude of the northern pole of the ring plane
-  const lambda0: Degree = Omega.minus(PI.dividedBy(2)).mul(RAD2DEG)
-  const beta0: Degree = ((PI.dividedBy(2)).minus(i)).mul(RAD2DEG)
+  const lambda0: Degree = Omega.minus(PI.dividedBy(2)).radiansToDegrees()
+  const beta0: Degree = ((PI.dividedBy(2)).minus(i)).radiansToDegrees()
 
   // Step 12. Correct lambda and beta for the aberration of Saturn, then nutation
-  const lambdaCorrection: Degree = new Decimal(0.005693).mul(Decimal.cos(l0.minus(lambda))).dividedBy(beta.cos())
-  const betaCorrection: Degree = new Decimal(0.005693).mul(Decimal.sin(l0.minus(lambda))).mul(beta.sin())
+  const lambdaCorrection: Degree = new Decimal('0.005_693').mul(Decimal.cos(l0.minus(lambda))).dividedBy(beta.cos())
+  const betaCorrection: Degree = new Decimal('0.005_693').mul(Decimal.sin(l0.minus(lambda))).mul(beta.sin())
 
-  let correctedLambda: Degree = fmod360(lambda.mul(RAD2DEG).plus(lambdaCorrection))
-  const correctedBeta: Degree = fmod360(beta.mul(RAD2DEG).plus(betaCorrection))
+  let correctedLambda: Degree = fmod360(lambda.radiansToDegrees().plus(lambdaCorrection))
+  const correctedBeta: Degree = fmod360(beta.radiansToDegrees().plus(betaCorrection))
 
   // Step 13. Add nutation in longitude to lambda0 and lambda
   const correctedLambda0: Degree = fmod360(lambda0.plus(deltaPsi))
@@ -123,11 +117,11 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
 
   // Step 14. Convert to equatorial coordinates
   const geocentricEclipticSaturn = transformEclipticToEquatorial(correctedLambda, correctedBeta, epsilon)
-  const alpha: Radian = geocentricEclipticSaturn.rightAscension.mul(H2RAD)
-  const delta: Radian = geocentricEclipticSaturn.declination.mul(DEG2RAD)
+  const alpha: Radian = geocentricEclipticSaturn.rightAscension.hoursToRadians()
+  const delta: Radian = geocentricEclipticSaturn.declination.degreesToRadians()
   const geocentricEclipticNorthPole = transformEclipticToEquatorial(correctedLambda0, beta0, epsilon)
-  const alpha0: Radian = geocentricEclipticNorthPole.rightAscension.mul(H2RAD)
-  const delta0: Radian = geocentricEclipticNorthPole.declination.mul(DEG2RAD)
+  const alpha0: Radian = geocentricEclipticNorthPole.rightAscension.hoursToRadians()
+  const delta0: Radian = geocentricEclipticNorthPole.declination.degreesToRadians()
 
   // Step 15. Calculate the Position angle
   const northPolePositionAngle: Radian = Decimal.atan2(
@@ -135,8 +129,14 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
     delta0.sin().mul(delta.cos()).minus(delta0.cos().mul(delta.sin()).mul(Decimal.cos(alpha0.minus(alpha))))
   )
 
-  const earthCoordinates: SaturnicentricCoordinates = { longitude: U2.mul(RAD2DEG), latitude: B.mul(RAD2DEG) }
-  const sunCoordinates: SaturnicentricCoordinates = { longitude: U1.mul(RAD2DEG), latitude: Bdash.mul(RAD2DEG) }
+  const earthCoordinates: SaturnicentricCoordinates = {
+    longitude: U2.radiansToDegrees(),
+    latitude: B.radiansToDegrees()
+  }
+  const sunCoordinates: SaturnicentricCoordinates = {
+    longitude: U1.radiansToDegrees(),
+    latitude: Bdash.radiansToDegrees()
+  }
 
   return {
     majorAxis, // The major axis of the outer edge of the outer ring.
