@@ -1,7 +1,7 @@
 import Decimal from '@/decimal'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
-import { Degree, Hour, JulianDay, LengthArray, RiseSetTransit } from '@/types'
+import { Degree, Hour, JulianDay, LengthArray, RiseTransitSet } from '@/types'
 import { MINUSONE, STANDARD_ALTITUDE_STARS } from '@/constants'
 import { getJulianDayMidnight, getLocalSiderealTime } from '@/juliandays'
 import { fmod, fmod180, fmod360, getJDatUTC } from '@/utils'
@@ -127,7 +127,7 @@ export function getAccurateRiseTransitSetTimes (jd: JulianDay | number,
                                                 lng: Degree | number,
                                                 lat: Degree | number,
                                                 alt: Degree | number = STANDARD_ALTITUDE_STARS,
-                                                iterations: number = 1): RiseSetTransit {
+                                                iterations: number = 1): RiseTransitSet {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
 
@@ -234,7 +234,7 @@ export function getRiseTransitSetTimes (jd: JulianDay | number,
                                         dec: Degree | number,
                                         lng: Degree | number,
                                         lat: Degree | number,
-                                        alt: Degree | number = STANDARD_ALTITUDE_STARS): RiseSetTransit {
+                                        alt: Degree | number = STANDARD_ALTITUDE_STARS): RiseTransitSet {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
 
