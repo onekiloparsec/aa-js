@@ -91,10 +91,4 @@ Documentation
 Almost every method is documented (quite sparingly
 sometimes). A good knowledge of basic astronomy helps very much.
 A copy of the Astronomical Algorithms textbook, by Jean Meeus
-([amazon](https://www.amazon.fr/Astronomical-Algorithms-J-Meeus/dp/0943396352/ref=sr_1_6?qid=1654447735&refinements=p_27%3AJean+Meeus&s=books&sr=1-6))
-would also help, since many methods refer to it.
-
-We have some difficulties configuring both Typescript and
-Typedoc at the same time. Hence, the documentation is not
-published in GH pages. If anyone knows how to do it, please
-submit a PR.
+([amazon](https://www.amazon.fr/Astronomical-Algorithms-J-Meeus/dp/0943396352/ref=sr_1_6?qid=1654447735&refinements=p_27%3AJean+Meeus&s=books&sr=1-6)) would also help, since many methods refer to it.
