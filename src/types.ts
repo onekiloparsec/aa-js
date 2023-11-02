@@ -1,4 +1,4 @@
-import Decimal from '@/decimal'
+import Decimal from 'decimal.js'
 
 /**
  * Angular degree
@@ -136,7 +136,10 @@ export type MeterPerSquareSecond = Decimal;
  * km s^-1
  */
 export type KilometerPerSecond = Decimal;
-
+/**
+ * Celsius degrees
+ */
+export type Celsius = Decimal;
 /**
  * Coordinates in the Equatorial system, that is in the system formed by
  * projecting the Earth equator onto the spherical sky.
@@ -448,6 +451,10 @@ export interface EarthPlanet {
   Moon: NaturalMoon
 }
 
+export type SunConstants = {
+  equatorialRadius: Kilometer
+}
+
 export interface NaturalSun {
   getMeanAnomaly: QuantityInDegreeAtJulianDayFunction
   getTrueAnomaly: QuantityInDegreeAtJulianDayFunction
@@ -463,7 +470,8 @@ export interface NaturalSun {
   getApparentGeocentricEclipticLongitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
   getApparentGeocentricEclipticLatitude: SingleCoordinateDegreeWithEquinoxAtJulianDayFunction
   getApparentGeocentricEclipticCoordinates: EclipticCoordinatesWithEquinoxAtJulianDayFunction
-  getVariationGeometricEclipticLongitude: QuantityInDegreeAtJulianDayFunction
+  getVariationGeometricEclipticLongitude: QuantityInDegreeAtJulianDayFunction,
+  constants: SunConstants
 }
 
 export type LengthArray<T, N extends number, R extends T[] = []> = Decimal extends N ? T[] : R['length'] extends N ? R : LengthArray<T, N, [T, ...R]>;
