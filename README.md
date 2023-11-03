@@ -8,9 +8,7 @@ The most comprehensive collection of accurate astronomical algorithms in JavaScr
 **The new v3 uses arbitrary-precision computations, thanks
 to [decimal.js](https://github.com/MikeMcl/decimal.js).**
 
-Other
-implementations: [Swift (SwiftAA)](https://github.com/onekiloparsec/SwiftAA)
-, [C# (AASharp)](https://github.com/jsauve/AASharp).
+Other implementations: [Swift (SwiftAA)](https://github.com/onekiloparsec/SwiftAA), [C# (AASharp)](https://github.com/jsauve/AASharp).
 
 At the beginning, `aa-js` is the port in javascript of the C++ implementation of Astronomical
 Algorithms by J.P. Naughter, called [AA+](http://www.naughter.com/aa.html),
@@ -18,13 +16,11 @@ based on the reference text book by Jean Meeus. It is written in TypeScript, and
 covered as much as possible with tests validating the correctness
 of the algorithms. Tests are inspired from Jean Meeus' book and those written in
 SwiftAA, and are much more extended than what is available
-in AA+.
+in AA+.  
 
 `aa-js` is the backbone of scientific algorithms used
 in [Arcsecond.io](https://www.arcsecond.io).
 
-I am the author of the Swift version too. It's
-called [SwiftAA](https://github.com/onekiloparsec/SwiftAA).
 
 Main Changes in V3
 ================
@@ -92,3 +88,5 @@ Almost every method is documented (quite sparingly
 sometimes). A good knowledge of basic astronomy helps very much.
 A copy of the Astronomical Algorithms textbook, by Jean Meeus
 ([amazon](https://www.amazon.fr/Astronomical-Algorithms-J-Meeus/dp/0943396352/ref=sr_1_6?qid=1654447735&refinements=p_27%3AJean+Meeus&s=books&sr=1-6)) would also help, since many methods refer to it.
+
+The documentation is published in [onekiloparsec.dev/aa-js](https://onekiloparsec.dev/aa-js).
