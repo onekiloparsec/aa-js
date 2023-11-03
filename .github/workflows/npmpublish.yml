@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 20
       - run: npm ci
-      - run: npm test:unit
+      - run: npm run test:unit
 
   publish-npm:
     needs: build
