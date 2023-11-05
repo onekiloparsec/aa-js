@@ -2,29 +2,62 @@
  * AA
  * @namespace
  */
+import Decimal from '@/decimal'
 import { Earth } from './earth'
 import { Sun } from './sun'
 
 import { Jupiter, Mars, Mercury, Neptune, Pluto, Saturn, Uranus, Venus } from './planets'
 
-export * as constants from './constants'
+import * as coordinates from './coordinates'
+import * as cosmology from './cosmology'
+import * as dates from './dates'
+import * as distances from './distances'
+import * as exoplanets from './exoplanets'
+import * as juliandays from './juliandays'
+import * as precession from './precession'
+import * as sexagesimal from './sexagesimal'
+import * as risetransitset from './risetransitsets'
+import * as times from './times'
 
-export * as coordinates from './coordinates'
-export * as cosmology from './cosmology'
-export * as dates from './dates'
-export * as distances from './distances'
-export * as exoplanets from './exoplanets'
-export * as juliandays from './juliandays'
-export * as precession from './precession'
-export * as sexagesimal from './sexagesimal'
-export * as times from './times'
+const Planets = {
+  Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune
+}
 
-export { Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto }
-
-export const Planets = {
+const AllPlanets = {
   Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto
 }
 
-export const SolarSystem = {
+const SolarSystem = {
   Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto
 }
+
+export {
+  Decimal,
+  Sun,
+  Mercury,
+  Venus,
+  Earth,
+  Mars,
+  Jupiter,
+  Saturn,
+  Uranus,
+  Neptune,
+  Pluto,
+  Planets,
+  AllPlanets,
+  SolarSystem,
+  coordinates,
+  cosmology,
+  dates,
+  distances,
+  exoplanets,
+  juliandays,
+  precession,
+  sexagesimal,
+  risetransitset,
+  times
+}
+
+export * from './constants'
+export * from './utils'
+export * from './types'
