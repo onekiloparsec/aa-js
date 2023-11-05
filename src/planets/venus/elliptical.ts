@@ -18,7 +18,7 @@ import {
   getPlanetVelocityAtAphelion,
   getPlanetVelocityAtPerihelion
 } from '../elliptical'
-import { getPlanetAccurateRiseTransitSet, getPlanetRiseTransitSet } from '../risetransitsets'
+import { getPlanetAccurateRiseTransitSet, getPlanetRiseTransitSet } from '../risetransitset'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 import { getEccentricity, getSemiMajorAxis } from './orbital'
 

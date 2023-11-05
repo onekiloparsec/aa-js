@@ -2,7 +2,7 @@ import { AstronomicalUnit, EclipticCoordinates, GeographicCoordinates, JulianDay
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getTrueObliquityOfEcliptic } from '@/earth/nutation'
 import { getPlanetGeocentricDistance, getPlanetGeocentricEclipticCoordinates } from '../elliptical'
-import { getPlanetAccurateRiseTransitSet, getPlanetRiseTransitSet } from '../risetransitsets'
+import { getPlanetAccurateRiseTransitSet, getPlanetRiseTransitSet } from '../risetransitset'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
 /**

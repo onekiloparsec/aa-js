@@ -16,7 +16,7 @@ import * as exoplanets from './exoplanets'
 import * as juliandays from './juliandays'
 import * as precession from './precession'
 import * as sexagesimal from './sexagesimal'
-import * as risetransitset from './risetransitsets'
+import * as risetransitset from './risetransitset'
 import * as times from './times'
 
 const Planets = {
