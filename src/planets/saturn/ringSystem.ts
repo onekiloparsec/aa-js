@@ -1,6 +1,6 @@
 import Decimal from '@/decimal'
 import { ArcSecond, Degree, JulianDay, Radian, SaturnicentricCoordinates, SaturnRingSystem } from '@/types'
-import { PI } from '@/constants'
+import { PI, PIHALF } from '@/constants'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getLightTimeFromDistance } from '@/distances'
 import { getJulianCentury } from '@/juliandays'
@@ -107,8 +107,8 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
   const deltaPsi: Degree = Earth.getNutationInLongitude(jd)
 
   // Step 11. Calculate the ecliptical longitude and latitude of the northern pole of the ring plane
-  const lambda0: Degree = Omega.minus(PI.dividedBy(2)).radiansToDegrees()
-  const beta0: Degree = ((PI.dividedBy(2)).minus(i)).radiansToDegrees()
+  const lambda0: Degree = Omega.minus(PIHALF).radiansToDegrees()
+  const beta0: Degree = ((PIHALF).minus(i)).radiansToDegrees()
 
   // Step 12. Correct lambda and beta for the aberration of Saturn, then nutation
   const lambdaCorrection: Degree = new Decimal('0.005_693').mul(Decimal.cos(l0.minus(lambda))).dividedBy(beta.cos())

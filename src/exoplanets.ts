@@ -3,7 +3,7 @@
  */
 import Decimal from '@/decimal'
 import { AstronomicalUnit, Day, Degree, Hour, JulianDay, JupiterRadius, Kilometer, Radian, SolarRadius } from '@/types'
-import { ONE, ONE_UA_IN_KILOMETERS, PI, TWO } from '@/constants'
+import { ONE, ONE_UA_IN_KILOMETERS, PI, PIHALF, TWO } from '@/constants'
 import { getLocalSiderealTime } from '@/juliandays'
 import { Jupiter } from '@/planets'
 import { Sun } from '@/sun'
@@ -41,7 +41,7 @@ export function getExoplanetTransitDetails (orbitalPeriod: Day | number,
                                             radius: JupiterRadius | number,
                                             semiMajorAxis: AstronomicalUnit | number,
                                             parentStarRadius: SolarRadius | number) {
-  let f = (PI.dividedBy(2)).minus(new Decimal(lambdaAngle).degreesToRadians())
+  let f = (PIHALF).minus(new Decimal(lambdaAngle).degreesToRadians())
   const e = new Decimal(eccentricity)
   const P = new Decimal(orbitalPeriod)
   const E = TWO.mul(Decimal.atan(Decimal.sqrt((ONE.minus(e)).dividedBy(ONE.plus(e))).mul(Decimal.tan(f.dividedBy(2)))))
