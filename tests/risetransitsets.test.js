@@ -1,16 +1,11 @@
-import * as utils from '@/utils'
-import * as risetransitsets from '@/risetransitsets'
-import * as constants from '@/constants'
-import { STANDARD_ALTITUDE_STARS } from '@/constants'
-import * as juliandays from '@/juliandays'
+import { DEG2H, fmod, juliandays, risetransitset, STANDARD_ALTITUDE_STARS, Venus } from '@'
 import { getJulianDayMidnight } from '@/juliandays'
-import { Venus } from '@/planets'
 import { getDecimalValue, getSexagesimalValue } from '@/sexagesimal'
 
 describe('rise transit & sets', () => {
   test('circumpolar transit', () => {
     const jd = juliandays.getJulianDay()
-    const results = risetransitsets.getRiseTransitSetTimes(jd, 0, -89.23, 0, -70, STANDARD_ALTITUDE_STARS, 0)
+    const results = risetransitset.getRiseTransitSetTimes(jd, 0, -89.23, 0, -70, STANDARD_ALTITUDE_STARS, 0)
     expect(results.transit.isCircumpolar).toBeTruthy()
     expect(results.transit.isAboveHorizon).toBeTruthy()
     expect(results.transit.isAboveAltitude).toBeTruthy()
@@ -24,9 +19,9 @@ describe('rise transit & sets', () => {
     const jd = juliandays.getJulianDay(date)
     const coordsBoston = { latitude: 42.3333, longitude: -71.0833 }
     const coordsVenus = { rightAscension: 41.73129, declination: 18.44092 }
-    const results = risetransitsets.getRiseTransitSetTimes(
+    const results = risetransitset.getRiseTransitSetTimes(
       jd,
-      coordsVenus.rightAscension * constants.DEG2H,
+      coordsVenus.rightAscension * DEG2H.toNumber(),
       coordsVenus.declination,
       coordsBoston.longitude,
       coordsBoston.latitude
@@ -62,7 +57,7 @@ describe('rise transit & sets', () => {
       getDecimalValue(18, 26, 27.3),
       getDecimalValue(18, 18, 49, 38.7)
     ]
-    const results = risetransitsets.getAccurateRiseTransitSetTimes(
+    const results = risetransitset.getAccurateRiseTransitSetTimes(
       jd,
       rasVenus,
       decVenus,
@@ -103,7 +98,7 @@ describe('rise transit & sets', () => {
     const coords0 = Venus.getGeocentricEquatorialCoordinates(jd0 - 1)
     const coords1 = Venus.getGeocentricEquatorialCoordinates(jd0)
     const coords2 = Venus.getGeocentricEquatorialCoordinates(jd0 + 1)
-    const results = risetransitsets.getAccurateRiseTransitSetTimes(
+    const results = risetransitset.getAccurateRiseTransitSetTimes(
       jd0,
       [coords0.rightAscension, coords1.rightAscension, coords2.rightAscension],
       [coords0.declination, coords1.declination, coords2.declination],
@@ -114,8 +109,8 @@ describe('rise transit & sets', () => {
     const offsetUTC = -18000 // seconds
     const offsetDST = 3600 // seconds
     const offsetHours = (offsetUTC + offsetDST) / 3600
-    expect(utils.fmod(results.rise.utc.toNumber() + offsetHours, 24)).toBeCloseTo(3.43, 1)
-    expect(utils.fmod(results.transit.utc.toNumber() + offsetHours, 24)).toBeCloseTo(10.0, 1)
-    expect(utils.fmod(results.set.utc.toNumber() + offsetHours, 24)).toBeCloseTo(16.47, 1)
+    expect(fmod(results.rise.utc.toNumber() + offsetHours, 24)).toBeCloseTo(3.43, 1)
+    expect(fmod(results.transit.utc.toNumber() + offsetHours, 24)).toBeCloseTo(10.0, 1)
+    expect(fmod(results.set.utc.toNumber() + offsetHours, 24)).toBeCloseTo(16.47, 1)
   })
 })

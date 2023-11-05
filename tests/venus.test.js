@@ -1,5 +1,5 @@
-import { constants, juliandays, times, Venus } from '@'
-import { getDecimalYear, getFractionalYear } from '@/dates'
+import { juliandays, times, Venus } from '@'
+import { getDecimalYear } from '@/dates'
 
 describe('venus', () => {
   test('check that polar and equatorial semi diameters are identical', () => {
@@ -24,7 +24,7 @@ describe('venus', () => {
     const jd = juliandays.getJulianDay(new Date(Date.UTC(1988, 2, 20, 0, 0, 0)))
     expect(jd.toNumber()).toEqual(2447240.5)
     const coords = Venus.getApparentGeocentricEquatorialCoordinates(times.transformUTC2TT(jd))
-    expect(coords.rightAscension.toNumber() * constants.H2DEG).toBeCloseTo(41.73129, 2)
+    expect(coords.rightAscension.hoursToDegrees().toNumber()).toBeCloseTo(41.73129, 2)
     expect(coords.declination.toNumber()).toBeCloseTo(18.44092, 2)
   })
 

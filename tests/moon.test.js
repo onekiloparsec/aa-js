@@ -1,6 +1,6 @@
-import { constants, Earth, juliandays, Sun, times } from '@'
+import { Earth, juliandays, Sun, times } from '@'
 import { getDecimalValue } from '@/sexagesimal'
-import { MOON_SYNODIC_PERIOD, MoonPhase, MoonPhaseName, MoonPhaseQuarter } from '@/constants'
+import { MOON_SYNODIC_PERIOD, MoonPhase, MoonPhaseQuarter } from '@/constants'
 
 describe('moon', () => {
   test('get moon mean longitude', () => {
@@ -40,11 +40,11 @@ describe('moon', () => {
     const jd = times.transformUTC2TT(juliandays.getJulianDay(UTCDate))
 
     const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd)
-    expect(sunCoords.rightAscension.toNumber() * constants.H2DEG).toBeCloseTo(20.6579, 2)
+    expect(sunCoords.rightAscension.hoursToDegrees().toNumber()).toBeCloseTo(20.6579, 2)
     expect(sunCoords.declination.toNumber()).toBeCloseTo(8.697, 3)
 
     const moonCoords = Earth.Moon.getGeocentricEquatorialCoordinates(jd)
-    expect(moonCoords.rightAscension.toNumber() * constants.H2DEG).toBeCloseTo(134.69, 1)
+    expect(moonCoords.rightAscension.hoursToDegrees().toNumber()).toBeCloseTo(134.69, 1)
     expect(moonCoords.declination.toNumber()).toBeCloseTo(13.7684, 2)
 
     expect(Earth.Moon.getRadiusVectorInKilometer(jd).toNumber()).toBeCloseTo(368409.0, 1)
