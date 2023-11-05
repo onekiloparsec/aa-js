@@ -45,6 +45,10 @@ export const DAYMS: MiliSecond = new Decimal('1000').mul('3600').mul('24')
 
 /** @constant {Radian} */
 export const PI: Radian = Decimal.acos('-1')
+/** @constant {Radian} */
+export const PITWO: Radian = PI.mul(2)
+/** @constant {Radian} */
+export const PIHALF: Radian = PI.dividedBy(2)
 
 /** @private */
 export const DEG2RAD: Radian = PI.dividedBy('180')
