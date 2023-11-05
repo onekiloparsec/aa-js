@@ -210,9 +210,11 @@ export type Coordinates3D = {
 }
 
 export type Sexagesimal = {
+  sign: Decimal,
   radix: Decimal,
   minutes: Decimal,
   seconds: Decimal
+  miliseconds: Decimal
 }
 
 export type Point = {
