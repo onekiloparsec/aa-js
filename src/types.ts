@@ -214,7 +214,7 @@ export type Sexagesimal = {
   radix: Decimal,
   minutes: Decimal,
   seconds: Decimal
-  miliseconds: Decimal
+  milliseconds: Decimal
 }
 
 export type Point = {

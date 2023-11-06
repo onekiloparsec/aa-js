@@ -16,13 +16,13 @@ export function getSexagesimalValue (decimalValue: Decimal | number): Sexagesima
   const minutes = Decimal.floor(minutesFraction)
   const secondsFraction = (minutesFraction.minus(minutes)).mul(60)
   const seconds = Decimal.floor(secondsFraction)
-  const miliseconds = (secondsFraction.minus(seconds)).mul(1000)
+  const milliseconds = (secondsFraction.minus(seconds)).mul(1000)
   return {
     sign: new Decimal(decimalValue).isPositive() ? ONE : MINUSONE,
     radix: degrees,
     minutes: minutes,
     seconds: seconds,
-    miliseconds
+    milliseconds
   }
 }
 
@@ -38,13 +38,13 @@ const defaultOptions = {
 
 export function makeSexagesimal (options: object): string {
   const { value, unitChars, showSign, separator, decimals, showSeconds, zeroPads } = { ...defaultOptions, ...options }
-  const { sign, radix, minutes, seconds, miliseconds } = getSexagesimalValue(value)
+  const { sign, radix, minutes, seconds, milliseconds } = getSexagesimalValue(value)
   const signString = (showSign || sign.isNegative()) ? ((sign.isPositive()) ? '+' : '-') : ''
   const units = unitChars || ['º', '\'', '"']
   let s = `${signString}${radix.toString().padStart(zeroPads ? 2 : 1, '0')}${units[0]}`
   s += `${separator}${minutes.toString().padStart(zeroPads ? 2 : 1, '0')}${units[1]}`
   if (showSeconds) {
-    s += `${separator}${(seconds.plus(miliseconds.dividedBy(1000))).toFixed(decimals).padStart(zeroPads ? 2 : 1, '0')}${units[2]}`
+    s += `${separator}${(seconds.plus(milliseconds.dividedBy(1000))).toFixed(decimals).padStart(zeroPads ? 2 : 1, '0')}${units[2]}`
   }
   return s
 }
