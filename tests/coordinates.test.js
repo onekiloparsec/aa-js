@@ -71,7 +71,7 @@ describe('coordinates', () => {
 
 
 //See AA p.280-281, Ex 40.a
-  test('test equatorial to topocentric', () => {
+  test('transformation from equatorial to topocentric', () => {
     const date = new Date(Date.UTC(2003, 7, 28, 3, 17, 0))
     const jd = getJulianDay(date)
     const palomar = { longitude: getDecimalValue(7, 47, 27, false) * H2DEG, latitude: 33.356111, height: 1706 }
