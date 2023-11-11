@@ -30,7 +30,7 @@ export function getJulianDay (...args: any[]): JulianDay | undefined {
     const value = args[0]
     if (value instanceof Date) {
       return new Decimal(value.valueOf()).dividedBy(DAYMS).minus(0.5).plus(J1970)
-    } else if (value instanceof String) {
+    } else if (value instanceof String || typeof value === 'string') {
       // We use the parsing of dayjs.
       return new Decimal(dayjs(value as string).toDate().valueOf()).dividedBy(DAYMS).minus(0.5).plus(J1970)
     } else if (isNumber(value)) {

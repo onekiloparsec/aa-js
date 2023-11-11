@@ -11,6 +11,10 @@ describe('julian days', () => {
     expect(juliandays.getJulianDay().toNumber()).toBeGreaterThan(2457648.5)
   })
 
+  test('build julianday with date string', () => {
+    expect(juliandays.getJulianDay('2023-11-11T12:00:00.000Z').toNumber()).toEqual(2460260)
+  })
+
   test('build julianday with one value', () => {
     const UTCDate = new Date(Date.UTC(2016, 0, 0))
     expect(juliandays.getJulianDay(2016)).toEqual(juliandays.getJulianDay(UTCDate))
