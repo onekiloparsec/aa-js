@@ -6,6 +6,7 @@ import {
   getDeclinationFromEcliptic,
   getEclipticLatitudeFromEquatorial,
   getEclipticLongitudeFromEquatorial,
+  getGreatCircleAngularDistance,
   getParallacticAngle,
   getRightAscensionFromEcliptic,
   transformEquatorialToTopocentric
@@ -87,5 +88,11 @@ describe('coordinates', () => {
     const topoCoords = transformEquatorialToTopocentric(jd, coords, distance, palomar)
     expect(topoCoords.rightAscension.toNumber()).toBeCloseTo(getDecimalValue(22, 38, 8.54), 3)
     expect(topoCoords.declination.toNumber()).toBeCloseTo(getDecimalValue(-15, 46, 30), 2)
+  })
+
+  test('test angular distance', () => {
+    const alphaBoo = { rightAscension: getDecimalValue(14, 15, 39.7), declination: getDecimalValue(19, 10, 57) }
+    const alphaVir = { rightAscension: getDecimalValue(13, 25, 11.6), declination: getDecimalValue(-11, 9, 41) }
+    expect(getGreatCircleAngularDistance(alphaBoo, alphaVir).toNumber()).toBeCloseTo(32.7930, 4)
   })
 })

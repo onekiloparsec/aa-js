@@ -377,3 +377,23 @@ export function getParallacticAngle (jd: JulianDay | number, ra: Hour | number, 
 
   return angle
 }
+
+/**
+ * The Great Circle angular distance between two spherical coordinates.
+ * It uses the alternative formula of AA p115, which works well for small and large angles.
+ * @param {EquatorialCoordinates} coords1
+ * @param {EquatorialCoordinates} coords2
+ * @returns {Degree}
+ */
+export function getGreatCircleAngularDistance (coords1: EquatorialCoordinates, coords2: EquatorialCoordinates) {
+  const alpha1 = coords1.rightAscension.hoursToRadians()
+  const alpha2 = coords2.rightAscension.hoursToRadians()
+  const delta1 = coords1.declination.degreesToRadians()
+  const delta2 = coords2.declination.degreesToRadians()
+  const x = Decimal.cos(delta1).mul(Decimal.sin(delta2))
+    .minus(Decimal.sin(delta1).mul(Decimal.cos(delta2)).mul(Decimal.cos(alpha2.minus(alpha1))))
+  const y = Decimal.cos(delta2).mul(Decimal.sin(alpha2.minus(alpha1)))
+  const z = Decimal.sin(delta1).mul(Decimal.sin(delta2))
+    .plus(Decimal.cos(delta1).mul(Decimal.cos(delta2)).mul(Decimal.cos(alpha2.minus(alpha1))))
+  return Decimal.atan2(Decimal.sqrt(x.pow(2).plus(y.pow(2))), z).radiansToDegrees()
+}
