@@ -53,18 +53,29 @@ export function getJulianDay (...args: any[]): JulianDay | undefined {
 /**
  * The local mean sidereal time (sun's clock time) for a given julian day
  * at a given longitude on Earth
- * @param {JulianDay} jd The julian day
- * @param {Degree} lng The longitude
+ * @param {JulianDay | number} jd The julian day
+ * @param {Degree | number} lng The longitude
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
  * @return {Hour}
  */
-export function getLocalSiderealTime (jd: JulianDay | number, lng: Degree | number): Hour {
+export function getLocalSiderealTime (jd: JulianDay | number, lng: Degree | number, highPrecision: boolean = true): Hour {
   const T = getJulianCentury(jd)
 
+  let gmst
   // Greenwich SiderealTime in degrees! Equ. 12.4 of AA, p. 88
-  const gmst: Decimal = new Decimal(280.46061837)
-    .plus(new Decimal(360.98564736629).mul(new Decimal(jd).minus(2451545)))
-    .plus(new Decimal(0.000387933).mul(T.pow(2)))
-    .minus(T.pow(3).dividedBy(38710000))
+  if (highPrecision) {
+    gmst = new Decimal(280.46061837)
+      .plus(new Decimal(360.98564736629).mul(new Decimal(jd).minus(2451545)))
+      .plus(new Decimal(0.000387933).mul(T.pow(2)))
+      .minus(T.pow(3).dividedBy(38710000))
+  } else {
+    const t = T.toNumber()
+    const njd: number = Decimal.isDecimal(jd) ? jd.toNumber() : jd
+    gmst = 280.46061837
+      + 360.98564736629 * (njd - 2451545)
+      + t * t * 0.000387933
+      - t * t * t / 38710000
+  }
 
   return fmod24(fmod360(gmst).plus(lng).degreesToHours())
 }
@@ -74,12 +85,16 @@ export function getLocalSiderealTime (jd: JulianDay | number, lng: Degree | numb
  * nutation, at a given longitude on Earth
  * @param {JulianDay} jd The julian day
  * @param {Degree} lng The longitude
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
  * @return {Hour}
  */
-export function getApparentLocalSiderealTime (jd: JulianDay | number, lng: Degree | number): Hour {
+export function getApparentLocalSiderealTime (jd: JulianDay | number, lng: Degree | number, highPrecision: boolean = true): Hour {
   const epsilon: Radian = Earth.getTrueObliquityOfEcliptic(jd).degreesToRadians()
   const deltaPsi: ArcSecond = Earth.getNutationInLongitude(jd)
-  return getLocalSiderealTime(jd, lng).plus(deltaPsi.mul(epsilon.cos()).degreesToHours().dividedBy(ONE_DAY_IN_SECONDS))
+  return getLocalSiderealTime(jd, lng, highPrecision)
+    .plus(deltaPsi.mul(epsilon.cos())
+      .degreesToHours()
+      .dividedBy(ONE_DAY_IN_SECONDS))
 }
 
 /**
