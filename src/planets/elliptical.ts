@@ -139,8 +139,8 @@ export function getPlanetApparentGeocentricEclipticCoordinates (jd: JulianDay | 
     geocentricEclipticCoordinates.longitude,
     geocentricEclipticCoordinates.latitude
   )
-  geocentricEclipticCoordinates.longitude = geocentricEclipticCoordinates.longitude.plus(aberration.DeltaLongitude)
-  geocentricEclipticCoordinates.latitude = geocentricEclipticCoordinates.latitude.plus(aberration.DeltaLatitude)
+  geocentricEclipticCoordinates.longitude = (geocentricEclipticCoordinates.longitude as Degree).plus(aberration.DeltaLongitude)
+  geocentricEclipticCoordinates.latitude = (geocentricEclipticCoordinates.latitude as Degree).plus(aberration.DeltaLatitude)
 
   // Convert to the FK5 system
   const deltaLong = getCorrectionInLongitude(jd,
