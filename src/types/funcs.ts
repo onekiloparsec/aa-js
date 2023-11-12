@@ -1,23 +1,25 @@
 import Decimal from '@/decimal'
 import { ArcSecond, AstronomicalUnit, Degree, JulianCentury, JulianDay, KilometerPerSecond, Magnitude } from './units'
-import { EclipticCoordinates, EquatorialCoordinates, GeographicCoordinates } from './coordinates'
+import { EclipticCoordinates, EquatorialCoordinatesH, GeographicCoordinates } from './coordinates'
 import { RiseTransitSet } from './risetransitset'
-import { Equinox } from './earth'
+import { Equinox, Obliquity } from './earth'
 
 export type JulianDayForJulianDayFunction = (jd: JulianDay | number) => JulianDay
 
 export type SingleCoordinateDegreeAtJulianDayFunction = (jd: JulianDay | number) => Degree
+export type SingleCoordinateDegreeAtJulianDayWithEquinoxFunction = (jd: JulianDay | number, equinox?: Equinox) => Degree
+export type SingleCoordinateDegreeAtJulianDayWithEquinoxWithPrecisionFunction = (jd: JulianDay | number, equinox?: Equinox, highPrecision?: boolean) => Degree
+
 export type EclipticCoordinatesAtJulianDayFunction = (jd: JulianDay | number) => EclipticCoordinates
-export type EquatorialCoordinatesAtJulianDayFunction = (jd: JulianDay | number) => EquatorialCoordinates
+export type EclipticCoordinatesAtJulianDayWithEquinoxFunction = (jd: JulianDay | number, equinox?: Equinox) => EclipticCoordinates
+export type EclipticCoordinatesAtJulianDayWithPrecisionFunction = (jd: JulianDay | number, highPrecision?: boolean) => EclipticCoordinates
+export type EclipticCoordinatesAtJulianDayWithEquinoxWithPrecisionFunction = (jd: JulianDay | number, equinox?: Equinox, highPrecision?: boolean) => EclipticCoordinates
 
-export type SingleCoordinateDegreeAtJulianDayWithPrecisionFunction = (jd: JulianDay | number, equinox?: Equinox) => Degree
-export type SingleCoordinateDegreeWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox?: Equinox) => Degree
-
-export type EclipticCoordinatesAtJulianDayWithPrecisionFunction = (jd: JulianDay | number, equinox?: Equinox) => EclipticCoordinates
-export type EclipticCoordinatesWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox?: Equinox) => EclipticCoordinates
-
-export type EquatorialCoordinatesAtJulianDayWithPrecisionFunction = (jd: JulianDay | number, equinox?: Equinox) => EquatorialCoordinates
-export type EquatorialCoordinatesWithEquinoxAtJulianDayFunction = (jd: JulianDay | number, equinox?: Equinox) => EquatorialCoordinates
+export type EquatorialCoordinatesAtJulianDayFunction = (jd: JulianDay | number) => EquatorialCoordinatesH
+export type EquatorialCoordinatesAtJulianDayWithPrecisionFunction = (jd: JulianDay | number, highPrecision?: boolean) => EquatorialCoordinatesH
+export type EquatorialCoordinatesAtJulianDayWithEquinoxFunction = (jd: JulianDay | number, equinox?: Equinox) => EquatorialCoordinatesH
+export type EquatorialCoordinatesAtJulianDayWithEquinoxWithPrecisionFunction = (jd: JulianDay | number, equinox?: Equinox, highPrecision?: boolean) => EquatorialCoordinatesH
+export type EquatorialCoordinatesAtJulianDayWithObliquityWithPrecisionFunction = (jd: JulianDay | number, obliquity?: Obliquity, highPrecision?: boolean) => EquatorialCoordinatesH
 
 export type QuantityAtJulianDayFunction = (jd: JulianDay | number) => Decimal
 export type QuantityAtJulianDayWithPrecisionFunction = (jd: JulianDay | number, highPrecision?: boolean) => Decimal
