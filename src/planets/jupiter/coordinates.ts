@@ -1,6 +1,14 @@
 import Decimal from '@/decimal'
 import { RAD2DEG } from '@/constants'
-import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinatesH, JulianDay, Obliquity } from '@/types'
+import {
+  AstronomicalUnit,
+  Degree,
+  EclipticCoordinates,
+  EquatorialCoordinates,
+  EquatorialCoordinatesH,
+  JulianDay,
+  Obliquity
+} from '@/types'
 import { fmod360, fmod90 } from '@/utils'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianMillenium } from '@/juliandays'
@@ -123,13 +131,12 @@ export function getEclipticCoordinates (jd: JulianDay | number): EclipticCoordin
  * @see getApparentEquatorialCoordinates
  * @param {JulianDay} jd The julian day
  * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
- * @returns {EquatorialCoordinatesH}
+ * @returns {EquatorialCoordinates}
  * @memberof module:Jupiter
  */
-export function getEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinatesH {
+export function getEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinates {
   return transformEclipticToEquatorial(
-    getEclipticLongitude(jd),
-    getEclipticLatitude(jd),
+    getEclipticCoordinates(jd),
     (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd)
   )
 }

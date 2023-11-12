@@ -72,10 +72,8 @@ export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number
  * @memberof module:Venus
  */
 export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean) {
-  const geocentricEclipticCoordinates = getGeocentricEclipticCoordinates(jd)
   return transformEclipticToEquatorial(
-    geocentricEclipticCoordinates.longitude,
-    geocentricEclipticCoordinates.latitude,
+    getGeocentricEclipticCoordinates(jd),
     (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd)
   )
 }
@@ -90,10 +88,8 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obli
  * @memberof module:Venus
  */
 export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number) {
-  const apparentGeocentricEclipticCoordinates = getApparentGeocentricEclipticCoordinates(jd)
   return transformEclipticToEquatorial(
-    apparentGeocentricEclipticCoordinates.longitude,
-    apparentGeocentricEclipticCoordinates.latitude,
+    getApparentGeocentricEclipticCoordinates(jd),
     Earth.getTrueObliquityOfEcliptic(jd)
   )
 }

@@ -42,10 +42,8 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number): Eclip
  * @memberof module:Pluto
  */
 export function getGeocentricEquatorialCoordinates (jd: JulianDay | number) {
-  const geocentricEclipticCoordinates = getGeocentricEclipticCoordinates(jd)
   return transformEclipticToEquatorial(
-    geocentricEclipticCoordinates.longitude,
-    geocentricEclipticCoordinates.latitude,
+    getGeocentricEclipticCoordinates(jd),
     getTrueObliquityOfEcliptic(jd)
   )
 }
