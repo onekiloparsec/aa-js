@@ -64,17 +64,17 @@ export function getLocalSiderealTime (jd: JulianDay | number, lng: Degree | numb
   let gmst
   // Greenwich SiderealTime in degrees! Equ. 12.4 of AA, p. 88
   if (highPrecision) {
-    gmst = new Decimal(280.46061837)
-      .plus(new Decimal(360.98564736629).mul(new Decimal(jd).minus(2451545)))
-      .plus(new Decimal(0.000387933).mul(T.pow(2)))
-      .minus(T.pow(3).dividedBy(38710000))
+    gmst = new Decimal('280.460_618_37')
+      .plus(new Decimal('360.985_647_366_29').mul(new Decimal(jd).minus('2451545')))
+      .plus(new Decimal('0.000_387_933').mul(T.pow(2)))
+      .minus(T.pow(3).dividedBy('38_710_000'))
   } else {
     const t = T.toNumber()
     const njd: number = Decimal.isDecimal(jd) ? jd.toNumber() : jd
-    gmst = 280.46061837
-      + 360.98564736629 * (njd - 2451545)
-      + 0.000387933 * t * t
-      - t * t * t / 38710000
+    gmst = 280.460_618_37
+      + 360.985_647_366_29 * (njd - 2451545)
+      + 0.000_387_933 * t * t
+      - t * t * t / 38_710_000
   }
 
   return fmod24(fmod360(gmst).plus(lng).degreesToHours())
@@ -83,8 +83,8 @@ export function getLocalSiderealTime (jd: JulianDay | number, lng: Degree | numb
 /**
  * The apparent local mean sidereal time (sun's clock time) for a given julian day, corrected for the
  * nutation, at a given longitude on Earth
- * @param {JulianDay} jd The julian day
- * @param {Degree} lng The longitude
+ * @param {JulianDay | number} jd The julian day
+ * @param {Degree | number} lng The longitude
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @return {Hour}
  */
