@@ -2,10 +2,10 @@ import Decimal from '@/decimal'
 import {
   ArcSecond,
   Coordinates3D,
-  Degree,
+  EclipticCoordinates,
   EclipticCoordinatesCorrection,
+  EquatorialCoordinates,
   EquatorialCoordinatesCorrection,
-  Hour,
   JulianDay,
   Radian
 } from '@/types'
@@ -13,13 +13,13 @@ import { CONSTANT_OF_ABERRATION, MINUSONE, ZERO } from '@/constants'
 import { getJulianCentury } from '@/juliandays'
 import { Sun } from '@/sun'
 import { getEccentricity, getLongitudeOfPerihelion } from '../coordinates'
+import { g_AberrationCoefficients } from './coefficients'
 import {
   getMeanObliquityOfEcliptic,
   getNutationInLongitude,
   getNutationInObliquity,
   getTrueObliquityOfEcliptic
 } from '../nutation'
-import { g_AberrationCoefficients } from './coefficients'
 
 
 /**
@@ -74,14 +74,13 @@ export function getEarthVelocity (jd: JulianDay | number): Coordinates3D {
  * It is due to the orbital motion of the Earth around the barycenter of the Solar system.
  * This is the high-accuracy Ron-Vondrak expression for aberration. See AA p153.
  * @param {JulianDay} jd The julian day
- * @param {Hour} Alpha The equatorial right ascension.
- * @param {Degree} Delta The equatorial declination
+ * @param {EquatorialCoordinates} coords The equatorial coordinates
  * @return {EquatorialCoordinatesCorrection}
  * @memberof module:Earth
  */
-export function getAccurateAnnualEquatorialAberration (jd: JulianDay | number, Alpha: Hour | number, Delta: Degree | number): EquatorialCoordinatesCorrection {
-  const ra = new Decimal(Alpha).hoursToRadians()
-  const dec = new Decimal(Delta).degreesToRadians()
+export function getAccurateAnnualEquatorialAberration (jd: JulianDay | number, coords: EquatorialCoordinates): EquatorialCoordinatesCorrection {
+  const ra = new Decimal(coords.rightAscension).degreesToRadians()
+  const dec = new Decimal(coords.declination).degreesToRadians()
 
   const cosAlpha = ra.cos()
   const sinAlpha = ra.sin()
@@ -108,12 +107,11 @@ export function getAccurateAnnualEquatorialAberration (jd: JulianDay | number, A
  * relative to the barycenter of the solar system.
  * @see {getAccurateAnnualEquatorialAberration}
  * @param {JulianDay} jd The julian day
- * @param {Hour} Alpha The right ascension
- * @param {Degree} Delta The declination
+ * @param {EquatorialCoordinates} coords The equatorial coordinates
  * @return {EclipticCoordinatesCorrection} The coordinates corrections in ArcSeconds
  * @memberof module:Earth
  */
-export function getAnnualEquatorialAberration (jd: JulianDay | number, Alpha: Hour | number, Delta: Degree | number): EquatorialCoordinatesCorrection {
+export function getAnnualEquatorialAberration (jd: JulianDay | number, coords: EquatorialCoordinates): EquatorialCoordinatesCorrection {
   const e: Decimal = getEccentricity(jd)
 
   const pi: Radian = getLongitudeOfPerihelion(jd).degreesToRadians()
@@ -129,8 +127,8 @@ export function getAnnualEquatorialAberration (jd: JulianDay | number, Alpha: Ho
   const cosLong = sunLongitude.cos()
   const sinLong = sunLongitude.sin()
 
-  const ra: Radian = new Decimal(Alpha).hoursToRadians()
-  const dec: Radian = new Decimal(Delta).degreesToRadians()
+  const ra: Radian = new Decimal(coords.rightAscension).degreesToRadians()
+  const dec: Radian = new Decimal(coords.declination).degreesToRadians()
   const cosAlpha = ra.cos()
   const sinAlpha = ra.sin()
   const cosDelta = dec.cos()
@@ -155,20 +153,19 @@ export function getAnnualEquatorialAberration (jd: JulianDay | number, Alpha: Ho
  * Ecliptic (annual) aberration
  * It is due to the orbital motion of the Earth around the barycenter of the Solar system.
  * @param {JulianDay} jd The julian day
- * @param {Degree} Lambda The ecliptic longitude
- * @param {Degree} Beta The ecliptic latitude
- * @return {EclipticCoordinatesCorrection} The coordinates corrections in ArcSeconds
+ * @param {EclipticCoordinates} coords The ecliptic coordinates
+ * @return {EclipticCoordinatesCorrection} The coordinates corrections in Arcsecond
  * @memberof module:Earth
  */
-export function getAnnualEclipticAberration (jd: JulianDay | number, Lambda: Degree | number, Beta: Degree | number): EclipticCoordinatesCorrection {
+export function getAnnualEclipticAberration (jd: JulianDay | number, coords: EclipticCoordinates): EclipticCoordinatesCorrection {
   const e = getEccentricity(jd)
   const pi = getLongitudeOfPerihelion(jd)
   const k = CONSTANT_OF_ABERRATION
 
   // Use the geoMETRIC longitude. See AA p.151
   const sunLongitude: Radian = Sun.getGeometricEclipticLongitude(jd).degreesToRadians()
-  const LambdaRad: Radian = new Decimal(Lambda).degreesToRadians()
-  const BetaRad: Radian = new Decimal(Beta).degreesToRadians()
+  const LambdaRad: Radian = new Decimal(coords.longitude).degreesToRadians()
+  const BetaRad: Radian = new Decimal(coords.latitude).degreesToRadians()
 
   const X0 = MINUSONE.mul(k).mul(Decimal.cos(sunLongitude.minus(LambdaRad)))
   const X1 = e.mul(k).mul(Decimal.cos(pi.minus(LambdaRad)))
@@ -188,12 +185,11 @@ export function getAnnualEclipticAberration (jd: JulianDay | number, Lambda: Deg
  * This is useful for stars, whose position are often given in equatorial coordinates.
  * For planets, use the `getApparentEquatorialCoordinates` methods instead.
  * @param {JulianDay} jd The julian day
- * @param {Hour} Alpha The right ascension
- * @param {Degree} Delta The declination
- * @return {EclipticCoordinatesCorrection} The coordinates corrections in ArcSeconds
+ * @param {EquatorialCoordinates} coords The equatorial coordinates
+ * @return {EclipticCoordinatesCorrection} The coordinates corrections in Arcsecond
  * @memberof module:Earth
  */
-export function getNutationEquatorialAberration (jd: JulianDay | number, Alpha: Hour | number, Delta: Degree | number): EquatorialCoordinatesCorrection {
+export function getNutationEquatorialAberration (jd: JulianDay | number, coords: EquatorialCoordinates): EquatorialCoordinatesCorrection {
   const epsilon: Radian = getMeanObliquityOfEcliptic(jd).degreesToRadians()
   const cosEpsilon = epsilon.cos()
   const sinEpsilon = epsilon.sin()
@@ -201,8 +197,8 @@ export function getNutationEquatorialAberration (jd: JulianDay | number, Alpha: 
   const DeltaEpsilon: ArcSecond = getNutationInObliquity(jd)
   const DeltaPsi: ArcSecond = getNutationInLongitude(jd)
 
-  const ra: Radian = new Decimal(Alpha).hoursToRadians()
-  const dec: Radian = new Decimal(Delta).degreesToRadians()
+  const ra: Radian = new Decimal(coords.rightAscension).degreesToRadians()
+  const dec: Radian = new Decimal(coords.declination).degreesToRadians()
   const cosAlpha = ra.cos()
   const sinAlpha = ra.sin()
   const tanDelta = dec.tan()
