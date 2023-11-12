@@ -3,8 +3,18 @@
  */
 import Decimal from '@/decimal'
 
-export const gNutationCoefficients =
-  [
+export const getCoefficients = function (useDecimals: boolean = true): {
+  D: Decimal | number
+  M: Decimal | number
+  Mprime: Decimal | number
+  F: Decimal | number
+  omega: Decimal | number
+  sincoeff1: Decimal | number
+  sincoeff2: Decimal | number
+  coscoeff1: Decimal | number
+  coscoeff2: Decimal | number
+}[] {
+  return [
     [0, 0, 0, 0, 1, -171996, -174.2, 92025, 8.9],
     [-2, 0, 0, 2, 2, -13187, -1.6, 5736, -3.1],
     [0, 0, 0, 2, 2, -2274, -0.2, 977, -0.5],
@@ -69,15 +79,27 @@ export const gNutationCoefficients =
     [0, 0, 3, 2, 2, -3, 0, 0, 0],
     [2, -1, 0, 2, 2, -3, 0, 0, 0]
   ].map((a) => {
-    return {
-      D: new Decimal(a[0]),
-      M: new Decimal(a[1]),
-      Mprime: new Decimal(a[2]),
-      F: new Decimal(a[3]),
-      omega: new Decimal(a[4]),
-      sincoeff1: new Decimal(a[5]),
-      sincoeff2: new Decimal(a[6]),
-      coscoeff1: new Decimal(a[7]),
-      coscoeff2: new Decimal(a[8])
+      return useDecimals ? {
+        D: new Decimal(a[0]),
+        M: new Decimal(a[1]),
+        Mprime: new Decimal(a[2]),
+        F: new Decimal(a[3]),
+        omega: new Decimal(a[4]),
+        sincoeff1: new Decimal(a[5]),
+        sincoeff2: new Decimal(a[6]),
+        coscoeff1: new Decimal(a[7]),
+        coscoeff2: new Decimal(a[8])
+      } : {
+        D: a[0],
+        M: a[1],
+        Mprime: a[2],
+        F: a[3],
+        omega: a[4],
+        sincoeff1: a[5],
+        sincoeff2: a[6],
+        coscoeff1: a[7],
+        coscoeff2: a[8]
+      }
     }
-  })
+  )
+}
