@@ -2,7 +2,7 @@
  @module Precession
  */
 import Decimal from '@/decimal'
-import { Degree, EquatorialCoordinates, Hour, JulianDay } from './types'
+import { Degree, EquatorialCoordinatesH, Hour, JulianDay } from './types'
 import { J2000, JULIAN_DAY_B1950_0 } from './constants'
 
 /**
@@ -12,9 +12,9 @@ import { J2000, JULIAN_DAY_B1950_0 } from './constants'
  * @param {Degree} dec0 The initial declination
  * @param {JulianDay} initialEpoch The initial epoch
  * @param {JulianDay} finalEpoch The initial epoch
- * @returns {EquatorialCoordinates} The precessed coordinates
+ * @returns {EquatorialCoordinatesH} The precessed coordinates
  */
-export function precessEquatorialCoordinates (ra0: Hour | number, dec0: Degree | number, initialEpoch: JulianDay | number, finalEpoch: JulianDay | number): EquatorialCoordinates {
+export function precessEquatorialCoordinates (ra0: Hour | number, dec0: Degree | number, initialEpoch: JulianDay | number, finalEpoch: JulianDay | number): EquatorialCoordinatesH {
   const JD0 = new Decimal(initialEpoch)
   const JD = new Decimal(finalEpoch)
   const T = JD0.minus(J2000).dividedBy(36525)
@@ -63,9 +63,9 @@ export function precessEquatorialCoordinates (ra0: Hour | number, dec0: Degree |
  * Precess equatorial coordinates from an assumed J2000 epoch to that of B1950.
  * @param {Hour} ra0 The initial right ascension
  * @param {Degree} dec0 The initial declination
- * @returns {EquatorialCoordinates} The precessed coordinates
+ * @returns {EquatorialCoordinatesH} The precessed coordinates
  */
-export function precessEquatorialCoordinatesFromJ2000ToB1950 (ra0: Hour | number, dec0: Degree | number): EquatorialCoordinates {
+export function precessEquatorialCoordinatesFromJ2000ToB1950 (ra0: Hour | number, dec0: Degree | number): EquatorialCoordinatesH {
   return precessEquatorialCoordinates(ra0, dec0, J2000, JULIAN_DAY_B1950_0)
 }
 
@@ -73,8 +73,8 @@ export function precessEquatorialCoordinatesFromJ2000ToB1950 (ra0: Hour | number
  * Precess equatorial coordinates from an assumed B1950 epoch to that of J2000.
  * @param {Hour} ra0 The initial right ascension
  * @param {Degree} dec0 The initial declination
- * @returns {EquatorialCoordinates} The precessed coordinates
+ * @returns {EquatorialCoordinatesH} The precessed coordinates
  */
-export function precessEquatorialCoordinatesFromB1950ToJ2000 (ra0: Hour | number, dec0: Degree | number): EquatorialCoordinates {
+export function precessEquatorialCoordinatesFromB1950ToJ2000 (ra0: Hour | number, dec0: Degree | number): EquatorialCoordinatesH {
   return precessEquatorialCoordinates(ra0, dec0, JULIAN_DAY_B1950_0, J2000)
 }

@@ -1,5 +1,5 @@
 import Decimal from '@/decimal'
-import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer, Obliquity } from '@/types'
+import { Degree, EclipticCoordinates, EquatorialCoordinatesH, JulianDay, Kilometer, Obliquity } from '@/types'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianCentury } from '@/juliandays'
 import { ONE, TWO } from '@/constants'

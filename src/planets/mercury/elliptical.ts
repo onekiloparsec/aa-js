@@ -28,7 +28,7 @@ import { getEccentricity, getSemiMajorAxis } from './orbital'
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinates}
+ * @returns {EquatorialCoordinatesH}
  * @memberof module:Mercury
  */
 export function getGeocentricDistance (jd: JulianDay | number): AstronomicalUnit {
@@ -41,7 +41,7 @@ export function getGeocentricDistance (jd: JulianDay | number): AstronomicalUnit
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinates}
+ * @returns {EquatorialCoordinatesH}
  * @memberof module:Mercury
  */
 export function getGeocentricEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
@@ -54,7 +54,7 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number): Eclip
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinates}
+ * @returns {EquatorialCoordinatesH}
  * @memberof module:Mercury
  */
 export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
@@ -68,7 +68,7 @@ export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
  * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
- * @returns {EquatorialCoordinates}
+ * @returns {EquatorialCoordinatesH}
  * @memberof module:Mercury
  */
 export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean) {
@@ -86,7 +86,7 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obli
  * @see getEquatorialCoordinates
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinates}
+ * @returns {EquatorialCoordinatesH}
  * @memberof module:Mercury
  */
 export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number) {

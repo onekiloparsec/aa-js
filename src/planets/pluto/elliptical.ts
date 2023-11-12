@@ -11,7 +11,7 @@ import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './co
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinates}
+ * @returns {EquatorialCoordinatesH}
  * @memberof module:Pluto
  */
 export function getGeocentricDistance (jd: JulianDay | number): AstronomicalUnit {
@@ -24,7 +24,7 @@ export function getGeocentricDistance (jd: JulianDay | number): AstronomicalUnit
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinates}
+ * @returns {EquatorialCoordinatesH}
  * @memberof module:Pluto
  */
 export function getGeocentricEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
@@ -38,7 +38,7 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number): Eclip
  * @see getEquatorialCoordinates
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinates}
+ * @returns {EquatorialCoordinatesH}
  * @memberof module:Pluto
  */
 export function getGeocentricEquatorialCoordinates (jd: JulianDay | number) {

@@ -2,7 +2,7 @@
  @module Sun
  */
 import Decimal from '@/decimal'
-import { Degree, EclipticCoordinates, EquatorialCoordinates, Equinox, JulianCentury, JulianDay } from '@/types'
+import { Degree, EclipticCoordinates, EquatorialCoordinatesH, Equinox, JulianCentury, JulianDay } from '@/types'
 import { DEG2RAD } from '@/constants'
 import { getJulianCentury } from '@/juliandays'
 import { transformEclipticToEquatorial } from '@/coordinates'
@@ -191,9 +191,9 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number, equino
  * Geocentric equatorial coordinates
  * @param {JulianDay} jd The julian day
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
- * @returns EquatorialCoordinates
+ * @returns EquatorialCoordinatesH
  */
-export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): EquatorialCoordinates {
+export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): EquatorialCoordinatesH {
   return transformEclipticToEquatorial(
     getGeocentricEclipticLongitude(jd, equinox),
     getGeocentricEclipticLatitude(jd, equinox),
