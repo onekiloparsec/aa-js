@@ -73,7 +73,7 @@ export function getLocalSiderealTime (jd: JulianDay | number, lng: Degree | numb
     const njd: number = Decimal.isDecimal(jd) ? jd.toNumber() : jd
     gmst = 280.46061837
       + 360.98564736629 * (njd - 2451545)
-      + t * t * 0.000387933
+      + 0.000387933 * t * t
       - t * t * t / 38710000
   }
 
