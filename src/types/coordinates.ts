@@ -5,19 +5,29 @@ import { ArcSecond, Degree, Hour, JulianDay, Meter, Pixel } from './units'
  * Coordinates in the Equatorial system, that is in the system formed by
  * projecting the Earth equator onto the spherical sky.
  */
+export type EquatorialCoordinatesH = {
+  rightAscensionH: Hour | number
+  declination: Degree | number
+  epoch?: JulianDay | number
+}
+
+/**
+ * Coordinates in the Equatorial system, that is in the system formed by
+ * projecting the Earth equator onto the spherical sky.
+ */
 export type EquatorialCoordinates = {
-  rightAscension: Hour
-  declination: Degree
-  epoch?: JulianDay
+  rightAscension: Degree | number
+  declination: Degree | number
+  epoch?: JulianDay | number
 }
 
 /**
  * Topocentric coordinates.
  */
 export type TopocentricCoordinates = {
-  rightAscension: Hour
-  declination: Degree
-  epoch?: JulianDay
+  rightAscension: Hour | number
+  declination: Degree | number
+  epoch?: JulianDay | number
 }
 
 /**
@@ -35,13 +45,13 @@ export type GeographicCoordinates = {
  * onto the spherical sky.
  */
 export type EclipticCoordinates = {
-  longitude: Degree
-  latitude: Degree
+  longitude: Degree | number
+  latitude: Degree | number
 }
 
 export type GalacticCoordinates = {
-  longitude: Degree
-  latitude: Degree
+  longitude: Degree | number
+  latitude: Degree | number
 }
 
 /**
@@ -50,19 +60,19 @@ export type GalacticCoordinates = {
  * azimuth is the angle counted from the geographical north or south.
  */
 export type HorizontalCoordinates = {
-  azimuth: Degree
-  altitude: Degree
+  azimuth: Degree | number
+  altitude: Degree | number
 }
 
 export type Coordinates2D = {
-  X: Decimal
-  Y: Decimal
+  X: Decimal | number
+  Y: Decimal | number
 }
 
 export type Coordinates3D = {
-  X: Decimal
-  Y: Decimal
-  Z: Decimal
+  X: Decimal | number
+  Y: Decimal | number
+  Z: Decimal | number
 }
 
 export type Sexagesimal = {
