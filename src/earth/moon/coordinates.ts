@@ -38,18 +38,28 @@ export function getMeanLongitude (jd: JulianDay | number, highPrecision: boolean
 /**
  * Mean elongation
  * @param {JulianDay} jd The julian day
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
  * @returns {Degree}
  * @memberof module:Earth
  */
-export function getMeanElongation (jd: JulianDay | number): Degree {
+export function getMeanElongation (jd: JulianDay | number, highPrecision: boolean = true): Degree {
   const T = getJulianCentury(jd)
-  return fmod360(
-    new Decimal('297.8501921')
+  let value
+  if (highPrecision) {
+    value = new Decimal('297.8501921')
       .plus(new Decimal('445267.1114034').mul(T))
       .minus(new Decimal('0.0018819').mul(T.pow(2)))
       .plus(T.pow(3).dividedBy('545868'))
       .minus(T.pow(4).dividedBy('113065000'))
-  )
+  } else {
+    const t = T.toNumber()
+    value = 297.8501921
+      + 445267.1114034 * t
+      - 0.0018819 * t * t
+      + t * t * t / 545868
+      - t * t * t * t / 113065000
+  }
+  return fmod360(value)
 }
 
 /**

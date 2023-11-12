@@ -7,12 +7,16 @@ describe('moon', () => {
     expect(Earth.Moon.getMeanLongitude(245123456).toNumber()).toBeCloseTo(182.1252505089, 9)
   })
 
+  test('get moon mean longitude low precision', () => {
+    expect(Earth.Moon.getMeanLongitude(245123456, false).toNumber()).toBeCloseTo(182.1252505089, 6)
+  })
+
   test('get moon mean elongation', () => {
     expect(Earth.Moon.getMeanElongation(245123456).toNumber()).toBeCloseTo(175.566305716, 9)
   })
 
   test('get moon mean elongation low precision', () => {
-    expect(Earth.Moon.getMeanElongation(245123456, false).toNumber()).toBeCloseTo(175.566305716, 9)
+    expect(Earth.Moon.getMeanElongation(245123456, false).toNumber()).toBeCloseTo(175.566305716, 6)
   })
 
   // See example 47.a, AA p 343.
