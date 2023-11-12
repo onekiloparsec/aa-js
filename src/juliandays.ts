@@ -55,7 +55,7 @@ export function getJulianDay (...args: any[]): JulianDay | undefined {
  * at a given longitude on Earth
  * @param {JulianDay | number} jd The julian day
  * @param {Degree | number} lng The longitude
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @return {Hour}
  */
 export function getLocalSiderealTime (jd: JulianDay | number, lng: Degree | number, highPrecision: boolean = true): Hour {
@@ -85,7 +85,7 @@ export function getLocalSiderealTime (jd: JulianDay | number, lng: Degree | numb
  * nutation, at a given longitude on Earth
  * @param {JulianDay} jd The julian day
  * @param {Degree} lng The longitude
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @return {Hour}
  */
 export function getApparentLocalSiderealTime (jd: JulianDay | number, lng: Degree | number, highPrecision: boolean = true): Hour {

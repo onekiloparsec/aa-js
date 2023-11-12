@@ -12,7 +12,7 @@ import { getSigma } from './reducers'
 /**
  * Mean longitude
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  * @memberof module:Earth
  */
@@ -39,7 +39,7 @@ export function getMeanLongitude (jd: JulianDay | number, highPrecision: boolean
 /**
  * Mean elongation
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  * @memberof module:Earth
  */
@@ -66,7 +66,7 @@ export function getMeanElongation (jd: JulianDay | number, highPrecision: boolea
 /**
  * Mean anomaly
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @return {Degree}
  * @memberof module:Earth
  */
@@ -93,7 +93,7 @@ export function getMeanAnomaly (jd: JulianDay | number, highPrecision: boolean =
 /**
  * Argument of latitude
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  * @memberof module:Earth
  */
@@ -121,7 +121,7 @@ export function getArgumentOfLatitude (jd: JulianDay | number, highPrecision: bo
 /**
  * Ecliptic longitude
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  * @memberof module:Earth
  */
@@ -159,7 +159,7 @@ export function getGeocentricEclipticLongitude (jd: JulianDay | number, highPrec
 /**
  * Ecliptic latitude
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  * @memberof module:Earth
  */
@@ -202,7 +202,7 @@ export function getGeocentricEclipticLatitude (jd: JulianDay | number, highPreci
 /**
  * Ecliptic coordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EclipticCoordinates}
  * @memberof module:Earth
  */
@@ -218,15 +218,15 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number, highPr
  * @see getApparentEquatorialCoordinates
  * @param {JulianDay} jd The julian day
  * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
- * @returns {EquatorialCoordinates}
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
+ * @returns {EquatorialCoordinatesH}
  * @memberof module:Earth
  */
-export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean, highPrecision: boolean = true): EquatorialCoordinates {
+export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean, highPrecision: boolean = true): EquatorialCoordinatesH {
   return transformEclipticToEquatorial(
-    getGeocentricEclipticLongitude(jd),
-    getGeocentricEclipticLatitude(jd),
-    (obliquity === Obliquity.Mean) ? getMeanObliquityOfEcliptic(jd) : getTrueObliquityOfEcliptic(jd)
+    getGeocentricEclipticLongitude(jd, highPrecision),
+    getGeocentricEclipticLatitude(jd, highPrecision),
+    (obliquity === Obliquity.Mean) ? getMeanObliquityOfEcliptic(jd, highPrecision) : getTrueObliquityOfEcliptic(jd, highPrecision)
   )
 }
 
@@ -234,15 +234,15 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obli
  * Apparent geocentric equatorial coordinates, that is corrected for nutation
  * @see getApparentEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
- * @returns {EquatorialCoordinates}
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
+ * @returns {EquatorialCoordinatesH}
  * @memberof module:Earth
  */
-export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EquatorialCoordinates {
+export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EquatorialCoordinatesH {
   return transformEclipticToEquatorial(
-    getGeocentricEclipticLongitude(jd).plus(getNutationInLongitude(jd).dividedBy(3600)),
-    getGeocentricEclipticLatitude(jd),
-    getTrueObliquityOfEcliptic(jd)
+    getGeocentricEclipticLongitude(jd, highPrecision).plus(getNutationInLongitude(jd, highPrecision).dividedBy(3600)),
+    getGeocentricEclipticLatitude(jd, highPrecision),
+    getTrueObliquityOfEcliptic(jd, highPrecision)
   )
 }
 
@@ -250,7 +250,7 @@ export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | numb
 /**
  * Radius vector (distance Earth-Moon) in kilometers!
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Kilometer}
  * @memberof module:Earth
  */
@@ -272,7 +272,7 @@ export function getRadiusVectorInKilometer (jd: JulianDay | number, highPrecisio
 /**
  * Horizontal parallax
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @return {Degree}
  * @memberof module:Earth
  */
@@ -283,7 +283,7 @@ export function horizontalParallax (jd: JulianDay | number, highPrecision: boole
 /**
  * Transforms a radius vector into horizontal parallax
  * @param {Kilometer} radiusVector The radius vector
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  * @memberof module:Earth
  */
@@ -299,7 +299,7 @@ export function radiusVectorToHorizontalParallax (radiusVector: Kilometer | numb
 /**
  * Transforms a horizontal parallax into a radius vector
  * @param {Degree} horizontalParallax
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Kilometer}
  * @memberof module:Earth
  */
@@ -315,7 +315,7 @@ export function horizontalParallaxToRadiusVector (horizontalParallax: Degree | n
 /**
  * Mean longitude of the ascending node
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  * @memberof module:Earth
  */
@@ -342,7 +342,7 @@ export function getMeanLongitudeAscendingNode (jd: JulianDay | number, highPreci
 /**
  * Mean longitude of perigee
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  * @memberof module:Earth
  */
@@ -370,7 +370,7 @@ export function getMeanLongitudePerigee (jd: JulianDay | number, highPrecision: 
 /**
  * The true longitude of the ascending node
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  * @memberof module:Earth
  */

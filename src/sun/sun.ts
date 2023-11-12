@@ -14,7 +14,7 @@ import { Earth } from '@/earth'
 /**
  * Computes the Sun mean anomaly which is equal to the mean anomaly of the Earth.
  * @param  {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree} The sun mean anomaly
  */
 export function getMeanAnomaly (jd: JulianDay | number, highPrecision: boolean = true): Degree {
@@ -40,7 +40,7 @@ export function getMeanAnomaly (jd: JulianDay | number, highPrecision: boolean =
 /**
  * Computes the Sun true anomaly
  * @param  {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree} The Sun true anomaly
  */
 export function getTrueAnomaly (jd: JulianDay | number, highPrecision: boolean = true): Degree {
@@ -55,7 +55,7 @@ export function getTrueAnomaly (jd: JulianDay | number, highPrecision: boolean =
  * See AA p 164
  * @param {JulianCentury} T The julian century
  * @param {Degree} M
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @return {Degree}
  */
 export function getEquationOfTheCenter (T: JulianCentury | number, M: Degree | number, highPrecision: boolean = true): Degree {
@@ -94,7 +94,7 @@ export function getEquationOfTheCenter (T: JulianCentury | number, M: Degree | n
  * Mean Longitude referred to the Mean Equinox of the Date
  * See AA p 164
  * @param {JulianCentury} T The julian century
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @return {Degree}
  */
 export function getMeanLongitudeReferredToMeanEquinoxOfDate (T: JulianCentury | number, highPrecision: boolean = true): Degree {
@@ -119,7 +119,7 @@ export function getMeanLongitudeReferredToMeanEquinoxOfDate (T: JulianCentury | 
  * longitude is the quantity required in the calculation of geocentric
  * planetary position.
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  */
 export function getGeometricEclipticLongitude (jd: JulianDay | number, highPrecision: boolean = true): Degree {
