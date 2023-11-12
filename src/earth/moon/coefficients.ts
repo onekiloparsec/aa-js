@@ -5,8 +5,13 @@
 // Argument (multiple of D, M, Mprime, F)
 import Decimal from '@/decimal'
 
-export const gMoonCoefficients1 =
-  [
+export const getCoefficients1 = function (useDecimals: boolean = true): {
+  D: Decimal | number,
+  M: Decimal | number,
+  Mdash: Decimal | number,
+  F: Decimal | number
+}[] {
+  return [
     [0, 0, 1, 0],
     [2, 0, -1, 0],
     [2, 0, 0, 0],
@@ -68,11 +73,17 @@ export const gMoonCoefficients1 =
     [2, 0, 3, 0],
     [2, 0, -1, -2]
   ].map((a) => {
-    return { D: new Decimal(a[0]), M: new Decimal(a[1]), Mdash: new Decimal(a[2]), F: new Decimal(a[3]) }
+    return useDecimals ?
+      { D: new Decimal(a[0]), M: new Decimal(a[1]), Mdash: new Decimal(a[2]), F: new Decimal(a[3]) } :
+      { D: a[0], M: a[1], Mdash: a[2], F: a[3] }
   })
+}
 
-export const gMoonCoefficients2 =
-  [
+export const getCoefficients2 = function (useDecimals: boolean = true): {
+  A: Decimal | number,
+  B: Decimal | number,
+}[] {
+  return [
     [6288774, -20905355],
     [1274027, -3699111],
     [658314, -2955968],
@@ -134,11 +145,19 @@ export const gMoonCoefficients2 =
     [294, 0],
     [0, 8752]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]) } :
+      { A: a[0], B: a[1] }
   })
+}
 
-export const gMoonCoefficients3 =
-  [
+export const getCoefficients3 = function (useDecimals: boolean = true): {
+  D: Decimal | number,
+  M: Decimal | number,
+  Mdash: Decimal | number,
+  F: Decimal | number
+}[] {
+  return [
     [0, 0, 0, 1],
     [0, 0, 1, 1],
     [0, 0, 1, -1],
@@ -200,11 +219,14 @@ export const gMoonCoefficients3 =
     [4, -1, 0, -1],
     [2, -2, 0, 1]
   ].map((a) => {
-    return { D: new Decimal(a[0]), M: new Decimal(a[1]), Mdash: new Decimal(a[2]), F: new Decimal(a[3]) }
+    return useDecimals ?
+      { D: new Decimal(a[0]), M: new Decimal(a[1]), Mdash: new Decimal(a[2]), F: new Decimal(a[3]) } :
+      { D: a[0], M: a[1], Mdash: a[2], F: a[3] }
   })
+}
 
-export const gMoonCoefficients4 =
-  [
+export const getCoefficients4 = function (useDecimals: boolean = true): (Decimal | number)[] {
+  return [
     5128122,
     280602,
     277693,
@@ -266,5 +288,6 @@ export const gMoonCoefficients4 =
     115,
     107
   ].map((a) => {
-    return new Decimal(a)
+    return useDecimals ? new Decimal(a) : a
   })
+}
