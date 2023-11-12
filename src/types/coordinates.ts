@@ -31,7 +31,7 @@ export type TopocentricCoordinates = {
 }
 
 /**
- * Geographic coordinates.
+ * Geographic coordinates, East Positive!
  */
 export type GeographicCoordinates = {
   longitude: Degree | number
