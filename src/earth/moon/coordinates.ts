@@ -1,5 +1,13 @@
 import Decimal from '@/decimal'
-import { Degree, EclipticCoordinates, EquatorialCoordinatesH, JulianDay, Kilometer, Obliquity } from '@/types'
+import {
+  Degree,
+  EclipticCoordinates,
+  EquatorialCoordinates,
+  EquatorialCoordinatesH,
+  JulianDay,
+  Kilometer,
+  Obliquity
+} from '@/types'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianCentury } from '@/juliandays'
 import { ONE, TWO } from '@/constants'
@@ -219,13 +227,12 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number, highPr
  * @param {JulianDay} jd The julian day
  * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
- * @returns {EquatorialCoordinatesH}
+ * @returns {EquatorialCoordinates}
  * @memberof module:Earth
  */
-export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean, highPrecision: boolean = true): EquatorialCoordinatesH {
+export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean, highPrecision: boolean = true): EquatorialCoordinates {
   return transformEclipticToEquatorial(
-    getGeocentricEclipticLongitude(jd, highPrecision),
-    getGeocentricEclipticLatitude(jd, highPrecision),
+    getGeocentricEclipticCoordinates(jd, highPrecision),
     (obliquity === Obliquity.Mean) ? getMeanObliquityOfEcliptic(jd, highPrecision) : getTrueObliquityOfEcliptic(jd, highPrecision)
   )
 }
@@ -238,12 +245,10 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obli
  * @returns {EquatorialCoordinatesH}
  * @memberof module:Earth
  */
-export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EquatorialCoordinatesH {
-  return transformEclipticToEquatorial(
-    getGeocentricEclipticLongitude(jd, highPrecision).plus(getNutationInLongitude(jd, highPrecision).dividedBy(3600)),
-    getGeocentricEclipticLatitude(jd, highPrecision),
-    getTrueObliquityOfEcliptic(jd, highPrecision)
-  )
+export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EquatorialCoordinates {
+  const ecliptic = getGeocentricEclipticCoordinates(jd, highPrecision)
+  ecliptic.longitude = (ecliptic.longitude as Degree).plus(getNutationInLongitude(jd, highPrecision).dividedBy(3600))
+  return transformEclipticToEquatorial(ecliptic, getTrueObliquityOfEcliptic(jd, highPrecision))
 }
 
 
@@ -277,7 +282,7 @@ export function getRadiusVectorInKilometer (jd: JulianDay | number, highPrecisio
  * @memberof module:Earth
  */
 export function horizontalParallax (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  return radiusVectorToHorizontalParallax(getRadiusVectorInKilometer(jd, highPrecision))
+  return radiusVectorToHorizontalParallax(getRadiusVectorInKilometer(jd, highPrecision), highPrecision)
 }
 
 /**
