@@ -2,19 +2,18 @@
  @module Precession
  */
 import Decimal from '@/decimal'
-import { Degree, EquatorialCoordinatesH, Hour, JulianDay } from './types'
+import { EquatorialCoordinates, JulianDay } from './types'
 import { J2000, JULIAN_DAY_B1950_0 } from './constants'
 
 /**
  * Precess equatorial coordinates from aa given epoch to another one
  * See AA p.134
- * @param {Hour} ra0 The initial right ascension
- * @param {Degree} dec0 The initial declination
+ * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
  * @param {JulianDay} initialEpoch The initial epoch
  * @param {JulianDay} finalEpoch The initial epoch
- * @returns {EquatorialCoordinatesH} The precessed coordinates
+ * @returns {EquatorialCoordinates} The precessed coordinates
  */
-export function precessEquatorialCoordinates (ra0: Hour | number, dec0: Degree | number, initialEpoch: JulianDay | number, finalEpoch: JulianDay | number): EquatorialCoordinatesH {
+export function precessEquatorialCoordinates (coords: EquatorialCoordinates, initialEpoch: JulianDay | number, finalEpoch: JulianDay | number): EquatorialCoordinates {
   const JD0 = new Decimal(initialEpoch)
   const JD = new Decimal(finalEpoch)
   const T = JD0.minus(J2000).dividedBy(36525)
@@ -37,11 +36,11 @@ export function precessEquatorialCoordinates (ra0: Hour | number, dec0: Degree |
     .minus((new Decimal(0.42665).plus(new Decimal(0.000217).mul(T))).mul(t2))
     .minus(new Decimal(0.041833).mul(t3))
 
-  const cosDec0 = new Decimal(dec0).degreesToRadians().cos()
-  const sinDec0 = new Decimal(dec0).degreesToRadians().sin()
+  const cosDec0 = new Decimal(coords.declination).degreesToRadians().cos()
+  const sinDec0 = new Decimal(coords.declination).degreesToRadians().sin()
   const cosTheta = theta.dividedBy(3600).degreesToRadians().cos()
   const sinTheta = theta.dividedBy(3600).degreesToRadians().sin()
-  const degRa = new Decimal(ra0).hoursToDegrees()
+  const degRa = new Decimal(coords.rightAscension)
   const cosRA0xhi = (degRa.plus(xhi.dividedBy(3600))).degreesToRadians().cos()
   const sinRA0xhi = (degRa.plus(xhi.dividedBy(3600))).degreesToRadians().sin()
 
@@ -61,20 +60,18 @@ export function precessEquatorialCoordinates (ra0: Hour | number, dec0: Degree |
 
 /**
  * Precess equatorial coordinates from an assumed J2000 epoch to that of B1950.
- * @param {Hour} ra0 The initial right ascension
- * @param {Degree} dec0 The initial declination
- * @returns {EquatorialCoordinatesH} The precessed coordinates
+ * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
+ * @returns {EquatorialCoordinates} The precessed coordinates
  */
-export function precessEquatorialCoordinatesFromJ2000ToB1950 (ra0: Hour | number, dec0: Degree | number): EquatorialCoordinatesH {
-  return precessEquatorialCoordinates(ra0, dec0, J2000, JULIAN_DAY_B1950_0)
+export function precessEquatorialCoordinatesFromJ2000ToB1950 (coords: EquatorialCoordinates): EquatorialCoordinates {
+  return precessEquatorialCoordinates(coords, J2000, JULIAN_DAY_B1950_0)
 }
 
 /**
  * Precess equatorial coordinates from an assumed B1950 epoch to that of J2000.
- * @param {Hour} ra0 The initial right ascension
- * @param {Degree} dec0 The initial declination
- * @returns {EquatorialCoordinatesH} The precessed coordinates
+ * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
+ * @returns {EquatorialCoordinates} The precessed coordinates
  */
-export function precessEquatorialCoordinatesFromB1950ToJ2000 (ra0: Hour | number, dec0: Degree | number): EquatorialCoordinatesH {
-  return precessEquatorialCoordinates(ra0, dec0, JULIAN_DAY_B1950_0, J2000)
+export function precessEquatorialCoordinatesFromB1950ToJ2000 (coords: EquatorialCoordinates): EquatorialCoordinates {
+  return precessEquatorialCoordinates(coords, JULIAN_DAY_B1950_0, J2000)
 }
