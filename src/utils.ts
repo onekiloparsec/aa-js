@@ -1,18 +1,18 @@
+import dayjs from 'dayjs'
 import Decimal from '@/decimal'
 import { Degree, Hour, JulianDay } from '@/types'
-import dayjs from 'dayjs'
 import { getDate, getJulianDay } from '@/juliandays'
 import { getSexagesimalValue } from '@/sexagesimal'
 
 
-export function fmod (a: number | Decimal, b: number | Decimal): Decimal {
-// Result is always positive! See https://mikemcl.github.io/decimal.js/#modulo
-  return new Decimal(a).mod(b)
-}
-
 export function isNumber (v: any): boolean {
   const x = new Decimal(v)
   return !x.isNaN() && x.isFinite()
+}
+
+export function fmod (a: Decimal | number, b: Decimal | number): Decimal {
+// Result is always positive! See https://mikemcl.github.io/decimal.js/#modulo
+  return new Decimal(a).mod(b)
 }
 
 export function fmod24 (hours: Hour | number): Hour {
