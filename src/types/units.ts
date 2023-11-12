@@ -3,7 +3,7 @@ import Decimal from 'decimal.js'
 /**
  * Angular degree
  */
-export type Degree = Decimal;
+export type Degree = Decimal
 /**
  * Angular radian
  */
