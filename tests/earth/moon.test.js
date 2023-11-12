@@ -11,6 +11,10 @@ describe('moon', () => {
     expect(Earth.Moon.getMeanElongation(245123456).toNumber()).toBeCloseTo(175.566305716, 9)
   })
 
+  test('get moon mean elongation low precision', () => {
+    expect(Earth.Moon.getMeanElongation(245123456, false).toNumber()).toBeCloseTo(175.566305716, 9)
+  })
+
   // See example 47.a, AA p 343.
   test('get moon equatorial coordinates', () => {
     const UTCDate = new Date(Date.UTC(1992, 3, 12))
