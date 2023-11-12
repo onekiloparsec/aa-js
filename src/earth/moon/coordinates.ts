@@ -11,18 +11,28 @@ import { gMoonCoefficients1, gMoonCoefficients2, gMoonCoefficients3, gMoonCoeffi
 /**
  * Mean longitude
  * @param {JulianDay} jd The julian day
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = yes.
  * @returns {Degree}
  * @memberof module:Earth
  */
-export function getMeanLongitude (jd: JulianDay | number): Degree {
+export function getMeanLongitude (jd: JulianDay | number, highPrecision: boolean = true): Degree {
   const T = getJulianCentury(jd)
-  return fmod360(
-    new Decimal('218.3164477')
+  let value
+  if (highPrecision) {
+    value = new Decimal('218.3164477')
       .plus(new Decimal('481267.88123421').mul(T))
       .minus(new Decimal('0.0015786').mul(T.pow(2)))
       .plus(T.pow(3).dividedBy('538841'))
       .minus(T.pow(4).dividedBy('65194000'))
-  )
+  } else {
+    const t = T.toNumber()
+    value = 218.3164477
+      + 481267.88123421 * t
+      - 0.0015786 * t * t
+      + t * t * t / 538841
+      - t * t * t * t / 65194000
+  }
+  return fmod360(value)
 }
 
 /**
