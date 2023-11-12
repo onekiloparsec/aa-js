@@ -60,6 +60,7 @@
   "devDependencies": {
     "@types/eslint": "^7.29.0",
     "@vitest/coverage-v8": "^0.34.2",
+    "benny": "^3.7.1",
     "better-docs": "^2.7.2",
     "caniuse-lite": "^1.0.30001549",
     "eslint": "^8.51.0",
@@ -73,5 +74,8 @@
     "vite": "^4.5.0",
     "vite-plugin-dts": "^3.6.3",
     "vitest": "^0.34.6"
+  },
+  "ts-node": {
+    "esm": true
   }
 }
