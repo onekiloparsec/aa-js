@@ -21,7 +21,7 @@ describe('rise transit & sets', () => {
     const coordsVenus = { rightAscension: 41.73129, declination: 18.44092 }
     const results = risetransitset.getRiseTransitSetTimes(
       jd,
-      coordsVenus.rightAscension * DEG2H.toNumber(),
+      coordsVenus.rightAscension,
       coordsVenus.declination,
       coordsBoston.longitude,
       coordsBoston.latitude
@@ -48,9 +48,9 @@ describe('rise transit & sets', () => {
 
     // In TD not UT, see AA p.103
     const rasVenus = [
-      getDecimalValue(2, 42, 43.25),
-      getDecimalValue(2, 46, 55.51),
-      getDecimalValue(2, 51, 7.69)
+      getDecimalValue(2, 42, 43.25).hoursToDegrees(),
+      getDecimalValue(2, 46, 55.51).hoursToDegrees(),
+      getDecimalValue(2, 51, 7.69).hoursToDegrees()
     ]
     const decVenus = [
       getDecimalValue(18, 2, 54.4),

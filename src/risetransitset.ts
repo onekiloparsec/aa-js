@@ -4,7 +4,7 @@
 import Decimal from '@/decimal'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
-import { Degree, Hour, JulianDay, LengthArray, RiseTransitSet } from '@/types'
+import { Degree, Hour, JulianDay, LengthArray, Radian, RiseTransitSet } from '@/types'
 import { MINUSONE, STANDARD_ALTITUDE_STARS } from '@/constants'
 import { getJulianDayMidnight, getLocalSiderealTime } from '@/juliandays'
 import { fmod, fmod180, fmod360, getJDatUTC } from '@/utils'
@@ -32,21 +32,21 @@ type MTimes = {
 }
 
 // See AA, p102
-function getMTimes (jd: JulianDay | number, ra: Hour | number, dec: Degree | number, lng: Degree | number, lat: Degree | number, alt: Degree | number = STANDARD_ALTITUDE_STARS): MTimes {
+function getMTimes (jd: JulianDay | number, ra: Degree | number, dec: Degree | number, lng: Degree | number, lat: Degree | number, alt: Degree | number = STANDARD_ALTITUDE_STARS): MTimes {
   // Getting the UT 0h on day D. See AA p.102.
   // It is not equal to the expected "0h Dynamical Time" of the coordinates ra and dec.
-  const jd0 = getJulianDayMidnight(jd)
+  const jd0: JulianDay = getJulianDayMidnight(jd)
 
   // Calculate the Greenwich sidereal time in degrees
-  const Theta0 = getLocalSiderealTime(jd0, 0).hoursToDegrees()
+  const Theta0: Degree = getLocalSiderealTime(jd0, 0).hoursToDegrees()
 
-  const sinh0 = Decimal.sin(new Decimal(alt).degreesToRadians())
-  const sinPhi = Decimal.sin(new Decimal(lat).degreesToRadians())
-  const sinDelta = Decimal.sin(new Decimal(dec).degreesToRadians())
-  const cosPhi = Decimal.cos(new Decimal(lat).degreesToRadians())
-  const cosDelta = Decimal.cos(new Decimal(dec).degreesToRadians())
+  const sinh0: Radian = Decimal.sin(new Decimal(alt).degreesToRadians())
+  const sinPhi: Radian = Decimal.sin(new Decimal(lat).degreesToRadians())
+  const sinDelta: Radian = Decimal.sin(new Decimal(dec).degreesToRadians())
+  const cosPhi: Radian = Decimal.cos(new Decimal(lat).degreesToRadians())
+  const cosDelta: Radian = Decimal.cos(new Decimal(dec).degreesToRadians())
 
-  const decRa = new Decimal(ra).hoursToDegrees()
+  const decRa: Degree = new Decimal(ra)
 
   // Algorithms in AA use Positive West longitudes. The formula (15.2, p102):
   // const m0 = (alpha2 + Longitude - Theta0) / 360
@@ -59,7 +59,7 @@ function getMTimes (jd: JulianDay | number, ra: Hour | number, dec: Degree | num
 
   // Transit altitude: Equ 13.6, AA p93, with cosH = 1, that is H (hour angle) = 0
   const H: Degree = fmod180(Theta0.plus(lng).minus(decRa))
-  const altitude = Decimal.asin(sinPhi.mul(sinDelta).plus(cosPhi.mul(cosDelta).mul(H.degreesToRadians().cos()))).radiansToDegrees()
+  const altitude: Degree = Decimal.asin(sinPhi.mul(sinDelta).plus(cosPhi.mul(cosDelta).mul(H.degreesToRadians().cos()))).radiansToDegrees()
 
   const result = {
     m0, // transit
@@ -117,7 +117,7 @@ function getDeltaMTimes (m: Decimal,
  * and observer's location on Earth. It runs multiple iterations to obtain an accurate
  * result which should be below the minute.
  * @param {JulianDay} jd The julian day
- * @param {LengthArray<Hour | number, 3>} ra The equatorial right ascension of the object
+ * @param {LengthArray<Degree | number, 3>} ra The equatorial right ascension of the object
  * @param {LengthArray<Degree | number, 3>} dec The The equatorial declination of the object
  * @param {Degree} lng The observer's longitude
  * @param {Degree} lat The observer's latitude
@@ -127,7 +127,7 @@ function getDeltaMTimes (m: Decimal,
  * @param {number} iterations Positive number of iterations to use in computations, Default = 1.
  */
 export function getAccurateRiseTransitSetTimes (jd: JulianDay | number,
-                                                ra: LengthArray<Hour | number, 3>,
+                                                ra: LengthArray<Degree | number, 3>,
                                                 dec: LengthArray<Degree | number, 3>,
                                                 lng: Degree | number,
                                                 lat: Degree | number,
@@ -180,7 +180,7 @@ export function getAccurateRiseTransitSetTimes (jd: JulianDay | number,
 
   if (!mTimes.isCircumpolar) {
     const DeltaT = getDeltaT(jd)
-    const decRa = ra.map(v => new Decimal(v).hoursToDegrees()) as LengthArray<Degree, 3>
+    const decRa = ra.map(v => new Decimal(v)) as LengthArray<Degree, 3>
     const decDec = dec.map(v => new Decimal(v)) as LengthArray<Degree, 3>
     const [decLng, decLat, decAlt] = [new Decimal(lng), new Decimal(lat), new Decimal(alt)]
 
@@ -234,7 +234,7 @@ export function getAccurateRiseTransitSetTimes (jd: JulianDay | number,
  * aberration (value = -0.5667 degree)
  */
 export function getRiseTransitSetTimes (jd: JulianDay | number,
-                                        ra: Hour | number,
+                                        ra: Degree | number,
                                         dec: Degree | number,
                                         lng: Degree | number,
                                         lat: Degree | number,
