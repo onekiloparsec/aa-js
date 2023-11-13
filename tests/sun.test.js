@@ -46,7 +46,7 @@ describe('sun', () => {
     const UTCDate = new Date(Date.UTC(1992, 3, 12))
     const jd = juliandays.getJulianDay(UTCDate)
     const equ = Sun.getGeocentricEquatorialCoordinates(jd)
-    expect(equ.rightAscension.hoursToDegrees()).toBeCloseTo(20.6589, 3)
+    expect(equ.rightAscension).toBeCloseTo(20.6589, 3)
     expect(equ.declination).toBeCloseTo(8.6964, 3)
   })
 
