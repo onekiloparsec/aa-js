@@ -1,4 +1,11 @@
-import { AstronomicalUnit, EclipticCoordinates, GeographicCoordinates, JulianDay, RiseTransitSet } from '@/types'
+import {
+  AstronomicalUnit,
+  EclipticCoordinates,
+  EquatorialCoordinates,
+  GeographicCoordinates,
+  JulianDay,
+  RiseTransitSet
+} from '@/types'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getTrueObliquityOfEcliptic } from '@/earth/nutation'
 import { getPlanetGeocentricDistance, getPlanetGeocentricEclipticCoordinates } from '../elliptical'
@@ -41,7 +48,7 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number): Eclip
  * @returns {EquatorialCoordinatesH}
  * @memberof module:Pluto
  */
-export function getGeocentricEquatorialCoordinates (jd: JulianDay | number) {
+export function getGeocentricEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getGeocentricEclipticCoordinates(jd),
     getTrueObliquityOfEcliptic(jd)

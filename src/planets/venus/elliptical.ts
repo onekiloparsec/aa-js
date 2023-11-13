@@ -1,6 +1,7 @@
 import {
   AstronomicalUnit,
   EclipticCoordinates,
+  EquatorialCoordinates,
   GeographicCoordinates,
   JulianDay,
   KilometerPerSecond,
@@ -71,7 +72,7 @@ export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number
  * @returns {EquatorialCoordinatesH}
  * @memberof module:Venus
  */
-export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean) {
+export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getGeocentricEclipticCoordinates(jd),
     (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd)
@@ -87,7 +88,7 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obli
  * @returns {EquatorialCoordinatesH}
  * @memberof module:Venus
  */
-export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number) {
+export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getApparentGeocentricEclipticCoordinates(jd),
     Earth.getTrueObliquityOfEcliptic(jd)
