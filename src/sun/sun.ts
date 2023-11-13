@@ -195,8 +195,7 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number, equino
  */
 export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): EquatorialCoordinatesH {
   return transformEclipticToEquatorial(
-    getGeocentricEclipticLongitude(jd, equinox),
-    getGeocentricEclipticLatitude(jd, equinox),
+    getGeocentricEclipticCoordinates(jd, equinox),
     Earth.getMeanObliquityOfEcliptic(jd)
   )
 }
