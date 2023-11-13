@@ -135,26 +135,20 @@ export function getPlanetApparentGeocentricEclipticCoordinates (jd: JulianDay | 
   const geocentricEclipticCoordinates = getPlanetGeocentricEclipticCoordinates(jd, eclipticLongitudeFunc, eclipticLatitudeFunc, radiusVectorFunc)
 
   // Adjust for Aberration
-  const aberration = Earth.getAnnualEclipticAberration(jd,
-    geocentricEclipticCoordinates.longitude,
-    geocentricEclipticCoordinates.latitude
-  )
+  const aberration = Earth.getAnnualEclipticAberration(jd, geocentricEclipticCoordinates)
   geocentricEclipticCoordinates.longitude = (geocentricEclipticCoordinates.longitude as Degree).plus(aberration.DeltaLongitude)
   geocentricEclipticCoordinates.latitude = (geocentricEclipticCoordinates.latitude as Degree).plus(aberration.DeltaLatitude)
 
   // Convert to the FK5 system
-  const deltaLong = getCorrectionInLongitude(jd,
-    geocentricEclipticCoordinates.longitude,
-    geocentricEclipticCoordinates.latitude
-  )
-  const deltaLat = getCorrectionInLatitude(jd, geocentricEclipticCoordinates.longitude)
+  const deltaLong = getCorrectionInLongitude(jd, geocentricEclipticCoordinates.longitude, geocentricEclipticCoordinates.latitude)
   geocentricEclipticCoordinates.longitude = geocentricEclipticCoordinates.longitude.plus(deltaLong)
+
+  const deltaLat = getCorrectionInLatitude(jd, geocentricEclipticCoordinates.longitude)
   geocentricEclipticCoordinates.latitude = geocentricEclipticCoordinates.latitude.plus(deltaLat)
 
   // Correct for nutation
   const longitudeNutation = Earth.getNutationInLongitude(jd)
-  geocentricEclipticCoordinates.longitude = geocentricEclipticCoordinates.longitude
-    .plus(longitudeNutation.dividedBy(3600))
+  geocentricEclipticCoordinates.longitude = geocentricEclipticCoordinates.longitude.plus(longitudeNutation.dividedBy(3600))
 
   return geocentricEclipticCoordinates
 }
