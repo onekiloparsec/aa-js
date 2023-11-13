@@ -38,7 +38,7 @@ describe('sun', () => {
     const UTCDate = new Date(Date.UTC(1992, 9, 13))
     const jd = juliandays.getJulianDay(UTCDate)
     const equ = Sun.getGeocentricEquatorialCoordinates(jd)
-    expect(equ.rightAscension).toBeCloseTo(13.225389, 3) // accuracy is bad, as in SwiftAA !
+    expect(equ.rightAscension).toBeCloseTo(198.38093, 2) // accuracy is bad, as in SwiftAA !
     expect(equ.declination).toBeCloseTo(-7.78507, 2) // accuracy is bad, as in SwiftAA !
   })
 
@@ -49,21 +49,4 @@ describe('sun', () => {
     expect(equ.rightAscension).toBeCloseTo(20.6589, 3)
     expect(equ.declination).toBeCloseTo(8.6964, 3)
   })
-
-// test('get julian days of rise, transits and set at the UTC equator, for alt = 0', () => {
-//   const jd = juliandays.getJulianDay(new Date())
-//   const jds = sun.julianDaysOfRiseDayTransitSet(jd, 0, 0, 0)
-//   expect(jds[0]).toBeGreaterThan(2458000.5)
-//   expect(jds[1]).toBeGreaterThan(2458000.5)
-//   expect(jds[2]).toBeGreaterThan(2458000.5)
-// })
-//
-// test('get julian days of rise, transits and set above polar circle, for alt = 0', () => {
-//   const UTCDate = new Date(Date.UTC(2021, 1, 30))
-//   const jd = juliandays.getJulianDay(UTCDate)
-//   const jds = sun.julianDaysOfRiseDayTransitSet(jd, 0, 85, 0)
-//   expect(jds[0]).toBeGreaterThan(2458000.5)
-//   expect(jds[1]).toBeGreaterThan(2458000.5)
-//   expect(jds[2]).toBeGreaterThan(2458000.5)
-// })
 })

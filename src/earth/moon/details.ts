@@ -15,12 +15,12 @@ export function getGeocentricElongation (jd: JulianDay | number): Degree {
   const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd)
   const moonCoords = getGeocentricEquatorialCoordinates(jd)
 
-  const decRadSun = sunCoords.declination.degreesToRadians()
-  const decRadMoon = moonCoords.declination.degreesToRadians()
+  const decRadSun = (sunCoords.declination as Degree).degreesToRadians()
+  const decRadMoon = (moonCoords.declination as Degree).degreesToRadians()
   const sins = decRadSun.sin().mul(decRadMoon.sin())
 
-  const raRadSun = sunCoords.rightAscension.hoursToRadians()
-  const raRadMoon = moonCoords.rightAscension.hoursToRadians()
+  const raRadSun = (sunCoords.rightAscension as Degree).degreesToRadians()
+  const raRadMoon = (moonCoords.rightAscension as Degree).degreesToRadians()
   const coss = decRadSun.cos().mul(decRadMoon.cos()).mul(Decimal.cos(raRadSun.minus(raRadMoon)))
 
   // See first equation 48.2 of AA, p. 345.
@@ -55,10 +55,10 @@ export function getPositionAngleOfTheBrightLimb (jd: JulianDay | number): Degree
   const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd)
   const moonCoords = getGeocentricEquatorialCoordinates(jd)
 
-  const alpha0 = sunCoords.rightAscension.hoursToRadians()
-  const alpha = moonCoords.rightAscension.hoursToRadians()
-  const delta0 = sunCoords.declination.degreesToRadians()
-  const delta = moonCoords.declination.degreesToRadians()
+  const alpha0 = (sunCoords.rightAscension as Degree).degreesToRadians()
+  const alpha = (moonCoords.rightAscension as Degree).degreesToRadians()
+  const delta0 = (sunCoords.declination as Degree).degreesToRadians()
+  const delta = (moonCoords.declination as Degree).degreesToRadians()
 
   const y = delta0.cos().mul((alpha0.minus(alpha)).sin())
 

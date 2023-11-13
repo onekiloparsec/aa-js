@@ -11,8 +11,10 @@ describe('aberration', () => {
     // The date is strangely expressed in the book.
     const utcDate = new Date(Date.UTC(2028, 10, 13, 19 / 24.))
     const jd = transformUTC2TT(getJulianDay(utcDate))
-    const coords = { rightAscension: getDecimalValue(2, 46, 11.331), declination: getDecimalValue(49, 20, 54.54) }
-    // const coords = { rightAscension: new Decimal(41.5472).degreesToHours(), declination: 49.3485 }
+    const coords = {
+      rightAscension: getDecimalValue(2, 46, 11.331).hoursToDegrees(),
+      declination: getDecimalValue(49, 20, 54.54)
+    }
 
     const DeltaEpsilon = getNutationInObliquity(jd)
     const DeltaPsi = getNutationInLongitude(jd)
@@ -24,7 +26,7 @@ describe('aberration', () => {
     expect(e.toNumber()).toBeCloseTo(0.016_696_49, 8)
     expect(pi.toNumber()).toBeCloseTo(103.434, 3)
 
-    const nutation = getNutationEquatorialAberration(jd, coords.rightAscension, coords.declination)
+    const nutation = getNutationEquatorialAberration(jd, coords)
     expect(nutation.DeltaRightAscension.toNumber()).toBeCloseTo(15.843, 2)
     expect(nutation.DeltaDeclination.toNumber()).toBeCloseTo(6.218, 2)
   })
@@ -34,8 +36,11 @@ describe('aberration', () => {
     // The date is strangely expressed in the book.
     const utcDate = new Date(Date.UTC(2028, 10, 13, 19 / 24.))
     const jd = transformUTC2TT(getJulianDay(utcDate))
-    const coords = { rightAscension: getDecimalValue(2, 46, 11.331), declination: getDecimalValue(49, 20, 54.54) }
-    const annual = getAnnualEquatorialAberration(jd, coords.rightAscension, coords.declination)
+    const coords = {
+      rightAscension: getDecimalValue(2, 46, 11.331).hoursToDegrees(),
+      declination: getDecimalValue(49, 20, 54.54)
+    }
+    const annual = getAnnualEquatorialAberration(jd, coords)
     expect(annual.DeltaRightAscension.toNumber()).toBeCloseTo(30.045, 2)
     expect(annual.DeltaDeclination.toNumber()).toBeCloseTo(6.697, 1)
   })

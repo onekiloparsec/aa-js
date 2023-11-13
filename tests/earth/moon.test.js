@@ -99,11 +99,11 @@ describe('moon', () => {
     const jd = times.transformUTC2TT(juliandays.getJulianDay(UTCDate))
 
     const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd, false)
-    expect(sunCoords.rightAscension.hoursToDegrees().toNumber()).toBeCloseTo(20.76, 2)
+    expect(sunCoords.rightAscension.toNumber()).toBeCloseTo(20.76, 2)
     expect(sunCoords.declination.toNumber()).toBeCloseTo(8.737, 2)
 
     const moonCoords = Earth.Moon.getGeocentricEquatorialCoordinates(jd, false)
-    expect(moonCoords.rightAscension.hoursToDegrees().toNumber()).toBeCloseTo(134.69, 1)
+    expect(moonCoords.rightAscension.toNumber()).toBeCloseTo(134.69, 1)
     expect(moonCoords.declination.toNumber()).toBeCloseTo(13.7684, 2)
 
     expect(Earth.Moon.getRadiusVectorInKilometer(jd, false).toNumber()).toBeCloseTo(368409.0, 1)
