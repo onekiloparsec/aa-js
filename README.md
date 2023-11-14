@@ -5,8 +5,12 @@ aa-js
 
 The most comprehensive collection of accurate astronomical algorithms in JavaScript (TypeScript).
 
-**The new v3 uses arbitrary-precision computations, thanks
+**The new v3+ offers arbitrary-precision computations, thanks
 to [decimal.js](https://github.com/MikeMcl/decimal.js).**
+
+**The new v3.2 (will) offer in various places between the low-precision standard Javascript Math implementation
+and the new arbitrary-precision but a lot slower implementation.** The speed between the two implementation
+can varies with a factore of more than 10 times. See benchmark tests included in the project.
 
 Other
 implementations: [Swift (SwiftAA)](https://github.com/onekiloparsec/SwiftAA), [C# (AASharp)](https://github.com/jsauve/AASharp).
