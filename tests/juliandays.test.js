@@ -55,7 +55,7 @@ describe('julian days', () => {
     expect(juliandays.getLocalSiderealTime(jd, 0).toNumber()).toBeCloseTo(getDecimalValue(13, 10, 46.3668), 7)
   })
 
-  test('mean sidereal time at Greenwich low precision', () => {
+  test('mean sidereal time at Greenwich [low precision]', () => {
     // April 10th, 1987, 0h UT.
     const UTCDate = new Date(Date.UTC(1987, 3, 10, 0, 0, 0))
     const jd = juliandays.getJulianDay(UTCDate)
@@ -70,7 +70,7 @@ describe('julian days', () => {
     expect(juliandays.getApparentLocalSiderealTime(jd, 0).toNumber()).toBeCloseTo(getDecimalValue(13, 10, 46.1351), 3)
   })
 
-  test('apparent sidereal time at Greenwich low precision', () => {
+  test('apparent sidereal time at Greenwich [low precision]', () => {
     // April 10th, 1987, 0h UT.
     const UTCDate = new Date(Date.UTC(1987, 3, 10, 0, 0, 0))
     const jd = juliandays.getJulianDay(UTCDate)

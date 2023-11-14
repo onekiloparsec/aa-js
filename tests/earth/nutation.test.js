@@ -12,7 +12,7 @@ describe('nutation', () => {
     expect(Earth.getTrueObliquityOfEcliptic(jd).toNumber()).toBeCloseTo(23 + 26 / 60 + 36.850 / 3600, 6)
   })
 
-  test('check heliocentric coordinates of Venus low precision', () => {
+  test('check heliocentric coordinates of Venus [low precision]', () => {
     const jd = juliandays.getJulianDay(new Date(Date.UTC(1987, 3, 10, 0, 0, 0)))
     expect(jd.toNumber()).toEqual(2446895.5)
     expect(Earth.getNutationInLongitude(jd, false).toNumber()).toBeCloseTo(-3.788, 3)

@@ -18,7 +18,7 @@ describe('sun', () => {
     expect(Epsilon).toBeCloseTo(199.90988)
   })
 
-  test('get sun geometric longitude mean equinox of the date (AA p.165) low precision', () => {
+  test('get sun geometric longitude mean equinox of the date (AA p.165) [low precision]', () => {
     const UTCDate = new Date(Date.UTC(1992, 9, 13))
     const jd = juliandays.getJulianDay(UTCDate)
     expect(jd).toBeCloseTo(2448908.5, 3)

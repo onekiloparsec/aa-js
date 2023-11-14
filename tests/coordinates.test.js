@@ -70,7 +70,7 @@ describe('coordinates', () => {
   })
 
   // See AA p95, Ex 13.a
-  test('transform equatorial to ecliptic low precision', () => {
+  test('transform equatorial to ecliptic [low precision]', () => {
     const pollux = {
       rightAscension: getDecimalValue(7, 45, 18.946).hoursToDegrees(),
       declination: getDecimalValue(28, 1, 34.26)
@@ -99,7 +99,7 @@ describe('coordinates', () => {
   })
 
   // See AA p95, Ex 13.a
-  test('transform ecliptic to equatorial low precision', () => {
+  test('transform ecliptic to equatorial [low precision]', () => {
     const pollux = {
       rightAscension: getDecimalValue(7, 45, 18.946).hoursToDegrees(),
       declination: getDecimalValue(28, 1, 34.26)

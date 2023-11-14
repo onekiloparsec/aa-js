@@ -7,7 +7,7 @@ describe('moon', () => {
     expect(Earth.Moon.getMeanLongitude(245123456).toNumber()).toBeCloseTo(182.1252505089, 9)
   })
 
-  test('get moon mean longitude low precision', () => {
+  test('get moon mean longitude [low precision]', () => {
     expect(Earth.Moon.getMeanLongitude(245123456, false).toNumber()).toBeCloseTo(182.1252505089, 6)
   })
 
@@ -15,7 +15,7 @@ describe('moon', () => {
     expect(Earth.Moon.getMeanElongation(245123456).toNumber()).toBeCloseTo(175.566305716, 9)
   })
 
-  test('get moon mean elongation low precision', () => {
+  test('get moon mean elongation [low precision]', () => {
     expect(Earth.Moon.getMeanElongation(245123456, false).toNumber()).toBeCloseTo(175.566305716, 6)
   })
 
@@ -23,7 +23,7 @@ describe('moon', () => {
     expect(Earth.Moon.getMeanAnomaly(245123456).toNumber()).toBeCloseTo(343.8983220482618, 9)
   })
 
-  test('get moon mean anomaly low precision', () => {
+  test('get moon mean anomaly [low precision]', () => {
     expect(Earth.Moon.getMeanAnomaly(245123456, false).toNumber()).toBeCloseTo(343.8983220482618, 6)
   })
 
@@ -41,7 +41,7 @@ describe('moon', () => {
     expect(equ.declination.toNumber()).toBeCloseTo(13.768_368, 4)
   })
 
-  test('get moon equatorial coordinates low precision', () => {
+  test('get moon equatorial coordinates [low precision]', () => {
     const UTCDate = new Date(Date.UTC(1992, 3, 12))
     const jd = juliandays.getJulianDay(UTCDate)
     expect(jd.toNumber()).toEqual(2448724.5)
@@ -63,7 +63,7 @@ describe('moon', () => {
   })
 
   // See example 48.a, AA p 347.
-  test('get moon radius vector low precision', () => {
+  test('get moon radius vector [low precision]', () => {
     const UTCDate = new Date(Date.UTC(1992, 3, 12))
     const jd = juliandays.getJulianDay(UTCDate)
     const rv = Earth.Moon.getRadiusVectorInKilometer(jd, false)
@@ -93,7 +93,7 @@ describe('moon', () => {
   })
 
   // See example 48.a, AA p 347.
-  test('get moon illumination fraction low precision', () => {
+  test('get moon illumination fraction [low precision]', () => {
     // Month is April, but JS date month is [0-11].
     const UTCDate = new Date(Date.UTC(1992, 3, 12))
     const jd = times.transformUTC2TT(juliandays.getJulianDay(UTCDate))
