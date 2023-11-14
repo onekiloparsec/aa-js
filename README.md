@@ -3,17 +3,17 @@ aa-js
 
 ![build and test](https://github.com/onekiloparsec/aa-js/actions/workflows/nodejs.yml/badge.svg?branch=master) [![codecov](https://codecov.io/gh/onekiloparsec/aa-js/graph/badge.svg?token=EfRJpZ4OTu)](https://codecov.io/gh/onekiloparsec/aa-js)
 
-The most comprehensive collection of accurate astronomical algorithms in JavaScript (TypeScript).
+The most comprehensive collection of accurate astronomical algorithms (AA) in JavaScript (TypeScript).
 
-**The new v3+ offers arbitrary-precision computations, thanks
-to [decimal.js](https://github.com/MikeMcl/decimal.js).**
+**The new v3+ offers arbitrary-precision computations, thanks to [decimal.js](https://github.com/MikeMcl/decimal.js).**
 
-**The new v3.2 (will) offer in various places between the low-precision standard Javascript Math implementation
-and the new arbitrary-precision but a lot slower implementation.** The speed between the two implementation
-can varies with a factore of more than 10 times. See benchmark tests included in the project.
+**The new v3.2 (will) offer in various places the choice between the low-precision standard Javascript Math
+implementation and the new arbitrary-precision but a lot slower implementation.** The speed between the two
+implementation can vary with a factor of more than 10 times. See benchmark tests included in the project.
 
-Other
-implementations: [Swift (SwiftAA)](https://github.com/onekiloparsec/SwiftAA), [C# (AASharp)](https://github.com/jsauve/AASharp).
+**Whatever precision is chosen, the outputs will always contain `Decimal` (not `number`).**
+
+Other AA implementations: [Swift (SwiftAA)](https://github.com/onekiloparsec/SwiftAA), [C# (AASharp)](https://github.com/jsauve/AASharp).
 
 At the beginning, `aa-js` is the port in javascript of the C++ implementation of Astronomical
 Algorithms by J.P. Naughter, called [AA+](http://www.naughter.com/aa.html),
