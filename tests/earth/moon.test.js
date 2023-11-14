@@ -37,7 +37,7 @@ describe('moon', () => {
     expect(Earth.Moon.getGeocentricEclipticLatitude(jd).toNumber()).toBeCloseTo(-3.229_126, 6)
 
     const equ = Earth.Moon.getApparentGeocentricEquatorialCoordinates(jd)
-    expect(equ.rightAscension.toNumber()).toBeCloseTo(getDecimalValue(8, 58, 45.12).toNumber(), 4)
+    expect(equ.rightAscension.toNumber()).toBeCloseTo(getDecimalValue(8, 58, 45.12).hoursToDegrees().toNumber(), 3)
     expect(equ.declination.toNumber()).toBeCloseTo(13.768_368, 4)
   })
 
@@ -50,7 +50,7 @@ describe('moon', () => {
     expect(Earth.Moon.getGeocentricEclipticLatitude(jd, false).toNumber()).toBeCloseTo(-3.229_126, 6)
 
     const equ = Earth.Moon.getApparentGeocentricEquatorialCoordinates(jd, false)
-    expect(equ.rightAscension.toNumber()).toBeCloseTo(getDecimalValue(8, 58, 45.12).toNumber(), 4)
+    expect(equ.rightAscension.toNumber()).toBeCloseTo(getDecimalValue(8, 58, 45.12).hoursToDegrees().toNumber(), 3)
     expect(equ.declination.toNumber()).toBeCloseTo(13.768_368, 4)
   })
 

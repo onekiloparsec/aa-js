@@ -5,7 +5,12 @@ import { getDecimalValue, getSexagesimalValue } from '@/sexagesimal'
 describe('rise transit & sets', () => {
   test('circumpolar transit', () => {
     const jd = juliandays.getJulianDay()
-    const results = risetransitset.getRiseTransitSetTimes(jd, 0, -89.23, 0, -70, STANDARD_ALTITUDE_STARS, 0)
+    const results = risetransitset.getRiseTransitSetTimes(
+      jd,
+      { rightAscension: 0, declination: -89.23 },
+      { longitude: 0, latitude: -70 },
+      STANDARD_ALTITUDE_STARS
+    )
     expect(results.transit.isCircumpolar).toBeTruthy()
     expect(results.transit.isAboveHorizon).toBeTruthy()
     expect(results.transit.isAboveAltitude).toBeTruthy()
