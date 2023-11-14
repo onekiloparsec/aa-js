@@ -1,4 +1,4 @@
-import { DEG2H, fmod, juliandays, risetransitset, STANDARD_ALTITUDE_STARS, Venus } from '@'
+import { fmod, juliandays, risetransitset, STANDARD_ALTITUDE_STARS, Venus } from '@'
 import { getJulianDayMidnight } from '@/juliandays'
 import { getDecimalValue, getSexagesimalValue } from '@/sexagesimal'
 
@@ -19,13 +19,7 @@ describe('rise transit & sets', () => {
     const jd = juliandays.getJulianDay(date)
     const coordsBoston = { latitude: 42.3333, longitude: -71.0833 }
     const coordsVenus = { rightAscension: 41.73129, declination: 18.44092 }
-    const results = risetransitset.getRiseTransitSetTimes(
-      jd,
-      coordsVenus.rightAscension,
-      coordsVenus.declination,
-      coordsBoston.longitude,
-      coordsBoston.latitude
-    )
+    const results = risetransitset.getRiseTransitSetTimes(jd, coordsVenus, coordsBoston)
     expect(results.transit.isCircumpolar).toBeFalsy()
     expect(results.transit.isAboveHorizon).toBeTruthy()
     expect(results.transit.isAboveAltitude).toBeTruthy()
@@ -36,6 +30,22 @@ describe('rise transit & sets', () => {
     expect(results.transit.julianDay.lessThan(results.set.julianDay)).toBeTruthy()
   })
 
+  // See AA, pp 103 & 104
+  test('approximate Venus on 1988 March 20 at Boston [low precision]', () => {
+    const date = new Date(Date.UTC(1988, 2, 20, 0, 0, 0))
+    const jd = juliandays.getJulianDay(date)
+    const coordsBoston = { latitude: 42.3333, longitude: -71.0833 }
+    const coordsVenus = { rightAscension: 41.73129, declination: 18.44092 }
+    const results = risetransitset.getRiseTransitSetTimes(jd, coordsVenus, coordsBoston, STANDARD_ALTITUDE_STARS, false)
+    expect(results.transit.isCircumpolar).toBeFalsy()
+    expect(results.transit.isAboveHorizon).toBeTruthy()
+    expect(results.transit.isAboveAltitude).toBeTruthy()
+    expect(results.rise.utc.toNumber()).toBeCloseTo(24 * 0.51766, 1)
+    expect(results.transit.utc.toNumber()).toBeCloseTo(24 * 0.81980, 1)
+    expect(results.set.utc.toNumber()).toBeCloseTo(24 * 0.12130, 2)
+    expect(results.rise.julianDay.lessThan(results.transit.julianDay)).toBeTruthy()
+    expect(results.transit.julianDay.lessThan(results.set.julianDay)).toBeTruthy()
+  })
 
 // See AA, pp 103 & 104
   test('accurate Venus on 1988 March 20 at Boston', () => {
@@ -47,25 +57,12 @@ describe('rise transit & sets', () => {
     expect(Theta0.toNumber()).toBeCloseTo(177.742_08, 2)
 
     // In TD not UT, see AA p.103
-    const rasVenus = [
-      getDecimalValue(2, 42, 43.25).hoursToDegrees(),
-      getDecimalValue(2, 46, 55.51).hoursToDegrees(),
-      getDecimalValue(2, 51, 7.69).hoursToDegrees()
+    const venus = [
+      { rightAscension: getDecimalValue(2, 42, 43.25).hoursToDegrees(), declination: getDecimalValue(18, 2, 54.4) },
+      { rightAscension: getDecimalValue(2, 46, 55.51).hoursToDegrees(), declination: getDecimalValue(18, 26, 27.3) },
+      { rightAscension: getDecimalValue(2, 51, 7.69).hoursToDegrees(), declination: getDecimalValue(18, 18, 49, 38.7) }
     ]
-    const decVenus = [
-      getDecimalValue(18, 2, 54.4),
-      getDecimalValue(18, 26, 27.3),
-      getDecimalValue(18, 18, 49, 38.7)
-    ]
-    const results = risetransitset.getAccurateRiseTransitSetTimes(
-      jd,
-      rasVenus,
-      decVenus,
-      coordsBoston.longitude,
-      coordsBoston.latitude,
-      STANDARD_ALTITUDE_STARS,
-      2
-    )
+    const results = risetransitset.getAccurateRiseTransitSetTimes(jd, venus, coordsBoston, STANDARD_ALTITUDE_STARS, 2)
     expect(results.transit.isCircumpolar).toBeFalsy()
     expect(results.transit.isAboveHorizon).toBeTruthy()
     expect(results.transit.isAboveAltitude).toBeTruthy()
@@ -98,13 +95,7 @@ describe('rise transit & sets', () => {
     const coords0 = Venus.getGeocentricEquatorialCoordinates(jd0 - 1)
     const coords1 = Venus.getGeocentricEquatorialCoordinates(jd0)
     const coords2 = Venus.getGeocentricEquatorialCoordinates(jd0 + 1)
-    const results = risetransitset.getAccurateRiseTransitSetTimes(
-      jd0,
-      [coords0.rightAscension, coords1.rightAscension, coords2.rightAscension],
-      [coords0.declination, coords1.declination, coords2.declination],
-      umbc.longitude,
-      umbc.latitude
-    )
+    const results = risetransitset.getAccurateRiseTransitSetTimes(jd0, [coords0, coords1, coords2], umbc)
     // See https://www.arcsecond.io/observingsites/cac8b50e-5602-467d-a98f-59358ab29077
     const offsetUTC = -18000 // seconds
     const offsetDST = 3600 // seconds
