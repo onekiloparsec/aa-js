@@ -558,15 +558,29 @@ export function getParallacticAngle (jd: JulianDay | number, geoCoords: Geograph
   }
 
   let angle = undefined
-  const cosdec = Decimal.cos(rEquCoords.declination)
 
-  if (!cosdec.isZero()) {
-    angle = Decimal.atan2(
-      Decimal.sin(HA),
-      (Decimal.tan(rGeoCoords.latitude).mul(cosdec)).minus(Decimal.sin(rEquCoords.declination).mul(Decimal.cos(HA)))
-    ).radiansToDegrees()
+  if (highPrecision) {
+    const cosdec = Decimal.cos(rEquCoords.declination)
+    if (!cosdec.isZero()) {
+      angle = Decimal.atan2(
+        Decimal.sin(HA),
+        (Decimal.tan(rGeoCoords.latitude).mul(cosdec)).minus(Decimal.sin(rEquCoords.declination).mul(Decimal.cos(HA)))
+      ).radiansToDegrees()
+    } else {
+      angle = (new Decimal(rGeoCoords.latitude).greaterThanOrEqualTo(0)) ? new Decimal(180) : new Decimal(0.0)
+    }
   } else {
-    angle = (new Decimal(rGeoCoords.latitude).greaterThanOrEqualTo(0)) ? new Decimal(180) : new Decimal(0.0)
+    const cosdec = Math.cos(rEquCoords.declination.toNumber())
+    if (cosdec !== 0) {
+      angle = new Decimal(
+        Math.atan2(
+          Math.sin(HA.toNumber()),
+          Math.tan(rGeoCoords.latitude.toNumber()) * cosdec - Math.sin(rEquCoords.declination.toNumber()) * Math.cos(HA.toNumber())
+        ) * RAD2DEG.toNumber()
+      )
+    } else {
+      angle = (rGeoCoords.latitude.toNumber() >= 0) ? new Decimal(180) : new Decimal(0.0)
+    }
   }
 
   return angle
@@ -577,17 +591,27 @@ export function getParallacticAngle (jd: JulianDay | number, geoCoords: Geograph
  * It uses the alternative formula of AA p115, which works well for small and large angles.
  * @param {EquatorialCoordinates} coords1
  * @param {EquatorialCoordinates} coords2
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  */
-export function getGreatCircleAngularDistance (coords1: EquatorialCoordinates, coords2: EquatorialCoordinates) {
+export function getGreatCircleAngularDistance (coords1: EquatorialCoordinates, coords2: EquatorialCoordinates, highPrecision: boolean = true) {
   const alpha1 = new Decimal(coords1.rightAscension).degreesToRadians()
   const alpha2 = new Decimal(coords2.rightAscension).degreesToRadians()
   const delta1 = new Decimal(coords1.declination).degreesToRadians()
   const delta2 = new Decimal(coords2.declination).degreesToRadians()
-  const x = Decimal.cos(delta1).mul(Decimal.sin(delta2))
-    .minus(Decimal.sin(delta1).mul(Decimal.cos(delta2)).mul(Decimal.cos(alpha2.minus(alpha1))))
-  const y = Decimal.cos(delta2).mul(Decimal.sin(alpha2.minus(alpha1)))
-  const z = Decimal.sin(delta1).mul(Decimal.sin(delta2))
-    .plus(Decimal.cos(delta1).mul(Decimal.cos(delta2)).mul(Decimal.cos(alpha2.minus(alpha1))))
-  return Decimal.atan2(Decimal.sqrt(x.pow(2).plus(y.pow(2))), z).radiansToDegrees()
+  if (highPrecision) {
+    const x = Decimal.cos(delta1).mul(Decimal.sin(delta2))
+      .minus(Decimal.sin(delta1).mul(Decimal.cos(delta2)).mul(Decimal.cos(alpha2.minus(alpha1))))
+    const y = Decimal.cos(delta2).mul(Decimal.sin(alpha2.minus(alpha1)))
+    const z = Decimal.sin(delta1).mul(Decimal.sin(delta2))
+      .plus(Decimal.cos(delta1).mul(Decimal.cos(delta2)).mul(Decimal.cos(alpha2.minus(alpha1))))
+    return Decimal.atan2(Decimal.sqrt(x.pow(2).plus(y.pow(2))), z).radiansToDegrees()
+  } else {
+    const x = Math.cos(delta1.toNumber()) * Math.sin(delta2.toNumber())
+      - Math.sin(delta1.toNumber()) * Math.cos(delta2.toNumber()) * Math.cos(alpha2.toNumber() - alpha1.toNumber())
+    const y = Math.cos(delta2.toNumber()) * Math.sin(alpha2.toNumber() - alpha1.toNumber())
+    const z = Math.sin(delta1.toNumber()) * Math.sin(delta2.toNumber())
+      + Math.cos(delta1.toNumber()) * Math.cos(delta2.toNumber()) * Math.cos(alpha2.toNumber() - alpha1.toNumber())
+    return Decimal.atan2(Math.sqrt(x * x + y * y), z).radiansToDegrees()
+  }
 }
