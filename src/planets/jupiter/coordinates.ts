@@ -1,11 +1,9 @@
 import Decimal from '@/decimal'
-import { RAD2DEG } from '@/constants'
 import {
   AstronomicalUnit,
   Degree,
   EclipticCoordinates,
   EquatorialCoordinates,
-  EquatorialCoordinatesH,
   JulianDay,
   Obliquity
 } from '@/types'
