@@ -66,8 +66,8 @@ export interface EarthPlanet {
   getLongitudeOfPerihelion: QuantityInDegreeAtJulianDayFunction
   getNutationInLongitude: QuantityInArcSecondAtJulianDayFunction
   getNutationInObliquity: QuantityInArcSecondAtJulianDayFunction
-  getMeanObliquityOfEcliptic: QuantityInDegreeAtJulianDayFunction
-  getTrueObliquityOfEcliptic: QuantityInDegreeAtJulianDayFunction
+  getMeanObliquityOfEcliptic: QuantityInDegreeAtJulianDayWithPrecisionFunction
+  getTrueObliquityOfEcliptic: QuantityInDegreeAtJulianDayWithPrecisionFunction
   getEarthVelocity: Function
   getAccurateAnnualEquatorialAberration: Function
   getAnnualEclipticAberration: Function
