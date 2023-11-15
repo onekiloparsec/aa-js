@@ -463,6 +463,9 @@ export function transformHorizontalToEquatorial (jd: JulianDay | number, geoCoor
  * @returns {TopocentricCoordinates}
  */
 export function transformEquatorialToTopocentric (jd: JulianDay | number, coords: EquatorialCoordinates, distance: AstronomicalUnit | number, geoCoords: GeographicCoordinates): TopocentricCoordinates {
+  if (geoCoords.height === undefined) {
+    throw new Error('The geographic coordinates must contain a value for "height".')
+  }
   const corrections = getFlatteningCorrections(geoCoords.height, geoCoords.latitude)
 
   const factor: ArcSecond = new Decimal(8.794)

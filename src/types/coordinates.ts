@@ -36,7 +36,7 @@ export type TopocentricCoordinates = {
 export type GeographicCoordinates = {
   longitude: Degree | number
   latitude: Degree | number
-  height: Meter | number
+  height?: Meter | number
 }
 
 /**
