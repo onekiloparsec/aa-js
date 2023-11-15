@@ -7,7 +7,7 @@ The most comprehensive collection of accurate astronomical algorithms (AA) in Ja
 
 **The new v3+ offers arbitrary-precision computations, thanks to [decimal.js](https://github.com/MikeMcl/decimal.js).**
 
-**The new v3.2 (will) offer in various places the choice between the low-precision standard Javascript Math
+**The new v3.2 offers in various places the choice between the low-precision standard Javascript Math
 implementation and the new arbitrary-precision but a lot slower implementation.** The speed between the two
 implementation can vary with a factor of 10 to 1000 times! See benchmark tests included in the project.
 
