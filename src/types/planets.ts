@@ -167,3 +167,17 @@ export type PlanetOrbitalElements = {
     longitudeOfPerihelion: LengthArray<Degree, 4>
   }
 }
+
+export type PlanetName = 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn' | 'Uranus' | 'Neptune'
+export type AllPlanetName = 'Mercury' | 'Venus' | 'Mars' | 'Jupiter' | 'Saturn' | 'Uranus' | 'Neptune' | 'Pluto'
+export type SolarSystemName =
+  'Sun'
+  | 'Mercury'
+  | 'Venus'
+  | 'Earth'
+  | 'Mars'
+  | 'Jupiter'
+  | 'Saturn'
+  | 'Uranus'
+  | 'Neptune'
+  | 'Pluto'
