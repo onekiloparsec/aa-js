@@ -154,4 +154,16 @@ describe('coordinates', () => {
     }
     expect(getGreatCircleAngularDistance(alphaBoo, alphaVir).toNumber()).toBeCloseTo(32.7930, 4)
   })
+
+  test('test angular distance [low precision]', () => {
+    const alphaBoo = {
+      rightAscension: getDecimalValue(14, 15, 39.7).hoursToDegrees(),
+      declination: getDecimalValue(19, 10, 57)
+    }
+    const alphaVir = {
+      rightAscension: getDecimalValue(13, 25, 11.6).hoursToDegrees(),
+      declination: getDecimalValue(-11, 9, 41)
+    }
+    expect(getGreatCircleAngularDistance(alphaBoo, alphaVir, false).toNumber()).toBeCloseTo(32.7930, 4)
+  })
 })
