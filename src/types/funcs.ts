@@ -7,6 +7,7 @@ import { Equinox, Obliquity } from './earth'
 export type JulianDayForJulianDayFunction = (jd: JulianDay | number) => JulianDay
 
 export type SingleCoordinateDegreeAtJulianDayFunction = (jd: JulianDay | number) => Degree
+export type SingleCoordinateDegreeAtJulianDayWithPrecisionFunction = (jd: JulianDay | number, highPrecision?: boolean) => Degree
 export type SingleCoordinateDegreeAtJulianDayWithEquinoxFunction = (jd: JulianDay | number, equinox?: Equinox) => Degree
 export type SingleCoordinateDegreeAtJulianDayWithEquinoxWithPrecisionFunction = (jd: JulianDay | number, equinox?: Equinox, highPrecision?: boolean) => Degree
 
