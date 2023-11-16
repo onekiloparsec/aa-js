@@ -131,34 +131,68 @@ function getDeltaMTimes (m: Decimal,
                          DeltaT: Decimal,
                          equCoords: LengthArray<EquatorialCoordinates, 3>,
                          geoCoords: GeographicCoordinates,
-                         alt: Degree | number = STANDARD_ALTITUDE_STARS): {
+                         alt: Degree | number = STANDARD_ALTITUDE_STARS,
+                         highPrecision: boolean = true): {
   Deltam: Decimal,
   hourAngle: Degree,
   localAltitude: Degree
 } {
-  const theta0: Degree = fmod360(Theta0.plus(new Decimal(360.985647).mul(m)))
-  const n = m.plus(DeltaT.dividedBy(86400))
+  if (highPrecision) {
+    const theta0: Degree = fmod360(Theta0.plus(new Decimal('360.985_647').mul(m)))
+    const n = m.plus(DeltaT.dividedBy('86400'))
 
-  const alpha: Degree = getInterpolatedValue(equCoords[0].rightAscension, equCoords[1].rightAscension, equCoords[2].rightAscension, n)
-  const delta: Degree = getInterpolatedValue(equCoords[0].declination, equCoords[1].declination, equCoords[2].declination, n)
+    const alpha: Degree = getInterpolatedValue(equCoords[0].rightAscension, equCoords[1].rightAscension, equCoords[2].rightAscension, n)
+    const delta: Degree = getInterpolatedValue(equCoords[0].declination, equCoords[1].declination, equCoords[2].declination, n)
 
-  const H: Degree = fmod180(theta0.plus(geoCoords.longitude).minus(alpha))
-  const dlat = new Decimal(geoCoords.latitude).degreesToRadians()
+    const H: Degree = fmod180(theta0.plus(geoCoords.longitude).minus(alpha))
+    const dlat = new Decimal(geoCoords.latitude).degreesToRadians()
 
-  // Below is the horizontal altitude for given hour angle.
-  const sinh = dlat.sin()
-    .mul(delta.degreesToRadians().sin())
-    .plus(dlat.cos()
-      .mul(delta.degreesToRadians().cos())
-      .mul(H.degreesToRadians().cos()))
+    // Below is the horizontal altitude for given hour angle.
+    const sinh = dlat.sin()
+      .mul(delta.degreesToRadians().sin())
+      .plus(dlat.cos()
+        .mul(delta.degreesToRadians().cos())
+        .mul(H.degreesToRadians().cos()))
 
-  const h = sinh.asin().radiansToDegrees()
-  return {
-    Deltam: (isTransit) ?
-      MINUSONE.mul(H).dividedBy(360) :
-      (h.minus(alt)).dividedBy(delta.cos().mul(dlat.cos()).mul(H.sin()).mul(360)),
-    hourAngle: H,
-    localAltitude: h
+    const h = sinh.asin().radiansToDegrees()
+    return {
+      Deltam: (isTransit) ?
+        MINUSONE.mul(H).dividedBy(360) :
+        (h.minus(alt)).dividedBy(delta.cos().mul(dlat.cos()).mul(H.sin()).mul(360)),
+      hourAngle: H,
+      localAltitude: h
+    }
+  } else {
+    const nm = m.toNumber()
+    const nTheta0 = Theta0.toNumber()
+    const nDeltaT = DeltaT.toNumber()
+
+    const theta0 = fmod360(nTheta0 + 360.985647 * nm).toNumber()
+    const n = nm + nDeltaT / 86400
+
+    const alpha = getInterpolatedValue(equCoords[0].rightAscension, equCoords[1].rightAscension, equCoords[2].rightAscension, n).toNumber()
+    const delta = getInterpolatedValue(equCoords[0].declination, equCoords[1].declination, equCoords[2].declination, n).toNumber()
+
+    const lng = Decimal.isDecimal(geoCoords.longitude) ? geoCoords.longitude.toNumber() : geoCoords.longitude
+    const lat = Decimal.isDecimal(geoCoords.latitude) ? geoCoords.latitude.toNumber() : geoCoords.latitude
+    const H = fmod180(theta0 + lng - alpha).toNumber()
+
+    const deg2rad = DEG2RAD.toNumber()
+    // Below is the horizontal altitude for given hour angle.
+    const sinh = Math.sin(lat * deg2rad) * Math.sin(delta * deg2rad)
+      + Math.cos(lat * deg2rad) * Math.cos(delta * deg2rad) * Math.cos(H * deg2rad)
+
+    const h = Math.asin(sinh) / deg2rad
+    const nalt = Decimal.isDecimal(alt) ? alt.toNumber() : alt
+    return {
+      Deltam: (isTransit) ?
+        MINUSONE.mul(H).dividedBy(360) :
+        new Decimal(
+          (h - nalt) / (Math.cos(delta * deg2rad) * Math.cos(lat * deg2rad) * Math.sin(H * deg2rad) * 360)
+        ),
+      hourAngle: new Decimal(H),
+      localAltitude: new Decimal(h)
+    }
   }
 }
 
@@ -174,12 +208,15 @@ function getDeltaMTimes (m: Decimal,
  * for rise and set times. It's value isn't 0. For stars, it is affected by
  * aberration (value = -0.5667 degree)
  * @param {number} iterations Positive number of iterations to use in computations, Default = 1.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
+ * @return {RiseTransitSet}
  */
 export function getAccurateRiseTransitSetTimes (jd: JulianDay | number,
                                                 equCoords: LengthArray<EquatorialCoordinates, 3>,
                                                 geoCoords: GeographicCoordinates,
                                                 alt: Degree | number = STANDARD_ALTITUDE_STARS,
-                                                iterations: number = 1): RiseTransitSet {
+                                                iterations: number = 1,
+                                                highPrecision: boolean = true): RiseTransitSet {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
 
@@ -211,8 +248,8 @@ export function getAccurateRiseTransitSetTimes (jd: JulianDay | number,
   const jd0 = getJulianDayMidnight(jd)
 
   // Calculate the Greenwich sidereal time in degrees
-  const Theta0 = getLocalSiderealTime(jd0, 0).hoursToDegrees()
-  const mTimes = getMTimes(jd, equCoords[1], geoCoords, alt)
+  const Theta0 = getLocalSiderealTime(jd0, 0, highPrecision).hoursToDegrees()
+  const mTimes = getMTimes(jd, equCoords[1], geoCoords, alt, highPrecision)
 
   result.transit.utc = mTimes.m0!.mul(24)
   result.transit.julianDay = getJDatUTC(jd, result.transit.utc!)
@@ -228,9 +265,9 @@ export function getAccurateRiseTransitSetTimes (jd: JulianDay | number,
   if (!mTimes.isCircumpolar) {
     const DeltaT = getDeltaT(jd)
     for (let i = 0; i < iterations; i++) {
-      const deltaMTimes0 = getDeltaMTimes(mTimes.m0!, true, Theta0, DeltaT, equCoords, geoCoords, alt)
-      const deltaMTimes1 = getDeltaMTimes(mTimes.m1!, false, Theta0, DeltaT, equCoords, geoCoords, alt)
-      const deltaMTimes2 = getDeltaMTimes(mTimes.m2!, false, Theta0, DeltaT, equCoords, geoCoords, alt)
+      const deltaMTimes0 = getDeltaMTimes(mTimes.m0!, true, Theta0, DeltaT, equCoords, geoCoords, alt, highPrecision)
+      const deltaMTimes1 = getDeltaMTimes(mTimes.m1!, false, Theta0, DeltaT, equCoords, geoCoords, alt, highPrecision)
+      const deltaMTimes2 = getDeltaMTimes(mTimes.m2!, false, Theta0, DeltaT, equCoords, geoCoords, alt, highPrecision)
       mTimes.altitude = mTimes.m0!.plus(deltaMTimes0.localAltitude)
       mTimes.m0 = mTimes.m0!.plus(deltaMTimes0.Deltam)
       mTimes.m1 = mTimes.m1!.plus(deltaMTimes1.Deltam)
