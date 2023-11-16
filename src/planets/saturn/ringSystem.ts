@@ -52,7 +52,7 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
   earthLightTravelTime = getLightTimeFromDistance(details.Delta)
   // Slightly shifted JD!
   const JD2 = new Decimal(jd).minus(earthLightTravelTime)
-  details = getPlanetDistanceDetailsFromEarth(JD2, getEclipticLongitude, getEclipticLatitude, getRadiusVector);
+  details = getPlanetDistanceDetailsFromEarth(JD2, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
   const [l, b, r] = [details.l, details.b, details.r]
 
   // Step 4.
@@ -65,18 +65,21 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
 
   console.log(lambda.radiansToDegrees(), beta.radiansToDegrees())
 
-  // Step 6. Calculate B, a and b
-  const B: Radian = Decimal.asin((
-    i.sin()
-      .mul(beta.cos())
-      .mul((lambda.minus(Omega)).sin())
+  // Step 6. Calculate B, a and b. Keep B in Degree for consistency of returned object.
+  const B: Degree = Decimal.asin(
+    (
+      i.sin()
+        .mul(beta.cos())
+        .mul((lambda.minus(Omega)).sin())
+    )
+      .minus(i.cos().mul(beta.sin()))
   )
-    .minus(i.cos().mul(beta.sin())))
+    .radiansToDegrees()
 
   const majorAxis: ArcSecond = new Decimal(375.35).dividedBy(earthSaturnDistance)
-  const minorAxis: ArcSecond = majorAxis.mul(B.abs().sin())
+  const minorAxis: ArcSecond = majorAxis.mul(B.degreesToRadians().abs().sin())
 
-  console.log(B.radiansToDegrees(), majorAxis, minorAxis)
+  console.log(B, majorAxis, minorAxis)
 
   // To expose in APIs one day:
   // Factors by which the axes a and b of the outer edge of the outer ring are to be multiplied to obtain the axes of:
@@ -153,7 +156,7 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
 
   const earthCoordinates: SaturnicentricCoordinates = {
     longitude: U2,
-    latitude: B.radiansToDegrees()
+    latitude: B
   }
   const sunCoordinates: SaturnicentricCoordinates = {
     longitude: U1,
