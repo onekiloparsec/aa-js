@@ -2,18 +2,18 @@
  @module Precession
  */
 import Decimal from '@/decimal'
-import { EquatorialCoordinates, JulianDay } from './types'
+import { EquatorialCoordinates, EquatorialCoordinatesNum, JulianDay } from './types'
 import { J2000, JULIAN_DAY_B1950_0 } from './constants'
 
 /**
  * Precess equatorial coordinates from aa given epoch to another one
  * See AA p.134
- * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords The equatorial coordinates (in degrees)
  * @param {JulianDay} initialEpoch The initial epoch
  * @param {JulianDay} finalEpoch The initial epoch
  * @returns {EquatorialCoordinates} The precessed coordinates
  */
-export function precessEquatorialCoordinates (coords: EquatorialCoordinates, initialEpoch: JulianDay | number, finalEpoch: JulianDay | number): EquatorialCoordinates {
+export function precessEquatorialCoordinates (coords: EquatorialCoordinates | EquatorialCoordinatesNum, initialEpoch: JulianDay | number, finalEpoch: JulianDay | number): EquatorialCoordinates {
   const JD0 = new Decimal(initialEpoch)
   const JD = new Decimal(finalEpoch)
   const T = JD0.minus(J2000).dividedBy(36525)
@@ -60,18 +60,18 @@ export function precessEquatorialCoordinates (coords: EquatorialCoordinates, ini
 
 /**
  * Precess equatorial coordinates from an assumed J2000 epoch to that of B1950.
- * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords The equatorial coordinates (in degrees)
  * @returns {EquatorialCoordinates} The precessed coordinates
  */
-export function precessEquatorialCoordinatesFromJ2000ToB1950 (coords: EquatorialCoordinates): EquatorialCoordinates {
+export function precessEquatorialCoordinatesFromJ2000ToB1950 (coords: EquatorialCoordinates | EquatorialCoordinatesNum): EquatorialCoordinates {
   return precessEquatorialCoordinates(coords, J2000, JULIAN_DAY_B1950_0)
 }
 
 /**
  * Precess equatorial coordinates from an assumed B1950 epoch to that of J2000.
- * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords The equatorial coordinates (in degrees)
  * @returns {EquatorialCoordinates} The precessed coordinates
  */
-export function precessEquatorialCoordinatesFromB1950ToJ2000 (coords: EquatorialCoordinates): EquatorialCoordinates {
+export function precessEquatorialCoordinatesFromB1950ToJ2000 (coords: EquatorialCoordinates | EquatorialCoordinatesNum): EquatorialCoordinates {
   return precessEquatorialCoordinates(coords, JULIAN_DAY_B1950_0, J2000)
 }
