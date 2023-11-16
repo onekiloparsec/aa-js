@@ -3,12 +3,12 @@ import { ONE, PI, THREE, TWO } from '@/constants'
 import {
   AstronomicalUnit,
   Day,
-  Degree,
   EclipticCoordinates,
   Equinox,
   JulianDay,
   KilometerPerSecond,
   QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction,
+  Radian,
   SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
 } from '@/types'
 import { getCorrectionInLatitude, getCorrectionInLongitude } from '@/fk5'
@@ -23,8 +23,8 @@ export type EllipticalDistance = {
   z: AstronomicalUnit
   Delta: AstronomicalUnit
   tau: Day
-  l: Degree
-  b: Degree
+  l: Radian
+  b: Radian
   r: AstronomicalUnit
 }
 
@@ -120,7 +120,7 @@ export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
       JD0 = new Decimal(jd).minus(distanceDetails.tau)
     }
   }
-  
+
   return distanceDetails
 }
 
