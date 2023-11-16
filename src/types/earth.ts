@@ -100,6 +100,3 @@ export interface NaturalSun {
   getVariationGeometricEclipticLongitude: QuantityInDegreeAtJulianDayFunction,
   constants: SunConstants
 }
-
-export type EarthCoefficient = { A: Decimal, B: Decimal, C: Decimal }
-export type EarthCoefficientNum = { A: number, B: number, C: number }

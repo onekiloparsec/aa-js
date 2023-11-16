@@ -181,3 +181,6 @@ export type SolarSystemName =
   | 'Uranus'
   | 'Neptune'
   | 'Pluto'
+
+export type PlanetCoefficient = { A: Decimal, B: Decimal, C: Decimal }
+export type PlanetCoefficientNum = { A: number, B: number, C: number }

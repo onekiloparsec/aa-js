@@ -1,7 +1,7 @@
 import Decimal from '@/decimal'
-import { EarthCoefficient, EarthCoefficientNum } from '@/types'
+import { PlanetCoefficient, PlanetCoefficientNum } from '@/types'
 
-export const getCoefficientsL0 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsL0 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [175347046, 0, 0],
     [3341656, 4.6692568, 6283.0758500],
@@ -74,7 +74,7 @@ export const getCoefficientsL0 = function (useDecimals: boolean = true): (EarthC
   })
 }
 
-export const getCoefficientsL1 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsL1 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [628331966747.0, 0, 0],
     [206059, 2.678235, 6283.075850],
@@ -117,7 +117,7 @@ export const getCoefficientsL1 = function (useDecimals: boolean = true): (EarthC
   })
 }
 
-export const getCoefficientsL2 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsL2 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [52919, 0, 0],
     [8720, 1.0721, 6283.0758],
@@ -146,7 +146,7 @@ export const getCoefficientsL2 = function (useDecimals: boolean = true): (EarthC
   })
 }
 
-export const getCoefficientsL3 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsL3 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [289, 5.844, 6283.076],
     [35, 0, 0],
@@ -162,7 +162,7 @@ export const getCoefficientsL3 = function (useDecimals: boolean = true): (EarthC
   })
 }
 
-export const getCoefficientsL4 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsL4 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [114, 3.142, 0],
     [8, 4.13, 6283.08],
@@ -174,7 +174,7 @@ export const getCoefficientsL4 = function (useDecimals: boolean = true): (EarthC
   })
 }
 
-export const getCoefficientsL5 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsL5 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [1, 3.14, 0]
   ].map((a) => {
@@ -184,7 +184,7 @@ export const getCoefficientsL5 = function (useDecimals: boolean = true): (EarthC
   })
 }
 
-export const getCoefficientsB0 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsB0 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [280, 3.199, 84334.662],
     [102, 5.422, 5507.553],
@@ -198,7 +198,7 @@ export const getCoefficientsB0 = function (useDecimals: boolean = true): (EarthC
   })
 }
 
-export const getCoefficientsB1 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsB1 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [9, 3.90, 5507.55],
     [6, 1.73, 5223.69]
@@ -209,7 +209,7 @@ export const getCoefficientsB1 = function (useDecimals: boolean = true): (EarthC
   })
 }
 
-export const getCoefficientsR0 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsR0 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [100013989, 0, 0],
     [1670700, 3.0984635, 6283.0758500],
@@ -258,7 +258,7 @@ export const getCoefficientsR0 = function (useDecimals: boolean = true): (EarthC
   })
 }
 
-export const getCoefficientsR1 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsR1 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [103019, 1.107490, 6283.075850],
     [1721, 1.0644, 12566.1517],
@@ -277,7 +277,7 @@ export const getCoefficientsR1 = function (useDecimals: boolean = true): (EarthC
   })
 }
 
-export const getCoefficientsR2 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsR2 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [4359, 5.7846, 6283.0758],
     [124, 5.579, 12566.152],
@@ -292,7 +292,7 @@ export const getCoefficientsR2 = function (useDecimals: boolean = true): (EarthC
   })
 }
 
-export const getCoefficientsR3 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsR3 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [145, 4.273, 6283.076],
     [7, 3.92, 12566.15]
@@ -303,7 +303,7 @@ export const getCoefficientsR3 = function (useDecimals: boolean = true): (EarthC
   })
 }
 
-export const getCoefficientsR4 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsR4 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [4, 2.56, 6283.08]
   ].map((a) => {
@@ -313,7 +313,7 @@ export const getCoefficientsR4 = function (useDecimals: boolean = true): (EarthC
   })
 }
 
-export const getCoefficientsL1J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsL1J2000 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [628307584999.0, 0, 0],
     [206059, 2.678235, 6283.075850],
@@ -356,7 +356,7 @@ export const getCoefficientsL1J2000 = function (useDecimals: boolean = true): (E
   })
 }
 
-export const getCoefficientsL2J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsL2J2000 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [8722, 1.0725, 6283.0758],
     [991, 3.1416, 0],
@@ -385,7 +385,7 @@ export const getCoefficientsL2J2000 = function (useDecimals: boolean = true): (E
   })
 }
 
-export const getCoefficientsL3J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsL3J2000 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [289, 5.842, 6283.076],
     [21, 6.05, 12566.15],
@@ -401,7 +401,7 @@ export const getCoefficientsL3J2000 = function (useDecimals: boolean = true): (E
   })
 }
 
-export const getCoefficientsL4J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsL4J2000 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [8, 4.14, 6283.08],
     [1, 3.28, 12566.15]
@@ -412,7 +412,7 @@ export const getCoefficientsL4J2000 = function (useDecimals: boolean = true): (E
   })
 }
 
-export const getCoefficientsB1J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsB1J2000 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [227778, 3.413766, 6283.075850],
     [3806, 3.3706, 12566.1517],
@@ -428,7 +428,7 @@ export const getCoefficientsB1J2000 = function (useDecimals: boolean = true): (E
   })
 }
 
-export const getCoefficientsB2J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsB2J2000 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [9721, 5.1519, 6283.07585],
     [233, 3.1416, 0],
@@ -441,7 +441,7 @@ export const getCoefficientsB2J2000 = function (useDecimals: boolean = true): (E
   })
 }
 
-export const getCoefficientsB3J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsB3J2000 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [276, 0.595, 6283.076],
     [17, 3.14, 0],
@@ -453,7 +453,7 @@ export const getCoefficientsB3J2000 = function (useDecimals: boolean = true): (E
   })
 }
 
-export const getCoefficientsB4J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+export const getCoefficientsB4J2000 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
   return [
     [6, 2.27, 6283.08],
     [1, 0, 0]
