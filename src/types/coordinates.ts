@@ -127,6 +127,10 @@ export type Point = {
   x: Pixel
   y: Pixel
 }
+export type PointNum = {
+  x: number
+  y: number
+}
 
 export type EclipticCoordinatesCorrection = {
   DeltaLongitude: ArcSecond
