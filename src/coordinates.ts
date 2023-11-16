@@ -7,14 +7,19 @@ import {
   AstronomicalUnit,
   Degree,
   EclipticCoordinates,
+  EclipticCoordinatesNum,
   EquatorialCoordinates,
-  EquatorialCoordinatesH,
+  EquatorialCoordinatesNum,
   GalacticCoordinates,
+  GalacticCoordinatesNum,
   GeographicCoordinates,
+  GeographicCoordinatesNum,
   HorizontalCoordinates,
+  HorizontalCoordinatesNum,
   Hour,
   JulianDay,
   Point,
+  PointNum,
   Radian,
   TopocentricCoordinates
 } from './types'
@@ -26,12 +31,12 @@ import { fmod24, fmod360, fmod90 } from '@/utils'
 
 /**
  * Equatorial right ascension from ecliptic coordinates
- * @param {EclipticCoordinates} coords The ecliptic coordinates
+ * @param {EclipticCoordinates | EclipticCoordinatesNum} coords The ecliptic coordinates
  * @param {Degree} epsilon The ecliptic obliquity (default = obliquity of J2000)
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree} Degree (v3.2+), not HOURS (< v3.2)
  */
-export function getRightAscensionFromEcliptic (coords: EclipticCoordinates, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0, highPrecision: boolean = true): Degree {
+export function getRightAscensionFromEcliptic (coords: EclipticCoordinates | EclipticCoordinatesNum, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0, highPrecision: boolean = true): Degree {
   const dcoords = {
     longitude: new Decimal(coords.longitude).degreesToRadians(),
     latitude: new Decimal(coords.latitude).degreesToRadians()
@@ -56,7 +61,7 @@ export function getRightAscensionFromEcliptic (coords: EclipticCoordinates, epsi
 
 /**
  * Equatorial declination from ecliptic coordinates
- * @param {EclipticCoordinates} coords The ecliptic coordinates
+ * @param {EclipticCoordinates | EclipticCoordinatesNum} coords The ecliptic coordinates
  * @param {Degree} epsilon The obliquity of the ecliptic; that is, the angle between the ecliptic
  * and the celestial equator. The mean obliquity (epsilon0) is given by nutation.getMeanObliquityOfEcliptic(jd).
  * If however the *apparent* R.A. and Dec. are required (that is, affected by aberration and nutation), the
@@ -65,7 +70,7 @@ export function getRightAscensionFromEcliptic (coords: EclipticCoordinates, epsi
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @return {Degree}
  */
-export function getDeclinationFromEcliptic (coords: EclipticCoordinates, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0, highPrecision: boolean = true): Degree {
+export function getDeclinationFromEcliptic (coords: EclipticCoordinates | EclipticCoordinatesNum, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0, highPrecision: boolean = true): Degree {
   const dcoords = {
     longitude: new Decimal(coords.longitude).degreesToRadians(),
     latitude: new Decimal(coords.latitude).degreesToRadians()
@@ -88,7 +93,7 @@ export function getDeclinationFromEcliptic (coords: EclipticCoordinates, epsilon
 
 /**
  * Transform ecliptic longitude and latitude to equatorial coordinates.
- * @param {EclipticCoordinates} coords The ecliptic coordinates
+ * @param {EclipticCoordinates | EclipticCoordinatesNum} coords The ecliptic coordinates
  * @param {Degree} epsilon The obliquity of the ecliptic; that is, the angle between the ecliptic
  * and the celestial equator. The mean obliquity (epsilon0) is given by nutation.getMeanObliquityOfEcliptic(jd).
  * If however the *apparent* R.A. and Dec. are required (that is, affected by aberration and nutation), the
@@ -97,7 +102,7 @@ export function getDeclinationFromEcliptic (coords: EclipticCoordinates, epsilon
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EquatorialCoordinates}
  */
-export function transformEclipticToEquatorial (coords: EclipticCoordinates, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0, highPrecision: boolean = true): EquatorialCoordinates {
+export function transformEclipticToEquatorial (coords: EclipticCoordinates | EclipticCoordinatesNum, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0, highPrecision: boolean = true): EquatorialCoordinates {
   return {
     rightAscension: getRightAscensionFromEcliptic(coords, epsilon, highPrecision),
     declination: getDeclinationFromEcliptic(coords, epsilon, highPrecision)
@@ -106,7 +111,7 @@ export function transformEclipticToEquatorial (coords: EclipticCoordinates, epsi
 
 /**
  * Ecliptic longitude from equatorial coordinates
- * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords The equatorial coordinates (in degrees)
  * @param {Degree} epsilon The obliquity of the ecliptic; that is, the angle between the ecliptic
  * and the celestial equator. The mean obliquity (epsilon0) is given by nutation.getMeanObliquityOfEcliptic(jd).
  * If however the *apparent* R.A. and Dec. are required (that is, affected by aberration and nutation), the
@@ -115,7 +120,7 @@ export function transformEclipticToEquatorial (coords: EclipticCoordinates, epsi
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  */
-export function getEclipticLongitudeFromEquatorial (coords: EquatorialCoordinates, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0, highPrecision: boolean = true): Degree {
+export function getEclipticLongitudeFromEquatorial (coords: EquatorialCoordinates | EquatorialCoordinatesNum, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0, highPrecision: boolean = true): Degree {
   const dcoords = {
     rightAscension: new Decimal(coords.rightAscension).degreesToRadians(),
     declination: new Decimal(coords.declination).degreesToRadians()
@@ -140,7 +145,7 @@ export function getEclipticLongitudeFromEquatorial (coords: EquatorialCoordinate
 
 /**
  * Ecliptic latitude from equatorial coordinates
- * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords The equatorial coordinates (in degrees)
  * @param {Degree} epsilon The obliquity of the ecliptic; that is, the angle between the ecliptic
  * and the celestial equator. The mean obliquity (epsilon0) is given by nutation.getMeanObliquityOfEcliptic(jd).
  * If however the *apparent* R.A. and Dec. are required (that is, affected by aberration and nutation), the
@@ -148,7 +153,7 @@ export function getEclipticLongitudeFromEquatorial (coords: EquatorialCoordinate
  * If R.A. and Dec. are referred to the standard equinox of J2000, epsilon must be that of ECLIPTIC_OBLIQUITY_J2000_0.
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true. * @returns {Degree}
  */
-export function getEclipticLatitudeFromEquatorial (coords: EquatorialCoordinates, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0, highPrecision: boolean = true): Degree {
+export function getEclipticLatitudeFromEquatorial (coords: EquatorialCoordinates | EquatorialCoordinatesNum, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0, highPrecision: boolean = true): Degree {
   const dcoords = {
     rightAscension: new Decimal(coords.rightAscension).degreesToRadians(),
     declination: new Decimal(coords.declination).degreesToRadians()
@@ -171,7 +176,7 @@ export function getEclipticLatitudeFromEquatorial (coords: EquatorialCoordinates
 
 /**
  * Transform equatorial coordinates to ecliptic coordinates
- * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords The equatorial coordinates (in degrees)
  * @param {Degree} epsilon The obliquity of the ecliptic; that is, the angle between the ecliptic
  * and the celestial equator. The mean obliquity (epsilon0) is given by nutation.getMeanObliquityOfEcliptic(jd).
  * If however the *apparent* R.A. and Dec. are required (that is, affected by aberration and nutation), the
@@ -179,7 +184,7 @@ export function getEclipticLatitudeFromEquatorial (coords: EquatorialCoordinates
  * If R.A. and Dec. are referred to the standard equinox of J2000, epsilon must be that of ECLIPTIC_OBLIQUITY_J2000_0.
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true. * @returns {Degree}
  */
-export function transformEquatorialToEcliptic (coords: EquatorialCoordinates, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0, highPrecision: boolean = true): EclipticCoordinates {
+export function transformEquatorialToEcliptic (coords: EquatorialCoordinates | EquatorialCoordinatesNum, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0, highPrecision: boolean = true): EclipticCoordinates {
   return {
     longitude: getEclipticLongitudeFromEquatorial(coords, epsilon, highPrecision),
     latitude: getEclipticLatitudeFromEquatorial(coords, epsilon, highPrecision)
@@ -191,10 +196,10 @@ export function transformEquatorialToEcliptic (coords: EquatorialCoordinates, ep
 /**
  * Galactic longitude from equatorial coordinates.
  * See AA p.94
- * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords The equatorial coordinates (in degrees)
  * @param {JulianDay} epoch The epoch (default = J2000)
  */
-export function getGalacticLongitudeFromEquatorial (coords: EquatorialCoordinates, epoch: JulianDay | number = J2000): Degree {
+export function getGalacticLongitudeFromEquatorial (coords: EquatorialCoordinates | EquatorialCoordinatesNum, epoch: JulianDay | number = J2000): Degree {
   const equCoordsB1950 = precessEquatorialCoordinates(coords, epoch, JULIAN_DAY_B1950_0)
   const rcoords = {
     rightAscension: (equCoordsB1950.rightAscension as Degree).degreesToRadians(),
@@ -211,10 +216,10 @@ export function getGalacticLongitudeFromEquatorial (coords: EquatorialCoordinate
 /**
  * Galactic latitude from equatorial coordinates.
  * See AA p.94
- * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords The equatorial coordinates (in degrees)
  * @param {JulianDay} epoch The epoch (default = J2000)
  */
-export function getGalacticLatitudeFromEquatorial (coords: EquatorialCoordinates, epoch: JulianDay | number = J2000): Degree {
+export function getGalacticLatitudeFromEquatorial (coords: EquatorialCoordinates | EquatorialCoordinatesNum, epoch: JulianDay | number = J2000): Degree {
   const equCoordsB1950 = precessEquatorialCoordinates(coords, epoch, JULIAN_DAY_B1950_0)
   const rcoords = {
     rightAscension: (equCoordsB1950.rightAscension as Degree).degreesToRadians(),
@@ -230,10 +235,10 @@ export function getGalacticLatitudeFromEquatorial (coords: EquatorialCoordinates
 
 /**
  * Transform equatorial coordinates to galactic coordinates.
- * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords The equatorial coordinates (in degrees)
  * @param {Degree} epoch The epoch of the equatorial coordinates. By default, J2000.
  */
-export function transformEquatorialToGalactic (coords: EquatorialCoordinates, epoch: JulianDay | number = J2000): GalacticCoordinates {
+export function transformEquatorialToGalactic (coords: EquatorialCoordinates | EquatorialCoordinatesNum, epoch: JulianDay | number = J2000): GalacticCoordinates {
   return {
     longitude: getGalacticLongitudeFromEquatorial(coords, epoch),
     latitude: getGalacticLatitudeFromEquatorial(coords, epoch)
@@ -243,10 +248,10 @@ export function transformEquatorialToGalactic (coords: EquatorialCoordinates, ep
 /**
  * Equatorial right ascension in epoch B1950 from galactic coordinates
  * See AA p.94
- * @param {GalacticCoordinates} coords The galactic coordinates
+ * @param {GalacticCoordinates | GalacticCoordinatesNum} coords The galactic coordinates
  * @returns {Degree}
  */
-export function getEquatorialRightAscensionB1950FromGalactic (coords: GalacticCoordinates): Degree {
+export function getEquatorialRightAscensionB1950FromGalactic (coords: GalacticCoordinates | GalacticCoordinatesNum): Degree {
   const c2 = new Decimal(27.4).degreesToRadians()
   const lprime = (new Decimal(coords.longitude).minus(123)).degreesToRadians()
   const b = new Decimal(coords.latitude).degreesToRadians()
@@ -258,10 +263,10 @@ export function getEquatorialRightAscensionB1950FromGalactic (coords: GalacticCo
 /**
  * Equatorial declination in epoch B1950 from galactic coordinates
  * See AA p.94
- * @param {GalacticCoordinates} coords The galactic coordinates
+ * @param {GalacticCoordinates | GalacticCoordinatesNum} coords The galactic coordinates
  * @returns {Degree}
  */
-export function getEquatorialDeclinationB1950FromGalactic (coords: GalacticCoordinates): Degree {
+export function getEquatorialDeclinationB1950FromGalactic (coords: GalacticCoordinates | GalacticCoordinatesNum): Degree {
   const c2 = new Decimal(27.4).degreesToRadians()
   const lprime = (new Decimal(coords.longitude).minus(123)).degreesToRadians()
   const b = new Decimal(coords.latitude).degreesToRadians()
@@ -275,11 +280,11 @@ export function getEquatorialDeclinationB1950FromGalactic (coords: GalacticCoord
 
 /**
  * Transform galactic coordinates to equatorial coordinates.
- * @param {GalacticCoordinates} coords The galactic coordinates
+ * @param {GalacticCoordinates | GalacticCoordinatesNum} coords The galactic coordinates
  * @param {Degree} epoch The initial epoch of the equatorial coordinates. By default, J2000.
  * @returns {EquatorialCoordinates}
  */
-export function transformGalacticToEquatorial (coords: GalacticCoordinates, epoch: JulianDay | number = J2000): EquatorialCoordinates {
+export function transformGalacticToEquatorial (coords: GalacticCoordinates | GalacticCoordinatesNum, epoch: JulianDay | number = J2000): EquatorialCoordinates {
   const coordsB1950 = {
     rightAscension: getEquatorialRightAscensionB1950FromGalactic(coords),
     declination: getEquatorialDeclinationB1950FromGalactic(coords)
@@ -292,12 +297,12 @@ export function transformGalacticToEquatorial (coords: GalacticCoordinates, epoc
 /**
  * Horizontal (local) altitude (where horizon is zero degrees)
  * @param {JulianDay} jd The julian day
- * @param {GeographicCoordinates} geoCoords The observer's location
- * @param {EquatorialCoordinates} equCoords The equatorial coordinates of the target
+ * @param {GeographicCoordinates | GeographicCoordinatesNum} geoCoords The geographic coordinates of the observer's location.
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} equCoords The equatorial coordinates of the target
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  */
-export function getHorizontalAltitude (jd: JulianDay | number, geoCoords: GeographicCoordinates, equCoords: EquatorialCoordinates, highPrecision: boolean = true): Degree {
+export function getHorizontalAltitude (jd: JulianDay | number, equCoords: EquatorialCoordinates | EquatorialCoordinatesNum, geoCoords: GeographicCoordinates | GeographicCoordinatesNum, highPrecision: boolean = true): Degree {
   const lmst = getLocalSiderealTime(jd, geoCoords.longitude, highPrecision).hoursToDegrees()
   const hourAngle = lmst.minus(equCoords.rightAscension).degreesToRadians()
   const rEquCoords = {
@@ -326,12 +331,12 @@ export function getHorizontalAltitude (jd: JulianDay | number, geoCoords: Geogra
 /**
  * Horizontal (local) azimuth.
  * @param {JulianDay} jd The julian day
- * @param {GeographicCoordinates} geoCoords The observer's location
- * @param {EquatorialCoordinates} equCoords The equatorial coordinates of the target
+ * @param {GeographicCoordinates | GeographicCoordinatesNum} geoCoords The geographic coordinates of the observer's location.
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} equCoords The equatorial coordinates of the target
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  */
-export function getHorizontalAzimuth (jd: JulianDay | number, geoCoords: GeographicCoordinates, equCoords: EquatorialCoordinates, highPrecision: boolean = true): Degree {
+export function getHorizontalAzimuth (jd: JulianDay | number, equCoords: EquatorialCoordinates | EquatorialCoordinatesNum, geoCoords: GeographicCoordinates | GeographicCoordinatesNum, highPrecision: boolean = true): Degree {
   const lmst = getLocalSiderealTime(jd, geoCoords.longitude, highPrecision).hoursToDegrees()
   const hourAngle = lmst.minus(equCoords.rightAscension).degreesToRadians()
   const rEquCoords = {
@@ -362,27 +367,27 @@ export function getHorizontalAzimuth (jd: JulianDay | number, geoCoords: Geograp
 /**
  * Transform equatorial coordinates to horizontal coordinates.
  * @param {JulianDay} jd The julian day
- * @param {GeographicCoordinates} geoCoords The observer's location
- * @param {EquatorialCoordinates} equCoords The equatorial coordinates of the target
+ * @param {GeographicCoordinates | GeographicCoordinatesNum} geoCoords The geographic coordinates of the observer's location.
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} equCoords The equatorial coordinates of the target
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {HorizontalCoordinates}
  */
-export function transformEquatorialToHorizontal (jd: JulianDay | number, geoCoords: GeographicCoordinates, equCoords: EquatorialCoordinates, highPrecision: boolean = true): HorizontalCoordinates {
+export function transformEquatorialToHorizontal (jd: JulianDay | number, equCoords: EquatorialCoordinates | EquatorialCoordinatesNum, geoCoords: GeographicCoordinates | GeographicCoordinatesNum, highPrecision: boolean = true): HorizontalCoordinates {
   return {
-    azimuth: getHorizontalAzimuth(jd, geoCoords, equCoords, highPrecision),
-    altitude: getHorizontalAltitude(jd, geoCoords, equCoords, highPrecision)
+    azimuth: getHorizontalAzimuth(jd, equCoords, geoCoords, highPrecision),
+    altitude: getHorizontalAltitude(jd, equCoords, geoCoords, highPrecision)
   }
 }
 
 /**
  * Equatorial right ascension from horizontal coordinates
  * @param {JulianDay} jd The julian day
- * @param {GeographicCoordinates} geoCoords The observer's location
- * @param {HorizontalCoordinates} horCoords The horizontal coordinates of the target
+ * @param {GeographicCoordinates | GeographicCoordinatesNum} geoCoords The geographic coordinates of the observer's location.
+ * @param {HorizontalCoordinates | HorizontalCoordinatesNum} horCoords The horizontal coordinates of the target
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  */
-export function getRightAscensionFromHorizontal (jd: JulianDay | number, geoCoords: GeographicCoordinates, horCoords: HorizontalCoordinates, highPrecision: boolean = true): Degree {
+export function getRightAscensionFromHorizontal (jd: JulianDay | number, horCoords: HorizontalCoordinates | HorizontalCoordinatesNum, geoCoords: GeographicCoordinates | GeographicCoordinatesNum, highPrecision: boolean = true): Degree {
   const lmst = getLocalSiderealTime(jd, geoCoords.longitude, highPrecision).hoursToDegrees()
   const rHorCoords = {
     azimuth: new Decimal(horCoords.azimuth).degreesToRadians(),
@@ -410,12 +415,12 @@ export function getRightAscensionFromHorizontal (jd: JulianDay | number, geoCoor
 /**
  * Equatorial declination from horizontal coordinates
  * @param {JulianDay} jd The julian day
- * @param {GeographicCoordinates} geoCoords The observer's location
- * @param {HorizontalCoordinates} horCoords The horizontal coordinates of the target
+ * @param {GeographicCoordinates | GeographicCoordinatesNum} geoCoords The geographic coordinates of the observer's location.
+ * @param {HorizontalCoordinates | HorizontalCoordinatesNum} horCoords The horizontal coordinates of the target
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  */
-export function getDeclinationFromHorizontal (jd: JulianDay | number, geoCoords: GeographicCoordinates, horCoords: HorizontalCoordinates, highPrecision: boolean = true): Degree {
+export function getDeclinationFromHorizontal (jd: JulianDay | number, horCoords: HorizontalCoordinates | HorizontalCoordinatesNum, geoCoords: GeographicCoordinates | GeographicCoordinatesNum, highPrecision: boolean = true): Degree {
   const rHorCoords = {
     azimuth: new Decimal(horCoords.azimuth).degreesToRadians(),
     altitude: new Decimal(horCoords.altitude).degreesToRadians()
@@ -442,27 +447,27 @@ export function getDeclinationFromHorizontal (jd: JulianDay | number, geoCoords:
 /**
  * Transform horizontal coordinates to equatorial coordinates.
  * @param {JulianDay} jd The julian day
- * @param {GeographicCoordinates} geoCoords The observer's location
- * @param {EquatorialCoordinates} horCoords The horizontal coordinates of the target
+ * @param {GeographicCoordinates | GeographicCoordinatesNum} geoCoords The geographic coordinates of the observer's location.
+ * @param {HorizontalCoordinates | HorizontalCoordinatesNum} horCoords The horizontal coordinates of the target
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
- * @returns {EquatorialCoordinatesH}
+ * @returns {EquatorialCoordinates}
  */
-export function transformHorizontalToEquatorial (jd: JulianDay | number, geoCoords: GeographicCoordinates, horCoords: HorizontalCoordinates, highPrecision: boolean = true): EquatorialCoordinates {
+export function transformHorizontalToEquatorial (jd: JulianDay | number, horCoords: HorizontalCoordinates | HorizontalCoordinatesNum, geoCoords: GeographicCoordinates | GeographicCoordinatesNum, highPrecision: boolean = true): EquatorialCoordinates {
   return {
-    rightAscension: getRightAscensionFromHorizontal(jd, geoCoords, horCoords, highPrecision),
-    declination: getDeclinationFromHorizontal(jd, geoCoords, horCoords, highPrecision)
+    rightAscension: getRightAscensionFromHorizontal(jd, horCoords, geoCoords, highPrecision),
+    declination: getDeclinationFromHorizontal(jd, horCoords, geoCoords, highPrecision)
   }
 }
 
 /**
  * Transform equatorial coordinates to topocentric coordinates.
  * @param {JulianDay} jd The julian day
- * @param {Degree} coords The equatorial coordinates
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords The equatorial coordinates
  * @param {AstronomicalUnit} distance The object geocentric distance
- * @param {GeographicCoordinates} geoCoords The geographic coordinates of the observer's location.
+ * @param {GeographicCoordinates | GeographicCoordinatesNum} geoCoords The geographic coordinates of the observer's location.
  * @returns {TopocentricCoordinates}
  */
-export function transformEquatorialToTopocentric (jd: JulianDay | number, coords: EquatorialCoordinates, distance: AstronomicalUnit | number, geoCoords: GeographicCoordinates): TopocentricCoordinates {
+export function transformEquatorialToTopocentric (jd: JulianDay | number, coords: EquatorialCoordinates | EquatorialCoordinatesNum, distance: AstronomicalUnit | number, geoCoords: GeographicCoordinates | GeographicCoordinatesNum): TopocentricCoordinates {
   if (geoCoords.height === undefined) {
     throw new Error('The geographic coordinates must contain a value for "height".')
   }
@@ -497,12 +502,12 @@ export function transformEquatorialToTopocentric (jd: JulianDay | number, coords
 
 /**
  * Transform a point (x,y) of the sky projected on a disk to horizontal coordinates.
- * @param {Point} point The point on the disk, relative to its center
- * @param {Point} center The center of the disk, relative to a relative origin
+ * @param {Point | PointNum} point The point on the disk, relative to its center
+ * @param {Point | PointNum} center The center of the disk, relative to a relative origin
  * @param {number} radius The radius of the disk.
  * @returns {HorizontalCoordinates}
  */
-export function transformPointToHorizontal (point: Point, center: Point, radius: number): HorizontalCoordinates {
+export function transformPointToHorizontal (point: Point | PointNum, center: Point | PointNum, radius: number): HorizontalCoordinates {
   const x = new Decimal(point.x).minus(center.x)
   const y = new Decimal(point.y).minus(center.y)
   const d = x.pow(2).plus(y.pow(2)).sqrt()
@@ -514,12 +519,12 @@ export function transformPointToHorizontal (point: Point, center: Point, radius:
 
 /**
  * Transform horizontal coordinates to a point (x,y) of the sky projected on a disk.
- * @param {HorizontalCoordinates} horCoords The horizontal coordinates of the target
+ * @param {HorizontalCoordinates | HorizontalCoordinatesNum} horCoords The horizontal coordinates of the target
  * @param {Point} center The center of the disk, relative to a relative origin
  * @param {number} radius The radius of the disk.
  * @returns {Point}
  */
-export function transformHorizontalToPoint (horCoords: HorizontalCoordinates, center: Point, radius: number): Point {
+export function transformHorizontalToPoint (horCoords: HorizontalCoordinates | HorizontalCoordinatesNum, center: Point, radius: number): Point {
   const ninety = new Decimal(90)
 
   const x = ninety.minus(horCoords.altitude)
@@ -542,12 +547,12 @@ export function transformHorizontalToPoint (horCoords: HorizontalCoordinates, ce
 /**
  * Paralactic angle of an object at given equatorial coordinates, at a given time and observer's location.
  * @param {JulianDay} jd The julian day of the observation.
- * @param {GeographicCoordinates} geoCoords The observer's location
- * @param {EquatorialCoordinates} equCoords The object equatorial coordinates
+ * @param {GeographicCoordinates | GeographicCoordinatesNum} geoCoords The geographic coordinates of the observer's location.
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} equCoords The object equatorial coordinates
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree} The paralactic angle
  */
-export function getParallacticAngle (jd: JulianDay | number, geoCoords: GeographicCoordinates, equCoords: EquatorialCoordinates, highPrecision: boolean = true): Degree {
+export function getParallacticAngle (jd: JulianDay | number, equCoords: EquatorialCoordinates | EquatorialCoordinatesNum, geoCoords: GeographicCoordinates | GeographicCoordinatesNum, highPrecision: boolean = true): Degree {
   const lmst: Degree = getLocalSiderealTime(jd, geoCoords.longitude, highPrecision).hoursToDegrees()
   const HA: Radian = lmst.minus(new Decimal(equCoords.rightAscension)).degreesToRadians()
 
@@ -592,12 +597,12 @@ export function getParallacticAngle (jd: JulianDay | number, geoCoords: Geograph
 /**
  * The Great Circle angular distance between two spherical coordinates.
  * It uses the alternative formula of AA p115, which works well for small and large angles.
- * @param {EquatorialCoordinates} coords1
- * @param {EquatorialCoordinates} coords2
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords1
+ * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords2
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  */
-export function getGreatCircleAngularDistance (coords1: EquatorialCoordinates, coords2: EquatorialCoordinates, highPrecision: boolean = true) {
+export function getGreatCircleAngularDistance (coords1: EquatorialCoordinates | EquatorialCoordinatesNum, coords2: EquatorialCoordinates | EquatorialCoordinatesNum, highPrecision: boolean = true) {
   const alpha1 = new Decimal(coords1.rightAscension).degreesToRadians()
   const alpha2 = new Decimal(coords2.rightAscension).degreesToRadians()
   const delta1 = new Decimal(coords1.declination).degreesToRadians()
