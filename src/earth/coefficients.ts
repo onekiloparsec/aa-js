@@ -1,7 +1,8 @@
 import Decimal from '@/decimal'
+import { EarthCoefficient, EarthCoefficientNum } from '@/types'
 
-export const gL0EarthCoefficients =
-  [
+export const getCoefficientsL0 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [175347046, 0, 0],
     [3341656, 4.6692568, 6283.0758500],
     [34894, 4.62610, 12566.15170],
@@ -67,11 +68,14 @@ export const gL0EarthCoefficients =
     [30, 2.74, 1349.87],
     [25, 3.16, 4690.48]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gL1EarthCoefficients =
-  [
+export const getCoefficientsL1 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [628331966747.0, 0, 0],
     [206059, 2.678235, 6283.075850],
     [4303, 2.6351, 12566.1517],
@@ -107,11 +111,14 @@ export const gL1EarthCoefficients =
     [6, 2.65, 9437.76],
     [6, 4.67, 4690.48]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gL2EarthCoefficients =
-  [
+export const getCoefficientsL2 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [52919, 0, 0],
     [8720, 1.0721, 6283.0758],
     [309, 0.867, 12566.152],
@@ -133,11 +140,14 @@ export const gL2EarthCoefficients =
     [2, 4.38, 5223.69],
     [2, 3.75, 0.98]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gL3EarthCoefficients =
-  [
+export const getCoefficientsL3 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [289, 5.844, 6283.076],
     [35, 0, 0],
     [17, 5.49, 12566.15],
@@ -146,46 +156,61 @@ export const gL3EarthCoefficients =
     [1, 5.30, 18849.23],
     [1, 5.97, 242.73]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gL4EarthCoefficients =
-  [
+export const getCoefficientsL4 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [114, 3.142, 0],
     [8, 4.13, 6283.08],
     [1, 3.84, 12566.15]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gL5EarthCoefficients =
-  [
+export const getCoefficientsL5 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [1, 3.14, 0]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gB0EarthCoefficients =
-  [
+export const getCoefficientsB0 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [280, 3.199, 84334.662],
     [102, 5.422, 5507.553],
     [80, 3.88, 5223.69],
     [44, 3.70, 2352.87],
     [32, 4.00, 1577.34]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gB1EarthCoefficients =
-  [
+export const getCoefficientsB1 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [9, 3.90, 5507.55],
     [6, 1.73, 5223.69]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gR0EarthCoefficients =
-  [
+export const getCoefficientsR0 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [100013989, 0, 0],
     [1670700, 3.0984635, 6283.0758500],
     [13956, 3.05525, 12566.15170],
@@ -227,11 +252,14 @@ export const gR0EarthCoefficients =
     [28, 1.90, 6279.55],
     [26, 4.59, 10447.39]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gR1EarthCoefficients =
-  [
+export const getCoefficientsR1 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [103019, 1.107490, 6283.075850],
     [1721, 1.0644, 12566.1517],
     [702, 3.142, 0],
@@ -243,11 +271,14 @@ export const gR1EarthCoefficients =
     [9, 1.42, 6275.96],
     [9, 0.27, 5486.78]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gR2EarthCoefficients =
-  [
+export const getCoefficientsR2 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [4359, 5.7846, 6283.0758],
     [124, 5.579, 12566.152],
     [12, 3.14, 0],
@@ -255,26 +286,35 @@ export const gR2EarthCoefficients =
     [6, 1.87, 5573.14],
     [3, 5.47, 18849.23]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gR3EarthCoefficients =
-  [
+export const getCoefficientsR3 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [145, 4.273, 6283.076],
     [7, 3.92, 12566.15]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gR4EarthCoefficients =
-  [
+export const getCoefficientsR4 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [4, 2.56, 6283.08]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gL1EarthCoefficientsJ2000 =
-  [
+export const getCoefficientsL1J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [628307584999.0, 0, 0],
     [206059, 2.678235, 6283.075850],
     [4303, 2.6351, 12566.1517],
@@ -310,11 +350,14 @@ export const gL1EarthCoefficientsJ2000 =
     [6, 2.65, 9437.76],
     [6, 4.67, 4690.48]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gL2EarthCoefficientsJ2000 =
-  [
+export const getCoefficientsL2J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [8722, 1.0725, 6283.0758],
     [991, 3.1416, 0],
     [295, 0.437, 12566.152],
@@ -336,11 +379,14 @@ export const gL2EarthCoefficientsJ2000 =
     [2, 4.38, 5223.69],
     [2, 3.75, 0.98]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gL3EarthCoefficientsJ2000 =
-  [
+export const getCoefficientsL3J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [289, 5.842, 6283.076],
     [21, 6.05, 12566.15],
     [3, 5.20, 155.42],
@@ -349,19 +395,25 @@ export const gL3EarthCoefficientsJ2000 =
     [1, 5.97, 242.73],
     [1, 5.54, 18849.23]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gL4EarthCoefficientsJ2000 =
-  [
+export const getCoefficientsL4J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [8, 4.14, 6283.08],
     [1, 3.28, 12566.15]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gB1EarthCoefficientsJ2000 =
-  [
+export const getCoefficientsB1J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [227778, 3.413766, 6283.075850],
     [3806, 3.3706, 12566.1517],
     [3620, 0, 0],
@@ -370,32 +422,44 @@ export const gB1EarthCoefficientsJ2000 =
     [8, 1.79, 5223.69],
     [6, 5.20, 2352.87]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gB2EarthCoefficientsJ2000 =
-  [
+export const getCoefficientsB2J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [9721, 5.1519, 6283.07585],
     [233, 3.1416, 0],
     [134, 0.644, 12566.152],
     [7, 1.07, 18849.23]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gB3EarthCoefficientsJ2000 =
-  [
+export const getCoefficientsB3J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [276, 0.595, 6283.076],
     [17, 3.14, 0],
     [4, 0.12, 12566.15]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const gB4EarthCoefficientsJ2000 =
-  [
+export const getCoefficientsB4J2000 = function (useDecimals: boolean = true): (EarthCoefficient | EarthCoefficientNum)[] {
+  return [
     [6, 2.27, 6283.08],
     [1, 0, 0]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}

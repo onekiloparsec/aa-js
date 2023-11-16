@@ -1,5 +1,6 @@
 import {
   EclipticCoordinatesAtJulianDayWithEquinoxFunction,
+  EclipticCoordinatesAtJulianDayWithEquinoxWithPrecisionFunction,
   EclipticCoordinatesAtJulianDayWithPrecisionFunction,
   EquatorialCoordinatesAtJulianDayWithEquinoxFunction,
   EquatorialCoordinatesAtJulianDayWithObliquityWithPrecisionFunction,
@@ -7,14 +8,15 @@ import {
   QuantityAtJulianDayFunction,
   QuantityAtJulianDayWithPrecisionFunction,
   QuantityInArcSecondAtJulianDayWithPrecisionFunction,
-  QuantityInAstronomicalUnitAtJulianDayFunction,
   QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction,
   QuantityInDegreeAtJulianCenturyWithPrecisionFunction,
   QuantityInDegreeAtJulianDayFunction,
   QuantityInDegreeAtJulianDayWithPrecisionFunction,
-  SingleCoordinateDegreeAtJulianDayWithEquinoxFunction
+  SingleCoordinateDegreeAtJulianDayWithEquinoxFunction,
+  SingleCoordinateDegreeAtJulianDayWithEquinoxWithPrecisionFunction
 } from './funcs'
 import { Kilometer } from './units'
+import Decimal from '@/decimal'
 
 
 export enum Obliquity {
@@ -55,13 +57,13 @@ export interface NaturalMoon {
 }
 
 export interface EarthPlanet {
-  getEclipticLongitude: SingleCoordinateDegreeAtJulianDayWithEquinoxFunction
+  getEclipticLongitude: SingleCoordinateDegreeAtJulianDayWithEquinoxWithPrecisionFunction
   getEclipticLongitudinalRotation: Function
-  getEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithEquinoxFunction
-  getEclipticCoordinates: EclipticCoordinatesAtJulianDayWithEquinoxFunction
-  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
+  getEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithEquinoxWithPrecisionFunction
+  getEclipticCoordinates: EclipticCoordinatesAtJulianDayWithEquinoxWithPrecisionFunction
+  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction
   getFlatteningCorrections: Function
-  getMeanAnomaly: QuantityAtJulianDayFunction
+  getMeanAnomaly: QuantityAtJulianDayWithPrecisionFunction
   getEccentricity: QuantityAtJulianDayFunction
   getLongitudeOfPerihelion: QuantityInDegreeAtJulianDayFunction
   getNutationInLongitude: QuantityInArcSecondAtJulianDayWithPrecisionFunction
@@ -98,3 +100,6 @@ export interface NaturalSun {
   getVariationGeometricEclipticLongitude: QuantityInDegreeAtJulianDayFunction,
   constants: SunConstants
 }
+
+export type EarthCoefficient = { A: Decimal, B: Decimal, C: Decimal }
+export type EarthCoefficientNum = { A: number, B: number, C: number }
