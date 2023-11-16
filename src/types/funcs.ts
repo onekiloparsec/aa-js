@@ -37,6 +37,7 @@ export type QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction = (jd: Ju
 export type QuantityInMagnitudeAtJulianDayFunction = (jd: JulianDay | number) => Magnitude
 export type QuantityInKilometerPerSecondAtJulianDayFunction = (jd: JulianDay | number) => KilometerPerSecond
 export type QuantityInArcSecondAtJulianDayFunction = (jd: JulianDay | number) => ArcSecond
+export type QuantityInArcSecondAtJulianDayWithPrecisionFunction = (jd: JulianDay | number, highPrecision?: boolean) => ArcSecond
 
 export type RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction = (jd: JulianDay | number, geoCoords: GeographicCoordinates) => RiseTransitSet
 
