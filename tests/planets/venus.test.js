@@ -18,12 +18,28 @@ describe('venus', () => {
     expect(Venus.getRadiusVector(jd)).toBeCloseTo(0.724603, 6)
   })
 
+  test('check ecliptic coordinates of Venus [low precision]', () => {
+    const jd = juliandays.getJulianDay(new Date(Date.UTC(1992, 11, 20, 0, 0, 0)))
+    expect(jd.toNumber()).toEqual(2448976.5)
+    expect(Venus.getEclipticLongitude(jd, false)).toBeCloseTo(26.11428, 5)
+    expect(Venus.getEclipticLatitude(jd, false)).toBeCloseTo(-2.62070, 5)
+    expect(Venus.getRadiusVector(jd, false)).toBeCloseTo(0.724603, 6)
+  })
 
   // See AA p.103, Example 15.a
   test('check apparent equatorial coordinates of Venus', () => {
     const jd = juliandays.getJulianDay(new Date(Date.UTC(1988, 2, 20, 0, 0, 0)))
     expect(jd.toNumber()).toEqual(2447240.5)
     const coords = Venus.getApparentGeocentricEquatorialCoordinates(times.transformUTC2TT(jd))
+    expect(coords.rightAscension.toNumber()).toBeCloseTo(41.73129, 2)
+    expect(coords.declination.toNumber()).toBeCloseTo(18.44092, 2)
+  })
+
+  // See AA p.103, Example 15.a
+  test('check apparent equatorial coordinates of Venus [low precision]', () => {
+    const jd = juliandays.getJulianDay(new Date(Date.UTC(1988, 2, 20, 0, 0, 0)))
+    expect(jd.toNumber()).toEqual(2447240.5)
+    const coords = Venus.getApparentGeocentricEquatorialCoordinates(times.transformUTC2TT(jd), false)
     expect(coords.rightAscension.toNumber()).toBeCloseTo(41.73129, 2)
     expect(coords.declination.toNumber()).toBeCloseTo(18.44092, 2)
   })

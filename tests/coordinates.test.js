@@ -31,8 +31,8 @@ describe('coordinates', () => {
     // See https://www.eso.org/sci/observing/tools/calendar/ParAng.html to check values.
     const refAngle = -78.1
 
-    expect(getParallacticAngle(jd, geoCoords, equCoords).toNumber()).toBeCloseTo(refAngle, 0)
-    expect(getParallacticAngle(jd, geoCoords, equCoords, false).toNumber()).toBeCloseTo(refAngle, 0)
+    expect(getParallacticAngle(jd, equCoords, geoCoords).toNumber()).toBeCloseTo(refAngle, 0)
+    expect(getParallacticAngle(jd, equCoords, geoCoords, false).toNumber()).toBeCloseTo(refAngle, 0)
   })
 
   test('parallactic angle after meridian', () => {
@@ -53,8 +53,8 @@ describe('coordinates', () => {
     // Looking for improved reference values...
     let refAngle = 74.4
 
-    expect(getParallacticAngle(jd, geoCoords, equCoords).toNumber()).toBeCloseTo(refAngle, 0)
-    expect(getParallacticAngle(jd, geoCoords, equCoords, false).toNumber()).toBeCloseTo(refAngle, 0)
+    expect(getParallacticAngle(jd, equCoords, geoCoords).toNumber()).toBeCloseTo(refAngle, 0)
+    expect(getParallacticAngle(jd, equCoords, geoCoords, false).toNumber()).toBeCloseTo(refAngle, 0)
   })
 
   // See AA p95, Ex 13.a
