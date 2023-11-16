@@ -107,9 +107,9 @@ export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
         distanceDetails.Delta = new Decimal(Math.sqrt(x * x + y * y + z * z))
         distanceDetails.tau = getLightTimeFromDistance(distanceDetails.Delta)
 
-        distanceDetails.l = new Decimal(x)
-        distanceDetails.b = new Decimal(y)
-        distanceDetails.r = new Decimal(z)
+        distanceDetails.x = new Decimal(x)
+        distanceDetails.y = new Decimal(y)
+        distanceDetails.z = new Decimal(z)
       }
 
       distanceDetails.l = coords.L
@@ -120,7 +120,7 @@ export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
       JD0 = new Decimal(jd).minus(distanceDetails.tau)
     }
   }
-
+  
   return distanceDetails
 }
 
