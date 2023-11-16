@@ -1,7 +1,7 @@
 import { juliandays, times, Venus } from '@'
 import { getDecimalYear } from '@/dates'
 
-describe('venus', () => {
+describe('Venus', () => {
   test('check that polar and equatorial semi diameters are identical', () => {
     const jd = juliandays.getJulianDay()
     const polarDiameter = Venus.getPolarSemiDiameter(jd)
@@ -50,5 +50,11 @@ describe('venus', () => {
     const decimalYear = getDecimalYear(jd)
     expect(decimalYear.toNumber()).toBeCloseTo(1978.79, 2)
     expect(Venus.getPerihelion(jd).toNumber()).toBeCloseTo(2443_873.704, 3)
+  })
+
+  test('check magnitude', () => {
+    const jd = juliandays.getJulianDay(new Date(Date.UTC(1992, 11, 20)))
+    // Old formula gives -3.8. No value provided in AA for new formulae.
+    expect(Venus.getMagnitude(jd).toNumber()).toBeCloseTo(-4.21, 1)
   })
 })
