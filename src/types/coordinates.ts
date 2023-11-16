@@ -16,27 +16,44 @@ export type EquatorialCoordinatesH = {
  * projecting the Earth equator onto the spherical sky.
  */
 export type EquatorialCoordinates = {
-  rightAscension: Degree | number
-  declination: Degree | number
-  epoch?: JulianDay | number
+  rightAscension: Degree
+  declination: Degree
+  epoch?: JulianDay
+}
+/**
+ * Coordinates in the Equatorial system, that is in the system formed by
+ * projecting the Earth equator onto the spherical sky. Use native numbers.
+ */
+export type EquatorialCoordinatesNum = {
+  rightAscension: number // degrees
+  declination: number // degrees
+  epoch?: number
 }
 
 /**
  * Topocentric coordinates.
  */
 export type TopocentricCoordinates = {
-  rightAscension: Hour | number
-  declination: Degree | number
-  epoch?: JulianDay | number
+  rightAscension: Hour
+  declination: Degree
+  epoch?: JulianDay
 }
 
 /**
  * Geographic coordinates, East Positive!
  */
 export type GeographicCoordinates = {
-  longitude: Degree | number
-  latitude: Degree | number
-  height?: Meter | number
+  longitude: Degree
+  latitude: Degree
+  height?: Meter
+}
+/**
+ * Geographic coordinates, East Positive! Use native numbers.
+ */
+export type GeographicCoordinatesNum = {
+  longitude: number// degrees
+  latitude: number// degrees
+  height?: number// meters
 }
 
 /**
@@ -45,13 +62,26 @@ export type GeographicCoordinates = {
  * onto the spherical sky.
  */
 export type EclipticCoordinates = {
-  longitude: Degree | number
-  latitude: Degree | number
+  longitude: Degree
+  latitude: Degree
+}
+/**
+ * Coordinates in the Ecliptic (a.k.a. Celestial) system, that is the system
+ * formed by projecting the plane of Earth's orbit (the ecliptic)
+ * onto the spherical sky. Use native numbers.
+ */
+export type EclipticCoordinatesNum = {
+  longitude: number // degrees
+  latitude: number // degrees
 }
 
 export type GalacticCoordinates = {
-  longitude: Degree | number
-  latitude: Degree | number
+  longitude: Degree
+  latitude: Degree
+}
+export type GalacticCoordinatesNum = {
+  longitude: number
+  latitude: number
 }
 
 /**
@@ -60,8 +90,18 @@ export type GalacticCoordinates = {
  * azimuth is the angle counted from the geographical north or south.
  */
 export type HorizontalCoordinates = {
-  azimuth: Degree | number
-  altitude: Degree | number
+  azimuth: Degree
+  altitude: Degree
+}
+/**
+ * Coordinates of an object as seen from an observer's location, at a given
+ * time. The altitude is counted from the (idealistic) plane horizon. The
+ * azimuth is the angle counted from the geographical north or south.
+ * Use native numbers.
+ */
+export type HorizontalCoordinatesNum = {
+  azimuth: number
+  altitude: number
 }
 
 export type Coordinates2D = {
