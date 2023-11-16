@@ -2,7 +2,20 @@
  @module Exoplanets
  */
 import Decimal from '@/decimal'
-import { AstronomicalUnit, Day, Degree, Hour, JulianDay, JupiterRadius, Kilometer, Radian, SolarRadius } from '@/types'
+import {
+  AstronomicalUnit,
+  Day,
+  Degree,
+  EquatorialCoordinates,
+  EquatorialCoordinatesNum,
+  GeographicCoordinates,
+  GeographicCoordinatesNum,
+  JulianDay,
+  JupiterRadius,
+  Kilometer,
+  Radian,
+  SolarRadius
+} from '@/types'
 import { ONE, ONE_UA_IN_KILOMETERS, PI, PIHALF, TWO } from '@/constants'
 import { getLocalSiderealTime } from '@/juliandays'
 import { Jupiter } from '@/planets'
@@ -71,15 +84,15 @@ export function getExoplanetTransitDetails (orbitalPeriod: Day | number,
 // If transitJD is undefined, the altitude of the transit to the local meridian will be computed.
 // If transitJD is provided, it is assumed to be the JD of which we want the local altitude.
 // It can be that of a transit... or not.
-export function getTransitAltitude (ra: Hour | number, dec: Degree | number, lng: Degree | number, lat: Degree | number, transitJD: JulianDay | number | undefined = undefined): Degree {
+export function getTransitAltitude (equCoords: EquatorialCoordinates | EquatorialCoordinatesNum, geoCoords: GeographicCoordinates | GeographicCoordinatesNum, transitJD: JulianDay | number | undefined = undefined): Degree {
   // See AA. P.93 eq. 13.6 (and p.92 for H).
   let cosH = new Decimal(1)
   if (transitJD !== undefined && transitJD !== null) {
-    const lmst = getLocalSiderealTime(transitJD, lng)
-    cosH = Decimal.cos((lmst.minus(ra)).hoursToRadians())
+    const lmst = getLocalSiderealTime(transitJD, geoCoords.longitude)
+    cosH = Decimal.cos((lmst.minus(equCoords.rightAscension)).degreesToRadians())
   }
-  const dlat = new Decimal(lat).degreesToRadians()
-  const ddec = new Decimal(lat).degreesToRadians()
+  const dlat = new Decimal(geoCoords.latitude).degreesToRadians()
+  const ddec = new Decimal(geoCoords.latitude).degreesToRadians()
   return Decimal.asin(
     dlat.sin().mul(ddec.sin()).plus(dlat.cos().mul(ddec.cos()).mul(cosH))
   ).radiansToDegrees()
