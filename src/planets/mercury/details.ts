@@ -45,7 +45,7 @@ export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
 export function getMagnitude (jd: JulianDay | number): Magnitude {
   const r = getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
-  const i = getPhaseAngle(jd).degreesToRadians()
+  const i = getPhaseAngle(jd)
   return new Decimal('-0.42')
     .plus(new Decimal('5').mul(Decimal.log10(r.mul(Delta))))
     .plus(new Decimal('0.0380').mul(i))

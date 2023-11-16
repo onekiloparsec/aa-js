@@ -45,12 +45,12 @@ export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
 export function getMagnitude (jd: JulianDay | number): Magnitude {
   const r = getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
-  const i = getPhaseAngle(jd).degreesToRadians()
-  return new Decimal(-4.40)
-    .plus(new Decimal(5).mul(Decimal.log10(r.mul(Delta))))
-    .plus(new Decimal(0.0009).mul(i))
-    .plus(new Decimal(0.000239).mul(i.pow(2)))
-    .minus(new Decimal(0.00000065).mul(i.pow(3)))
+  const i = getPhaseAngle(jd)
+  return new Decimal('-4.40')
+    .plus(new Decimal('5').mul(Decimal.log10(r.mul(Delta))))
+    .plus(new Decimal('0.000_9').mul(i))
+    .plus(new Decimal('0.000_239').mul(i.pow(2)))
+    .minus(new Decimal('0.000_000_65').mul(i.pow(3)))
 }
 
 /**
