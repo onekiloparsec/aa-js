@@ -5,16 +5,6 @@ import { ArcSecond, Degree, Hour, JulianDay, Meter, Pixel } from './units'
  * Coordinates in the Equatorial system, that is in the system formed by
  * projecting the Earth equator onto the spherical sky.
  */
-export type EquatorialCoordinatesH = {
-  rightAscensionH: Hour | number
-  declination: Degree | number
-  epoch?: JulianDay | number
-}
-
-/**
- * Coordinates in the Equatorial system, that is in the system formed by
- * projecting the Earth equator onto the spherical sky.
- */
 export type EquatorialCoordinates = {
   rightAscension: Degree
   declination: Degree

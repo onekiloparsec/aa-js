@@ -1,13 +1,5 @@
 import Decimal from '@/decimal'
-import {
-  Degree,
-  EclipticCoordinates,
-  EquatorialCoordinates,
-  EquatorialCoordinatesH,
-  JulianDay,
-  Kilometer,
-  Obliquity
-} from '@/types'
+import { Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Kilometer, Obliquity } from '@/types'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianCentury } from '@/juliandays'
 import { ONE, TWO } from '@/constants'
@@ -242,7 +234,7 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obli
  * @see getApparentEquatorialCoordinates
  * @param {JulianDay} jd The julian day
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
- * @returns {EquatorialCoordinatesH}
+ * @returns {EquatorialCoordinates}
  * @memberof module:Earth
  */
 export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EquatorialCoordinates {
