@@ -1,7 +1,8 @@
 import Decimal from '@/decimal'
+import { PlanetCoefficient, PlanetCoefficientNum } from '@/types'
 
-export const g_L0MarsCoefficients =
-  [
+export const getCoefficientsL0 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [620347712, 0, 0],
     [18656368, 5.05037100, 3340.61242670],
     [1108217, 5.4009984, 6681.2248534],
@@ -72,11 +73,14 @@ export const g_L0MarsCoefficients =
     [105, 0.785, 8827.390],
     [100, 3.243, 11773.377]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_L1MarsCoefficients =
-  [
+export const getCoefficientsL1 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [334085627474.0, 0, 0],
     [1458227, 3.6042605, 3340.6124267],
     [164901, 3.926313, 6681.224853],
@@ -124,11 +128,14 @@ export const g_L1MarsCoefficients =
     [27, 3.89, 1221.85],
     [27, 5.11, 2700.72]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_L2MarsCoefficients =
-  [
+export const getCoefficientsL2 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [58016, 2.04979, 3340.61243],
     [54188, 0, 0],
     [13908, 2.45742, 6681.22485],
@@ -163,11 +170,14 @@ export const g_L2MarsCoefficients =
     [6, 5.48, 1592.60],
     [6, 2.34, 3097.88]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_L3MarsCoefficients =
-  [
+export const getCoefficientsL3 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [1482, 0.4443, 3340.6124],
     [662, 0.885, 6681.225],
     [188, 1.288, 10021.837],
@@ -181,11 +191,14 @@ export const g_L3MarsCoefficients =
     [3, 4.59, 3185.19],
     [3, 0.65, 553.57]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_L4MarsCoefficients =
-  [
+export const getCoefficientsL4 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [114, 3.1416, 0],
     [29, 5.64, 6681.22],
     [24, 5.14, 3340.61],
@@ -195,19 +208,25 @@ export const g_L4MarsCoefficients =
     [1, 0.49, 16703.06],
     [1, 1.32, 242.73]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_L5MarsCoefficients =
-  [
+export const getCoefficientsL5 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [1, 3.14, 0],
     [1, 4.04, 6681.22]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_B0MarsCoefficients =
-  [
+export const getCoefficientsB0 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [3197135, 3.7683204, 3340.6124267],
     [298033, 4.106170, 6681.224853],
     [289105, 0, 0],
@@ -225,11 +244,14 @@ export const g_B0MarsCoefficients =
     [143, 3.213, 3340.630],
     [139, 2.418, 8962.455]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_B1MarsCoefficients =
-  [
+export const getCoefficientsB1 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [350069, 5.368478, 3340.612427],
     [14116, 3.14159, 0],
     [9671, 5.4788, 6681.2249],
@@ -240,11 +262,14 @@ export const g_B1MarsCoefficients =
     [33, 3.46, 5621.84],
     [26, 2.48, 2281.23]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_B2MarsCoefficients =
-  [
+export const getCoefficientsB2 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [16727, 0.60221, 3340.61243],
     [4987, 3.1416, 0],
     [302, 5.559, 6681.225],
@@ -253,30 +278,39 @@ export const g_B2MarsCoefficients =
     [12, 2.24, 3337.09],
     [8, 2.25, 16703.06]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_B3MarsCoefficients =
-  [
+export const getCoefficientsB3 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [607, 1.981, 3340.612],
     [43, 0, 0],
     [14, 1.80, 6681.22],
     [3, 3.45, 10021.84]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_B4MarsCoefficients =
-  [
+export const getCoefficientsB4 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [13, 0, 0],
     [11, 3.46, 3340.61],
     [1, 0.50, 6681.22]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_R0MarsCoefficients =
-  [
+export const getCoefficientsR0 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [153033488, 0, 0],
     [14184953, 3.47971284, 3340.61242670],
     [660776, 3.817834, 6681.224853],
@@ -323,11 +357,14 @@ export const g_R0MarsCoefficients =
     [176, 5.953, 3870.303],
     [164, 3.799, 4136.910]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_R1MarsCoefficients =
-  [
+export const getCoefficientsR1 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [1107433, 2.0325052, 3340.6124267],
     [103176, 2.370718, 6681.224853],
     [12877, 0, 0],
@@ -356,11 +393,14 @@ export const g_R1MarsCoefficients =
     [48, 2.29, 2914.01],
     [39, 2.32, 4136.91]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_R2MarsCoefficients =
-  [
+export const getCoefficientsR2 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [44242, 0.47931, 3340.61243],
     [8138, 0.8700, 6681.2249],
     [1275, 1.2259, 10021.8373],
@@ -373,11 +413,14 @@ export const g_R2MarsCoefficients =
     [10, 5.39, 1059.38],
     [10, 0.42, 796.30]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_R3MarsCoefficients =
-  [
+export const getCoefficientsR3 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [1113, 5.1499, 3340.6124],
     [424, 5.613, 6681.225],
     [100, 5.997, 10021.837],
@@ -385,15 +428,21 @@ export const g_R3MarsCoefficients =
     [5, 3.14, 0],
     [3, 0.43, 16703.06]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
 
-export const g_R4MarsCoefficients =
-  [
+export const getCoefficientsR4 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+  return [
     [20, 3.58, 3340.61],
     [16, 4.05, 6681.22],
     [6, 4.46, 10021.84],
     [2, 4.84, 13362.45]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
+      { A: a[0], B: a[1], C: a[2] }
   })
+}
