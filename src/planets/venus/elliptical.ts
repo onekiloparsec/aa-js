@@ -79,7 +79,8 @@ export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number
 export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean, highPrecision: boolean = true): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getGeocentricEclipticCoordinates(jd, highPrecision),
-    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd, highPrecision) : Earth.getTrueObliquityOfEcliptic(jd, highPrecision)
+    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd, highPrecision) : Earth.getTrueObliquityOfEcliptic(jd, highPrecision),
+    highPrecision
   )
 }
 
@@ -96,7 +97,8 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obli
 export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getApparentGeocentricEclipticCoordinates(jd, highPrecision),
-    Earth.getTrueObliquityOfEcliptic(jd, highPrecision)
+    Earth.getTrueObliquityOfEcliptic(jd, highPrecision),
+    highPrecision
   )
 }
 
