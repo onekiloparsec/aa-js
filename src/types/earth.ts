@@ -1,12 +1,12 @@
 import {
   EclipticCoordinatesAtJulianDayWithEquinoxFunction,
   EclipticCoordinatesAtJulianDayWithPrecisionFunction,
-  EquatorialCoordinatesAtJulianDayWithPrecisionFunction,
   EquatorialCoordinatesAtJulianDayWithEquinoxFunction,
   EquatorialCoordinatesAtJulianDayWithObliquityWithPrecisionFunction,
+  EquatorialCoordinatesAtJulianDayWithPrecisionFunction,
   QuantityAtJulianDayFunction,
   QuantityAtJulianDayWithPrecisionFunction,
-  QuantityInArcSecondAtJulianDayFunction,
+  QuantityInArcSecondAtJulianDayWithPrecisionFunction,
   QuantityInAstronomicalUnitAtJulianDayFunction,
   QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction,
   QuantityInDegreeAtJulianCenturyWithPrecisionFunction,
@@ -64,8 +64,8 @@ export interface EarthPlanet {
   getMeanAnomaly: QuantityAtJulianDayFunction
   getEccentricity: QuantityAtJulianDayFunction
   getLongitudeOfPerihelion: QuantityInDegreeAtJulianDayFunction
-  getNutationInLongitude: QuantityInArcSecondAtJulianDayFunction
-  getNutationInObliquity: QuantityInArcSecondAtJulianDayFunction
+  getNutationInLongitude: QuantityInArcSecondAtJulianDayWithPrecisionFunction
+  getNutationInObliquity: QuantityInArcSecondAtJulianDayWithPrecisionFunction
   getMeanObliquityOfEcliptic: QuantityInDegreeAtJulianDayWithPrecisionFunction
   getTrueObliquityOfEcliptic: QuantityInDegreeAtJulianDayWithPrecisionFunction
   getEarthVelocity: Function
