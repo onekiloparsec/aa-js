@@ -15,6 +15,8 @@ describe('Mars', () => {
   })
 
   test('check apparent diameter', () => {
+    const UTCDate = new Date(Date.UTC(1992, 10, 9))
+    const jd = juliandays.getJulianDay(UTCDate)
     const apparentDiameter = Mars.getEquatorialSemiDiameter(jd)
     expect(apparentDiameter.toNumber()).toBeCloseTo(10.75 / 2) // arcsec
   })
