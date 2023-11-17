@@ -99,3 +99,13 @@ A copy of the Astronomical Algorithms textbook, by Jean Meeus
 would also help, since many methods refer to it.
 
 The documentation is published in [onekiloparsec.dev/aa-js](https://onekiloparsec.dev/aa-js).
+
+Benchmarks
+================
+
+To run benchmarks, install `vite-node` globally (`npm i -g vite-node`), then run
+individual benchmark like this:
+
+```bash
+npx vite-node benchmark/jupiter/apparent-equatorial-coordinates.js
+```
