@@ -63,8 +63,6 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
   const lambda: Radian = fmod(Decimal.atan2(details.y, details.x), PITWO)
   const beta: Radian = Decimal.atan2(details.z, Decimal.sqrt(details.x.pow(2).plus(details.y.pow(2))))
 
-  console.log(lambda.radiansToDegrees(), beta.radiansToDegrees())
-
   // Step 6. Calculate B, a and b. Keep B in Degree for consistency of returned object.
   const B: Degree = Decimal.asin(
     (
@@ -78,8 +76,6 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
 
   const majorAxis: ArcSecond = new Decimal(375.35).dividedBy(earthSaturnDistance)
   const minorAxis: ArcSecond = majorAxis.mul(B.degreesToRadians().abs().sin())
-
-  console.log(B, majorAxis, minorAxis)
 
   // To expose in APIs one day:
   // Factors by which the axes a and b of the outer edge of the outer ring are to be multiplied to obtain the axes of:
@@ -118,24 +114,22 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
 
   // Step 10. Calculate the Nutation and Obliquity
   const epsilon: Degree = Earth.getTrueObliquityOfEcliptic(jd)
-  const deltaPsi: Degree = Earth.getNutationInLongitude(jd)
+  const deltaPsi: Degree = Earth.getNutationInLongitude(jd).dividedBy(3600)
 
   // Step 11. Calculate the ecliptical longitude and latitude of the northern pole of the ring plane
   const lambda0: Degree = Omega.minus(PIHALF).radiansToDegrees()
   const beta0: Degree = ((PIHALF).minus(i)).radiansToDegrees()
-  console.log(lambda0, beta0)
 
   // Step 12. Correct lambda and beta for the aberration of Saturn, then nutation
   const lambdaCorrection: Degree = new Decimal('0.005_693').mul(Decimal.cos(l0.minus(lambda))).dividedBy(beta.cos())
   const betaCorrection: Degree = new Decimal('0.005_693').mul(Decimal.sin(l0.minus(lambda))).mul(beta.sin())
-  console.log(lambdaCorrection, betaCorrection)
 
   let correctedLambda: Degree = fmod360(lambda.radiansToDegrees().plus(lambdaCorrection))
-  const correctedBeta: Degree = fmod360(beta.radiansToDegrees().plus(betaCorrection))
+  const correctedBeta: Degree = beta.radiansToDegrees().plus(betaCorrection)
 
   // Step 13. Add nutation in longitude to lambda0 and lambda
-  const correctedLambda0: Degree = fmod360(lambda0.plus(deltaPsi))
-  correctedLambda = fmod360(correctedLambda.plus(deltaPsi))
+  const correctedLambda0: Degree = lambda0.plus(deltaPsi)
+  correctedLambda = correctedLambda.plus(deltaPsi)
 
   // Step 14. Convert to equatorial coordinates
   const eclCoords = { longitude: correctedLambda, latitude: correctedBeta }
