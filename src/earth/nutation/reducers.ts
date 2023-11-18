@@ -17,6 +17,8 @@ export function getReducedValue (T: JulianCentury, D: Degree, M: Degree, Mprime:
       coscoeff2: Decimal
     }[]
 
+    const func = sinOrCos === 'sin' ? (v: Decimal) => Decimal.sin(v) : (v: Decimal) => Decimal.cos(v)
+
     return coeffs.reduce((sum, val) => {
       const argument = val.D.mul(D)
         .plus(val.M.mul(M))
@@ -26,7 +28,6 @@ export function getReducedValue (T: JulianCentury, D: Degree, M: Degree, Mprime:
 
       const mod1 = sinOrCos === 'sin' ? val.sincoeff1 : val.coscoeff1
       const mod2 = sinOrCos === 'sin' ? val.sincoeff2 : val.coscoeff2
-      const func = sinOrCos === 'sin' ? (v: Decimal) => Decimal.sin(v) : (v: Decimal) => Decimal.cos(v)
 
       return sum.plus(
         (mod1.plus(mod2.mul(T)))
@@ -46,20 +47,29 @@ export function getReducedValue (T: JulianCentury, D: Degree, M: Degree, Mprime:
       coscoeff1: number
       coscoeff2: number
     }[]
+    const tnum = T.toNumber()
+    const deg2rad = DEG2RAD.toNumber()
+    const Dnum = D.toNumber()
+    const Mnum = M.toNumber()
+    const Mprimenum = Mprime.toNumber()
+    const Fnum = F.toNumber()
+    const omeganum = omega.toNumber()
+
+    const func = sinOrCos === 'sin' ? Math.sin : Math.cos
+
     const value = coeffs.reduce((sum, val) => {
-      const argument = val.D * D.toNumber()
-        + val.M * M.toNumber()
-        + val.Mprime * Mprime.toNumber()
-        + val.F * F.toNumber()
-        + val.omega * omega.toNumber()
+      const argument = val.D * Dnum
+        + val.M * Mnum
+        + val.Mprime * Mprimenum
+        + val.F * Fnum
+        + val.omega * omeganum
 
       const mod1 = sinOrCos === 'sin' ? val.sincoeff1 : val.coscoeff1
       const mod2 = sinOrCos === 'sin' ? val.sincoeff2 : val.coscoeff2
-      const func = sinOrCos === 'sin' ? Math.sin : Math.cos
 
       return sum + (
-        (mod1 + (mod2 * T.toNumber()))
-        * (func(argument * DEG2RAD.toNumber())
+        (mod1 + (mod2 * tnum))
+        * (func(argument * deg2rad)
           * 0.0001)
       )
     }, 0)
