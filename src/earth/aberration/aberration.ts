@@ -308,6 +308,7 @@ export function getAnnualEclipticAberration (jd: JulianDay | number, coords: Ecl
  * Warning: this is valid is not near the celestial poles (say < 1").
  * This is useful for stars, whose position are often given in equatorial coordinates.
  * For planets, use the `getApparentEquatorialCoordinates` methods instead.
+ * See AA p 151, Equ 23.1
  * @param {JulianDay} jd The julian day
  * @param {EquatorialCoordinates} coords The equatorial coordinates
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
@@ -315,26 +316,48 @@ export function getAnnualEclipticAberration (jd: JulianDay | number, coords: Ecl
  * @memberof module:Earth
  */
 export function getNutationEquatorialAberration (jd: JulianDay | number, coords: EquatorialCoordinates, highPrecision: boolean = true): EquatorialCoordinatesCorrection {
-  const epsilon: Radian = getMeanObliquityOfEcliptic(jd).degreesToRadians()
-  const cosEpsilon = epsilon.cos()
-  const sinEpsilon = epsilon.sin()
+  const epsilon: Radian = getMeanObliquityOfEcliptic(jd, highPrecision).degreesToRadians()
 
-  const DeltaEpsilon: ArcSecond = getNutationInObliquity(jd)
-  const DeltaPsi: ArcSecond = getNutationInLongitude(jd)
+  const DeltaEpsilon: ArcSecond = getNutationInObliquity(jd, highPrecision)
+  const DeltaPsi: ArcSecond = getNutationInLongitude(jd, highPrecision)
 
   const ra: Radian = new Decimal(coords.rightAscension).degreesToRadians()
   const dec: Radian = new Decimal(coords.declination).degreesToRadians()
-  const cosAlpha = ra.cos()
-  const sinAlpha = ra.sin()
-  const tanDelta = dec.tan()
 
-  const A0 = cosEpsilon.plus(sinEpsilon.mul(sinAlpha).mul(tanDelta))
-  const A1 = cosAlpha.mul(tanDelta)
-  const DeltaRightAscension = DeltaPsi.mul(A0).minus(DeltaEpsilon.mul(A1))
+  if (highPrecision) {
+    const cosEpsilon = epsilon.cos()
+    const sinEpsilon = epsilon.sin()
 
-  const D0 = sinEpsilon.mul(cosAlpha)
-  const D1 = sinAlpha
-  const DeltaDeclination = DeltaPsi.mul(D0).plus(DeltaEpsilon.mul(D1))
+    const cosAlpha = ra.cos()
+    const sinAlpha = ra.sin()
+    const tanDelta = dec.tan()
 
-  return { DeltaRightAscension, DeltaDeclination }
+    const A0 = cosEpsilon.plus(sinEpsilon.mul(sinAlpha).mul(tanDelta))
+    const A1 = cosAlpha.mul(tanDelta)
+    const DeltaRightAscension = DeltaPsi.mul(A0).minus(DeltaEpsilon.mul(A1))
+
+    const D0 = sinEpsilon.mul(cosAlpha)
+    const D1 = sinAlpha
+    const DeltaDeclination = DeltaPsi.mul(D0).plus(DeltaEpsilon.mul(D1))
+
+    return { DeltaRightAscension, DeltaDeclination }
+  } else {
+    const cosEpsilon = Math.cos(epsilon.toNumber())
+    const sinEpsilon = Math.sin(epsilon.toNumber())
+
+    const cosAlpha = Math.cos(ra.toNumber())
+    const sinAlpha = Math.sin(ra.toNumber())
+    const tanDelta = Math.tan(dec.toNumber())
+
+    const A0 = cosEpsilon + sinEpsilon * sinAlpha * tanDelta
+    const DeltaRightAscension = new Decimal(
+      DeltaPsi.toNumber() * A0 - DeltaEpsilon.toNumber() * cosAlpha * tanDelta
+    )
+
+    const DeltaDeclination = new Decimal(
+      DeltaPsi.toNumber() * sinEpsilon * cosAlpha + DeltaEpsilon.toNumber() * sinAlpha
+    )
+
+    return { DeltaRightAscension, DeltaDeclination }
+  }
 }
