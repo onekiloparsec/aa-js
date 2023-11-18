@@ -1,7 +1,61 @@
 import Decimal from '@/decimal'
 
-export const g_AberrationCoefficients =
-  [
+/** @private */
+export type AberrationCoefficient = {
+  L2: Decimal
+  L3: Decimal
+  L4: Decimal
+  L5: Decimal
+  L6: Decimal
+  L7: Decimal
+  L8: Decimal
+  Ldash: Decimal
+  D: Decimal
+  Mdash: Decimal
+  F: Decimal
+  xsin: Decimal
+  xsint: Decimal
+  xcos: Decimal
+  xcost: Decimal
+  ysin: Decimal
+  ysint: Decimal
+  ycos: Decimal
+  ycost: Decimal
+  zsin: Decimal
+  zsint: Decimal
+  zcos: Decimal
+  zcost: Decimal
+}
+
+/** @private */
+export type AberrationCoefficientNum = {
+  L2: number
+  L3: number
+  L4: number
+  L5: number
+  L6: number
+  L7: number
+  L8: number
+  Ldash: number
+  D: number
+  Mdash: number
+  F: number
+  xsin: number
+  xsint: number
+  xcos: number
+  xcost: number
+  ysin: number
+  ysint: number
+  ycos: number
+  ycost: number
+  zsin: number
+  zsint: number
+  zcos: number
+  zcost: number
+}
+
+export const getAberrationCoefficients = function (useDecimals: boolean = true): (AberrationCoefficient | AberrationCoefficientNum)[] {
+  return [
     //L2   L3   L4  L5  L6  L7  L8  Ldash D   Mdash F   xsin      xsint xcos    xcost ysin   ysint ycos     ycost zsin   zsint zcos    zcost
     [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1719914, -2, -25, 0, 25, -13, 1578089, 156, 10, 32, 684185, -358],
     [0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6434, 141, 28007, -107, 25697, -95, -5904, -130, 11141, -48, -2559, -55],
@@ -40,7 +94,7 @@ export const g_AberrationCoefficients =
     [0, 2, -2, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, -5, 0, -4, 0, -5, 0, -2, 0, -2, 0],
     [0, 0, 0, 0, 0, 0, 0, 1, -2, 0, 0, 5, 0, 0, 0, 0, 0, -5, 0, 0, 0, -2, 0],
   ].map(a => {
-    return {
+    return useDecimals ? {
       L2: new Decimal(a[0]),
       L3: new Decimal(a[1]),
       L4: new Decimal(a[2]),
@@ -64,6 +118,30 @@ export const g_AberrationCoefficients =
       zsint: new Decimal(a[20]),
       zcos: new Decimal(a[21]),
       zcost: new Decimal(a[22])
+    } : {
+      L2: a[0],
+      L3: a[1],
+      L4: a[2],
+      L5: a[3],
+      L6: a[4],
+      L7: a[5],
+      L8: a[6],
+      Ldash: a[7],
+      D: a[8],
+      Mdash: a[9],
+      F: a[10],
+      xsin: a[11],
+      xsint: a[12],
+      xcos: a[13],
+      xcost: a[14],
+      ysin: a[15],
+      ysint: a[16],
+      ycos: a[17],
+      ycost: a[18],
+      zsin: a[19],
+      zsint: a[20],
+      zcos: a[21],
+      zcost: a[22]
     }
   })
-
+}
