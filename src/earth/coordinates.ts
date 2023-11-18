@@ -95,7 +95,7 @@ function getEclipticLongitudeValue (jd: JulianDay | number, equinox: Equinox = E
  * @memberof module:Earth
  */
 export function getEclipticLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate, highPrecision: boolean = true): Degree {
-  return fmod360(getEclipticLongitudeValue(jd, equinox))
+  return fmod360(getEclipticLongitudeValue(jd, equinox, highPrecision))
 }
 
 /**
@@ -108,7 +108,7 @@ export function getEclipticLongitude (jd: JulianDay | number, equinox: Equinox =
  * @memberof module:Earth
  */
 export function getEclipticLongitudinalRotation (jdStart: JulianDay | number, jdEnd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate, highPrecision: boolean = true): Degree {
-  return getEclipticLongitudeValue(jdEnd, equinox).minus(getEclipticLongitudeValue(jdStart, equinox))
+  return getEclipticLongitudeValue(jdEnd, equinox, highPrecision).minus(getEclipticLongitudeValue(jdStart, equinox))
 }
 
 /**
