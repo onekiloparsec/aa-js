@@ -29,7 +29,7 @@ export function getParallaxFromParsecs (parsec: Parsec | number): ArcSecond {
  * @param {ArcSecond} arcseconds The parallax
  * @return {Parsec} The distance in parsec.
  */
-export function getParsecsFromParallax (arcseconds: ArcSecond): Parsec {
+export function getParsecsFromParallax (arcseconds: ArcSecond | number): Parsec {
   return ONE.dividedBy(Decimal.tan(new Decimal(arcseconds).dividedBy(3600.0).mul(PI).dividedBy(180.0))).dividedBy(PC2UA)
 }
 
