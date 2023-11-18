@@ -18,7 +18,7 @@ import { Earth } from '@/earth'
  * @returns {Degree} The sun mean anomaly
  */
 export function getMeanAnomaly (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
   // In AA++ (C++) implementation, values differ a little bit. But we prefer textbook AA values to ensure tests validity
   // In AA++ : fmod360(357.5291092 + 35999.0502909 * T - 0.0001536 * T2 + T3 / 24490000)
   let value
@@ -44,7 +44,7 @@ export function getMeanAnomaly (jd: JulianDay | number, highPrecision: boolean =
  * @returns {Degree} The Sun true anomaly
  */
 export function getTrueAnomaly (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
   const M = getMeanAnomaly(jd, highPrecision)
   const C = getEquationOfTheCenter(T, M, highPrecision)
   return fmod360(M.plus(C))
@@ -123,7 +123,7 @@ export function getMeanLongitudeReferredToMeanEquinoxOfDate (T: JulianCentury | 
  * @returns {Degree}
  */
 export function getGeometricEclipticLongitude (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
   const L0 = getMeanLongitudeReferredToMeanEquinoxOfDate(T, highPrecision)
   const M = getMeanAnomaly(jd, highPrecision)
   const C = getEquationOfTheCenter(T, M, highPrecision)

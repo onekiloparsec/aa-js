@@ -17,7 +17,7 @@ import { getSigma } from './reducers'
  * @memberof module:Earth
  */
 export function getMeanLongitude (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
   let value
   if (highPrecision) {
     value = new Decimal('218.3164477')
@@ -44,7 +44,7 @@ export function getMeanLongitude (jd: JulianDay | number, highPrecision: boolean
  * @memberof module:Earth
  */
 export function getMeanElongation (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
   let value
   if (highPrecision) {
     value = new Decimal('297.8501921')
@@ -71,7 +71,7 @@ export function getMeanElongation (jd: JulianDay | number, highPrecision: boolea
  * @memberof module:Earth
  */
 export function getMeanAnomaly (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
   let value
   if (highPrecision) {
     value = new Decimal('134.963_3964')
@@ -132,7 +132,7 @@ export function getGeocentricEclipticLongitude (jd: JulianDay | number, highPrec
   const Mdash = getMeanAnomaly(jd, highPrecision).degreesToRadians()
   const F = getArgumentOfLatitude(jd, highPrecision).degreesToRadians()
 
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
   const E = ONE.minus(T.mul('0.002_516')).minus(T.pow(2).mul('0.000_0074'))
 
   const A1 = fmod360(new Decimal('119.75').plus(new Decimal('131.849').mul(T))).degreesToRadians()
@@ -170,7 +170,7 @@ export function getGeocentricEclipticLatitude (jd: JulianDay | number, highPreci
   const Mdash = getMeanAnomaly(jd, highPrecision).degreesToRadians()
   const F = getArgumentOfLatitude(jd, highPrecision).degreesToRadians()
 
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
   const E = ONE.minus(T.mul('0.002_516')).minus(T.pow(2).mul('0.000_0074'))
 
   const A1 = fmod360(new Decimal('119.75').plus(new Decimal('131.849').mul(T))).degreesToRadians()
@@ -257,7 +257,7 @@ export function getRadiusVectorInKilometer (jd: JulianDay | number, highPrecisio
   const Mdash = getMeanAnomaly(jd, highPrecision).degreesToRadians()
   const F = getArgumentOfLatitude(jd, highPrecision).degreesToRadians()
 
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
   const E = ONE.minus(T.mul('0.002_516')).minus(T.pow(2).mul('0.000_0074'))
 
   const SigmaR = getSigma(E, D, M, Mdash, F, getCoefficients1, getCoefficients2, 'B', 'cos', highPrecision)
@@ -317,7 +317,7 @@ export function horizontalParallaxToRadiusVector (horizontalParallax: Degree | n
  * @memberof module:Earth
  */
 export function getMeanLongitudeAscendingNode (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
   let value
   if (highPrecision) {
     value = new Decimal('125.044_5479')
@@ -344,7 +344,7 @@ export function getMeanLongitudeAscendingNode (jd: JulianDay | number, highPreci
  * @memberof module:Earth
  */
 export function getMeanLongitudePerigee (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
   let value
   if (highPrecision) {
     value = new Decimal('83.353_2465')

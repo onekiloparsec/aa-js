@@ -59,7 +59,7 @@ export function getJulianDay (...args: any[]): JulianDay | undefined {
  * @return {Hour}
  */
 export function getLocalSiderealTime (jd: JulianDay | number, lng: Degree | number, highPrecision: boolean = true): Hour {
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
 
   let gmst
   // Greenwich SiderealTime in degrees! Equ. 12.4 of AA, p. 88

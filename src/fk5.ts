@@ -32,7 +32,7 @@ export function getCorrectionInLongitude (jd: JulianDay | number, lng: Degree | 
 export function getCorrectionInLatitude (jd: JulianDay | number, lng: Degree | number, highPrecision: boolean = true): Degree {
   let value: Decimal
   if (highPrecision) {
-    const T: JulianCentury = getJulianCentury(jd)
+    const T: JulianCentury = getJulianCentury(jd, highPrecision)
     const Ldash: Radian = (
       new Decimal(lng)
         .minus(new Decimal('1.397').mul(T))
@@ -41,7 +41,7 @@ export function getCorrectionInLatitude (jd: JulianDay | number, lng: Degree | n
       .degreesToRadians()
     value = new Decimal('0.039_16').mul(Ldash.cos().minus(Ldash.sin()))
   } else {
-    const T = getJulianCentury(jd).toNumber()
+    const T = getJulianCentury(jd, highPrecision).toNumber()
     const nlng = Decimal.isDecimal(lng) ? lng.toNumber() : lng
     const Ldash = (nlng - 1.397 * T - 0.000_31 * T * T) * DEG2RAD.toNumber()
     value = new Decimal(
