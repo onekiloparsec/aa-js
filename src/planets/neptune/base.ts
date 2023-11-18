@@ -1,6 +1,6 @@
 import Decimal from '@/decimal'
 import { JulianDay } from '@/types'
-import { getDecimalYear } from '@/dates'
+import { getDecimalYear } from '@/times'
 
 // The value of K must be an integer
 function getK (jd: JulianDay | number): Decimal {
