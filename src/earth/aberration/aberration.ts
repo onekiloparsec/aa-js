@@ -270,20 +270,37 @@ export function getAnnualEclipticAberration (jd: JulianDay | number, coords: Ecl
   const k = CONSTANT_OF_ABERRATION
 
   // Use the geoMETRIC longitude. See AA p.151
-  const sunLongitude: Radian = Sun.getGeometricEclipticLongitude(jd).degreesToRadians()
+  const sunLongitude: Radian = Sun.getGeometricEclipticLongitude(jd, highPrecision).degreesToRadians()
   const LambdaRad: Radian = new Decimal(coords.longitude).degreesToRadians()
   const BetaRad: Radian = new Decimal(coords.latitude).degreesToRadians()
 
-  const X0 = MINUSONE.mul(k).mul(Decimal.cos(sunLongitude.minus(LambdaRad)))
-  const X1 = e.mul(k).mul(Decimal.cos(pi.minus(LambdaRad)))
-  const X: ArcSecond = (X0.plus(X1)).dividedBy(Decimal.cos(BetaRad)).dividedBy(3600)
+  if (highPrecision) {
+    const X0 = MINUSONE.mul(k).mul(Decimal.cos(sunLongitude.minus(LambdaRad)))
+    const X1 = e.mul(k).mul(Decimal.cos(pi.minus(LambdaRad)))
+    const X: ArcSecond = (X0.plus(X1)).dividedBy(Decimal.cos(BetaRad)).dividedBy(3600)
 
-  const Y0 = MINUSONE.mul(k).mul(Decimal.sin(BetaRad))
-  const Y1 = Decimal.sin(sunLongitude.minus(LambdaRad))
-  const Y2 = e.mul(Decimal.sin(pi.minus(LambdaRad)))
-  const Y: ArcSecond = Y0.mul(Y1.minus(Y2)).dividedBy(3600)
+    const Y0 = MINUSONE.mul(k).mul(Decimal.sin(BetaRad))
+    const Y1 = Decimal.sin(sunLongitude.minus(LambdaRad))
+    const Y2 = e.mul(Decimal.sin(pi.minus(LambdaRad)))
+    const Y: ArcSecond = Y0.mul(Y1.minus(Y2)).dividedBy(3600)
 
-  return { DeltaLongitude: X, DeltaLatitude: Y }
+    return { DeltaLongitude: X, DeltaLatitude: Y }
+  } else {
+    const X0 = -1 * k.toNumber() * Math.cos(sunLongitude.toNumber() - LambdaRad.toNumber())
+    const X1 = e.toNumber() * k.toNumber() * Math.cos(pi.toNumber() - LambdaRad.toNumber())
+    const X: ArcSecond = new Decimal(
+      (X0 + X1) / Math.cos(BetaRad.toNumber()) / 3600
+    )
+
+    const Y0 = -1 * k.toNumber() * Math.sin(BetaRad.toNumber())
+    const Y1 = Math.sin(sunLongitude.toNumber() - LambdaRad.toNumber())
+    const Y2 = e.toNumber() * (Math.sin(pi.toNumber() - LambdaRad.toNumber()))
+    const Y: ArcSecond = new Decimal(
+      Y0 * (Y1 - Y2) / 3600
+    )
+
+    return { DeltaLongitude: X, DeltaLatitude: Y }
+  }
 }
 
 /**
