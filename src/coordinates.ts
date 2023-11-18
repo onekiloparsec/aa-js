@@ -420,7 +420,7 @@ export function getRightAscensionFromHorizontal (jd: JulianDay | number, horCoor
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  */
-export function getDeclinationFromHorizontal (jd: JulianDay | number, horCoords: HorizontalCoordinates | HorizontalCoordinatesNum, geoCoords: GeographicCoordinates | GeographicCoordinatesNum, highPrecision: boolean = true): Degree {
+export function getDeclinationFromHorizontal (horCoords: HorizontalCoordinates | HorizontalCoordinatesNum, geoCoords: GeographicCoordinates | GeographicCoordinatesNum, highPrecision: boolean = true): Degree {
   const rHorCoords = {
     azimuth: new Decimal(horCoords.azimuth).degreesToRadians(),
     altitude: new Decimal(horCoords.altitude).degreesToRadians()
@@ -455,7 +455,7 @@ export function getDeclinationFromHorizontal (jd: JulianDay | number, horCoords:
 export function transformHorizontalToEquatorial (jd: JulianDay | number, horCoords: HorizontalCoordinates | HorizontalCoordinatesNum, geoCoords: GeographicCoordinates | GeographicCoordinatesNum, highPrecision: boolean = true): EquatorialCoordinates {
   return {
     rightAscension: getRightAscensionFromHorizontal(jd, horCoords, geoCoords, highPrecision),
-    declination: getDeclinationFromHorizontal(jd, horCoords, geoCoords, highPrecision)
+    declination: getDeclinationFromHorizontal(horCoords, geoCoords, highPrecision)
   }
 }
 
