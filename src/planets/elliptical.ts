@@ -79,7 +79,7 @@ export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
       const coordsNum = {
         L: coords.L.toNumber(),
         B: coords.B.toNumber(),
-        R: coords.L.toNumber(),
+        R: coords.R.toNumber(),
       }
 
       if (firstIterationDone) {
@@ -141,7 +141,7 @@ export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
       const earthCoordsNum = {
         L: earthCoords.L.toNumber(),
         B: earthCoords.B.toNumber(),
-        R: earthCoords.L.toNumber()
+        R: earthCoords.R.toNumber()
       }
 
       if (firstIterationDone) {
