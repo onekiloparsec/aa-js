@@ -68,9 +68,9 @@ export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
 
     if (firstIterationDone) {
       continueIterations = (
-        (Decimal.abs(coords.L.minus(previousCoords.L)).greaterThan(0.00001)) ||
-        (Decimal.abs(coords.B.minus(previousCoords.B)).greaterThan(0.00001)) ||
-        (Decimal.abs(coords.R.minus(previousCoords.R)).greaterThan(0.000001))
+        (Decimal.abs(coords.L.radiansToDegrees().minus(previousCoords.L.radiansToDegrees())).greaterThan(0.00001)) ||
+        (Decimal.abs(coords.B.radiansToDegrees().minus(previousCoords.B.radiansToDegrees())).greaterThan(0.00001)) ||
+        (Decimal.abs(coords.R.minus(previousCoords.R)).greaterThan(0.00001))
       )
       previousCoords = { ...coords }
     } else {
