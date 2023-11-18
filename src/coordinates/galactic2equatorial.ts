@@ -1,8 +1,8 @@
 import Decimal from '@/decimal'
 import { fmod24, fmod90 } from '@/utils'
 import { J2000, JULIAN_DAY_B1950_0 } from '@/constants'
-import { precessEquatorialCoordinates } from '@/precession'
 import { Degree, EquatorialCoordinates, GalacticCoordinates, GalacticCoordinatesNum, JulianDay } from '@/types'
+import { precessEquatorialCoordinates } from './precession'
 
 
 /**

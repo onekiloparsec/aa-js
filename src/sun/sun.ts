@@ -3,11 +3,10 @@
  */
 import Decimal from '@/decimal'
 import { Degree, EclipticCoordinates, EquatorialCoordinates, Equinox, JulianCentury, JulianDay } from '@/types'
-import { DEG2RAD } from '@/constants'
+import { transformEclipticToEquatorial, getCorrectionInLatitude, getCorrectionInLongitude } from '@/coordinates'
 import { getJulianCentury } from '@/juliandays'
-import { transformEclipticToEquatorial } from '@/coordinates'
-import { getCorrectionInLatitude, getCorrectionInLongitude } from '@/fk5'
 import { getDecimalValue } from '@/sexagesimal'
+import { DEG2RAD } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
 

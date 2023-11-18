@@ -1,6 +1,5 @@
-import { Earth } from '@/earth'
+import { Earth, juliandays } from '@'
 import { transformUTC2TT } from '@/times'
-import { getJulianDay } from '@/juliandays'
 
 describe('earth', () => {
 
@@ -19,14 +18,14 @@ describe('earth', () => {
   // AA p.153
   test('get earth eccentricity', () => {
     const utcDate = new Date(Date.UTC(2028, 10, 13, 19))
-    const jd = transformUTC2TT(getJulianDay(utcDate))
+    const jd = transformUTC2TT(juliandays.getJulianDay(utcDate))
     expect(Earth.getEccentricity(jd).toNumber()).toBeCloseTo(0.016_696_49, 8)
   })
 
   // AA p.153
   test('get earth longitude of perihelion', () => {
     const utcDate = new Date(Date.UTC(2028, 10, 13, 19))
-    const jd = transformUTC2TT(getJulianDay(utcDate))
+    const jd = transformUTC2TT(juliandays.getJulianDay(utcDate))
     expect(Earth.getLongitudeOfPerihelion(jd).toNumber()).toBeCloseTo(103.434, 3)
   })
 

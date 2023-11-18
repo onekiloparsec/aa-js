@@ -1,5 +1,4 @@
-import * as juliandays from '@/juliandays'
-import { Earth } from '@/earth'
+import { Earth, juliandays } from '@'
 
 describe('nutation', () => {
   // See AA p.148, Example 22.a

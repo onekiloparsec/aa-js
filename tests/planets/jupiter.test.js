@@ -1,5 +1,4 @@
-import { Jupiter } from '@/planets'
-import * as juliandays from '@/juliandays'
+import { juliandays, Jupiter } from '@'
 import { transformUTC2TT } from '@/times'
 
 describe('Jupiter', () => {

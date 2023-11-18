@@ -1,5 +1,4 @@
-import * as juliandays from '@/juliandays'
-import { Sun } from '@/sun'
+import { juliandays, Sun } from '@'
 
 describe('sun', () => {
   test('get sun geometric longitude mean equinox of the date (AA p.165)', () => {

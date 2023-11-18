@@ -2,10 +2,10 @@
  @module Coordinates
  */
 import Decimal from '@/decimal'
-import { Degree, EquatorialCoordinates, EquatorialCoordinatesNum, GalacticCoordinates, JulianDay } from '@/types'
-import { J2000, JULIAN_DAY_B1950_0 } from '@/constants'
-import { precessEquatorialCoordinates } from '@/precession'
 import { fmod360 } from '@/utils'
+import { J2000, JULIAN_DAY_B1950_0 } from '@/constants'
+import { Degree, EquatorialCoordinates, EquatorialCoordinatesNum, GalacticCoordinates, JulianDay } from '@/types'
+import { precessEquatorialCoordinates } from './precession'
 
 // --- galactic coordinates
 

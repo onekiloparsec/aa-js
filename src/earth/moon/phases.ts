@@ -1,8 +1,8 @@
 import Decimal from '@/decimal'
 import { Day, JulianDay } from '@/types'
 import { MOON_PHASE_UPPER_LIMITS, MOON_SYNODIC_PERIOD, MoonPhase, MoonPhaseQuarter } from '@/constants'
+import { getDecimalYear } from '@/times'
 import { fmod } from '@/utils'
-import { getDecimalYear } from '@/dates'
 
 // The value of K must be an integer
 function getK (jd: JulianDay | number): Decimal {

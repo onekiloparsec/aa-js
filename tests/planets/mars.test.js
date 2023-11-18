@@ -1,5 +1,4 @@
-import { Mars } from '@/planets'
-import * as juliandays from '@/juliandays'
+import { Mars, juliandays } from '@'
 
 describe('Mars', () => {
   // See AA p.291, Example 42.a, see also SwiftAA
