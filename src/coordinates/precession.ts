@@ -2,8 +2,8 @@
  @module Precession
  */
 import Decimal from '@/decimal'
-import { EquatorialCoordinates, EquatorialCoordinatesNum, JulianDay } from './types'
-import { J2000, JULIAN_DAY_B1950_0 } from './constants'
+import { EquatorialCoordinates, EquatorialCoordinatesNum, JulianDay } from '@/types'
+import { J2000, JULIAN_DAY_B1950_0 } from '@/constants'
 
 /**
  * Precess equatorial coordinates from aa given epoch to another one

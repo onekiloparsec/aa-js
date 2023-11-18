@@ -11,9 +11,14 @@ import {
   transformUTC2TT
 } from './transforms'
 
-import { getDeltaT} from './utils'
+import { getDeltaT } from './utils'
+
+import { getDecimalYear, getFractionalYear, getFullScaleJulianDay } from './dates'
 
 export {
+  getDecimalYear,
+  getFractionalYear,
+  getFullScaleJulianDay,
   transformTT2UTC,
   transformUTC2TT,
   transformTT2TAI,
