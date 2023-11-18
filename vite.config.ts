@@ -9,7 +9,17 @@ export default defineConfig({
       name: 'aa-js',
       entry: path.resolve(__dirname, 'src/index.ts'),
       fileName: 'aa-js'
-    }
+    },
+    rollupOptions: {
+      external: [
+        'decimal.js'
+      ],
+      output: {
+        globals: {
+          'decimal.js': 'Decimal'
+        }
+      }
+    },
   },
   plugins: [dts({
       include: ['src/index.ts', 'src/**/*.ts'],
@@ -20,10 +30,26 @@ export default defineConfig({
     }
   )],
   resolve: {
-    dedupe: ['vue']
+    alias: {
+      '@': path.resolve(__dirname, './src')
+    },
+    // alias: {
+    // @ts-ignore
+    // '@': fileURLToPath(new URL('src/', import.meta.url)),
+    // @ts-ignore
+    // '#': fileURLToPath(new URL('tests/', import.meta.url)),
+    // },
+    dedupe: [
+      'vue',
+      'lodash',
+      'luxon',
+      'dayjs',
+      'decimal.js'
+    ],
   },
   test: {
     globals: true
   }
 })
+
 
