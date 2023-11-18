@@ -13,7 +13,8 @@ implementation can vary with a factor of 10 to 1000 times! See benchmark tests i
 
 **Whatever precision is chosen, the outputs will always contain `Decimal` (not `number`).**
 
-Other AA implementations: [Swift (SwiftAA)](https://github.com/onekiloparsec/SwiftAA), [C# (AASharp)](https://github.com/jsauve/AASharp).
+Other AA
+implementations: [Swift (SwiftAA)](https://github.com/onekiloparsec/SwiftAA), [C# (AASharp)](https://github.com/jsauve/AASharp).
 
 At the beginning, `aa-js` is the port in javascript of the C++ implementation of Astronomical
 Algorithms by J.P. Naughter, called [AA+](http://www.naughter.com/aa.html),
@@ -35,7 +36,7 @@ Main Changes in V3
 - **BREAKING** (since v3.2) Equatorial coordinates uses right ascension expressed in `Degree` not `Hour`.
 - **BREAKING** (since v3.2) Input parameters of the `coordinates` modules now use complete coordinates objects, rather
   than individual members to reduce the number of parameters in the functions.
-- `nutation` and `aberration` modules moved inside the `earth` module.
+- **BREAKING** (since v3.4) The precision of Decimal.js is not set to a default value. It is left to the consumer.
 - Moved all (non-Earth) planets modules inside a `planets` folder.
 - **Addition of numerous orbital getters for planets** (mean longitude, semi-major axis, inclination, eccentricity...)
 - Much easier and cleaner distinction between *heliocentric* and *geocentric* coordinates of planets.
@@ -66,7 +67,8 @@ Available Modules
 * `times`: transformation between UTC, TT, AI, UT1...
 * `cosmology`: the cosmology calculator from Ned Wright's, but re-implemented, and tested.
 * `distances`: all the conversions of small and extra-galactic distances.
-* `precession`: all the precession functions between epochs for coordinates.
+* `coordinates`: all computation of parallactic angle, great circle angle, precessions, transformations (equatorial to
+  ecliptic, galactic, topocentric, and inverse etc.).
 * `sexagesimal`: utilities for transforming values between decimal and sexagesimal.
 * `risetransitset`: get rise, transit and set hours, dates, julian days, as well
   as altitude.
@@ -107,5 +109,5 @@ To run benchmarks, install `vite-node` globally (`npm i -g vite-node`), then run
 individual benchmark like this:
 
 ```bash
-npx vite-node benchmark/jupiter/apparent-equatorial-coordinates.js
+npx vite-node benchmark/planets/jupiter/apparent-equatorial-coordinates.js
 ```
