@@ -122,7 +122,7 @@ export function getJulianDayMidnight (jd: JulianDay | number): JulianDay {
  */
 export function getJulianCentury (jd: JulianDay | number): JulianCentury {
   // AA, Equ 12.1.
-  return new Decimal(jd).minus(2451545).dividedBy(36525)
+  return (new Decimal(jd).minus(2451545)).dividedBy(36525)
 }
 
 /**
@@ -131,5 +131,5 @@ export function getJulianCentury (jd: JulianDay | number): JulianCentury {
  * @returns {JulianMillenium}
  */
 export function getJulianMillenium (jd: JulianDay | number): JulianMillenium {
-  return new Decimal(jd).minus(2451545).dividedBy(365250) // julian day millennia, not centuries!
+  return (new Decimal(jd).minus(2451545)).dividedBy(365250) // julian day millennia, not centuries!
 }
