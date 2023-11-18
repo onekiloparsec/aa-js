@@ -11,7 +11,7 @@ import {
   Radian,
   SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
 } from '@/types'
-import { getCorrectionInLatitude, getCorrectionInLongitude } from '@/fk5'
+import { getCorrectionInLatitude, getCorrectionInLongitude } from '@/coordinates'
 import { getLightTimeFromDistance } from '@/distances'
 import { fmod360, fmod90 } from '@/utils'
 import { Earth } from '@/earth'
