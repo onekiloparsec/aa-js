@@ -18,5 +18,14 @@ describe('Jupiter', () => {
     expect(jd0.toNumber()).toEqual(2448972.500685)
     // TODO: rewrite Jupiter details based on what is done for Saturn ring system.
   })
+
+  test('check consistency of radius vector', () => {
+    const jd = 2448972.50068
+    const r1 = Jupiter.getRadiusVector(jd)
+    const r2 = Jupiter.getRadiusVector(jd, false)
+    expect(r1).toBeCloseTo(r2, 6)
+    expect(r1.toNumber()).toBeGreaterThan(4)
+    expect(r1.toNumber()).toBeLessThan(6.5)
+  })
 })
 
