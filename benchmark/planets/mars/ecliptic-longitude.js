@@ -5,10 +5,10 @@ export default b.suite(
   'Mars coordinates getGeocentricEclipticLongitude',
 
   b.add('getEclipticLongitude high', () => {
-    Mars.getEclipticLongitude(245123456)
+    Mars.getEclipticLongitude(2451234.56)
   }),
   b.add('getEclipticLongitude low', () => {
-    Mars.getEclipticLongitude(245123456, false)
+    Mars.getEclipticLongitude(2451234.56, false)
   }),
 
   b.cycle(),

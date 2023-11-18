@@ -5,10 +5,10 @@ export default b.suite(
   'Uranus coordinates getGeocentricEclipticLongitude',
 
   b.add('getEclipticLongitude high', () => {
-    Uranus.getEclipticLongitude(245123456)
+    Uranus.getEclipticLongitude(2451234.56)
   }),
   b.add('getEclipticLongitude low', () => {
-    Uranus.getEclipticLongitude(245123456, false)
+    Uranus.getEclipticLongitude(2451234.56, false)
   }),
 
   b.cycle(),

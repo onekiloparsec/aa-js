@@ -5,10 +5,10 @@ export default b.suite(
   'Mercury coordinates getGeocentricEclipticLongitude',
 
   b.add('getEclipticLongitude high', () => {
-    Mercury.getEclipticLongitude(245123456)
+    Mercury.getEclipticLongitude(2451234.56)
   }),
   b.add('getEclipticLongitude low', () => {
-    Mercury.getEclipticLongitude(245123456, false)
+    Mercury.getEclipticLongitude(2451234.56, false)
   }),
 
   b.cycle(),

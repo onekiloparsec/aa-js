@@ -5,10 +5,10 @@ b.suite(
   'sun getMeanAnomaly',
 
   b.add('getMeanAnomaly high', () => {
-    Sun.getMeanAnomaly(245123456)
+    Sun.getMeanAnomaly(2451234.56)
   }),
   b.add('getMeanLongitude low', () => {
-    Sun.getMeanAnomaly(245123456, false)
+    Sun.getMeanAnomaly(2451234.56, false)
   }),
 
   b.cycle(),
