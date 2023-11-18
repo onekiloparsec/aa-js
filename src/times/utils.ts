@@ -1,8 +1,8 @@
-import { JulianDay } from '@/types'
-import { gDeltaTValues, gLeapSecondCoefficients } from './coefficients'
-import { getFractionalYear } from '@/dates'
 import Decimal from '@/decimal'
+import { gDeltaTValues, gLeapSecondCoefficients } from './coefficients'
 import { MINUSONE } from '@/constants'
+import { JulianDay } from '@/types'
+import { getFractionalYear } from './dates'
 
 export function getDeltaT (jd: JulianDay | number): Decimal {
   // What will be the return value from the method
