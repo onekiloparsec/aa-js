@@ -86,6 +86,7 @@ export function getGreatCircleAngularDistance (coords1: EquatorialCoordinates | 
     const y = Decimal.cos(delta2).mul(Decimal.sin(alpha2.minus(alpha1)))
     const z = Decimal.sin(delta1).mul(Decimal.sin(delta2))
       .plus(Decimal.cos(delta1).mul(Decimal.cos(delta2)).mul(Decimal.cos(alpha2.minus(alpha1))))
+
     return Decimal.atan2(Decimal.sqrt(x.pow(2).plus(y.pow(2))), z).radiansToDegrees()
   } else {
     const deg2rad = DEG2RAD.toNumber()
@@ -101,7 +102,7 @@ export function getGreatCircleAngularDistance (coords1: EquatorialCoordinates | 
       + Math.cos(delta1) * Math.cos(delta2) * Math.cos(alpha2 - alpha1)
 
     return new Decimal(
-      Math.atan2(Math.sqrt(x * x + y * y), z) * deg2rad
+      Math.atan2(Math.sqrt(x * x + y * y), z) / deg2rad
     )
   }
 }
