@@ -43,7 +43,7 @@ import {
 
 /** @private */
 function getEclipticLongitudeValue (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate, highPrecision: boolean = true): Degree {
-  const tau = getJulianMillenium(jd)
+  const tau = getJulianMillenium(jd, highPrecision)
 
   const coeffs0 = (equinox === Equinox.MeanOfTheDate) ? getCoefficientsL0(highPrecision) : getCoefficientsL0(highPrecision)
   const coeffs1 = (equinox === Equinox.MeanOfTheDate) ? getCoefficientsL1(highPrecision) : getCoefficientsL1J2000(highPrecision)
@@ -121,7 +121,7 @@ export function getEclipticLongitudinalRotation (jdStart: JulianDay | number, jd
  * @memberof module:Earth
  */
 export function getEclipticLatitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate, highPrecision: boolean = true): Degree {
-  const tau = getJulianMillenium(jd)
+  const tau = getJulianMillenium(jd, highPrecision)
 
   const coeffs0 = (equinox === Equinox.MeanOfTheDate) ? getCoefficientsB0(highPrecision) : getCoefficientsB0(highPrecision)
   const coeffs1 = (equinox === Equinox.MeanOfTheDate) ? getCoefficientsB1(highPrecision) : getCoefficientsB1J2000(highPrecision)
@@ -182,7 +182,7 @@ export function getEclipticCoordinates (jd: JulianDay | number, equinox: Equinox
  * @memberof module:Earth
  */
 export function getRadiusVector (jd: JulianDay | number, highPrecision: boolean = true): AstronomicalUnit {
-  const tau = getJulianMillenium(jd)
+  const tau = getJulianMillenium(jd, highPrecision)
 
   const coeffs0 = getCoefficientsR0(highPrecision)
   const coeffs1 = getCoefficientsR1(highPrecision)

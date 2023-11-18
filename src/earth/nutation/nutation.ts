@@ -14,7 +14,7 @@ import { getReducedValue } from './reducers'
  * @memberof module:Earth
  */
 export function getNutationInLongitude (jd: JulianDay | number, highPrecision: boolean = true): ArcSecond {
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
   const D = Moon.getMeanElongation(jd, highPrecision)
   const M = Sun.getMeanAnomaly(jd, highPrecision)
   const Mprime = Moon.getMeanAnomaly(jd, highPrecision)
@@ -31,7 +31,7 @@ export function getNutationInLongitude (jd: JulianDay | number, highPrecision: b
  * @memberof module:Earth
  */
 export function getNutationInObliquity (jd: JulianDay | number, highPrecision: boolean = true): ArcSecond {
-  const T = getJulianCentury(jd)
+  const T = getJulianCentury(jd, highPrecision)
   const D = Moon.getMeanElongation(jd, highPrecision)
   const M = Sun.getMeanAnomaly(jd, highPrecision)
   const Mprime = Moon.getMeanAnomaly(jd, highPrecision)

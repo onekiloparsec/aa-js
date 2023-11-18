@@ -40,7 +40,7 @@ import {
  * @memberof module:Mars
  */
 export function getEclipticLongitude (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const tau = getJulianMillenium(jd)
+  const tau = getJulianMillenium(jd, highPrecision)
 
   const coeffs0 = getCoefficientsL0(highPrecision)
   const coeffs1 = getCoefficientsL1(highPrecision)
@@ -90,7 +90,7 @@ export function getEclipticLongitude (jd: JulianDay | number, highPrecision: boo
  * @memberof module:Mars
  */
 export function getEclipticLatitude (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const tau = getJulianMillenium(jd)
+  const tau = getJulianMillenium(jd, highPrecision)
 
   const coeffs0 = getCoefficientsB0(highPrecision)
   const coeffs1 = getCoefficientsB1(highPrecision)
@@ -135,7 +135,7 @@ export function getEclipticLatitude (jd: JulianDay | number, highPrecision: bool
  * @memberof module:Mars
  */
 export function getRadiusVector (jd: JulianDay | number, highPrecision: boolean = true): AstronomicalUnit {
-  const tau = getJulianMillenium(jd)
+  const tau = getJulianMillenium(jd, highPrecision)
 
   const coeffs0 = getCoefficientsR0(highPrecision)
   const coeffs1 = getCoefficientsR1(highPrecision)

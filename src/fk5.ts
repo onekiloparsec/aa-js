@@ -6,7 +6,7 @@ import { DEG2RAD } from '@/constants'
 export function getCorrectionInLongitude (jd: JulianDay | number, lng: Degree | number, lat: Degree | number, highPrecision: boolean = true): Degree {
   let value: Decimal
   if (highPrecision) {
-    const T: JulianCentury = getJulianCentury(jd)
+    const T: JulianCentury = getJulianCentury(jd, highPrecision)
     const Ldash: Radian = (
       new Decimal(lng)
         .minus(new Decimal('1.397').mul(T))
@@ -18,7 +18,7 @@ export function getCorrectionInLongitude (jd: JulianDay | number, lng: Degree | 
         .mul(Ldash.cos().plus(Ldash.sin()))
         .mul(new Decimal(lat).degreesToRadians().tan()))
   } else {
-    const T = getJulianCentury(jd).toNumber()
+    const T = getJulianCentury(jd, highPrecision).toNumber()
     const nlng = Decimal.isDecimal(lng) ? lng.toNumber() : lng
     const nlat = Decimal.isDecimal(lat) ? lat.toNumber() : lat
     const Ldash = (nlng - 1.397 * T - 0.000_31 * T * T) * DEG2RAD.toNumber()
