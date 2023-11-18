@@ -5,10 +5,10 @@ export default b.suite(
   'moon coordinates getMeanLongitude',
 
   b.add('getMeanLongitude high', () => {
-    Earth.Moon.getMeanLongitude(245123456)
+    Earth.Moon.getMeanLongitude(2451234.56)
   }),
   b.add('getMeanLongitude low', () => {
-    Earth.Moon.getMeanLongitude(245123456, false)
+    Earth.Moon.getMeanLongitude(2451234.56, false)
   }),
 
   b.cycle(),

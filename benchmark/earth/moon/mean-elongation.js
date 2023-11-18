@@ -5,10 +5,10 @@ export default b.suite(
   'moon coordinates getMeanElongation',
 
   b.add('getMeanElongation high', () => {
-    Earth.Moon.getMeanElongation(245123456)
+    Earth.Moon.getMeanElongation(2451234.56)
   }),
   b.add('getMeanElongation low', () => {
-    Earth.Moon.getMeanElongation(245123456, false)
+    Earth.Moon.getMeanElongation(2451234.56, false)
   }),
 
   b.cycle(),

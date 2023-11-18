@@ -4,11 +4,11 @@ import { Jupiter } from '@'
 export default b.suite(
   'Jupiter coordinates getApparentGeocentricEquatorialCoordinates',
 
-  b.add('getEclipticLongitude high', () => {
-    Jupiter.getApparentGeocentricEquatorialCoordinates(245123456)
+  b.add('getApparentGeocentricEquatorialCoordinates high', () => {
+    Jupiter.getApparentGeocentricEquatorialCoordinates(2448972)
   }),
-  b.add('getEclipticLongitude low', () => {
-    Jupiter.getApparentGeocentricEquatorialCoordinates(245123456, false)
+  b.add('getApparentGeocentricEquatorialCoordinates low', () => {
+    Jupiter.getApparentGeocentricEquatorialCoordinates(2448972, false)
   }),
 
   b.cycle(),
