@@ -118,18 +118,32 @@ export function getJulianDayMidnight (jd: JulianDay | number): JulianDay {
 /**
  * The Julian Century (time interval of 36525 days)
  * @param {JulianDay} jd The initial julian day
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {JulianCentury}
  */
-export function getJulianCentury (jd: JulianDay | number): JulianCentury {
+export function getJulianCentury (jd: JulianDay | number, highPrecision: boolean = true): JulianCentury {
   // AA, Equ 12.1.
-  return (new Decimal(jd).minus(2451545)).dividedBy(36525)
+  if (highPrecision) {
+    return (new Decimal(jd).minus('2451545')).dividedBy('36525')
+  } else {
+    return new Decimal(
+      ((Decimal.isDecimal(jd) ? jd.toNumber() : jd) - 2451545) / 36525
+    )
+  }
 }
 
 /**
  * The Julian Millenium (time interval of 365250 days)
  * @param {JulianDay} jd The initial julian day
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {JulianMillenium}
  */
-export function getJulianMillenium (jd: JulianDay | number): JulianMillenium {
-  return (new Decimal(jd).minus(2451545)).dividedBy(365250) // julian day millennia, not centuries!
+export function getJulianMillenium (jd: JulianDay | number, highPrecision: boolean = true): JulianMillenium {
+  if (highPrecision) {
+    return (new Decimal(jd).minus('2451545')).dividedBy('365250') // julian day millennia, not centuries!
+  } else {
+    return new Decimal(
+      ((Decimal.isDecimal(jd) ? jd.toNumber() : jd) - 2451545) / 365250
+    )
+  }
 }

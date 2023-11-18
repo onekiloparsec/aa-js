@@ -13,8 +13,13 @@ b.suite(
     juliandays.getLocalSiderealTime(jd, 10, false)
   }),
 
+  b.add('getJulianCentury high', () => {
+    juliandays.getJulianCentury(jd)
+  }),
+  b.add('getJulianCentury low', () => {
+    juliandays.getJulianCentury(jd, false)
+  }),
+
   b.cycle(),
-  b.complete(),
-  b.save({ file: 'juliandays', version: '1.0.0' }),
-  b.save({ file: 'juliandays', format: 'chart.html' })
+  b.complete()
 )
