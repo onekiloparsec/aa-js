@@ -129,22 +129,47 @@ export function getAccurateAnnualEquatorialAberration (jd: JulianDay | number, c
   const ra = new Decimal(coords.rightAscension).degreesToRadians()
   const dec = new Decimal(coords.declination).degreesToRadians()
 
-  const cosAlpha = ra.cos()
-  const sinAlpha = ra.sin()
-  const cosDelta = dec.cos()
-  const sinDelta = dec.sin()
+  if (highPrecision) {
+    const cosAlpha = ra.cos()
+    const sinAlpha = ra.sin()
+    const cosDelta = dec.cos()
+    const sinDelta = dec.sin()
 
-  const velocity = getEarthVelocity(jd)
-  const c = new Decimal(17314463350.0)
+    const velocity = getEarthVelocity(jd, highPrecision)
+    const c = new Decimal('17_314_463_350.0') // Speed of light in units of 10^-8 UA / day. See AA p 155.
 
-  const X0 = velocity.Y.mul(cosAlpha).minus(velocity.X.mul(sinAlpha))
-  const X = X0.dividedBy(c.mul(cosDelta))
+    const X0 = velocity.Y.mul(cosAlpha).minus(velocity.X.mul(sinAlpha))
+    const X = X0.dividedBy(c.mul(cosDelta))
 
-  const Y0 = velocity.X.mul(cosAlpha).plus(velocity.Y.mul(sinAlpha))
-  const Y1 = velocity.Z.mul(cosDelta)
-  const Y = (Y0.mul(sinDelta).minus(Y1)).dividedBy(c)
+    const Y0 = velocity.X.mul(cosAlpha).plus(velocity.Y.mul(sinAlpha))
+    const Y1 = velocity.Z.mul(cosDelta)
+    const Y = (Y0.mul(sinDelta).minus(Y1)).dividedBy(c)
 
-  return { DeltaRightAscension: X.radiansToHours(), DeltaDeclination: MINUSONE.mul(Y).radiansToDegrees() }
+    return {
+      DeltaRightAscension: X.radiansToDegrees().mul(3600), // to obtain units of ArcSecond
+      DeltaDeclination: MINUSONE.mul(Y).radiansToDegrees().mul(3600) // to obtain units of ArcSecond
+    }
+  } else {
+    const cosAlpha = Math.cos(ra.toNumber())
+    const sinAlpha = Math.sin(ra.toNumber())
+    const cosDelta = Math.cos(dec.toNumber())
+    const sinDelta = Math.sin(dec.toNumber())
+
+    const velocity = getEarthVelocity(jd, highPrecision)
+    const c = 17_314_463_350.0 // Speed of light in units of 10^-8 UA / day. See AA p 155.
+
+    const X0 = velocity.Y.toNumber() * cosAlpha - velocity.X.toNumber() * sinAlpha
+    const X = X0 / (c * cosDelta)
+
+    const Y0 = velocity.X.toNumber() * cosAlpha + velocity.Y.toNumber() * sinAlpha
+    const Y1 = velocity.Z.toNumber() * cosDelta
+    const Y = (Y0 * sinDelta - Y1) / c
+
+    return {
+      DeltaRightAscension: new Decimal(X).radiansToDegrees().mul(3600), // to obtain units of ArcSecond
+      DeltaDeclination: MINUSONE.mul(Y).radiansToDegrees().mul(3600) // to obtain units of ArcSecond
+    }
+  }
 }
 
 /**

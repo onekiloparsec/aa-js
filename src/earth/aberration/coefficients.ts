@@ -1,30 +1,31 @@
 import Decimal from '@/decimal'
+import { Radian } from '@/types'
 
 /** @private */
 export type AberrationCoefficient = {
-  L2: Decimal
-  L3: Decimal
-  L4: Decimal
-  L5: Decimal
-  L6: Decimal
-  L7: Decimal
-  L8: Decimal
-  Ldash: Decimal
-  D: Decimal
-  Mdash: Decimal
-  F: Decimal
-  xsin: Decimal
-  xsint: Decimal
-  xcos: Decimal
-  xcost: Decimal
-  ysin: Decimal
-  ysint: Decimal
-  ycos: Decimal
-  ycost: Decimal
-  zsin: Decimal
-  zsint: Decimal
-  zcos: Decimal
-  zcost: Decimal
+  L2: Radian
+  L3: Radian
+  L4: Radian
+  L5: Radian
+  L6: Radian
+  L7: Radian
+  L8: Radian
+  Ldash: Radian
+  D: Radian
+  Mdash: Radian
+  F: Radian
+  xsin: Radian
+  xsint: Radian
+  xcos: Radian
+  xcost: Radian
+  ysin: Radian
+  ysint: Radian
+  ycos: Radian
+  ycost: Radian
+  zsin: Radian
+  zsint: Radian
+  zcos: Radian
+  zcost: Radian
 }
 
 /** @private */
