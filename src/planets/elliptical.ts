@@ -46,7 +46,7 @@ export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
   let firstIterationDone = false
 
   let coords = { L: new Decimal(0), B: new Decimal(0), R: new Decimal(0) }
-  let previousCoords = { L: new Decimal(0), B: new Decimal(0), R: new Decimal(0) }
+  let previousCoordsNum = { L: 0, B: 0, R: 0 }
   const distanceDetails = {
     x: new Decimal(0),
     y: new Decimal(0),
@@ -65,14 +65,19 @@ export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
       B: eclipticLatitudeFunc(JD0, highPrecision).degreesToRadians(),
       R: radiusVectorFunc(JD0, highPrecision)
     }
+    const coordsNum = {
+      L: coords.L.toNumber(),
+      B: coords.B.toNumber(),
+      R: coords.L.toNumber(),
+    }
 
     if (firstIterationDone) {
       continueIterations = (
-        (Decimal.abs(coords.L.radiansToDegrees().minus(previousCoords.L.radiansToDegrees())).greaterThan(0.00001)) ||
-        (Decimal.abs(coords.B.radiansToDegrees().minus(previousCoords.B.radiansToDegrees())).greaterThan(0.00001)) ||
-        (Decimal.abs(coords.R.minus(previousCoords.R)).greaterThan(0.00001))
+        (Math.abs(coordsNum.L - previousCoordsNum.L) > 0.00001) ||
+        (Math.abs(coordsNum.B - previousCoordsNum.B) > 0.00001) ||
+        (Math.abs(coordsNum.R - previousCoordsNum.R) > 0.000001)
       )
-      previousCoords = { ...coords }
+      previousCoordsNum = { ...coordsNum }
     } else {
       firstIterationDone = true
     }
@@ -95,14 +100,16 @@ export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
 
         distanceDetails.tau = getLightTimeFromDistance(distanceDetails.Delta)
       } else {
-        const x = coords.R.toNumber() * Math.cos(coords.B.toNumber()) * Math.cos(coords.L.toNumber())
-          - earthCoords.R.toNumber() * Math.cos(earthCoords.B.toNumber()) * Math.cos(earthCoords.L.toNumber())
+        const earthCoordsNum = { L: earthCoords.L.toNumber(), B: earthCoords.B.toNumber(), R: earthCoords.L.toNumber(), }
 
-        const y = coords.R.toNumber() * Math.cos(coords.B.toNumber()) * Math.sin(coords.L.toNumber())
-          - earthCoords.R.toNumber() * Math.cos(earthCoords.B.toNumber()) * Math.sin(earthCoords.L.toNumber())
+        const x = coordsNum.R * Math.cos(coordsNum.B) * Math.cos(coordsNum.L)
+          - earthCoordsNum.R * Math.cos(earthCoordsNum.B) * Math.cos(earthCoordsNum.L)
 
-        const z = coords.R.toNumber() * Math.sin(coords.B.toNumber())
-          - earthCoords.R.toNumber() * Math.sin(earthCoords.B.toNumber())
+        const y = coordsNum.R * Math.cos(coordsNum.B) * Math.sin(coordsNum.L)
+          - earthCoordsNum.R * Math.cos(earthCoordsNum.B) * Math.sin(earthCoordsNum.L)
+
+        const z = coordsNum.R * Math.sin(coordsNum.B)
+          - earthCoordsNum.R * Math.sin(earthCoordsNum.B)
 
         distanceDetails.Delta = new Decimal(Math.sqrt(x * x + y * y + z * z))
         distanceDetails.tau = getLightTimeFromDistance(distanceDetails.Delta)
@@ -130,7 +137,13 @@ export function getPlanetGeocentricDistance (jd: JulianDay | number,
                                              eclipticLatitudeFunc: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction,
                                              radiusVectorFunc: QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction,
                                              highPrecision: boolean = true): AstronomicalUnit {
-  return getPlanetDistanceDetailsFromEarth(jd, eclipticLongitudeFunc, eclipticLatitudeFunc, radiusVectorFunc, highPrecision).Delta
+  return getPlanetDistanceDetailsFromEarth(
+    jd,
+    eclipticLongitudeFunc,
+    eclipticLatitudeFunc,
+    radiusVectorFunc,
+    highPrecision
+  ).Delta
 }
 
 
@@ -140,11 +153,27 @@ export function getPlanetGeocentricEclipticCoordinates (jd: JulianDay | number,
                                                         eclipticLatitudeFunc: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction,
                                                         radiusVectorFunc: QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction,
                                                         highPrecision: boolean = true): EclipticCoordinates {
-  const details = getPlanetDistanceDetailsFromEarth(jd, eclipticLongitudeFunc, eclipticLatitudeFunc, radiusVectorFunc, highPrecision)
+  const details = getPlanetDistanceDetailsFromEarth(
+    jd,
+    eclipticLongitudeFunc,
+    eclipticLatitudeFunc,
+    radiusVectorFunc,
+    highPrecision
+  )
 
   return {
-    longitude: fmod360(Decimal.atan2(details.y, details.x).radiansToDegrees()),
-    latitude: fmod90(Decimal.atan2(details.z, Decimal.sqrt(details.x.pow(2).plus(details.y.pow(2)))).radiansToDegrees())
+    longitude: fmod360(
+      Decimal.atan2(
+        details.y,
+        details.x
+      ).radiansToDegrees()
+    ),
+    latitude: fmod90(
+      Decimal.atan2(
+        details.z,
+        Decimal.sqrt(details.x.pow(2).plus(details.y.pow(2)))
+      ).radiansToDegrees()
+    )
   }
 }
 
