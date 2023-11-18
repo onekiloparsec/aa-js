@@ -1,9 +1,11 @@
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
 import Decimal from '@/decimal'
 import { Degree, Hour, JulianDay } from '@/types'
 import { getDate, getJulianDay } from '@/juliandays'
 import { getSexagesimalValue } from '@/sexagesimal'
 
+dayjs.extend(utc)
 
 export function isNumber (v: any): boolean {
   const x = new Decimal(v)

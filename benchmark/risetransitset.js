@@ -1,5 +1,6 @@
 import * as b from 'benny'
-import { juliandays, risetransitset, STANDARD_ALTITUDE_STARS } from '@'
+import { juliandays, STANDARD_ALTITUDE_STARS } from '@'
+import { getRiseTransitSetTimes } from '@/risetransitset'
 
 const date = new Date(Date.UTC(1988, 2, 20, 0, 0, 0))
 const jd = juliandays.getJulianDay(date)
@@ -11,10 +12,10 @@ b.suite(
   'rise transit set',
 
   b.add('getRiseTransitSetTimes high', () => {
-    risetransitset.getRiseTransitSetTimes(jd, coordsVenus, coordsBoston)
+    getRiseTransitSetTimes(jd, coordsVenus, coordsBoston)
   }),
   b.add('getRiseTransitSetTimes low', () => {
-    risetransitset.getRiseTransitSetTimes(jd, coordsVenus, coordsBoston, STANDARD_ALTITUDE_STARS, false)
+    getRiseTransitSetTimes(jd, coordsVenus, coordsBoston, STANDARD_ALTITUDE_STARS, false)
   }),
 
   b.cycle(),

@@ -27,10 +27,10 @@ export type MTimesNum = {
 
 // See AA, p102
 export function getMTimes (jd: JulianDay | number,
-                    equCoords: EquatorialCoordinates,
-                    geoCoords: GeographicCoordinates,
-                    alt: Degree | number = STANDARD_ALTITUDE_STARS,
-                    highPrecision: boolean = true): MTimes | MTimesNum {
+                           equCoords: EquatorialCoordinates,
+                           geoCoords: GeographicCoordinates,
+                           alt: Degree | number = STANDARD_ALTITUDE_STARS,
+                           highPrecision: boolean = true): MTimes | MTimesNum {
   // Getting the UT 0h on day D. See AA p.102.
   // It is not equal to the expected "0h Dynamical Time" of the coordinates ra and dec.
   const jd0: JulianDay = getJulianDayMidnight(jd)
@@ -71,6 +71,12 @@ export function getMTimes (jd: JulianDay | number,
     result.altitude = Decimal.asin(
       sinPhi.mul(sinDelta).plus(cosPhi.mul(cosDelta).mul(H.degreesToRadians().cos()))
     ).radiansToDegrees()
+
+    if (!result.isCircumpolar) {
+      const H0 = Decimal.acos(result.cosH0!).radiansToDegrees().dividedBy(360)
+      result.m1 = fmod(result.m0!.minus(H0), 1)
+      result.m2 = fmod(result.m0!.plus(H0), 1)
+    }
   } else {
     result = {
       m0: undefined, // transit
