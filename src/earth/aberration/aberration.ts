@@ -177,6 +177,7 @@ export function getAccurateAnnualEquatorialAberration (jd: JulianDay | number, c
  * It is due to the orbital motion of the Earth around the barycenter of the Solar system.
  * See getAccurateAnnualEquatorialAberration for high-accuracy algorithm, taking into account the total velocity of the Earth
  * relative to the barycenter of the solar system.
+ * See AA p 152, Equ 23.3
  * @see {getAccurateAnnualEquatorialAberration}
  * @param {JulianDay} jd The julian day
  * @param {EquatorialCoordinates} coords The equatorial coordinates
@@ -185,39 +186,71 @@ export function getAccurateAnnualEquatorialAberration (jd: JulianDay | number, c
  * @memberof module:Earth
  */
 export function getAnnualEquatorialAberration (jd: JulianDay | number, coords: EquatorialCoordinates, highPrecision: boolean = true): EquatorialCoordinatesCorrection {
-  const e: Decimal = getEccentricity(jd)
-
-  const pi: Radian = getLongitudeOfPerihelion(jd).degreesToRadians()
-  const cosPi = pi.cos()
-  const sinPi = pi.sin()
-
-  const epsilon = getTrueObliquityOfEcliptic(jd).degreesToRadians()
-  const cosEpsilon = epsilon.cos()
-  const tanEpsilon = epsilon.tan()
-
-  // Use the geoMETRIC longitude. See AA p.151
-  const sunLongitude: Radian = Sun.getGeometricEclipticLongitude(jd).degreesToRadians()
-  const cosLong = sunLongitude.cos()
-  const sinLong = sunLongitude.sin()
-
   const ra: Radian = new Decimal(coords.rightAscension).degreesToRadians()
   const dec: Radian = new Decimal(coords.declination).degreesToRadians()
-  const cosAlpha = ra.cos()
-  const sinAlpha = ra.sin()
-  const cosDelta = dec.cos()
-  const sinDelta = dec.sin()
 
+  const e: Decimal = getEccentricity(jd)
   const k = CONSTANT_OF_ABERRATION
 
-  const A0 = cosAlpha.mul(cosLong).mul(cosEpsilon).plus(sinAlpha.mul(sinLong))
-  const A1 = cosAlpha.mul(cosPi).mul(cosEpsilon).plus(sinAlpha.mul(sinPi))
-  const DeltaRightAscension: ArcSecond = (MINUSONE.mul(k).mul(A0.dividedBy(cosDelta)))
-    .plus(e.mul(k).mul(A1).dividedBy(cosDelta))
+  const pi: Radian = getLongitudeOfPerihelion(jd).degreesToRadians()
+  const epsilon = getTrueObliquityOfEcliptic(jd, highPrecision).degreesToRadians()
+  const sunLongitude: Radian = Sun.getGeometricEclipticLongitude(jd, highPrecision).degreesToRadians()
 
-  const D0 = (tanEpsilon.mul(cosDelta)).minus(sinAlpha.mul(sinDelta))
-  const D1 = cosLong.mul(cosEpsilon).mul(D0).plus(cosAlpha.mul(sinDelta).mul(sinLong))
-  const D2 = cosPi.mul(cosEpsilon).mul(D0).plus(cosAlpha.mul(sinDelta).mul(sinPi))
-  const DeltaDeclination: ArcSecond = (MINUSONE.mul(k).mul(D1)).plus(e.mul(k).mul(D2))
+  let DeltaRightAscension: ArcSecond, DeltaDeclination: ArcSecond
+
+  if (highPrecision) {
+    const cosPi = pi.cos()
+    const sinPi = pi.sin()
+    const cosEpsilon = epsilon.cos()
+    const tanEpsilon = epsilon.tan()
+
+    // Use the geoMETRIC longitude. See AA p.151
+    const cosLong = sunLongitude.cos()
+    const sinLong = sunLongitude.sin()
+
+    const cosAlpha = ra.cos()
+    const sinAlpha = ra.sin()
+    const cosDelta = dec.cos()
+    const sinDelta = dec.sin()
+
+    const A0 = cosAlpha.mul(cosLong).mul(cosEpsilon).plus(sinAlpha.mul(sinLong))
+    const A1 = cosAlpha.mul(cosPi).mul(cosEpsilon).plus(sinAlpha.mul(sinPi))
+    DeltaRightAscension = (MINUSONE.mul(k).mul(A0.dividedBy(cosDelta)))
+      .plus(e.mul(k).mul(A1).dividedBy(cosDelta))
+
+    const D0 = (tanEpsilon.mul(cosDelta)).minus(sinAlpha.mul(sinDelta))
+    const D1 = cosLong.mul(cosEpsilon).mul(D0).plus(cosAlpha.mul(sinDelta).mul(sinLong))
+    const D2 = cosPi.mul(cosEpsilon).mul(D0).plus(cosAlpha.mul(sinDelta).mul(sinPi))
+    DeltaDeclination = (MINUSONE.mul(k).mul(D1)).plus(e.mul(k).mul(D2))
+  } else {
+    const cosPi = Math.cos(pi.toNumber())
+    const sinPi = Math.sin(pi.toNumber())
+    const cosEpsilon = Math.cos(epsilon.toNumber())
+    const tanEpsilon = Math.tan(epsilon.toNumber())
+
+    // Use the geoMETRIC longitude. See AA p.151
+    const cosLong = Math.cos(sunLongitude.toNumber())
+    const sinLong = Math.sin(sunLongitude.toNumber())
+
+    const cosAlpha = Math.cos(ra.toNumber())
+    const sinAlpha = Math.sin(ra.toNumber())
+    const cosDelta = Math.cos(dec.toNumber())
+    const sinDelta = Math.sin(dec.toNumber())
+
+    const A0 = cosAlpha * cosLong * cosEpsilon + sinAlpha * sinLong
+    const A1 = cosAlpha * cosPi * cosEpsilon + sinAlpha * sinPi
+    DeltaRightAscension = new Decimal(
+      -1 * k.toNumber() * (A0 / cosDelta)
+      + e.toNumber() * k.toNumber() * A1 / cosDelta
+    )
+
+    const D0 = tanEpsilon * cosDelta - sinAlpha * sinDelta
+    const D1 = cosLong * cosEpsilon * D0 + cosAlpha * sinDelta * sinLong
+    const D2 = cosPi * cosEpsilon * D0 + cosAlpha * sinDelta * sinPi
+    DeltaDeclination = new Decimal(
+      -1 * k.toNumber() * D1 + e.toNumber() * k.toNumber() * D2
+    )
+  }
 
   return { DeltaRightAscension, DeltaDeclination }
 }
