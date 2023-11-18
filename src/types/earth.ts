@@ -13,10 +13,10 @@ import {
   QuantityInDegreeAtJulianDayFunction,
   QuantityInDegreeAtJulianDayWithPrecisionFunction,
   SingleCoordinateDegreeAtJulianDayWithEquinoxFunction,
-  SingleCoordinateDegreeAtJulianDayWithEquinoxWithPrecisionFunction
+  SingleCoordinateDegreeAtJulianDayWithEquinoxWithPrecisionFunction,
+  SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
 } from './funcs'
 import { Kilometer } from './units'
-import Decimal from '@/decimal'
 
 
 export enum Obliquity {
@@ -94,9 +94,9 @@ export interface NaturalSun {
   getGeometricFK5EclipticLatitude: SingleCoordinateDegreeAtJulianDayWithEquinoxFunction
   getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayWithEquinoxFunction
   getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithEquinoxFunction
-  getApparentGeocentricEclipticLongitude: SingleCoordinateDegreeAtJulianDayWithEquinoxFunction
-  getApparentGeocentricEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithEquinoxFunction
-  getApparentGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayWithEquinoxFunction
+  getApparentGeocentricEclipticLongitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
+  getApparentGeocentricEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
+  getApparentGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
   getVariationGeometricEclipticLongitude: QuantityInDegreeAtJulianDayFunction,
   constants: SunConstants
 }

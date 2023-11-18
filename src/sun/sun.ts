@@ -136,39 +136,41 @@ export function getGeometricEclipticLongitude (jd: JulianDay | number, highPreci
  * Geometric Ecliptic Longitude
  * @param {JulianDay} jd The julian day
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  */
-export function getGeocentricEclipticLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
-  return fmod360(Earth.getEclipticLongitude(jd, equinox).plus(180))
+export function getGeocentricEclipticLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate, highPrecision: boolean = true): Degree {
+  return fmod360(Earth.getEclipticLongitude(jd, equinox, highPrecision).plus(180))
 }
 
 /**
  * Geometric Ecliptic Latitude
  * @param {JulianDay} jd The julian day
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  */
-export function getGeocentricEclipticLatitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
-  return new Decimal(-1).mul(Earth.getEclipticLatitude(jd, equinox))
+export function getGeocentricEclipticLatitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate, highPrecision: boolean = true): Degree {
+  return new Decimal(-1).mul(Earth.getEclipticLatitude(jd, equinox, highPrecision))
 }
 
 // --- Conversion from high-accuracy geocentric coordinates of the Sun to the FK5 system. See AA p 166
 
 // See AA+ CAASun::GeometricFK5EclipticLongitude
-export function getGeometricFK5EclipticLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
+export function getGeometricFK5EclipticLongitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate, highPrecision: boolean = true): Degree {
   // Convert to the FK5 system
-  let Longitude = getGeocentricEclipticLongitude(jd, equinox)
-  const Latitude = getGeocentricEclipticLatitude(jd, equinox)
-  Longitude = Longitude.plus(getCorrectionInLongitude(Longitude, Latitude, jd))
+  let Longitude = getGeocentricEclipticLongitude(jd, equinox, highPrecision)
+  const Latitude = getGeocentricEclipticLatitude(jd, equinox, highPrecision)
+  Longitude = Longitude.plus(getCorrectionInLongitude(jd, Longitude, Latitude, highPrecision))
   return Longitude
 }
 
 // See AA+ CAASun::GeometricFK5EclipticLatitude
-export function getGeometricFK5EclipticLatitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): Degree {
+export function getGeometricFK5EclipticLatitude (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate, highPrecision: boolean = true): Degree {
   // Convert to the FK5 system
-  const Longitude = getGeocentricEclipticLongitude(jd, equinox)
-  let Latitude = getGeocentricEclipticLatitude(jd, equinox)
-  Latitude = Latitude.plus(getCorrectionInLatitude(jd, Longitude))
+  const Longitude = getGeocentricEclipticLongitude(jd, equinox, highPrecision)
+  let Latitude = getGeocentricEclipticLatitude(jd, equinox, highPrecision)
+  Latitude = Latitude.plus(getCorrectionInLatitude(jd, Longitude, highPrecision))
   return Latitude
 }
 
@@ -178,12 +180,13 @@ export function getGeometricFK5EclipticLatitude (jd: JulianDay | number, equinox
  * Geocentric ecliptic coordinates
  * @param {JulianDay} jd The julian day
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns EclipticCoordinates
  */
-export function getGeocentricEclipticCoordinates (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): EclipticCoordinates {
+export function getGeocentricEclipticCoordinates (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate, highPrecision: boolean = true): EclipticCoordinates {
   return {
-    longitude: getGeocentricEclipticLongitude(jd, equinox),
-    latitude: getGeocentricEclipticLatitude(jd, equinox)
+    longitude: getGeocentricEclipticLongitude(jd, equinox, highPrecision),
+    latitude: getGeocentricEclipticLatitude(jd, equinox, highPrecision)
   }
 }
 
@@ -191,12 +194,14 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number, equino
  * Geocentric equatorial coordinates
  * @param {JulianDay} jd The julian day
  * @param {Equinox} equinox (optional) The equinox to be used: MeanOfTheDate (default) or StandardJ2000.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns EquatorialCoordinates
  */
-export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate): EquatorialCoordinates {
+export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, equinox: Equinox = Equinox.MeanOfTheDate, highPrecision: boolean = true): EquatorialCoordinates {
   return transformEclipticToEquatorial(
-    getGeocentricEclipticCoordinates(jd, equinox),
-    Earth.getMeanObliquityOfEcliptic(jd)
+    getGeocentricEclipticCoordinates(jd, equinox, highPrecision),
+    Earth.getMeanObliquityOfEcliptic(jd, highPrecision),
+    highPrecision
   )
 }
 
@@ -205,16 +210,17 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, equi
  * corrected for the nutation and aberration.
  * See AA+ CAASun::ApparentEclipticLongitude
  * @param {JulianDay} jd The julian day
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  */
-export function getApparentGeocentricEclipticLongitude (jd: JulianDay | number): Degree {
-  let Longitude = getGeometricFK5EclipticLongitude(jd)
+export function getApparentGeocentricEclipticLongitude (jd: JulianDay | number, highPrecision: boolean = true): Degree {
+  let Longitude = getGeometricFK5EclipticLongitude(jd, Equinox.MeanOfTheDate, highPrecision)
 
   // Apply the correction in longitude due to nutation
-  Longitude = Longitude.plus(getDecimalValue(0, 0, Earth.getNutationInLongitude(jd)))
+  Longitude = Longitude.plus(getDecimalValue(0, 0, Earth.getNutationInLongitude(jd, highPrecision)))
 
   // Apply the correction in longitude due to aberration. See AA p. 167 for an even higher accuracy.
-  const R = Earth.getRadiusVector(jd)
+  const R = Earth.getRadiusVector(jd, highPrecision)
   Longitude = Longitude.minus(getDecimalValue(0, 0, new Decimal(20.4898).dividedBy(R)))
 
   return Longitude
@@ -224,22 +230,24 @@ export function getApparentGeocentricEclipticLongitude (jd: JulianDay | number):
  * Apparent Ecliptic Latitude, that is, the geometric latitude of the Sun referred to the mean equinox of the date.
  * See AA+ CAASun::ApparentEclipticLatitude
  * @param {JulianDay} jd The julian day
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  */
-export function getApparentGeocentricEclipticLatitude (jd: JulianDay | number): Degree {
-  return getGeometricFK5EclipticLatitude(jd)
+export function getApparentGeocentricEclipticLatitude (jd: JulianDay | number, highPrecision: boolean = true): Degree {
+  return getGeometricFK5EclipticLatitude(jd, Equinox.MeanOfTheDate, highPrecision)
 }
 
 /**
  * Apparent Ecliptic Coordinates, that is the geometric ecliptic coordinates, referred to the mean equinox of the date,
  * corrected for the nutation and aberration.
  * @param {JulianDay} jd The julian day
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EclipticCoordinates}
  */
-export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
+export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EclipticCoordinates {
   return {
-    longitude: getApparentGeocentricEclipticLongitude(jd),
-    latitude: getApparentGeocentricEclipticLatitude(jd)
+    longitude: getApparentGeocentricEclipticLongitude(jd, highPrecision),
+    latitude: getApparentGeocentricEclipticLatitude(jd, highPrecision)
   }
 }
 
