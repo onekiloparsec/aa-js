@@ -183,7 +183,13 @@ export function getPlanetApparentGeocentricEclipticCoordinates (jd: JulianDay | 
                                                                 eclipticLatitudeFunc: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction,
                                                                 radiusVectorFunc: QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction,
                                                                 highPrecision: boolean = true): EclipticCoordinates {
-  const geocentricEclipticCoordinates = getPlanetGeocentricEclipticCoordinates(jd, eclipticLongitudeFunc, eclipticLatitudeFunc, radiusVectorFunc, highPrecision)
+  const geocentricEclipticCoordinates = getPlanetGeocentricEclipticCoordinates(
+    jd,
+    eclipticLongitudeFunc,
+    eclipticLatitudeFunc,
+    radiusVectorFunc,
+    highPrecision
+  )
 
   // Adjust for Aberration
   const aberration = Earth.getAnnualEclipticAberration(jd, geocentricEclipticCoordinates, highPrecision)

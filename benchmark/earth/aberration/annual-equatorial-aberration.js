@@ -1,9 +1,8 @@
 import * as b from 'benny'
-import { Earth } from '@'
-import { getDecimalValue } from '@/sexagesimal'
+import { Earth, sexagesimal } from '@'
 
-const ra = getDecimalValue(16, 54, 0.14) // in hours
-const dec = getDecimalValue(-39, 50, 44.9)
+const ra = sexagesimal.getDecimalValue(16, 54, 0.14) // in hours
+const dec = sexagesimal.getDecimalValue(-39, 50, 44.9)
 const equCoords = { rightAscension: ra.hoursToDegrees(), declination: dec }
 
 export default b.suite(
