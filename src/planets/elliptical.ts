@@ -157,7 +157,6 @@ export function getPlanetDistanceDetailsFromEarth (jd: JulianDay | number,
 
       // Calculate the new value
       if (continueIterations) {
-
         distanceDetails.x = coords.R * Math.cos(coords.B) * Math.cos(coords.L)
           - earthCoordsNum.R * Math.cos(earthCoordsNum.B) * Math.cos(earthCoordsNum.L)
 
@@ -265,8 +264,8 @@ export function getPlanetApparentGeocentricEclipticCoordinates (jd: JulianDay | 
 
   // Adjust for Aberration
   const aberration = Earth.getAnnualEclipticAberration(jd, geocentricEclipticCoordinates, highPrecision)
-  geocentricEclipticCoordinates.longitude = geocentricEclipticCoordinates.longitude.plus(aberration.DeltaLongitude)
-  geocentricEclipticCoordinates.latitude = geocentricEclipticCoordinates.latitude.plus(aberration.DeltaLatitude)
+  geocentricEclipticCoordinates.longitude = geocentricEclipticCoordinates.longitude.plus(aberration.DeltaLongitude.dividedBy(3600))
+  geocentricEclipticCoordinates.latitude = geocentricEclipticCoordinates.latitude.plus(aberration.DeltaLatitude.dividedBy(3600))
 
   // Convert to the FK5 system
   const deltaLong = getCorrectionInLongitude(jd, geocentricEclipticCoordinates.longitude, geocentricEclipticCoordinates.latitude, highPrecision)

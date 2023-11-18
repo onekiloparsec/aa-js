@@ -1,14 +1,5 @@
 import Decimal from '@/decimal'
-import { DEG2RAD } from '@/constants'
-import {
-  AstronomicalUnit,
-  Degree,
-  EclipticCoordinates,
-  EquatorialCoordinates,
-  EquatorialCoordinatesH,
-  JulianDay,
-  Obliquity
-} from '@/types'
+import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Obliquity } from '@/types'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianCentury } from '@/juliandays'
 import { fmod360, fmod90 } from '@/utils'

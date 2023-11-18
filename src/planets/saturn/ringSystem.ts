@@ -6,7 +6,7 @@ import { getLightTimeFromDistance } from '@/distances'
 import { getJulianCentury } from '@/juliandays'
 import { fmod, fmod360 } from '@/utils'
 import { Earth } from '@/earth'
-import { getPlanetDistanceDetailsFromEarth } from '../elliptical'
+import { EllipticalDistance, getPlanetDistanceDetailsFromEarth } from '../elliptical'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
 /**
@@ -46,13 +46,13 @@ export function getRingSystemDetails (jd: JulianDay | number): SaturnRingSystem 
   // Starting point: 9 AU, because Earth-Saturn distance is always between 8.0 and 11.1 AU (AA p.318).
   let earthLightTravelTime = getLightTimeFromDistance(9)
   const JD1 = new Decimal(jd).minus(earthLightTravelTime)
-  let details = getPlanetDistanceDetailsFromEarth(JD1, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
+  let details: EllipticalDistance = getPlanetDistanceDetailsFromEarth(JD1, getEclipticLongitude, getEclipticLatitude, getRadiusVector) as EllipticalDistance
 
   // New estimation of earthLightTravelTime === tau
   earthLightTravelTime = getLightTimeFromDistance(details.Delta)
   // Slightly shifted JD!
   const JD2 = new Decimal(jd).minus(earthLightTravelTime)
-  details = getPlanetDistanceDetailsFromEarth(JD2, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
+  details = getPlanetDistanceDetailsFromEarth(JD2, getEclipticLongitude, getEclipticLatitude, getRadiusVector) as EllipticalDistance
   const [l, b, r] = [details.l, details.b, details.r]
 
   // Step 4.
