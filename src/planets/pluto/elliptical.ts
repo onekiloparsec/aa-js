@@ -4,11 +4,16 @@ import {
   EquatorialCoordinates,
   GeographicCoordinates,
   JulianDay,
+  Obliquity,
   RiseTransitSet
 } from '@/types'
+import { Earth } from '@/earth'
 import { transformEclipticToEquatorial } from '@/coordinates'
-import { getTrueObliquityOfEcliptic } from '@/earth/nutation'
-import { getPlanetGeocentricDistance, getPlanetGeocentricEclipticCoordinates } from '../elliptical'
+import {
+  getPlanetApparentGeocentricEclipticCoordinates,
+  getPlanetGeocentricDistance,
+  getPlanetGeocentricEclipticCoordinates
+} from '../elliptical'
 import { getPlanetAccurateRiseTransitSet, getPlanetRiseTransitSet } from '../risetransitset'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
@@ -18,44 +23,78 @@ import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './co
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinatesH}
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
+ * @returns {AstronomicalUnit}
  * @memberof module:Pluto
  */
-export function getGeocentricDistance (jd: JulianDay | number): AstronomicalUnit {
-  return getPlanetGeocentricDistance(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
+export function getGeocentricDistance (jd: JulianDay | number, highPrecision: boolean = true): AstronomicalUnit {
+  return getPlanetGeocentricDistance(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector, highPrecision)
 }
 
 /**
- * Geocentric apparent ecliptic coordinates
- * It takes into account the effects of light-time travel & Earth nutation and annual aberration.
+ * Geocentric ecliptic coordinates
+ * It takes NO account for the effects of light-time travel & Earth nutation and annual aberration.
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinatesH}
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
+ * @returns {EclipticCoordinates}
  * @memberof module:Pluto
  */
-export function getGeocentricEclipticCoordinates (jd: JulianDay | number): EclipticCoordinates {
-  return getPlanetGeocentricEclipticCoordinates(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
+export function getGeocentricEclipticCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EclipticCoordinates {
+  return getPlanetGeocentricEclipticCoordinates(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector, highPrecision)
 }
 
 /**
- * Geocentric apparent equatorial coordinates
- * It takes into account the effects of light-time travel & Earth nutation and annual aberration
- * (through the use of True Obliquity of Ecliptic at the time of JD).
+ * Apparent geocentric ecliptic coordinates
+ * It takes into account for the effects of light-time travel & Earth nutation and annual aberration.
+ * @see getEclipticCoordinates
+ * @see getGeocentricEquatorialCoordinates
+ * @param {JulianDay} jd The julian day
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
+ * @returns {EclipticCoordinates}
+ * @memberof module:Pluto
+ */
+export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EclipticCoordinates {
+  return getPlanetApparentGeocentricEclipticCoordinates(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector, highPrecision)
+}
+
+/**
+ * Geocentric equatorial coordinates
+ * It takes NO account for the effects of light-time travel & Earth nutation and annual aberration.
  * @see getEquatorialCoordinates
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
+ * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EquatorialCoordinates}
  * @memberof module:Pluto
  */
-export function getGeocentricEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinates {
+export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean, highPrecision: boolean = true): EquatorialCoordinates {
   return transformEclipticToEquatorial(
-    getGeocentricEclipticCoordinates(jd),
-    getTrueObliquityOfEcliptic(jd),
+    getGeocentricEclipticCoordinates(jd, highPrecision),
+    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd, highPrecision) : Earth.getTrueObliquityOfEcliptic(jd, highPrecision),
     highPrecision
   )
 }
 
+/**
+ * Apparent geocentric apparent equatorial coordinates
+ * It takes into account the effects of light-time travel & Earth nutation and annual aberration.
+ * @see getEquatorialCoordinates
+ * @see getGeocentricEclipticCoordinates
+ * @param {JulianDay} jd The julian day
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
+ * @returns {EquatorialCoordinates}
+ * @memberof module:Pluto
+ */
+export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EquatorialCoordinates {
+  return transformEclipticToEquatorial(
+    getApparentGeocentricEclipticCoordinates(jd, highPrecision),
+    Earth.getTrueObliquityOfEcliptic(jd, highPrecision),
+    highPrecision
+  )
+}
 
 /**
  * Computes the (low-accuracy but fast) times of the rise, transit and set of the planet.
