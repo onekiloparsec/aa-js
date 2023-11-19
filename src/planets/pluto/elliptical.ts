@@ -51,7 +51,8 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number): Eclip
 export function getGeocentricEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getGeocentricEclipticCoordinates(jd),
-    getTrueObliquityOfEcliptic(jd)
+    getTrueObliquityOfEcliptic(jd),
+    highPrecision
   )
 }
 
