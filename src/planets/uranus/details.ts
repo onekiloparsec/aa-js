@@ -1,5 +1,5 @@
 import Decimal from '@/decimal'
-import { Degree, JulianDay, Magnitude } from '@/types'
+import { ArcSecond, Degree, JulianDay, Magnitude } from '@/types'
 import { ONE, TWO } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
@@ -18,7 +18,7 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
   const Delta = getGeocentricDistance(jd)
   return fmod360(
     Decimal.acos((r.pow(2).plus(Delta.pow(2)).minus(R.pow(2)))
-        .dividedBy(TWO.mul(r).mul(Delta))).radiansToDegrees()
+      .dividedBy(TWO.mul(r).mul(Delta))).radiansToDegrees()
   )
 }
 
@@ -57,10 +57,10 @@ export function getMagnitude (jd: JulianDay | number): Magnitude {
  * The latter is more relevant for astronomical phenomena such as transits and
  * occultations.
  * @param {JulianDay} jd The julian day
- * @returns {Degree}
+ * @returns {ArcSecond}
  * @memberof module:Uranus
  */
-export function getEquatorialSemiDiameter (jd: JulianDay | number): Degree {
+export function getEquatorialSemiDiameter (jd: JulianDay | number): ArcSecond {
   const Delta = getGeocentricDistance(jd)
   return new Decimal('35.02').dividedBy(Delta)
 }
@@ -71,9 +71,9 @@ export function getEquatorialSemiDiameter (jd: JulianDay | number): Degree {
  * polarSemiDiameter is identical to the equatorial one.
  * @see getEquatorialSemiDiameter
  * @param {JulianDay} jd The julian day
- * @returns {Degree}
+ * @returns {ArcSecond}
  * @memberof module:Uranus
  */
-export function getPolarSemiDiameter (jd: JulianDay | number): Degree {
+export function getPolarSemiDiameter (jd: JulianDay | number): ArcSecond {
   return getEquatorialSemiDiameter(jd)
 }

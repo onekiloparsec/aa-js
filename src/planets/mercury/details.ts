@@ -1,5 +1,5 @@
 import Decimal from '@/decimal'
-import { Degree, JulianDay, Magnitude } from '@/types'
+import { ArcSecond, Degree, JulianDay, Magnitude } from '@/types'
 import { ONE, TWO } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
@@ -61,10 +61,10 @@ export function getMagnitude (jd: JulianDay | number): Magnitude {
  * The latter is more relevant for astronomical phenomena such as transits and
  * occultations.
  * @param {JulianDay} jd The julian day
- * @returns {Degree}
+ * @returns {ArcSecond}
  * @memberof module:Mercury
  */
-export function getEquatorialSemiDiameter (jd: JulianDay | number): Degree {
+export function getEquatorialSemiDiameter (jd: JulianDay | number): ArcSecond {
   const Delta = getGeocentricDistance(jd)
   return new Decimal('3.36').dividedBy(Delta)
 }
@@ -75,10 +75,10 @@ export function getEquatorialSemiDiameter (jd: JulianDay | number): Degree {
  * polarSemiDiameter is identical to the equatorial one.
  * @see getEquatorialSemiDiameter
  * @param {JulianDay} jd The julian day
- * @returns {Degree}
+ * @returns {ArcSecond}
  * @memberof module:Mercury
  */
-export function getPolarSemiDiameter (jd: JulianDay | number): Degree {
+export function getPolarSemiDiameter (jd: JulianDay | number): ArcSecond {
   return getEquatorialSemiDiameter(jd)
 }
 
