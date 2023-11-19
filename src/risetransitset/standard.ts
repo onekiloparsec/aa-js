@@ -1,7 +1,15 @@
 import Decimal from '@/decimal'
 import { getJDatUTC } from '@/utils'
 import { STANDARD_ALTITUDE_STARS } from '@/constants'
-import { Degree, EquatorialCoordinates, GeographicCoordinates, JulianDay, RiseTransitSet } from '@/types'
+import {
+  Degree,
+  EquatorialCoordinates,
+  EquatorialCoordinatesNum,
+  GeographicCoordinates,
+  GeographicCoordinatesNum,
+  JulianDay,
+  RiseTransitSet
+} from '@/types'
 import { getMTimes, MTimesNum } from './mtimes'
 
 /**
@@ -19,8 +27,8 @@ import { getMTimes, MTimesNum } from './mtimes'
  * @return {RiseTransitSet}
  */
 export function getRiseTransitSetTimes (jd: JulianDay | number,
-                                        equCoords: EquatorialCoordinates,
-                                        geoCoords: GeographicCoordinates,
+                                        equCoords: EquatorialCoordinates | EquatorialCoordinatesNum,
+                                        geoCoords: GeographicCoordinates | GeographicCoordinatesNum,
                                         alt: Degree | number = STANDARD_ALTITUDE_STARS,
                                         highPrecision: boolean = true): RiseTransitSet {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.

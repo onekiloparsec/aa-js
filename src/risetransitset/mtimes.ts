@@ -2,7 +2,15 @@
  @module RiseTransitSet
  */
 import Decimal from '@/decimal'
-import { Degree, EquatorialCoordinates, GeographicCoordinates, JulianDay, Radian } from '@/types'
+import {
+  Degree,
+  EquatorialCoordinates,
+  EquatorialCoordinatesNum,
+  GeographicCoordinates,
+  GeographicCoordinatesNum,
+  JulianDay,
+  Radian
+} from '@/types'
 import { DEG2RAD, STANDARD_ALTITUDE_STARS } from '@/constants'
 import { getJulianDayMidnight, getLocalSiderealTime } from '@/juliandays'
 import { fmod, fmod180 } from '@/utils'
@@ -27,8 +35,8 @@ export type MTimesNum = {
 
 // See AA, p102
 export function getMTimes (jd: JulianDay | number,
-                           equCoords: EquatorialCoordinates,
-                           geoCoords: GeographicCoordinates,
+                           equCoords: EquatorialCoordinates | EquatorialCoordinatesNum,
+                           geoCoords: GeographicCoordinates | GeographicCoordinatesNum,
                            alt: Degree | number = STANDARD_ALTITUDE_STARS,
                            highPrecision: boolean = true): MTimes | MTimesNum {
   // Getting the UT 0h on day D. See AA p.102.
