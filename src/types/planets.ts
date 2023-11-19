@@ -32,7 +32,6 @@ import {
   QuantityInMagnitudeAtJulianDayFunction,
   RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction,
   RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesWithPrecisionFunction,
-  SingleCoordinateDegreeAtJulianDayFunction,
   SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
 } from './funcs'
 
@@ -67,9 +66,9 @@ export interface Planet {
   // Heliocentric coordinates
   getEclipticLongitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
   getEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
+  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction
   getEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
   getEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithObliquityWithPrecisionFunction
-  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction
   // Geocentric coordinates
   getGeocentricDistance: QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction
   getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
@@ -103,16 +102,18 @@ export interface Planet {
 }
 
 export interface MinorPlanet {
-  getEclipticLongitude: SingleCoordinateDegreeAtJulianDayFunction
-  getEclipticLatitude: SingleCoordinateDegreeAtJulianDayFunction
-  getEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
-  getEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
+  // Heliocentric coordinates
+  getEclipticLongitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
+  getEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
+  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction
+  getEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
+  getEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithObliquityWithPrecisionFunction
+
   getGeocentricDistance: QuantityInAstronomicalUnitAtJulianDayFunction
   getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
   getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
   getRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction
   getAccurateRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction
-  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
   getPhaseAngle: JulianDayForJulianDayFunction
   getIlluminatedFraction: QuantityAtJulianDayFunction
   getMagnitude: QuantityInMagnitudeAtJulianDayFunction
