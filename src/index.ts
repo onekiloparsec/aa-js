@@ -3,7 +3,7 @@
  * @namespace
  */
 import Decimal from '@/decimal'
-import { AllPlanetName, EarthPlanet, MinorPlanet, NaturalSun, Planet, PlanetName, SolarSystemName } from '@/types'
+import { AllPlanetName, NaturalEarth, DwarfPlanet, NaturalSun, Planet, PlanetName, SolarSystemName } from '@/types'
 
 import { Earth } from './earth'
 import { Sun } from './sun'
@@ -23,11 +23,11 @@ const Planets: { [key in PlanetName]: Planet } = {
   Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune
 }
 
-const AllPlanets: { [key in AllPlanetName]: Planet | MinorPlanet } = {
+const AllPlanets: { [key in AllPlanetName]: Planet | DwarfPlanet } = {
   Mercury, Venus, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto
 }
 
-const SolarSystem: { [key in SolarSystemName]: NaturalSun | Planet | EarthPlanet | MinorPlanet } = {
+const SolarSystem: { [key in SolarSystemName]: NaturalSun | Planet | NaturalEarth | DwarfPlanet } = {
   Sun, Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune, Pluto
 }
 

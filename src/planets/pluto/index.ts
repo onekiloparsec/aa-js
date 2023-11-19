@@ -1,7 +1,7 @@
 /**
  @module Pluto
  */
-import { MinorPlanet } from '@/types'
+import { DwarfPlanet } from '@/types'
 import {
   getEclipticCoordinates,
   getEclipticLatitude,
@@ -19,13 +19,15 @@ import {
 } from './details'
 import {
   getAccurateRiseTransitSet,
+  getApparentGeocentricEclipticCoordinates,
+  getApparentGeocentricEquatorialCoordinates,
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
   getRiseTransitSet,
 } from './elliptical'
 
-export const Pluto: MinorPlanet = {
+export const Pluto: DwarfPlanet = {
   getEclipticLongitude,
   getEclipticLatitude,
   getEclipticCoordinates,
@@ -33,6 +35,8 @@ export const Pluto: MinorPlanet = {
   getGeocentricDistance,
   getGeocentricEclipticCoordinates,
   getGeocentricEquatorialCoordinates,
+  getApparentGeocentricEclipticCoordinates,
+  getApparentGeocentricEquatorialCoordinates,
   getRiseTransitSet,
   getAccurateRiseTransitSet,
   getRadiusVector,

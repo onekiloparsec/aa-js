@@ -1,7 +1,7 @@
 /**
  @module Earth
  */
-import { EarthPlanet } from '@/types'
+import { NaturalEarth } from '@/types'
 import {
   getEccentricity,
   getEclipticCoordinates,
@@ -28,7 +28,7 @@ import {
   getNutationEquatorialAberration
 } from './aberration'
 
-export const Earth: EarthPlanet = {
+export const Earth: NaturalEarth = {
   getEclipticLongitude,
   getEclipticLongitudinalRotation,
   getEclipticLatitude,
