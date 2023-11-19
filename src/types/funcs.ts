@@ -26,6 +26,7 @@ export type QuantityAtJulianDayFunction = (jd: JulianDay | number) => Decimal
 export type QuantityAtJulianDayWithPrecisionFunction = (jd: JulianDay | number, highPrecision?: boolean) => Decimal
 
 export type QuantityInDegreeAtJulianDayFunction = (jd: JulianDay | number) => Degree
+export type QuantityInDegreeAtJulianDayWithEquinoxFunction = (jd:JulianDay|number, equinox?: Equinox) => Degree
 export type QuantityInDegreeAtJulianDayWithPrecisionFunction = (jd: JulianDay | number, highPrecision?: boolean) => Degree
 
 export type QuantityInDegreeAtJulianCenturyFunction = (jd: JulianCentury | number) => Degree
