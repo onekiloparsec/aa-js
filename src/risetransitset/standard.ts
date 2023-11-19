@@ -1,5 +1,4 @@
 import Decimal from '@/decimal'
-import { getJDatUTC } from '@/utils'
 import { STANDARD_ALTITUDE_STARS } from '@/constants'
 import {
   Degree,
@@ -11,6 +10,7 @@ import {
   RiseTransitSet
 } from '@/types'
 import { getMTimes, MTimesNum } from './mtimes'
+import { getJDatUTC } from './utils'
 
 /**
  * Compute the times of rise, set and transit of an object at a given date,

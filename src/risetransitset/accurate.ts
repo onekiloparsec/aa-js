@@ -5,10 +5,10 @@ import Decimal from '@/decimal'
 import { Degree, EquatorialCoordinates, GeographicCoordinates, JulianDay, LengthArray, RiseTransitSet } from '@/types'
 import { getJulianDayMidnight, getLocalSiderealTime } from '@/juliandays'
 import { STANDARD_ALTITUDE_STARS } from '@/constants'
-import { getJDatUTC } from '@/utils'
 import { getDeltaT } from '@/times'
 import { getDeltaMTimes } from './deltamtimes'
 import { getMTimes, MTimes } from './mtimes'
+import { getJDatUTC } from './utils'
 
 
 /**
