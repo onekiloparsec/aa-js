@@ -16,9 +16,7 @@ import {
   Year
 } from './units'
 import {
-  EclipticCoordinatesAtJulianDayFunction,
   EclipticCoordinatesAtJulianDayWithPrecisionFunction,
-  EquatorialCoordinatesAtJulianDayFunction,
   EquatorialCoordinatesAtJulianDayWithObliquityWithPrecisionFunction,
   EquatorialCoordinatesAtJulianDayWithPrecisionFunction,
   JulianDayForJulianDayFunction,
@@ -27,10 +25,10 @@ import {
   QuantityInAstronomicalUnitAtJulianDayFunction,
   QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction,
   QuantityInDegreeAtJulianDayFunction,
+  QuantityInDegreeAtJulianDayWithEquinoxFunction,
   QuantityInKilometerPerSecondAtJulianDayFunction,
   QuantityInKilometerPerSecondAtJulianDayWithPrecisionFunction,
   QuantityInMagnitudeAtJulianDayFunction,
-  RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction,
   RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesWithPrecisionFunction,
   SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
 } from './funcs'
@@ -61,65 +59,52 @@ export type PlanetConstants = {
   escapeVelocity: KilometerPerSecond
 }
 
-
-export interface Planet {
-  // Heliocentric coordinates
+export interface PlanetBase {
+  // Heliocentric coordinates (coordinates.ts)
   getEclipticLongitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
   getEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
   getRadiusVector: QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction
   getEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
   getEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithObliquityWithPrecisionFunction
-  // Geocentric coordinates
+  // Geocentric coordinates (elliptical.ts)
   getGeocentricDistance: QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction
   getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
   getApparentGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
   getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithObliquityWithPrecisionFunction
   getApparentGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithPrecisionFunction
-  // Planet elliptical properties
+  // Rise Transit Set (additions to elliptical.ts)
+  getRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesWithPrecisionFunction
+  getAccurateRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesWithPrecisionFunction
+  // Planet base properties (details.ts)
+  getPhaseAngle: JulianDayForJulianDayFunction
+  getIlluminatedFraction: QuantityAtJulianDayFunction
+  getMagnitude: QuantityInMagnitudeAtJulianDayFunction
+  getEquatorialSemiDiameter: QuantityInArcSecondAtJulianDayFunction
+  getPolarSemiDiameter: QuantityInArcSecondAtJulianDayFunction
+  // Constant values (constants.ts)
+  constants: PlanetConstants
+}
+
+export interface DwarfPlanet extends PlanetBase {
+}
+
+export interface Planet extends PlanetBase {
+  // Planet elliptical properties (elliptical.ts)
   getInstantaneousVelocity: QuantityInKilometerPerSecondAtJulianDayWithPrecisionFunction
   getVelocityAtPerihelion: QuantityInKilometerPerSecondAtJulianDayFunction
   getVelocityAtAphelion: QuantityInKilometerPerSecondAtJulianDayFunction
   getLengthOfEllipse: QuantityInAstronomicalUnitAtJulianDayFunction
-  getRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesWithPrecisionFunction
-  getAccurateRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesWithPrecisionFunction
-  // Planet orbital properties
-  getMeanLongitude: QuantityInDegreeAtJulianDayFunction
+  // Planet orbital properties (orbital.ts)
+  getMeanLongitude: QuantityInDegreeAtJulianDayWithEquinoxFunction
   getEccentricity: QuantityAtJulianDayFunction
   getInclination: QuantityInDegreeAtJulianDayFunction
   getLongitudeOfAscendingNode: QuantityInDegreeAtJulianDayFunction
   getLongitudeOfPerihelion: QuantityInDegreeAtJulianDayFunction
-  // Planet base properties
+  // Extended planet base properties (details.ts)
   getAphelion: JulianDayForJulianDayFunction
   getPerihelion: JulianDayForJulianDayFunction
-  getPhaseAngle: JulianDayForJulianDayFunction
-  getIlluminatedFraction: QuantityAtJulianDayFunction
-  getMagnitude: QuantityInMagnitudeAtJulianDayFunction
-  getEquatorialSemiDiameter: QuantityInArcSecondAtJulianDayFunction
-  getPolarSemiDiameter: QuantityInArcSecondAtJulianDayFunction
-  // Fixed values
-  constants: PlanetConstants
+  // Orbital elements (constants.ts)
   orbitalElements: PlanetOrbitalElements
-}
-
-export interface MinorPlanet {
-  // Heliocentric coordinates
-  getEclipticLongitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
-  getEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
-  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction
-  getEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
-  getEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithObliquityWithPrecisionFunction
-
-  getGeocentricDistance: QuantityInAstronomicalUnitAtJulianDayFunction
-  getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
-  getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
-  getRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction
-  getAccurateRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction
-  getPhaseAngle: JulianDayForJulianDayFunction
-  getIlluminatedFraction: QuantityAtJulianDayFunction
-  getMagnitude: QuantityInMagnitudeAtJulianDayFunction
-  getEquatorialSemiDiameter: QuantityInArcSecondAtJulianDayFunction
-  getPolarSemiDiameter: QuantityInArcSecondAtJulianDayFunction
-  constants: PlanetConstants
 }
 
 export interface MarsPlanet extends Planet {

@@ -1,23 +1,16 @@
 import {
-  EclipticCoordinatesAtJulianDayWithEquinoxFunction,
   EclipticCoordinatesAtJulianDayWithEquinoxWithPrecisionFunction,
   EclipticCoordinatesAtJulianDayWithPrecisionFunction,
-  EquatorialCoordinatesAtJulianDayWithEquinoxFunction,
   EquatorialCoordinatesAtJulianDayWithObliquityWithPrecisionFunction,
   EquatorialCoordinatesAtJulianDayWithPrecisionFunction,
   QuantityAtJulianDayFunction,
   QuantityAtJulianDayWithPrecisionFunction,
   QuantityInArcSecondAtJulianDayWithPrecisionFunction,
   QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction,
-  QuantityInDegreeAtJulianCenturyWithPrecisionFunction,
   QuantityInDegreeAtJulianDayFunction,
   QuantityInDegreeAtJulianDayWithPrecisionFunction,
-  SingleCoordinateDegreeAtJulianDayWithEquinoxFunction,
-  SingleCoordinateDegreeAtJulianDayWithEquinoxWithPrecisionFunction,
-  SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
+  SingleCoordinateDegreeAtJulianDayWithEquinoxWithPrecisionFunction
 } from './funcs'
-import { Kilometer } from './units'
-
 
 export enum Obliquity {
   Mean = 'Mean',
@@ -28,7 +21,6 @@ export enum Equinox {
   MeanOfTheDate = 'MeanOfTheDate',
   StandardJ2000 = 'StandardJ2000'
 }
-
 
 export interface NaturalMoon {
   getMeanLongitude: QuantityInDegreeAtJulianDayWithPrecisionFunction
@@ -56,7 +48,7 @@ export interface NaturalMoon {
   getAgeName: Function
 }
 
-export interface EarthPlanet {
+export interface NaturalEarth {
   getEclipticLongitude: SingleCoordinateDegreeAtJulianDayWithEquinoxWithPrecisionFunction
   getEclipticLongitudinalRotation: Function
   getEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithEquinoxWithPrecisionFunction
@@ -76,27 +68,4 @@ export interface EarthPlanet {
   getAnnualEquatorialAberration: Function
   getNutationEquatorialAberration: Function
   Moon: NaturalMoon
-}
-
-export type SunConstants = {
-  equatorialRadius: Kilometer
-}
-
-export interface NaturalSun {
-  getMeanAnomaly: QuantityAtJulianDayWithPrecisionFunction
-  getTrueAnomaly: QuantityAtJulianDayWithPrecisionFunction
-  getEquationOfTheCenter: Function
-  getMeanLongitudeReferredToMeanEquinoxOfDate: QuantityInDegreeAtJulianCenturyWithPrecisionFunction
-  getGeometricEclipticLongitude: QuantityInDegreeAtJulianDayWithPrecisionFunction
-  getGeocentricEclipticLongitude: SingleCoordinateDegreeAtJulianDayWithEquinoxFunction
-  getGeocentricEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithEquinoxFunction
-  getGeometricFK5EclipticLongitude: SingleCoordinateDegreeAtJulianDayWithEquinoxFunction
-  getGeometricFK5EclipticLatitude: SingleCoordinateDegreeAtJulianDayWithEquinoxFunction
-  getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayWithEquinoxFunction
-  getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithEquinoxFunction
-  getApparentGeocentricEclipticLongitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
-  getApparentGeocentricEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
-  getApparentGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
-  getVariationGeometricEclipticLongitude: QuantityInDegreeAtJulianDayFunction,
-  constants: SunConstants
 }
