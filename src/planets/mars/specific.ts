@@ -119,35 +119,3 @@ export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay | number): D
   return Decimal.asin(value1.minus(value2)).radiansToDegrees()
 }
 
-/// The geocentric position angle of Mars' northern rotation pole, also called position angle of axis. It is the angle
-/// that the Martian meridian from the center of the disk to the northern rotation pole forms (on the geocentric celestial sphere)
-/// with the declination circle through the center. It is measured eastwards from the North Point of the disk. By defintion,
-/// position angle 0º means northwards on the sky, 90º east, 180º south and 270º west. See AA. p 287.
-// export function positionAngleOfNorthernRotationPole(jd: JulianDay): Degree {
-//   return Degree(self.physicalDetails.P)
-// }
-
-/// The illuminated fraction of Mars
-// export function getIlluminatedFraction(jd: JulianDay): number {
-//   const { r, DELTA } = computeMarsDetails(jd)
-//   const R = earth.getRadiusVector(jd)
-//   return (((r + DELTA) * (r + DELTA) - R * R) / (4 * r * DELTA))
-// }
-
-/// The greatest defect of illumination of the angular quantity of the greatest length
-/// of the dark region linking up the illuminated limb and the planet disk border.
-// export function angularAmountOfGreatestDefectOfIllumination(jd: JulianDay): ArcSecond {
-//   return ArcSecond(self.physicalDetails.q)
-// }
-
-/// The greatest defect of illumination of the angular quantity of the greatest length
-/// of the dark region linking up the illuminated limb and the planet disk border.
-// export function positionAngleOfGreatestDefectOfIllumination(jd: JulianDay): Degree {
-//   return Degree(self.physicalDetails.X + 180).reduced
-// }
-
-/// The areographic longitude of the central meridian, as seen from the Earth. The word "areographic" means that use is made
-/// of a coordinate system on the surface of Mars. Compare with "geographic" for the Earth. See AA. p 287.
-// export function aerographicLongitudeOfCentralMeridian(jd: JulianDay): Degree {
-//   return Degree(self.physicalDetails.w)
-// }
