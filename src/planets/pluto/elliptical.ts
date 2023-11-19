@@ -45,7 +45,7 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number): Eclip
  * @see getEquatorialCoordinates
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
- * @returns {EquatorialCoordinatesH}
+ * @returns {EquatorialCoordinates}
  * @memberof module:Pluto
  */
 export function getGeocentricEquatorialCoordinates (jd: JulianDay | number): EquatorialCoordinates {
