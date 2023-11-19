@@ -1,7 +1,20 @@
 import Decimal from '@/decimal'
 
-export const g_PlutoArgumentCoefficients =
-  [
+export type ArgumentCoefficient = {
+  J: Decimal, S: Decimal, P: Decimal
+}
+export type ArgumentCoefficientNum = {
+  J: number, S: number, P: number
+}
+export type CoordsCoefficient = {
+  A: Decimal, B: Decimal
+}
+export type CoordsCoefficientNum = {
+  A: number, B: number
+}
+
+export const getArgumentCoefficients = function (useDecimals: boolean = true): (ArgumentCoefficient | ArgumentCoefficientNum)[] {
+  return [
     [0, 0, 1],
     [0, 0, 2],
     [0, 0, 3],
@@ -46,11 +59,14 @@ export const g_PlutoArgumentCoefficients =
     [3, 0, -1],
     [3, 0, 0]
   ].map((a) => {
-    return { J: new Decimal(a[0]), S: new Decimal(a[1]), P: new Decimal(a[2]) }
+    return useDecimals ?
+      { J: new Decimal(a[0]), S: new Decimal(a[1]), P: new Decimal(a[2]) } :
+      { J: a[0], S: a[1], P: a[2] }
   })
+}
 
-export const g_PlutoLongitudeCoefficients =
-  [
+export const getLongitudeCoefficients = function (useDecimals: boolean = true): (CoordsCoefficient | CoordsCoefficientNum)[] {
+  return [
     [-19799805, 19850055],
     [897144, -4954829],
     [611149, 1211027],
@@ -95,11 +111,14 @@ export const g_PlutoLongitudeCoefficients =
     [5, -3],
     [0, 0]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]) } :
+      { A: a[0], B: a[1] }
   })
+}
 
-export const g_PlutoLatitudeCoefficients =
-  [
+export const getLatitudeCoefficients = function (useDecimals: boolean = true): (CoordsCoefficient | CoordsCoefficientNum)[] {
+  return [
     [-5452852, -14974862],
     [3527812, 1672790],
     [-1050748, 327647],
@@ -144,11 +163,14 @@ export const g_PlutoLatitudeCoefficients =
     [0, 0],
     [1, 0]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]) } :
+      { A: a[0], B: a[1] }
   })
+}
 
-export const g_PlutoRadiusCoefficients =
-  [
+export const getRadiusCoefficients = function (useDecimals: boolean = true): (CoordsCoefficient | CoordsCoefficientNum)[] {
+  return [
     [66865439, 68951812],
     [-11827535, -332538],
     [1593179, -1438890],
@@ -193,5 +215,8 @@ export const g_PlutoRadiusCoefficients =
     [19, 35],
     [10, 3]
   ].map((a) => {
-    return { A: new Decimal(a[0]), B: new Decimal(a[1]) }
+    return useDecimals ?
+      { A: new Decimal(a[0]), B: new Decimal(a[1]) } :
+      { A: a[0], B: a[1] }
   })
+}
