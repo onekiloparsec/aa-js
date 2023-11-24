@@ -251,6 +251,22 @@ export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number
 }
 
 /**
+ * Apparent Equatorial Coordinates, that is the geocentric ecliptic coordinates, referred to the mean equinox of the date,
+ * corrected for the nutation and aberration.
+ * @param {JulianDay} jd The julian day
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
+ * @returns {EquatorialCoordinates}
+ */
+export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EquatorialCoordinates {
+  return transformEclipticToEquatorial(
+    getApparentGeocentricEclipticCoordinates(jd, highPrecision),
+    Earth.getTrueObliquityOfEcliptic(jd, highPrecision),
+    highPrecision
+  )
+}
+
+
+/**
  * Variation of the Geometric Ecliptic Longitude
  * @param {JulianDay} jd The julian day
  * @returns {Degree}

@@ -8,6 +8,7 @@ import {
   getApparentGeocentricEclipticCoordinates,
   getApparentGeocentricEclipticLatitude,
   getApparentGeocentricEclipticLongitude,
+  getApparentGeocentricEquatorialCoordinates,
   getEquationOfTheCenter,
   getGeocentricEclipticCoordinates,
   getGeocentricEclipticLatitude,
@@ -37,6 +38,7 @@ export const Sun: NaturalSun = {
   getApparentGeocentricEclipticLongitude,
   getApparentGeocentricEclipticLatitude,
   getApparentGeocentricEclipticCoordinates,
+  getApparentGeocentricEquatorialCoordinates,
   getVariationGeometricEclipticLongitude,
   constants
 }

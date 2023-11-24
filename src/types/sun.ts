@@ -3,6 +3,7 @@ import {
   EclipticCoordinatesAtJulianDayWithEquinoxWithPrecisionFunction,
   EclipticCoordinatesAtJulianDayWithPrecisionFunction,
   EquatorialCoordinatesAtJulianDayWithEquinoxWithPrecisionFunction,
+  EquatorialCoordinatesAtJulianDayWithPrecisionFunction,
   QuantityAtJulianDayWithPrecisionFunction,
   QuantityInDegreeAtJulianCenturyWithPrecisionFunction,
   QuantityInDegreeAtJulianDayFunction,
@@ -30,6 +31,7 @@ export interface NaturalSun {
   getApparentGeocentricEclipticLongitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
   getApparentGeocentricEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
   getApparentGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
+  getApparentGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithPrecisionFunction
   getVariationGeometricEclipticLongitude: QuantityInDegreeAtJulianDayFunction,
   constants: SunConstants
 }
