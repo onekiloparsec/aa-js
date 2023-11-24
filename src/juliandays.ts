@@ -5,8 +5,9 @@ import dayjs from 'dayjs'
 import Decimal from '@/decimal'
 import { DAYMS, J1970, MJD_START, ONE_DAY_IN_SECONDS } from './constants'
 import { ArcSecond, Degree, Hour, JulianCentury, JulianDay, JulianMillenium, Radian } from './types'
-import { fmod24, fmod360, isNumber } from './utils'
+import { transformUTC2TT } from '@/times'
 import { Earth } from '@/earth'
+import { fmod24, fmod360, isNumber } from './utils'
 
 
 /**
@@ -113,6 +114,17 @@ export function getModifiedJulianDay (jd: JulianDay | number): JulianDay {
  */
 export function getJulianDayMidnight (jd: JulianDay | number): JulianDay {
   return Decimal.floor(new Decimal(jd).minus(0.5)).plus(0.5)
+}
+
+/**
+ * The Julian Day of Midnight Dynamical Time (not exactly equal to UTC) for a given Julian Day.
+ * When computing rise, transit and set times, the input equatorial coordinates must be first
+ * computed at these times.
+ * @param {JulianDay | number} jd The initial julian day
+ * @returns {JulianDay}
+ */
+export function getJulianDayMidnightDynamicalTime (jd: JulianDay | number): JulianDay {
+  return transformUTC2TT(getJulianDayMidnight(jd))
 }
 
 /**
