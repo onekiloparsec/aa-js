@@ -75,10 +75,8 @@ export function getMTimes (jd: JulianDay | number,
     result.isCircumpolar = (Decimal.abs(result.cosH0).toNumber() > 1)
 
     // Transit altitude: Equ 13.6, AA p93, with cosH = 1, that is H (hour angle) = 0
-    const H: Degree = fmod180(Theta0.plus(geoCoords.longitude).minus(decRa))
-    result.altitude = Decimal.asin(
-      sinPhi.mul(sinDelta).plus(cosPhi.mul(cosDelta).mul(H.degreesToRadians().cos()))
-    ).radiansToDegrees()
+    // It is the altitude of the transit, when object is in its highest point, when Hour angle is zero.
+    result.altitude = Decimal.asin(sinPhi.mul(sinDelta).plus(cosPhi.mul(cosDelta))).radiansToDegrees()
 
     if (!result.isCircumpolar) {
       const H0 = Decimal.acos(result.cosH0!).radiansToDegrees().dividedBy(360)
@@ -115,10 +113,8 @@ export function getMTimes (jd: JulianDay | number,
     result.isCircumpolar = Math.abs(result.cosH0) > 1
 
     // Transit altitude: Equ 13.6, AA p93, with cosH = 1, that is H (hour angle) = 0
-    const H = fmod180(Theta0.plus(geoCoords.longitude).minus(ra)).toNumber()
-    result.altitude = Math.asin(
-      sinPhi * sinDelta + cosPhi * cosDelta * Math.cos(H * deg2rad)
-    ) / deg2rad
+    // It is the altitude of the transit, when object is in its highest point, when Hour angle is zero.
+    result.altitude = Math.asin(sinPhi * sinDelta + cosPhi * cosDelta) / deg2rad
 
     if (!result.isCircumpolar) {
       const H0 = Math.acos(result.cosH0!) / deg2rad / 360
