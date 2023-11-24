@@ -2,11 +2,22 @@
  @module Sun
  */
 import Decimal from '@/decimal'
-import { Degree, EclipticCoordinates, EquatorialCoordinates, Equinox, JulianCentury, JulianDay } from '@/types'
+import {
+  Degree,
+  EclipticCoordinates,
+  EquatorialCoordinates,
+  Equinox,
+  GeographicCoordinates,
+  GeographicCoordinatesNum,
+  JulianCentury,
+  JulianDay,
+  RiseTransitSet
+} from '@/types'
 import { getCorrectionInLatitude, getCorrectionInLongitude, transformEclipticToEquatorial } from '@/coordinates'
-import { getJulianCentury } from '@/juliandays'
+import { getJulianCentury, getJulianDayMidnightDynamicalTime } from '@/juliandays'
 import { getDecimalValue } from '@/sexagesimal'
-import { DEG2RAD } from '@/constants'
+import { DEG2RAD, STANDARD_ALTITUDE_SUN } from '@/constants'
+import { getRiseTransitSetTimes } from '@/risetransitset'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
 
@@ -301,3 +312,17 @@ export function getVariationGeometricEclipticLongitude (jd: JulianDay | number):
     .plus(new Decimal(0.010).mul(tau.pow(3)).mul(Decimal.sin(deg2rad.mul(new Decimal(154.7066).plus(new Decimal(359993.7286).mul(tau))))))
 }
 
+/**
+ * The rise, transit and set times of the Sun for a given date. It uses the standard sun altitude, -0.833 degrees.
+ * @param {JulianDay | number} jd The julian day
+ * @param {GeographicCoordinates | GeographicCoordinatesNum} geoCoords The geographic coordinates of the observer's location.
+ * @param {GeographicCoordinates} geoCoords The observer's location.
+ * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
+ * @param highPrecision
+ * @returns {RiseTransitSet}
+ */
+export function getRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates | GeographicCoordinatesNum, highPrecision: boolean = true): RiseTransitSet {
+  const jd0 = getJulianDayMidnightDynamicalTime(jd)
+  const sunCoords = getApparentGeocentricEquatorialCoordinates(jd0, highPrecision)
+  return getRiseTransitSetTimes(jd, sunCoords, geoCoords, STANDARD_ALTITUDE_SUN, highPrecision)
+}
