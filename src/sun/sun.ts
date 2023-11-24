@@ -3,7 +3,7 @@
  */
 import Decimal from '@/decimal'
 import { Degree, EclipticCoordinates, EquatorialCoordinates, Equinox, JulianCentury, JulianDay } from '@/types'
-import { transformEclipticToEquatorial, getCorrectionInLatitude, getCorrectionInLongitude } from '@/coordinates'
+import { getCorrectionInLatitude, getCorrectionInLongitude, transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianCentury } from '@/juliandays'
 import { getDecimalValue } from '@/sexagesimal'
 import { DEG2RAD } from '@/constants'
