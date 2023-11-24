@@ -1,7 +1,7 @@
 import { fmod, juliandays, STANDARD_ALTITUDE_STARS, Sun, Venus } from '@'
-import { getJulianDayMidnight } from '@/juliandays'
-import { getDecimalValue, getSexagesimalValue } from '@/sexagesimal'
 import { getAccurateRiseTransitSetTimes, getRiseTransitSetTimes } from '@/risetransitset'
+import { getDecimalValue, getSexagesimalValue } from '@/sexagesimal'
+import { getJulianDayMidnight } from '@/juliandays'
 
 describe('rise transit & sets', () => {
   test('circumpolar transit', () => {
@@ -204,12 +204,29 @@ describe('rise transit & sets', () => {
     }
     const jd = juliandays.getJulianDay(night.date)
     const jd0 = juliandays.getJulianDayMidnightDynamicalTime(jd)
-    const sunCoords = Sun.getApparentGeocentricEquatorialCoordinates(jd0, false, true)
-    const results = getRiseTransitSetTimes(jd, sunCoords, night.site.coordinates, -0.833, false)
+    const sunCoords = Sun.getApparentGeocentricEquatorialCoordinates(jd0, false)
+    const results = getRiseTransitSetTimes(jd, sunCoords, night.site.coordinates, -0.8333, false)
     expect(results.transit.isCircumpolar).toBeFalsy()
     expect(results.transit.isAboveHorizon).toBeTruthy()
     expect(results.transit.isAboveAltitude).toBeTruthy()
     expect(results.rise.julianDay.lessThan(results.transit.julianDay)).toBeTruthy()
     expect(results.transit.julianDay.lessThan(results.set.julianDay)).toBeTruthy()
+  })
+
+  test('sun rise transit set', () => {
+    const geoCoords = { longitude: -72.34, latitude: -29.455, altitude: 2200 }
+    const jd = juliandays.getJulianDay()
+    const jd0 = juliandays.getJulianDayMidnightDynamicalTime(jd)
+    const sunCoords = Sun.getApparentGeocentricEquatorialCoordinates(jd0, false)
+    const resultsManual = getRiseTransitSetTimes(jd, sunCoords, geoCoords, -0.8333, false)
+    const resultsSun = Sun.getRiseTransitSet(jd, geoCoords, false)
+    expect(resultsManual.transit.isCircumpolar).toEqual(resultsSun.transit.isCircumpolar)
+    expect(resultsManual.transit.isAboveHorizon).toEqual(resultsSun.transit.isAboveHorizon)
+    expect(resultsManual.transit.isAboveAltitude).toEqual(resultsSun.transit.isAboveAltitude)
+    expect(resultsManual.rise.utc).toEqual(resultsSun.rise.utc)
+    expect(resultsManual.transit.utc).toEqual(resultsSun.transit.utc)
+    expect(resultsManual.set.utc).toEqual(resultsSun.set.utc)
+    expect(resultsManual.rise.julianDay).toEqual(resultsSun.rise.julianDay)
+    expect(resultsManual.transit.julianDay).toEqual(resultsSun.transit.julianDay)
   })
 })
