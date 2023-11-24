@@ -8,6 +8,7 @@ import {
   QuantityInDegreeAtJulianCenturyWithPrecisionFunction,
   QuantityInDegreeAtJulianDayFunction,
   QuantityInDegreeAtJulianDayWithPrecisionFunction,
+  RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesWithPrecisionFunction,
   SingleCoordinateDegreeAtJulianDayWithEquinoxWithPrecisionFunction,
   SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
 } from './funcs'
@@ -32,6 +33,7 @@ export interface NaturalSun {
   getApparentGeocentricEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
   getApparentGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
   getApparentGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithPrecisionFunction
-  getVariationGeometricEclipticLongitude: QuantityInDegreeAtJulianDayFunction,
+  getVariationGeometricEclipticLongitude: QuantityInDegreeAtJulianDayFunction
+  getRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesWithPrecisionFunction
   constants: SunConstants
 }

@@ -9,7 +9,6 @@ import {
   getApparentGeocentricEclipticLatitude,
   getApparentGeocentricEclipticLongitude,
   getApparentGeocentricEquatorialCoordinates,
-  getEquationOfTheCenter,
   getGeocentricEclipticCoordinates,
   getGeocentricEclipticLatitude,
   getGeocentricEclipticLongitude,
@@ -17,10 +16,15 @@ import {
   getGeometricEclipticLongitude,
   getGeometricFK5EclipticLatitude,
   getGeometricFK5EclipticLongitude,
+  getVariationGeometricEclipticLongitude,
+  getRiseTransitSet,
+} from './coordinates'
+
+import {
+  getEquationOfTheCenter,
   getMeanAnomaly,
   getMeanLongitudeReferredToMeanEquinoxOfDate,
   getTrueAnomaly,
-  getVariationGeometricEclipticLongitude,
 } from './sun'
 
 export const Sun: NaturalSun = {
@@ -40,5 +44,6 @@ export const Sun: NaturalSun = {
   getApparentGeocentricEclipticCoordinates,
   getApparentGeocentricEquatorialCoordinates,
   getVariationGeometricEclipticLongitude,
+  getRiseTransitSet,
   constants
 }
