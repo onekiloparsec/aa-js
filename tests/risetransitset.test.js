@@ -1,7 +1,7 @@
-import { fmod, juliandays, STANDARD_ALTITUDE_STARS, Venus } from '@'
+import { fmod, juliandays, STANDARD_ALTITUDE_STARS, Sun, Venus } from '@'
 import { getJulianDayMidnight } from '@/juliandays'
 import { getDecimalValue, getSexagesimalValue } from '@/sexagesimal'
-import { getRiseTransitSetTimes, getAccurateRiseTransitSetTimes } from '@/risetransitset'
+import { getAccurateRiseTransitSetTimes, getRiseTransitSetTimes } from '@/risetransitset'
 
 describe('rise transit & sets', () => {
   test('circumpolar transit', () => {
@@ -183,5 +183,33 @@ describe('rise transit & sets', () => {
     expect(fmod(results.rise.utc.toNumber() + offsetHours, 24)).toBeCloseTo(3.43, 1)
     expect(fmod(results.transit.utc.toNumber() + offsetHours, 24)).toBeCloseTo(10.0, 1)
     expect(fmod(results.set.utc.toNumber() + offsetHours, 24)).toBeCloseTo(16.47, 1)
+  })
+
+  test('arcsecond night slider unit test', () => {
+    const night = {
+      site: {
+        coordinates: { longitude: -72.34, latitude: -29.455, altitude: 2200 },
+        address: { time_zone_id: 'America/Santiago', time_zone_utc_offset: -14400 }
+      },
+      date: '2021-11-02T02:24:37.000Z',
+      tracking: false,
+      locked: false,
+      limits: 'day',
+      scale: 1,
+      slide: 0.5,
+      threshold: 1,
+      shift: 0,
+      isValid: null,
+      getKey: null
+    }
+    const jd = juliandays.getJulianDay(night.date)
+    const jd0 = juliandays.getJulianDayMidnightDynamicalTime(jd)
+    const sunCoords = Sun.getApparentGeocentricEquatorialCoordinates(jd0, false, true)
+    const results = getRiseTransitSetTimes(jd, sunCoords, night.site.coordinates, -0.833, false)
+    expect(results.transit.isCircumpolar).toBeFalsy()
+    expect(results.transit.isAboveHorizon).toBeTruthy()
+    expect(results.transit.isAboveAltitude).toBeTruthy()
+    expect(results.rise.julianDay.lessThan(results.transit.julianDay)).toBeTruthy()
+    expect(results.transit.julianDay.lessThan(results.set.julianDay)).toBeTruthy()
   })
 })

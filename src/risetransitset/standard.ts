@@ -18,7 +18,8 @@ import { getJDatUTC } from './utils'
  * but without iterations).
  * @see getAccurateRiseTransitSetTimes
  * @param {JulianDay} jd The julian day
- * @param {EquatorialCoordinates} equCoords The equatorial coordinates of the day of interest.
+ * @param {EquatorialCoordinates} equCoords The apparent equatorial coordinates of the day of interest, at midnight
+ * Dynamical Time (see juliandays.getJulianDayMidnightDynamicalTime)
  * @param {GeographicCoordinates} geoCoords The observer's location.
  * @param {Degree} alt The local altitude of the object's center to consider
  * for rise and set times. It's value isn't 0. For stars, it is affected by
