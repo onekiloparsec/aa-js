@@ -21,7 +21,7 @@ export function getDate (jd: JulianDay | number): Date {
 /**
  * Computes the Julian day for a given date.
  * @param args
- * @returns {JulianDay} The julian day
+ * @returns {JulianDay | undefined} The julian day
  */
 export function getJulianDay (...args: any[]): JulianDay | undefined {
   if (args.length === 0) {
@@ -99,7 +99,7 @@ export function getApparentLocalSiderealTime (jd: JulianDay | number, lng: Degre
 
 /**
  * Modified julian day
- * @param {JulianDay} jd The julian day
+ * @param {JulianDay | number} jd The julian day
  * @return {number} The modified Julian Day
  */
 export function getModifiedJulianDay (jd: JulianDay | number): JulianDay {
@@ -108,7 +108,7 @@ export function getModifiedJulianDay (jd: JulianDay | number): JulianDay {
 
 /**
  * The Julian Day of Midnight UTC for a given Julian Day.
- * @param {JulianDay} jd The initial julian day
+ * @param {JulianDay | number} jd The initial julian day
  * @returns {JulianDay}
  */
 export function getJulianDayMidnight (jd: JulianDay | number): JulianDay {
@@ -117,7 +117,7 @@ export function getJulianDayMidnight (jd: JulianDay | number): JulianDay {
 
 /**
  * The Julian Century (time interval of 36525 days)
- * @param {JulianDay} jd The initial julian day
+ * @param {JulianDay | number} jd The initial julian day
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {JulianCentury}
  */
@@ -134,7 +134,7 @@ export function getJulianCentury (jd: JulianDay | number, highPrecision: boolean
 
 /**
  * The Julian Millenium (time interval of 365250 days)
- * @param {JulianDay} jd The initial julian day
+ * @param {JulianDay | number} jd The initial julian day
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {JulianMillenium}
  */
