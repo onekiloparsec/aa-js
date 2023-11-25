@@ -1,7 +1,7 @@
 import Decimal from '@/decimal'
 import { Sun } from '@/sun'
 import { ONE_UA_IN_KILOMETERS } from '@/constants'
-import { Degree, JulianDay, Kilometer, Radian } from '@/types'
+import { ArcSecond, Degree, JulianDay, Kilometer, Radian } from '@/types'
 import { getRadiusVector as getEarthRadiusVector } from '@/earth/coordinates'
 import { getGeocentricEquatorialCoordinates, getRadiusVectorInKilometer } from './coordinates'
 
@@ -88,4 +88,15 @@ export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
  */
 export function getEquatorialHorizontalParallax (jd: JulianDay | number): Degree {
   return Decimal.asin(new Decimal('6378.14').dividedBy(getRadiusVectorInKilometer(jd))).radiansToDegrees()
+}
+
+/**
+ * Geocentric Moon semi-diameter.
+ * Error is less than 0.0005 arcsecond (see AA p391).
+ * @param {JulianDay} jd The julian day
+ * @returns {Degree}
+ * @memberof module:Earth
+ */
+export function getGeocentricMoonSemiDiameter (jd: JulianDay | number): ArcSecond {
+  return new Decimal('358_473_400').dividedBy(getRadiusVectorInKilometer(jd))
 }

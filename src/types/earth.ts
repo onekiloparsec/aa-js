@@ -5,6 +5,7 @@ import {
   EquatorialCoordinatesAtJulianDayWithPrecisionFunction,
   QuantityAtJulianDayFunction,
   QuantityAtJulianDayWithPrecisionFunction,
+  QuantityInArcSecondAtJulianDayFunction,
   QuantityInArcSecondAtJulianDayWithPrecisionFunction,
   QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction,
   QuantityInDegreeAtJulianDayFunction,
@@ -42,6 +43,7 @@ export interface NaturalMoon {
   getPhaseAngle: QuantityInDegreeAtJulianDayFunction
   getIlluminatedFraction: QuantityAtJulianDayFunction
   getEquatorialHorizontalParallax: QuantityInDegreeAtJulianDayFunction
+  getGeocentricMoonSemiDiameter: QuantityInArcSecondAtJulianDayFunction
   getPositionAngleOfTheBrightLimb: QuantityInDegreeAtJulianDayFunction
   getTimeOfMeanPhase: Function
   getAge: QuantityAtJulianDayFunction,
