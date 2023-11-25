@@ -43,7 +43,7 @@ export interface NaturalMoon {
   getPhaseAngle: QuantityInDegreeAtJulianDayFunction
   getIlluminatedFraction: QuantityAtJulianDayFunction
   getEquatorialHorizontalParallax: QuantityInDegreeAtJulianDayFunction
-  getGeocentricMoonSemiDiameter: QuantityInArcSecondAtJulianDayFunction
+  getGeocentricSemiDiameter: QuantityInArcSecondAtJulianDayFunction
   getPositionAngleOfTheBrightLimb: QuantityInDegreeAtJulianDayFunction
   getTimeOfMeanPhase: Function
   getAge: QuantityAtJulianDayFunction,

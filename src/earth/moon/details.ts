@@ -97,6 +97,6 @@ export function getEquatorialHorizontalParallax (jd: JulianDay | number): Degree
  * @returns {Degree}
  * @memberof module:Earth
  */
-export function getGeocentricMoonSemiDiameter (jd: JulianDay | number): ArcSecond {
+export function getGeocentricSemiDiameter (jd: JulianDay | number): ArcSecond {
   return new Decimal('358_473_400').dividedBy(getRadiusVectorInKilometer(jd))
 }
