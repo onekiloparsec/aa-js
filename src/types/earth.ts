@@ -23,6 +23,7 @@ export enum Equinox {
 }
 
 export interface NaturalMoon {
+  getGeocentricElongation: QuantityInDegreeAtJulianDayWithPrecisionFunction
   getMeanLongitude: QuantityInDegreeAtJulianDayWithPrecisionFunction
   getMeanElongation: QuantityInDegreeAtJulianDayWithPrecisionFunction
   getMeanAnomaly: QuantityInDegreeAtJulianDayWithPrecisionFunction

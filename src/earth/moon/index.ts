@@ -19,6 +19,7 @@ import {
 } from './coordinates'
 import {
   getEquatorialHorizontalParallax,
+  getGeocentricElongation,
   getGeocentricSemiDiameter,
   getIlluminatedFraction,
   getPhaseAngle,
@@ -27,6 +28,7 @@ import {
 import { getAge, getAgeName, getTimeOfMeanPhase } from './phases'
 
 export const Moon: NaturalMoon = {
+  getGeocentricElongation,
   getMeanLongitude,
   getMeanElongation,
   getMeanAnomaly,
