@@ -16,16 +16,23 @@ export function getGeocentricElongation (jd: JulianDay | number, highPrecision: 
   const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd, Equinox.MeanOfTheDate, highPrecision)
   const moonCoords = getGeocentricEquatorialCoordinates(jd, Obliquity.Mean, highPrecision)
   
-  const decRadSun = (sunCoords.declination as Degree).degreesToRadians()
-  const decRadMoon = (moonCoords.declination as Degree).degreesToRadians()
-  const sins = decRadSun.sin().mul(decRadMoon.sin())
+  const decRadSun = sunCoords.declination.degreesToRadians()
+  const decRadMoon = moonCoords.declination.degreesToRadians()
   
-  const raRadSun = (sunCoords.rightAscension as Degree).degreesToRadians()
-  const raRadMoon = (moonCoords.rightAscension as Degree).degreesToRadians()
-  const coss = decRadSun.cos().mul(decRadMoon.cos()).mul(Decimal.cos(raRadSun.minus(raRadMoon)))
+  const raRadSun = sunCoords.rightAscension.degreesToRadians()
+  const raRadMoon = moonCoords.rightAscension.degreesToRadians()
   
-  // See first equation 48.2 of AA, p. 345.
-  return Decimal.acos(sins.plus(coss)).radiansToDegrees()
+  if (highPrecision) {
+    const sins = decRadSun.sin().mul(decRadMoon.sin())
+    const coss = decRadSun.cos().mul(decRadMoon.cos()).mul(Decimal.cos(raRadSun.minus(raRadMoon)))
+    // See first equation 48.2 of AA, p. 345.
+    return Decimal.acos(sins.plus(coss)).radiansToDegrees()
+  } else {
+    const sins = Math.sin(decRadSun.toNumber()) * Math.sin(decRadMoon.toNumber())
+    const coss = Math.cos(decRadSun.toNumber()) * Math.cos(decRadMoon.toNumber()) * Math.cos(raRadSun.toNumber() - raRadMoon.toNumber())
+    // See first equation 48.2 of AA, p. 345.
+    return new Decimal(Math.acos(sins + coss)).radiansToDegrees()
+  }
 }
 
 /**
