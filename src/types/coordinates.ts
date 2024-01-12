@@ -1,4 +1,3 @@
-import Decimal from '@/decimal'
 import { ArcSecond, Degree, Hour, JulianDay, Meter, Pixel } from './units'
 
 /**
@@ -9,15 +8,6 @@ export type EquatorialCoordinates = {
   rightAscension: Degree
   declination: Degree
   epoch?: JulianDay
-}
-/**
- * Coordinates in the Equatorial system, that is in the system formed by
- * projecting the Earth equator onto the spherical sky. Use native numbers.
- */
-export type EquatorialCoordinatesNum = {
-  rightAscension: number // degrees
-  declination: number // degrees
-  epoch?: number
 }
 
 /**
@@ -37,14 +27,6 @@ export type GeographicCoordinates = {
   latitude: Degree
   height?: Meter
 }
-/**
- * Geographic coordinates, East Positive! Use native numbers.
- */
-export type GeographicCoordinatesNum = {
-  longitude: number// degrees
-  latitude: number// degrees
-  height?: number// meters
-}
 
 /**
  * Coordinates in the Ecliptic (a.k.a. Celestial) system, that is the system
@@ -55,23 +37,11 @@ export type EclipticCoordinates = {
   longitude: Degree
   latitude: Degree
 }
-/**
- * Coordinates in the Ecliptic (a.k.a. Celestial) system, that is the system
- * formed by projecting the plane of Earth's orbit (the ecliptic)
- * onto the spherical sky. Use native numbers.
- */
-export type EclipticCoordinatesNum = {
-  longitude: number // degrees
-  latitude: number // degrees
-}
+
 
 export type GalacticCoordinates = {
   longitude: Degree
   latitude: Degree
-}
-export type GalacticCoordinatesNum = {
-  longitude: number
-  latitude: number
 }
 
 /**
@@ -83,34 +53,24 @@ export type HorizontalCoordinates = {
   azimuth: Degree
   altitude: Degree
 }
-/**
- * Coordinates of an object as seen from an observer's location, at a given
- * time. The altitude is counted from the (idealistic) plane horizon. The
- * azimuth is the angle counted from the geographical north or south.
- * Use native numbers.
- */
-export type HorizontalCoordinatesNum = {
-  azimuth: number
-  altitude: number
-}
 
 export type Coordinates2D = {
-  X: Decimal
-  Y: Decimal
+  X: number
+  Y: number
 }
 
 export type Coordinates3D = {
-  X: Decimal
-  Y: Decimal
-  Z: Decimal
+  X: number
+  Y: number
+  Z: number
 }
 
 export type Sexagesimal = {
-  sign: Decimal,
-  radix: Decimal,
-  minutes: Decimal,
-  seconds: Decimal
-  milliseconds: Decimal
+  sign: number,
+  radix: number,
+  minutes: number,
+  seconds: number
+  milliseconds: number
 }
 
 export type Point = {
