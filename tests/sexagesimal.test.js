@@ -1,23 +1,24 @@
 import * as sexagesimal from '@/sexagesimal'
+import { isPositive } from '@/utils'
 
 describe('sexagesimal', () => {
   it('get decimal values for positive numbers', () => {
-    expect(sexagesimal.getDecimalValue(12, 24, 45).isPositive()).toBeTruthy()
+    expect(isPositive(sexagesimal.getDecimalValue(12, 24, 45))).toBeTruthy()
   })
 
   it('get decimal values for negativ numbers', () => {
-    expect(sexagesimal.getDecimalValue(-9, 24, 45).isPositive()).toBeFalsy()
+    expect(isPositive(sexagesimal.getDecimalValue(-9, 24, 45))).toBeFalsy()
   })
 
   it('get decimal values for positive radix even with negative min or sec', () => {
-    expect(sexagesimal.getDecimalValue(12, -24, -45).isPositive()).toBeTruthy()
-    expect(sexagesimal.getDecimalValue(12, -24, -45).toNumber()).toEqual(sexagesimal.getDecimalValue(12, 24, 45).toNumber())
+    expect(isPositive(sexagesimal.getDecimalValue(12, -24, -45))).toBeTruthy()
+    expect(sexagesimal.getDecimalValue(12, -24, -45)).toEqual(sexagesimal.getDecimalValue(12, 24, 45))
   })
 
   it('get decimal values for negative radix even with negative min or sec', () => {
-    expect(sexagesimal.getDecimalValue(-9, -24, -45).isPositive()).toBeFalsy()
-    expect(sexagesimal.getDecimalValue(-9, -24, -45).toNumber()).toEqual(sexagesimal.getDecimalValue(-9, 24, 45).toNumber())
-    expect(sexagesimal.getDecimalValue(-9, -24, -45).toNumber()).toEqual(sexagesimal.getDecimalValue(-9, 24, -45).toNumber())
+    expect(isPositive(sexagesimal.getDecimalValue(-9, -24, -45))).toBeFalsy()
+    expect(sexagesimal.getDecimalValue(-9, -24, -45)).toEqual(sexagesimal.getDecimalValue(-9, 24, 45))
+    expect(sexagesimal.getDecimalValue(-9, -24, -45)).toEqual(sexagesimal.getDecimalValue(-9, 24, -45))
   })
 
   it('makes correct basic sexagesimal', () => {
@@ -127,15 +128,15 @@ describe('sexagesimal', () => {
   })
 
   it('makes correct  decimal floats with an array of one element', () => {
-    expect(sexagesimal.makeDecimalFloat(['2']).toNumber()).toEqual(2)
+    expect(sexagesimal.makeDecimalFloat(['2'])).toEqual(2)
   })
 
   it('makes correct  decimal floats with an array of two elements', () => {
-    expect(sexagesimal.makeDecimalFloat(['2', '3']).toNumber()).toEqual(2.05)
+    expect(sexagesimal.makeDecimalFloat(['2', '3'])).toEqual(2.05)
   })
 
   it('makes correct  decimal floats with an array of three elements', () => {
-    expect(sexagesimal.makeDecimalFloat(['2', '6', '180']).toNumber()).toEqual(2.15)
+    expect(sexagesimal.makeDecimalFloat(['2', '6', '180'])).toEqual(2.15)
   })
 
   it('makes correct null decimal floats when not an array', () => {

@@ -1,24 +1,24 @@
-import Decimal from '@/decimal'
 import { Sexagesimal } from '@/types'
-import { MINUSONE, ONE } from '@/constants'
+import { isNegative, isPositive } from '@/utils'
+import { DEG2H } from '@/constants'
 
-export function getDecimalValue (d: Decimal | number, m: Decimal | number, s: Decimal | number): Decimal {
-  const positive = new Decimal(d).isPositive()
-  const value = Decimal.abs(d).plus(Decimal.abs(m).dividedBy(60)).plus(Decimal.abs(s).dividedBy(3600))
-  return positive ? value : new Decimal(-1).mul(Decimal.abs(value))
+export function getDecimalValue (d: number, m: number, s: number): number {
+  const positive = isPositive(d)
+  const value = Math.abs(d) + Math.abs(m) / 60 + Math.abs(s) / 3600
+  return positive ? value : -1 * Math.abs(value)
 }
 
-export function getSexagesimalValue (decimalValue: Decimal | number): Sexagesimal {
-  const absValue = Decimal.abs(decimalValue)
-  const degrees = Decimal.floor(absValue)
-  const degreesFraction = absValue.minus(degrees)
-  const minutesFraction = degreesFraction.mul(60)
-  const minutes = Decimal.floor(minutesFraction)
-  const secondsFraction = (minutesFraction.minus(minutes)).mul(60)
-  const seconds = Decimal.floor(secondsFraction)
-  const milliseconds = (secondsFraction.minus(seconds)).mul(1000)
+export function getSexagesimalValue (decimalValue: number): Sexagesimal {
+  const absValue = Math.abs(decimalValue)
+  const degrees = Math.floor(absValue)
+  const degreesFraction = absValue - degrees
+  const minutesFraction = degreesFraction * 60
+  const minutes = Math.floor(minutesFraction)
+  const secondsFraction = (minutesFraction - minutes) * 60
+  const seconds = Math.floor(secondsFraction)
+  const milliseconds = (secondsFraction - seconds) * 1000
   return {
-    sign: new Decimal(decimalValue).isPositive() ? ONE : MINUSONE,
+    sign: isPositive(decimalValue) ? 1 : -1,
     radix: degrees,
     minutes: minutes,
     seconds: seconds,
@@ -39,17 +39,17 @@ const defaultOptions = {
 export function makeSexagesimal (options: object): string {
   const { value, unitChars, showSign, separator, decimals, showSeconds, zeroPads } = { ...defaultOptions, ...options }
   const { sign, radix, minutes, seconds, milliseconds } = getSexagesimalValue(value)
-  const signString = (showSign || sign.isNegative()) ? ((sign.isPositive()) ? '+' : '-') : ''
+  const signString = (showSign || isNegative(sign)) ? ((isPositive(sign)) ? '+' : '-') : ''
   const units = unitChars || ['º', '\'', '"']
   let s = `${signString}${radix.toString().padStart(zeroPads ? 2 : 1, '0')}${units[0]}`
   s += `${separator}${minutes.toString().padStart(zeroPads ? 2 : 1, '0')}${units[1]}`
   if (showSeconds) {
-    s += `${separator}${(seconds.plus(milliseconds.dividedBy(1000))).toFixed(decimals).padStart(zeroPads ? 2 : 1, '0')}${units[2]}`
+    s += `${separator}${(seconds + milliseconds / 1000).toFixed(decimals).padStart(zeroPads ? 2 : 1, '0')}${units[2]}`
   }
   return s
 }
 
-export function makeHoursMinutesSexagesimal (value: Decimal | number, showSeconds = false): string {
+export function makeHoursMinutesSexagesimal (value: number, showSeconds = false): string {
   return makeSexagesimal({
     value,
     unitChars: ['h', 'm', 's'],
@@ -59,7 +59,7 @@ export function makeHoursMinutesSexagesimal (value: Decimal | number, showSecond
   })
 }
 
-export function makeCompactSexagesimal (value: Decimal | number, showSeconds = false): string {
+export function makeCompactSexagesimal (value: number, showSeconds = false): string {
   return makeSexagesimal({
     value,
     unitChars: ['', '', ''],
@@ -71,9 +71,9 @@ export function makeCompactSexagesimal (value: Decimal | number, showSeconds = f
   })
 }
 
-export function makeRightAscensionSexagesimal (degrees: Decimal | number, showSeconds = false): string {
+export function makeRightAscensionSexagesimal (degrees: number, showSeconds = false): string {
   return makeSexagesimal({
-    value: new Decimal(degrees).degreesToHours(),
+    value: degrees * DEG2H,
     unitChars: ['h', 'm', 's'],
     showSign: false,
     separator: ' ',
@@ -82,7 +82,7 @@ export function makeRightAscensionSexagesimal (degrees: Decimal | number, showSe
   })
 }
 
-export function makeDeclinationSexagesimal (degrees: Decimal | number): string {
+export function makeDeclinationSexagesimal (degrees: number): string {
   return makeSexagesimal({
     value: degrees,
     unitChars: ['º', '\'', '"'],
@@ -92,8 +92,8 @@ export function makeDeclinationSexagesimal (degrees: Decimal | number): string {
   })
 }
 
-export function makeLongitudeSexagesimal (degrees: Decimal | number): string {
-  const positive = new Decimal(degrees).isPositive()
+export function makeLongitudeSexagesimal (degrees: number): string {
+  const positive = isPositive(degrees)
   return makeSexagesimal({
     value: degrees,
     showSign: false,
@@ -102,8 +102,8 @@ export function makeLongitudeSexagesimal (degrees: Decimal | number): string {
   }) + ((positive) ? ' E' : ' W')
 }
 
-export function makeLatitudeSexagesimal (degrees: Decimal | number): string {
-  const positive = new Decimal(degrees).isPositive()
+export function makeLatitudeSexagesimal (degrees: number): string {
+  const positive = isPositive(degrees)
   return makeSexagesimal({
     value: degrees,
     showSign: false,
@@ -112,21 +112,21 @@ export function makeLatitudeSexagesimal (degrees: Decimal | number): string {
   }) + ((positive) ? ' N' : ' S')
 }
 
-export function makeDecimalFloat (arr: Array<Decimal | number | string> | null): Decimal | null {
+export function makeDecimalFloat (arr: Array<number> | null): number | null {
   if (!arr || arr.length === 0 || arr.constructor !== Array) {
     return null
   }
-
-  let value = new Decimal(arr[0])
-  const sign = (value.isPositive()) ? ONE : MINUSONE
-  value = Decimal.abs(value)
-
+  
+  let value = arr[0]
+  const sign = isPositive(value) ? 1 : -1
+  value = Math.abs(value)
+  
   if (arr.length > 1) {
-    value = value.plus(Decimal.abs(arr[1]).dividedBy(60.0))
+    value = value + (Math.abs(arr[1]) / 60)
     if (arr.length > 2) {
-      value = value.plus(Decimal.abs(arr[2]).dividedBy(3600))
+      value = value + (Math.abs(arr[2]) / 3600)
     }
   }
-
-  return sign.mul(value)
+  
+  return sign * value
 }
