@@ -9,14 +9,18 @@ export function isNumber (v: any): boolean {
 }
 
 export function isPositive (v: any): boolean {
-  return isNumber(v) && parseFloat(v) > 0
+  return isNumber(v) && parseFloat(v) >= 0
+}
+
+export function isNegative (v: any): boolean {
+  return isNumber(v) && parseFloat(v) < 0
 }
 
 export function fmod (a: number, b: number): number {
   return Number(a - (Math.floor(a / b) * b))//.toPrecision(8))
 }
 
-export function fmod24 (hours: Hour | number): Hour {
+export function fmod24 (hours: Hour): Hour {
   return fmod(hours, 24)
 }
 
