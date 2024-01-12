@@ -54,9 +54,6 @@
   "dependencies": {
     "dayjs": "^1.11.6"
   },
-  "peerDependencies": {
-    "decimal.js": "^10.4.3"
-  },
   "devDependencies": {
     "@types/eslint": "^8.44.7",
     "@vitest/coverage-v8": "^0.34.2",
