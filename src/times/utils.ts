@@ -1,14 +1,12 @@
-import Decimal from '@/decimal'
 import { gDeltaTValues, gLeapSecondCoefficients } from './coefficients'
-import { MINUSONE } from '@/constants'
 import { JulianDay } from '@/types'
 import { getFractionalYear } from './dates'
 
-export function getDeltaT (jd: JulianDay | number): Decimal {
+export function getDeltaT (jd: JulianDay): Decimal {
   // What will be the return value from the method
   let Delta = new Decimal(0)
   const decimalJD = new Decimal(jd)
-
+  
   // Determine if we can use the lookup table
   const nLookupElements = gDeltaTValues.length
   if ((jd >= gDeltaTValues[0].JD) && (jd < gDeltaTValues[nLookupElements - 1].JD)) {
@@ -31,7 +29,7 @@ export function getDeltaT (jd: JulianDay | number): Decimal {
     }
   } else {
     const y = getFractionalYear(jd)
-
+    
     // Use the polynomial expressions from Espenak & Meeus 2006.
     // References: http:// eclipse.gsfc.nasa.gov/SEcat5/deltatpoly.html and
     // http:// www.staff.science.uu.nl/~gent0113/deltat/deltat_old.htm (Espenak & Meeus 2006 section)
@@ -135,15 +133,15 @@ export function getDeltaT (jd: JulianDay | number): Decimal {
       Delta = new Decimal(-20).plus(new Decimal(32).mul(u.pow(2)))
     }
   }
-
+  
   return Delta
 }
 
-export function getCumulativeLeapSeconds (jd: JulianDay | number): Decimal {
+export function getCumulativeLeapSeconds (jd: JulianDay): Decimal {
   // What will be the return value from the method
   let LeapSeconds = new Decimal(0)
   const decimalJD = new Decimal(jd)
-
+  
   const nLookupElements = gLeapSecondCoefficients.length
   if (decimalJD.greaterThanOrEqualTo(gLeapSecondCoefficients[0].JD)) {
     // Find the index in the lookup table which contains the JD value closest to the JD input parameter
@@ -161,13 +159,13 @@ export function getCumulativeLeapSeconds (jd: JulianDay | number): Decimal {
             .mul(gLeapSecondCoefficients[nIndex - 1].Coefficient))
         bContinue = false
       }
-
+      
       // Prepare for the next loop
       if (bContinue) {
         ++nIndex
       }
     }
   }
-
+  
   return LeapSeconds
 }
