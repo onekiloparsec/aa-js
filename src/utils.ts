@@ -1,52 +1,51 @@
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
-import Decimal from '@/decimal'
-import { Degree, Hour, JulianDay } from '@/types'
-import { getDate, getJulianDay } from '@/juliandays'
-import { getSexagesimalValue } from '@/sexagesimal'
+import { Degree, Hour } from '@/types'
 
 dayjs.extend(utc)
 
 export function isNumber (v: any): boolean {
-  const x = new Decimal(v)
-  return !x.isNaN() && x.isFinite()
+  return !isNaN(parseFloat(v)) && isFinite(v)
 }
 
-export function fmod (a: Decimal | number, b: Decimal | number): Decimal {
-// Result is always positive! See https://mikemcl.github.io/decimal.js/#modulo
-  return new Decimal(a).mod(b)
+export function isPositive (v: any): boolean {
+  return isNumber(v) && parseFloat(v) > 0
+}
+
+export function fmod (a: number, b: number): number {
+  return Number(a - (Math.floor(a / b) * b))//.toPrecision(8))
 }
 
 export function fmod24 (hours: Hour | number): Hour {
   return fmod(hours, 24)
 }
 
-export function fmod360 (degrees: Degree | number): Degree {
+export function fmod360 (degrees: Degree): Degree {
   return fmod(degrees, 360)
 }
 
-export function fmod180 (degrees: Degree | number): Degree {
+export function fmod180 (degrees: Degree): Degree {
   let result = fmod360(degrees)
-
-  if (result.greaterThan(180)) {
-    result = result.minus(360)
-  } else if (result.lessThan(-180)) {
-    result = result.plus(360)
+  
+  if (result > 180) {
+    result = result - 360
+  } else if (result < -180) {
+    result = result + 360
   }
-
+  
   return result
 }
 
-export function fmod90 (degrees: Degree | number): Degree {
+export function fmod90 (degrees: Degree): Degree {
   let result = fmod360(degrees)
-
-  if (result.greaterThan(270)) {
-    result = result.minus(360)
-  } else if (result.greaterThan(180)) {
-    result = new Decimal(180).minus(result)
-  } else if (result.greaterThan(90)) {
-    result = new Decimal(180).minus(result)
+  
+  if (result > 270) {
+    result = result - 360
+  } else if (result > 180) {
+    result = 180 - result
+  } else if (result > 90) {
+    result = 180 - result
   }
-
+  
   return result
 }
