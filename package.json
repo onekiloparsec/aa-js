@@ -67,7 +67,7 @@
     "eslint": "^8.51.0",
     "jsdoc": "^4.0.2",
     "rimraf": "^5.0.5",
-    "source-map-loader": "^4.0.1",
+    "source-map-loader": "^5.0.0",
     "taffydb": "^2.7.3",
     "ts-loader": "^9.5.0",
     "typedoc": "^0.25.2",
