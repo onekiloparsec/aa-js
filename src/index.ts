@@ -2,7 +2,6 @@
  * AA
  * @namespace
  */
-import Decimal from '@/decimal'
 import { AllPlanetName, NaturalEarth, DwarfPlanet, NaturalSun, Planet, PlanetName, SolarSystemName } from '@/types'
 
 import { Earth } from './earth'
@@ -32,7 +31,6 @@ const SolarSystem: { [key in SolarSystemName]: NaturalSun | Planet | NaturalEart
 }
 
 export {
-  Decimal,
   Sun,
   Mercury,
   Venus,
