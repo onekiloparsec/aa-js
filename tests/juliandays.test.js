@@ -4,15 +4,15 @@ import { getDecimalValue } from '@/sexagesimal'
 describe('julian days', () => {
   test('build julianday with date', () => {
     const UTCDate = new Date(Date.UTC(2016, 8, 17))
-    expect(juliandays.getJulianDay(UTCDate).toNumber()).toBe(2457648.5)
+    expect(juliandays.getJulianDay(UTCDate)).toBe(2457648.5)
   })
 
   test('build julianday with nothing', () => {
-    expect(juliandays.getJulianDay().toNumber()).toBeGreaterThan(2457648.5)
+    expect(juliandays.getJulianDay()).toBeGreaterThan(2457648.5)
   })
 
   test('build julianday with date string', () => {
-    expect(juliandays.getJulianDay('2023-11-11T12:00:00.000Z').toNumber()).toEqual(2460260)
+    expect(juliandays.getJulianDay('2023-11-11T12:00:00.000Z')).toEqual(2460260)
   })
 
   test('build julianday with one value', () => {
@@ -28,13 +28,13 @@ describe('julian days', () => {
   test('build julianday with three values', () => {
     const UTCDate = new Date(Date.UTC(2016, 8, 17))
     expect(juliandays.getJulianDay(2016, 8, 17)).toEqual(juliandays.getJulianDay(UTCDate))
-    expect(juliandays.getJulianDay(2016, 8, 17).toNumber()).toBe(2457648.5)
+    expect(juliandays.getJulianDay(2016, 8, 17)).toBe(2457648.5)
   })
 
   test('julianday provide correct sidereal time', () => {
     // See AA page 88, Example 12.1a. APRIL = Month 3, not 4!
     const UTCDate = new Date(Date.UTC(1987, 3, 10))
-    expect(juliandays.getLocalSiderealTime(juliandays.getJulianDay(UTCDate), 0).toNumber()).toBeCloseTo(13.1795463333, 6)
+    expect(juliandays.getLocalSiderealTime(juliandays.getJulianDay(UTCDate), 0)).toBeCloseTo(13.1795463333, 6)
   })
 
   test('julianday getJulianDayMidnight is really 0h UTC', () => {
@@ -52,14 +52,14 @@ describe('julian days', () => {
     // April 10th, 1987, 0h UT.
     const UTCDate = new Date(Date.UTC(1987, 3, 10, 0, 0, 0))
     const jd = juliandays.getJulianDay(UTCDate)
-    expect(juliandays.getLocalSiderealTime(jd, 0).toNumber()).toBeCloseTo(getDecimalValue(13, 10, 46.3668), 7)
+    expect(juliandays.getLocalSiderealTime(jd, 0)).toBeCloseTo(getDecimalValue(13, 10, 46.3668), 7)
   })
 
   test('mean sidereal time at Greenwich [low precision]', () => {
     // April 10th, 1987, 0h UT.
     const UTCDate = new Date(Date.UTC(1987, 3, 10, 0, 0, 0))
     const jd = juliandays.getJulianDay(UTCDate)
-    expect(juliandays.getLocalSiderealTime(jd, 0, false).toNumber()).toBeCloseTo(getDecimalValue(13, 10, 46.3668), 7)
+    expect(juliandays.getLocalSiderealTime(jd, 0, false)).toBeCloseTo(getDecimalValue(13, 10, 46.3668), 7)
   })
 
   // See AA p 88
@@ -67,13 +67,13 @@ describe('julian days', () => {
     // April 10th, 1987, 0h UT.
     const UTCDate = new Date(Date.UTC(1987, 3, 10, 0, 0, 0))
     const jd = juliandays.getJulianDay(UTCDate)
-    expect(juliandays.getApparentLocalSiderealTime(jd, 0).toNumber()).toBeCloseTo(getDecimalValue(13, 10, 46.1351), 3)
+    expect(juliandays.getApparentLocalSiderealTime(jd, 0)).toBeCloseTo(getDecimalValue(13, 10, 46.1351), 3)
   })
 
   test('apparent sidereal time at Greenwich [low precision]', () => {
     // April 10th, 1987, 0h UT.
     const UTCDate = new Date(Date.UTC(1987, 3, 10, 0, 0, 0))
     const jd = juliandays.getJulianDay(UTCDate)
-    expect(juliandays.getApparentLocalSiderealTime(jd, 0, false).toNumber()).toBeCloseTo(getDecimalValue(13, 10, 46.1351), 3)
+    expect(juliandays.getApparentLocalSiderealTime(jd, 0, false)).toBeCloseTo(getDecimalValue(13, 10, 46.1351), 3)
   })
 })
