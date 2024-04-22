@@ -1,4 +1,3 @@
-import Decimal from '@/decimal'
 import { SunConstants } from '@/types'
 
 /**
@@ -7,5 +6,5 @@ import { SunConstants } from '@/types'
  * @memberof module:Sun
  */
 export const constants: SunConstants = {
-  equatorialRadius: new Decimal('695990.0')
+  equatorialRadius: 695990.0
 }
