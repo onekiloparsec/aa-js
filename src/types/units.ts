@@ -15,6 +15,10 @@ export type GYr = number;
  */
 export type Year = number;
 /**
+ * Terrestrial month
+ */
+export type Month = number;
+/**
  * Terrestrial day (= 24 Hours)
  */
 export type Day = number;
