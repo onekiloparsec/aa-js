@@ -45,9 +45,9 @@ describe('rise transit & sets', () => {
     expect(results.transit.isCircumpolar).toBeFalsy()
     expect(results.transit.isAboveHorizon).toBeTruthy()
     expect(results.transit.isAboveAltitude).toBeTruthy()
-    expect(results.rise.utc.toNumber()).toBeCloseTo(24 * 0.51766, 1)
-    expect(results.transit.utc.toNumber()).toBeCloseTo(24 * 0.81980, 1)
-    expect(results.set.utc.toNumber()).toBeCloseTo(24 * 0.12130, 2)
+    expect(results.rise.utc).toBeCloseTo(24 * 0.51766, 1)
+    expect(results.transit.utc).toBeCloseTo(24 * 0.81980, 1)
+    expect(results.set.utc).toBeCloseTo(24 * 0.12130, 2)
     expect(results.rise.julianDay.lessThan(results.transit.julianDay)).toBeTruthy()
     expect(results.transit.julianDay.lessThan(results.set.julianDay)).toBeTruthy()
   })
@@ -62,9 +62,9 @@ describe('rise transit & sets', () => {
     expect(results.transit.isCircumpolar).toBeFalsy()
     expect(results.transit.isAboveHorizon).toBeTruthy()
     expect(results.transit.isAboveAltitude).toBeTruthy()
-    expect(results.rise.utc.toNumber()).toBeCloseTo(24 * 0.51766, 1)
-    expect(results.transit.utc.toNumber()).toBeCloseTo(24 * 0.81980, 1)
-    expect(results.set.utc.toNumber()).toBeCloseTo(24 * 0.12130, 2)
+    expect(results.rise.utc).toBeCloseTo(24 * 0.51766, 1)
+    expect(results.transit.utc).toBeCloseTo(24 * 0.81980, 1)
+    expect(results.set.utc).toBeCloseTo(24 * 0.12130, 2)
     expect(results.rise.julianDay.lessThan(results.transit.julianDay)).toBeTruthy()
     expect(results.transit.julianDay.lessThan(results.set.julianDay)).toBeTruthy()
   })
@@ -76,7 +76,7 @@ describe('rise transit & sets', () => {
     const coordsBoston = { latitude: 42.3333, longitude: -71.0833 }
 
     const Theta0 = juliandays.getLocalSiderealTime(getJulianDayMidnight(jd), 0).hoursToDegrees()
-    expect(Theta0.toNumber()).toBeCloseTo(177.742_08, 2)
+    expect(Theta0).toBeCloseTo(177.742_08, 2)
 
     // In TD not UT, see AA p.103
     const venus = [
@@ -91,19 +91,19 @@ describe('rise transit & sets', () => {
 
     // Our results don't agree perfectly with AA decimals?
     let { radix, minutes } = getSexagesimalValue(results.rise.utc)
-    expect(radix.toNumber()).toEqual(12)
-    expect(minutes.toNumber()).toEqual(26); // in AA, it is 25
+    expect(radix).toEqual(12)
+    expect(minutes).toEqual(26); // in AA, it is 25
 
     ({ radix, minutes } = getSexagesimalValue(results.transit.utc))
-    expect(radix.toNumber()).toEqual(19)
-    expect(minutes.toNumber()).toEqual(40); // in AA, it is 41
+    expect(radix).toEqual(19)
+    expect(minutes).toEqual(40); // in AA, it is 41
 
     ({ radix, minutes } = getSexagesimalValue(results.set.utc))
-    expect(radix.toNumber()).toEqual(2)
-    expect(minutes.toNumber()).toEqual(54)
+    expect(radix).toEqual(2)
+    expect(minutes).toEqual(54)
 
-    expect(results.rise.julianDay.toNumber() < results.transit.julianDay.toNumber()).toBeTruthy()
-    expect(results.transit.julianDay.toNumber() < results.set.julianDay.toNumber()).toBeTruthy()
+    expect(results.rise.julianDay. < results.transit.julianDay).toBeTruthy()
+    expect(results.transit.julianDay. < results.set.julianDay).toBeTruthy()
   })
 
   // See AA, pp 103 & 104
@@ -113,7 +113,7 @@ describe('rise transit & sets', () => {
     const coordsBoston = { latitude: 42.3333, longitude: -71.0833 }
 
     const Theta0 = juliandays.getLocalSiderealTime(getJulianDayMidnight(jd), 0).hoursToDegrees()
-    expect(Theta0.toNumber()).toBeCloseTo(177.742_08, 2)
+    expect(Theta0).toBeCloseTo(177.742_08, 2)
 
     // In TD not UT, see AA p.103
     const venus = [
@@ -128,19 +128,19 @@ describe('rise transit & sets', () => {
 
     // Our results don't agree perfectly with AA decimals?
     let { radix, minutes } = getSexagesimalValue(results.rise.utc)
-    expect(radix.toNumber()).toEqual(12)
-    expect(minutes.toNumber()).toEqual(26); // in AA, it is 25
+    expect(radix).toEqual(12)
+    expect(minutes).toEqual(26); // in AA, it is 25
 
     ({ radix, minutes } = getSexagesimalValue(results.transit.utc))
-    expect(radix.toNumber()).toEqual(19)
-    expect(minutes.toNumber()).toEqual(40); // in AA, it is 41
+    expect(radix).toEqual(19)
+    expect(minutes).toEqual(40); // in AA, it is 41
 
     ({ radix, minutes } = getSexagesimalValue(results.set.utc))
-    expect(radix.toNumber()).toEqual(2)
-    expect(minutes.toNumber()).toEqual(54)
+    expect(radix).toEqual(2)
+    expect(minutes).toEqual(54)
 
-    expect(results.rise.julianDay.toNumber() < results.transit.julianDay.toNumber()).toBeTruthy()
-    expect(results.transit.julianDay.toNumber() < results.set.julianDay.toNumber()).toBeTruthy()
+    expect(results.rise.julianDay. < results.transit.julianDay).toBeTruthy()
+    expect(results.transit.julianDay. < results.set.julianDay).toBeTruthy()
   })
 
 
@@ -159,9 +159,9 @@ describe('rise transit & sets', () => {
     const offsetUTC = -18000 // seconds
     const offsetDST = 3600 // seconds
     const offsetHours = (offsetUTC + offsetDST) / 3600
-    expect(fmod(results.rise.utc.toNumber() + offsetHours, 24)).toBeCloseTo(3.43, 1)
-    expect(fmod(results.transit.utc.toNumber() + offsetHours, 24)).toBeCloseTo(10.0, 1)
-    expect(fmod(results.set.utc.toNumber() + offsetHours, 24)).toBeCloseTo(16.47, 1)
+    expect(fmod(results.rise.utc. + offsetHours, 24)).toBeCloseTo(3.43, 1)
+    expect(fmod(results.transit.utc. + offsetHours, 24)).toBeCloseTo(10.0, 1)
+    expect(fmod(results.set.utc. + offsetHours, 24)).toBeCloseTo(16.47, 1)
   })
 
 
@@ -180,9 +180,9 @@ describe('rise transit & sets', () => {
     const offsetUTC = -18000 // seconds
     const offsetDST = 3600 // seconds
     const offsetHours = (offsetUTC + offsetDST) / 3600
-    expect(fmod(results.rise.utc.toNumber() + offsetHours, 24)).toBeCloseTo(3.43, 1)
-    expect(fmod(results.transit.utc.toNumber() + offsetHours, 24)).toBeCloseTo(10.0, 1)
-    expect(fmod(results.set.utc.toNumber() + offsetHours, 24)).toBeCloseTo(16.47, 1)
+    expect(fmod(results.rise.utc. + offsetHours, 24)).toBeCloseTo(3.43, 1)
+    expect(fmod(results.transit.utc. + offsetHours, 24)).toBeCloseTo(10.0, 1)
+    expect(fmod(results.set.utc. + offsetHours, 24)).toBeCloseTo(16.47, 1)
   })
 
   test('arcsecond night slider unit test', () => {

@@ -16,7 +16,7 @@ export type EquatorialCoordinatesAtJulianDayWithEquinoxFunction = (jd: JulianDay
 
 export type QuantityAtJulianDayFunction = (jd: JulianDay) => number
 export type QuantityInDegreeAtJulianDayFunction = (jd: JulianDay) => Degree
-export type QuantityInDegreeAtJulianDayWithEquinoxFunction = (jd: JulianDay | number, equinox?: Equinox) => Degree
+export type QuantityInDegreeAtJulianDayWithEquinoxFunction = (jd: JulianDay, equinox?: Equinox) => Degree
 export type QuantityInDegreeAtJulianCenturyFunction = (jd: JulianCentury) => Degree
 export type QuantityInAstronomicalUnitAtJulianDayFunction = (jd: JulianDay) => AstronomicalUnit
 export type QuantityInMagnitudeAtJulianDayFunction = (jd: JulianDay) => Magnitude

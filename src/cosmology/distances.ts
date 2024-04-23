@@ -34,7 +34,7 @@ export function getTangentialComovingDistance (H0: KilometerPerSecondPerMegaPars
   if (x.greaterThan(0.1)) {
     const ratio = (omegaK.greaterThan(0)) ?
       HALF.mul(Decimal.exp(x).minus(Decimal.exp(MINUSONE.mul(x)))).dividedBy(x) :
-      Decimal.sin(x).dividedBy(x)
+      Math.sin(x).dividedBy(x)
     return ratio.mul(DCMR)
   } else {
     let y = x.pow(2)

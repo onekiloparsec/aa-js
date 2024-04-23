@@ -16,7 +16,7 @@ export function getComovingVolume (omegaK: Decimal | number, DCMR: Decimal | num
   if (x.greaterThan(0.1)) {
     const ratio = (new Decimal(omegaK).greaterThan(0)) ?
       (new Decimal(0.125).mul(Decimal.exp(x.mul(2)).minus(Decimal.exp(x.mul(-2)))).minus(x.dividedBy(2))).dividedBy(x.pow(3).dividedBy(3)) :
-      (x.dividedBy(2).minus(Decimal.sin(x.mul(2)).dividedBy(4))).dividedBy(x.pow(3).dividedBy(3))
+      (x.dividedBy(2).minus(Math.sin(x.mul(2)).dividedBy(4))).dividedBy(x.pow(3).dividedBy(3))
     return ratio.mul(new Decimal(DCMR).pow(3)).dividedBy(3)
   } else {
     let y = x.pow(2)

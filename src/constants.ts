@@ -109,7 +109,7 @@ export const ONE_UA_IN_KILOMETERS: Kilometer = 149597870.691
 */
 
 /** @private */
-export const PC2UA = 1.0 / Math.tan(1. / 3600.0 * Math.PI / 180.) // = 1.0/tan(1./3600.0*M_PI/180.) = 206264.80624548031
+export const PC2UA = 1.0 / Math.tan(1. / 3600.0 * Math.PI / 180) // = 1.0/tan(1./3600.0*M_PI/180) = 206264.80624548031
 /** @private */
 export const PC2LY = 3.263797724738089 // = pc*ua/SPEED_OF_LIGHT/(ONE_DAY_INSECONDS*365.0) = 3.263797724738089
 

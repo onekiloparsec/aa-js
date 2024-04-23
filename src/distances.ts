@@ -29,7 +29,7 @@ export function getParallaxFromParsecs (parsec: Parsec): ArcSecond {
  * @return {Parsec} The distance in parsec.
  */
 export function getParsecsFromParallax (arcseconds: ArcSecond): Parsec {
-  return 1. / Math.tan(arcseconds / 3600.0 * Math.PI / 180.) / PC2UA
+  return 1. / Math.tan(arcseconds / 3600.0 * Math.PI / 180) / PC2UA
 }
 
 /**
