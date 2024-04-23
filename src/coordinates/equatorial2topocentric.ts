@@ -26,7 +26,7 @@ import { DEG2H, DEG2RAD, H2RAD, RAD2DEG } from '@/constants'
  */
 export function transformEquatorialToTopocentric (jd: JulianDay,
                                                   coords: EquatorialCoordinates,
-                                                  distance: AstronomicalUnit | number,
+                                                  distance: AstronomicalUnit,
                                                   geoCoords: GeographicCoordinates): TopocentricCoordinates {
   if (geoCoords.height === undefined) {
     throw new Error('The geographic coordinates must contain a value for "height".')
