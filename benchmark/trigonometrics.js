@@ -25,10 +25,10 @@ export default b.suite(
     value.degreesToRadians().toNumber()
   }),
   b.add('value toNumber then deg2rad num', () => {
-    value.toNumber() * deg2rad
+    value.toNumber() * DEG2RAD
   }),
   b.add('valueNum deg2rad', () => {
-    valueNum * deg2rad
+    valueNum * DEG2RAD
   }),
 
   b.cycle(),
