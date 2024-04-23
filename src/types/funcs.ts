@@ -1,7 +1,7 @@
 import { ArcSecond, AstronomicalUnit, Degree, JulianCentury, JulianDay, KilometerPerSecond, Magnitude } from './units'
 import { EclipticCoordinates, EquatorialCoordinates, GeographicCoordinates } from './coordinates'
 import { RiseTransitSet } from './risetransitset'
-import { Equinox } from './earth'
+import { Equinox, Obliquity } from './earth'
 
 export type JulianDayForJulianDayFunction = (jd: JulianDay) => JulianDay
 
@@ -10,6 +10,7 @@ export type SingleCoordinateDegreeAtJulianDayWithEquinoxFunction = (jd: JulianDa
 
 export type EclipticCoordinatesAtJulianDayFunction = (jd: JulianDay) => EclipticCoordinates
 export type EclipticCoordinatesAtJulianDayWithEquinoxFunction = (jd: JulianDay, equinox?: Equinox) => EclipticCoordinates
+export type EquatorialCoordinatesAtJulianDayWithObliquityFunction = (jd: JulianDay, obliquity?: Obliquity) => EquatorialCoordinates
 
 export type EquatorialCoordinatesAtJulianDayFunction = (jd: JulianDay) => EquatorialCoordinates
 export type EquatorialCoordinatesAtJulianDayWithEquinoxFunction = (jd: JulianDay, equinox?: Equinox) => EquatorialCoordinates
