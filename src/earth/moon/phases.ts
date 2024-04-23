@@ -1,24 +1,23 @@
-import Decimal from '@/decimal'
 import { Day, JulianDay } from '@/types'
 import { MOON_PHASE_UPPER_LIMITS, MOON_SYNODIC_PERIOD, MoonPhase, MoonPhaseQuarter } from '@/constants'
 import { getDecimalYear } from '@/times'
 import { fmod } from '@/utils'
 
 // The value of K must be an integer
-function getK (jd: JulianDay | number): Decimal {
+function getK (jd: JulianDay): number {
   const decimalYear = getDecimalYear(jd)
-  const decimalK = new Decimal('12.3685').mul(decimalYear.minus('2000'))
-  return decimalK.isPositive() ? Decimal.floor(decimalK) : Decimal.ceil(decimalK)
+  const decimalK = 12.3685 * decimalYear - 2000
+  return decimalK >= 0 ? Math.floor(decimalK) : Math.ceil(decimalK)
 }
 
-function getPhaseK (jd: JulianDay | number, phase: MoonPhaseQuarter): Decimal {
+function getPhaseK (jd: JulianDay, phase: MoonPhaseQuarter): number {
   let k = getK(jd)
   if (phase === MoonPhaseQuarter.FirstQuarter) {
-    k = k.plus(0.25)
+    k = k + 0.25
   } else if (phase == MoonPhaseQuarter.Full) {
-    k = k.plus(0.5)
+    k = k + 0.5
   } else if (phase == MoonPhaseQuarter.LastQuarter) {
-    k = k.plus(0.75)
+    k = k + 0.75
   }
   return k
 }
@@ -31,14 +30,14 @@ function getPhaseK (jd: JulianDay | number, phase: MoonPhaseQuarter): Decimal {
  * @return {JulianDay}
  * @memberof module:Earth
  */
-export function getTimeOfMeanPhase (jd: JulianDay | number, phase: MoonPhaseQuarter): JulianDay {
+export function getTimeOfMeanPhase (jd: JulianDay, phase: MoonPhaseQuarter): JulianDay {
   const k = getPhaseK(jd, phase)
-  const T = k.dividedBy('1236.85')
-  return new Decimal('2451_550.097_66')
-    .plus(new Decimal('29.530_588_861').mul(k))
-    .plus(new Decimal('0.000_154_37').mul(T.pow(2)))
-    .minus(new Decimal('0.000_000_150').mul(T.pow(3)))
-    .plus(new Decimal('0.000_000_000_73').mul(T.pow(4)))
+  const T = k / 1236.85
+  return 2451_550.097_66
+    + 29.530_588_861 * k
+    + 0.000_154_37 * Math.pow(T, 2)
+    - 0.000_000_150 * Math.pow(T, 3)
+    + 0.000_000_000_73 * Math.pow(T, 4)
 }
 
 /**
@@ -48,39 +47,38 @@ export function getTimeOfMeanPhase (jd: JulianDay | number, phase: MoonPhaseQuar
  * @return {JulianDay}
  * @memberof module:Earth
  */
-export function getAge (jd: JulianDay | number): Day {
-  const djd = new Decimal(jd)
-  let jdNewMoon = getTimeOfMeanPhase(djd.minus(MOON_SYNODIC_PERIOD), MoonPhaseQuarter.New)
-  if (jdNewMoon.greaterThan(djd)) {
-    jdNewMoon = jdNewMoon.minus(MOON_SYNODIC_PERIOD)
+export function getAge (jd: JulianDay): Day {
+  let jdNewMoon = getTimeOfMeanPhase(jd - MOON_SYNODIC_PERIOD, MoonPhaseQuarter.New)
+  if (jdNewMoon > jd) {
+    jdNewMoon = jdNewMoon - MOON_SYNODIC_PERIOD
   }
-  return fmod(djd.minus(jdNewMoon), MOON_SYNODIC_PERIOD)
+  return fmod(jd - jdNewMoon, MOON_SYNODIC_PERIOD)
 }
 
 /**
- * The age name of the Moon cycle (New, WaxingCresent, FirstQuarter etc.)
+ * The age name of the Moon cycle (New, WaxingCresent, FirstQuarter etc)
  * @param {JulianDay} jd The julian day
  * @return {MoonPhase} The moon phase name
  * @memberof module:Earth
  */
-export function getAgeName (jd: JulianDay | number): MoonPhase {
-  const frac = getAge(jd).dividedBy(MOON_SYNODIC_PERIOD)
+export function getAgeName (jd: JulianDay): MoonPhase {
+  const frac = getAge(jd) / MOON_SYNODIC_PERIOD
   // Order matter since we wrote down only upper limits.
-  if (frac.lessThanOrEqualTo(MOON_PHASE_UPPER_LIMITS[MoonPhase.New])) {
+  if (frac <= (MOON_PHASE_UPPER_LIMITS[MoonPhase.New])) {
     return MoonPhase.New
-  } else if (frac.lessThanOrEqualTo(MOON_PHASE_UPPER_LIMITS[MoonPhase.WaxingCrescent])) {
+  } else if (frac <= (MOON_PHASE_UPPER_LIMITS[MoonPhase.WaxingCrescent])) {
     return MoonPhase.WaxingCrescent
-  } else if (frac.lessThanOrEqualTo(MOON_PHASE_UPPER_LIMITS[MoonPhase.FirstQuarter])) {
+  } else if (frac <= (MOON_PHASE_UPPER_LIMITS[MoonPhase.FirstQuarter])) {
     return MoonPhase.FirstQuarter
-  } else if (frac.lessThanOrEqualTo(MOON_PHASE_UPPER_LIMITS[MoonPhase.WaxingGibbous])) {
+  } else if (frac <= (MOON_PHASE_UPPER_LIMITS[MoonPhase.WaxingGibbous])) {
     return MoonPhase.WaxingGibbous
-  } else if (frac.lessThanOrEqualTo(MOON_PHASE_UPPER_LIMITS[MoonPhase.Full])) {
+  } else if (frac <= (MOON_PHASE_UPPER_LIMITS[MoonPhase.Full])) {
     return MoonPhase.Full
-  } else if (frac.lessThanOrEqualTo(MOON_PHASE_UPPER_LIMITS[MoonPhase.WaningGibbous])) {
+  } else if (frac <= (MOON_PHASE_UPPER_LIMITS[MoonPhase.WaningGibbous])) {
     return MoonPhase.WaningGibbous
-  } else if (frac.lessThanOrEqualTo(MOON_PHASE_UPPER_LIMITS[MoonPhase.LastQuarter])) {
+  } else if (frac <= (MOON_PHASE_UPPER_LIMITS[MoonPhase.LastQuarter])) {
     return MoonPhase.LastQuarter
-  } else if (frac.lessThanOrEqualTo(MOON_PHASE_UPPER_LIMITS[MoonPhase.WaningCrescent])) {
+  } else if (frac <= (MOON_PHASE_UPPER_LIMITS[MoonPhase.WaningCrescent])) {
     return MoonPhase.WaningCrescent
   } else {
     return MoonPhase.New

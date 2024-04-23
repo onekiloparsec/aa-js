@@ -3,13 +3,13 @@
 // The unit is 0.000001 degree for Epsilon_l and 0.001 for Epsilon_r
 
 // Argument (multiple of D, M, Mprime, F)
-import Decimal from '@/decimal'
 
-export const getCoefficients1 = function (useDecimals: boolean = true): {
-  D: Decimal | number,
-  M: Decimal | number,
-  Mdash: Decimal | number,
-  F: Decimal | number
+
+export const getCoefficients1 = function (): {
+  D: number,
+  M: number,
+  Mdash: number,
+  F: number
 }[] {
   return [
     [0, 0, 1, 0],
@@ -73,15 +73,13 @@ export const getCoefficients1 = function (useDecimals: boolean = true): {
     [2, 0, 3, 0],
     [2, 0, -1, -2]
   ].map((a) => {
-    return useDecimals ?
-      { D: new Decimal(a[0]), M: new Decimal(a[1]), Mdash: new Decimal(a[2]), F: new Decimal(a[3]) } :
-      { D: a[0], M: a[1], Mdash: a[2], F: a[3] }
+    return { D: a[0], M: a[1], Mdash: a[2], F: a[3] }
   })
 }
 
-export const getCoefficients2 = function (useDecimals: boolean = true): {
-  A: Decimal | number,
-  B: Decimal | number,
+export const getCoefficients2 = function (): {
+  A: number,
+  B: number,
 }[] {
   return [
     [6288774, -20905355],
@@ -145,17 +143,15 @@ export const getCoefficients2 = function (useDecimals: boolean = true): {
     [294, 0],
     [0, 8752]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]) } :
-      { A: a[0], B: a[1] }
+    return { A: a[0], B: a[1] }
   })
 }
 
-export const getCoefficients3 = function (useDecimals: boolean = true): {
-  D: Decimal | number,
-  M: Decimal | number,
-  Mdash: Decimal | number,
-  F: Decimal | number
+export const getCoefficients3 = function (): {
+  D: number,
+  M: number,
+  Mdash: number,
+  F: number
 }[] {
   return [
     [0, 0, 0, 1],
@@ -219,13 +215,11 @@ export const getCoefficients3 = function (useDecimals: boolean = true): {
     [4, -1, 0, -1],
     [2, -2, 0, 1]
   ].map((a) => {
-    return useDecimals ?
-      { D: new Decimal(a[0]), M: new Decimal(a[1]), Mdash: new Decimal(a[2]), F: new Decimal(a[3]) } :
-      { D: a[0], M: a[1], Mdash: a[2], F: a[3] }
+    return { D: a[0], M: a[1], Mdash: a[2], F: a[3] }
   })
 }
 
-export const getCoefficients4 = function (useDecimals: boolean = true): (Decimal | number)[] {
+export const getCoefficients4 = function (): (number)[] {
   return [
     5128122,
     280602,
@@ -288,6 +282,6 @@ export const getCoefficients4 = function (useDecimals: boolean = true): (Decimal
     115,
     107
   ].map((a) => {
-    return useDecimals ? new Decimal(a) : a
+    return a
   })
 }
