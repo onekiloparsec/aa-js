@@ -1,5 +1,4 @@
-import Decimal from '@/decimal'
-import { HALF, MINUSONE, ONE, SPEED_OF_LIGHT } from '@/constants'
+import { SPEED_OF_LIGHT } from '@/constants'
 import { KilometerPerSecondPerMegaParsec, KiloparsecPerArcsecond, MegaParsec } from '@/types'
 import { getDCMRIntegral } from './utils'
 import { getOmegaK } from './omegas'
@@ -13,9 +12,9 @@ import { getOmegaK } from './omegas'
  * @returns {MegaParsec}
  * @memberof module:Cosmology
  */
-export function getComovingRadialDistance (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number, z: Decimal | number): MegaParsec {
-  const DCMR = getDCMRIntegral(H0, omegaMat, omegaVac, z, (a, adot) => ONE.dividedBy(a.mul(adot)))
-  return (SPEED_OF_LIGHT.dividedBy(H0)).mul(DCMR)
+export function getComovingRadialDistance (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): MegaParsec {
+  const DCMR = getDCMRIntegral(H0, omegaMat, omegaVac, z, (a, adot) => 1 / (a * adot))
+  return (SPEED_OF_LIGHT / H0) * DCMR
 }
 
 /**
@@ -27,24 +26,24 @@ export function getComovingRadialDistance (H0: KilometerPerSecondPerMegaParsec |
  * @returns {number}
  * @memberof module:Cosmology
  */
-export function getTangentialComovingDistance (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number, z: Decimal | number): Decimal {
-  const DCMR = getDCMRIntegral(H0, omegaMat, omegaVac, z, (a, adot) => ONE.dividedBy(a.mul(adot)))
+export function getTangentialComovingDistance (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): number {
+  const DCMR = getDCMRIntegral(H0, omegaMat, omegaVac, z, (a, adot) => 1 / (a * adot))
   const omegaK = getOmegaK(H0, omegaMat, omegaVac)
-  const x = Decimal.sqrt(Decimal.abs(omegaK)).mul(DCMR)
-  if (x.greaterThan(0.1)) {
-    const ratio = (omegaK.greaterThan(0)) ?
-      HALF.mul(Decimal.exp(x).minus(Decimal.exp(MINUSONE.mul(x)))).dividedBy(x) :
-      Math.sin(x).dividedBy(x)
-    return ratio.mul(DCMR)
-  } else {
-    let y = x.pow(2)
-    // statement below fixed 13-Aug-03 to correct sign error in expansion
-    if (omegaK.lessThan(0)) {
-      y = MINUSONE.mul(y)
-    }
-    const ratio = ONE.plus(y.dividedBy(6)).plus(y.pow(2).dividedBy(120))
-    return ratio.mul(DCMR)
+  const x = Math.sqrt(Math.abs(omegaK)) * DCMR
+  
+  if (x > 0.1) {
+    const ratio = (omegaK > 0) ? 0.5 * (Math.exp(x) - Math.exp(-x)) / x : Math.sin(x) / x
+    return ratio * DCMR
   }
+  
+  let y = x * x
+  // statement below fixed 13-Aug-03 to correct sign error in expansion
+  if (omegaK < 0) {
+    y = -y
+  }
+  const ratio = 1 + y / 6 + y * y / 120
+  return ratio * DCMR
+  
 }
 
 /**
@@ -56,10 +55,10 @@ export function getTangentialComovingDistance (H0: KilometerPerSecondPerMegaPars
  * @returns {MegaParsec}
  * @memberof module:Cosmology
  */
-export function getAngularSizeDistance (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number, z: Decimal | number): MegaParsec {
-  const az = ONE.dividedBy(ONE.plus(z))
-  const DA = az.mul(getTangentialComovingDistance(H0, omegaMat, omegaVac, z))
-  return (SPEED_OF_LIGHT.dividedBy(H0)).mul(DA)
+export function getAngularSizeDistance (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): MegaParsec {
+  const az = 1 / (1 + z)
+  const DA = az * getTangentialComovingDistance(H0, omegaMat, omegaVac, z)
+  return (SPEED_OF_LIGHT / H0) * DA
 }
 
 /**
@@ -71,9 +70,9 @@ export function getAngularSizeDistance (H0: KilometerPerSecondPerMegaParsec | nu
  * @returns {number} Megaparsec / arcsecond
  * @memberof module:Cosmology
  */
-export function getAngularSizeScale (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number, z: Decimal | number): KiloparsecPerArcsecond {
+export function getAngularSizeScale (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): KiloparsecPerArcsecond {
   const DA_Mpc = getAngularSizeDistance(H0, omegaMat, omegaVac, z)
-  return DA_Mpc.dividedBy(206.264806) // to get kpc instead of MPC
+  return DA_Mpc / 206.264806 // to get kpc instead of MPC
 }
 
 /**
@@ -85,8 +84,8 @@ export function getAngularSizeScale (H0: KilometerPerSecondPerMegaParsec | numbe
  * @returns {MegaParsec}
  * @memberof module:Cosmology
  */
-export function getLuminosityDistance (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number, z: Decimal | number): MegaParsec {
-  const az = ONE.dividedBy(ONE.plus(z))
+export function getLuminosityDistance (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): MegaParsec {
+  const az = 1 / (1 + z)
   const DA = getAngularSizeDistance(H0, omegaMat, omegaVac, z)
-  return DA.dividedBy(az.pow(2))
+  return DA / (az * az)
 }

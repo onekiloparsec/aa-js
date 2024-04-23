@@ -1,6 +1,4 @@
-import Decimal from '@/decimal'
 import { KilometerPerSecondPerMegaParsec } from '@/types'
-import { ONE } from '@/constants'
 
 
 /**
@@ -9,9 +7,9 @@ import { ONE } from '@/constants'
  * @returns {number}
  * @memberof module:Cosmology
  */
-export function getOmegaR (H0: KilometerPerSecondPerMegaParsec | number): Decimal {
-  const h = new Decimal(H0).dividedBy(100)
-  return new Decimal(4.165E-5).dividedBy(h.pow(2))	// includes 3 massless neutrino species, T0 = 2.72528
+export function getOmegaR (H0: KilometerPerSecondPerMegaParsec): number {
+  const h = H0 / 100
+  return 4.165E-5 / (h * h)	// includes 3 massless neutrino species, T0 = 2.72528
 }
 
 /**
@@ -22,7 +20,7 @@ export function getOmegaR (H0: KilometerPerSecondPerMegaParsec | number): Decima
  * @returns {number}
  * @memberof module:Cosmology
  */
-export function getOmegaK (H0: KilometerPerSecondPerMegaParsec | number, omegaMat: Decimal | number, omegaVac: Decimal | number): Decimal {
+export function getOmegaK (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number): number {
   const omegaR = getOmegaR(H0)
-  return ONE.minus(omegaMat).minus(omegaR).minus(omegaVac)
+  return 1 - omegaMat - omegaR - omegaVac
 }
