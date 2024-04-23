@@ -1,19 +1,19 @@
-import Decimal from '@/decimal'
+
 import { Degree, JulianDay } from '@/types'
 import { FOUR, MINUSONE, TWO } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
-function computeJupiterDetails (jd: JulianDay | number) {
+function computeJupiterDetails (jd: JulianDay) {
   // Step 3
-  const l0 = Earth.getEclipticLongitude(jd).degreesToRadians()
-  const b0 = Earth.getEclipticLatitude(jd).degreesToRadians()
+  const l0 = Earth.getEclipticLongitude(jd)* DEG2RAD
+  const b0 = Earth.getEclipticLatitude(jd)* DEG2RAD
   const R = Earth.getRadiusVector(jd)
 
   // Step 4
-  let l = getEclipticLongitude(jd).degreesToRadians()
-  const b = getEclipticLatitude(jd).degreesToRadians()
+  let l = getEclipticLongitude(jd)* DEG2RAD
+  const b = getEclipticLatitude(jd)* DEG2RAD
   const r = getRadiusVector(jd)
 
   // Step 5
@@ -23,7 +23,7 @@ function computeJupiterDetails (jd: JulianDay | number) {
   let Delta = Decimal.sqrt(x.pow(2).plus(y.pow(2)).plus(z.pow(2)))
 
   // Step 6
-  l = l.minus(new Decimal(0.012990).mul(Delta).dividedBy(r.pow(2))).degreesToRadians()
+  l = l.minus(new Decimal(0.012990).mul(Delta).dividedBy(r.pow(2)))* DEG2RAD
 
   // Step 7 (l has changed)
   x = r.mul(b.cos()).mul(l.cos()).minus(R.mul(l0.cos()))
@@ -32,13 +32,13 @@ function computeJupiterDetails (jd: JulianDay | number) {
   Delta = Decimal.sqrt(x.pow(2).plus(y.pow(2)).plus(z.pow(2)))
 
   // Step 8
-  const e0 = Earth.getMeanObliquityOfEcliptic(jd).degreesToRadians()
+  const e0 = Earth.getMeanObliquityOfEcliptic(jd)* DEG2RAD
 
   // Step 11
   const u = y.mul(e0.cos()).minus(z.mul(e0.sin()))
   const v = y.mul(e0.sin()).plus(z.mul(e0.cos()))
-  const alpha = Decimal.atan2(u, x).radiansToDegrees()
-  const delta = Decimal.atan2(v, Decimal.sqrt(x.pow(2).plus(u.pow(2)))).radiansToDegrees()
+  const alpha = Math.atan2(u, x).radiansToDegrees()
+  const delta = Math.atan2(v, Decimal.sqrt(x.pow(2).plus(u.pow(2)))).radiansToDegrees()
 
   return { alpha, delta, r, Delta }
 }
@@ -46,35 +46,35 @@ function computeJupiterDetails (jd: JulianDay | number) {
 /**
  * The planetocentric declination of the Earth.
  * When it is positive, the planet northern pole is tilted towards the Earth.
- * @param {JulianDay | number} jd
+ * @param {JulianDay} jd
  * @returns {Degree}
  * @memberof module:Jupiter
  */
-export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay | number): Degree {
+export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay): Degree {
   const d = new Decimal(jd).minus(2433282.5)
   const T1 = d.dividedBy(36525)
 
-  const alpha0 = (new Decimal(268.00).plus(new Decimal(0.1061).mul(T1))).degreesToRadians()
-  const delta0 = (new Decimal(64.50).minus(new Decimal(0.0164).mul(T1))).degreesToRadians()
+  const alpha0 = (new Decimal(268.00).plus(new Decimal(0.1061).mul(T1)))* DEG2RAD
+  const delta0 = (new Decimal(64.50).minus(new Decimal(0.0164).mul(T1)))* DEG2RAD
 
   const { r, Delta } = computeJupiterDetails(jd)
 
   const l = (
     getEclipticLongitude(jd)
       .minus(new Decimal(0.012990).mul(Delta).dividedBy(r.pow(2)))
-  ).degreesToRadians()
+  )* DEG2RAD
 
-  const b = getEclipticLatitude(jd).degreesToRadians()
+  const b = getEclipticLatitude(jd)* DEG2RAD
 
   // Step 8
-  const e0 = Earth.getMeanObliquityOfEcliptic(jd).degreesToRadians()
+  const e0 = Earth.getMeanObliquityOfEcliptic(jd)* DEG2RAD
 
   //Step 9
-  const alphas = Decimal.atan2(e0.cos().mul(l.sin()).minus(e0.sin().mul(b.tan())), l.cos())
+  const alphas = Math.atan2(e0.cos().mul(l.sin()).minus(e0.sin().mul(b.tan())), l.cos())
   const deltas = Decimal.asin(e0.cos().mul(b.sin()).plus(e0.sin().mul(b.cos()).mul(l.sin())))
 
   const value1 = MINUSONE.mul(delta0.sin()).mul(deltas.sin())
-  const value2 = delta0.cos().mul(deltas.cos()).mul(Decimal.cos(alpha0.minus(alphas)))
+  const value2 = delta0.cos().mul(deltas.cos()).mul(Math.cos(alpha0.minus(alphas)))
 
   //Step 10 details.DS
   return Decimal.asin(value1.minus(value2)).radiansToDegrees()
@@ -83,21 +83,21 @@ export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay | number): D
 /**
  * The planetocentric declination of the Sun.
  * When it is positive, the planet northern pole is tilted towards the sun.
- * @param {JulianDay | number} jd
+ * @param {JulianDay} jd
  * @returns {Degree}
  * @memberof module:Jupiter
  */
-export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay | number): Degree {
+export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay): Degree {
   const d = new Decimal(jd).minus(2433282.5)
   const T1 = d.dividedBy(36525)
 
-  const alpha0 = (new Decimal(268.00).plus(new Decimal(0.1061).mul(T1))).degreesToRadians()
-  const delta0 = (new Decimal(64.50).minus(new Decimal(0.0164).mul(T1))).degreesToRadians()
+  const alpha0 = (new Decimal(268.00).plus(new Decimal(0.1061).mul(T1)))* DEG2RAD
+  const delta0 = (new Decimal(64.50).minus(new Decimal(0.0164).mul(T1)))* DEG2RAD
 
   const { alpha, delta } = computeJupiterDetails(jd)
 
   const value1 = MINUSONE.mul(delta0.sin()).mul(delta.sin())
-  const value2 = delta0.cos().mul(delta.cos()).mul(Decimal.cos(alpha0.minus(alpha)))
+  const value2 = delta0.cos().mul(delta.cos()).mul(Math.cos(alpha0.minus(alpha)))
 
   //Step 12 details.DE
   return Decimal.asin(value1.minus(value2)).radiansToDegrees()
@@ -105,19 +105,19 @@ export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay | number):
 
 /**
  * Central meridian longitudes
- * @param {JulianDay | number} jd The julian day
+ * @param {JulianDay} jd The julian day
  * @returns {Object}
  * @memberof module:Jupiter
  */
-export function getCentralMeridianLongitudes (jd: JulianDay | number): Object {
+export function getCentralMeridianLongitudes (jd: JulianDay): Object {
   const d = new Decimal(jd).minus('2433282.5')
   const T1 = d.dividedBy('36525')
 
-  const alpha0 = (new Decimal('268.00').plus(new Decimal('0.1061').mul(T1))).degreesToRadians()
-  const delta0 = (new Decimal('64.50').minus(new Decimal('0.0164').mul(T1))).degreesToRadians()
+  const alpha0 = (new Decimal('268.00').plus(new Decimal('0.1061').mul(T1)))* DEG2RAD
+  const delta0 = (new Decimal('64.50').minus(new Decimal('0.0164').mul(T1)))* DEG2RAD
 
   // Step 3
-  const l0 = Earth.getEclipticLongitude(jd).degreesToRadians()
+  const l0 = Earth.getEclipticLongitude(jd)* DEG2RAD
   // const b0 = Earth.getEclipticLatitude(jd)
   // const b0rad = DEG2RAD * b0
   const R = Earth.getRadiusVector(jd)
@@ -127,16 +127,16 @@ export function getCentralMeridianLongitudes (jd: JulianDay | number): Object {
   const l = (
     getEclipticLongitude(jd)
       .minus(new Decimal('0.012_990').mul(Delta).dividedBy(r.pow(2)))
-  ).degreesToRadians()
+  )* DEG2RAD
 
   // Step 2
   const W1 = fmod360(new Decimal('17.710').plus(new Decimal('877.900_035_39').mul(d)))
   const W2 = fmod360(new Decimal('16.838').plus(new Decimal('870.270_035_39').mul(d)))
 
-  const y0 = delta0.sin().mul(delta.cos()).mul(Decimal.cos(alpha0.minus(alpha)))
+  const y0 = delta0.sin().mul(delta.cos()).mul(Math.cos(alpha0.minus(alpha)))
   const y1 = delta.sin().mul(delta0.cos())
-  const x = delta.cos().mul(Decimal.sin(alpha0.minus(alpha)))
-  const xi = Decimal.atan2(y0.minus(y1), x).radiansToDegrees()
+  const x = delta.cos().mul(Math.sin(alpha0.minus(alpha)))
+  const xi = Math.atan2(y0.minus(y1), x).radiansToDegrees()
 
   // Step 13
   const Geometricw1 = fmod360(W1.minus(xi).minus(new Decimal('5.070_33').mul(Delta)))
@@ -150,7 +150,7 @@ export function getCentralMeridianLongitudes (jd: JulianDay | number): Object {
 
   let Apparentw1
   let Apparentw2
-  if (Decimal.sin(l.minus(l0)).greaterThan(0)) {
+  if (Math.sin(l.minus(l0)).greaterThan(0)) {
     Apparentw1 = fmod360(Geometricw1.plus(C))
     Apparentw2 = fmod360(Geometricw2.plus(C))
   } else {

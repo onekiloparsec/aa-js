@@ -1,4 +1,4 @@
-import Decimal from '@/decimal'
+
 
 export type ArgumentCoefficient = {
   J: Decimal, S: Decimal, P: Decimal
@@ -13,7 +13,7 @@ export type CoordsCoefficientNum = {
   A: number, B: number
 }
 
-export const getArgumentCoefficients = function (useDecimals: boolean = true): (ArgumentCoefficient | ArgumentCoefficientNum)[] {
+export const getArgumentCoefficients = function (): (ArgumentCoefficient | ArgumentCoefficientNum)[] {
   return [
     [0, 0, 1],
     [0, 0, 2],
@@ -65,7 +65,7 @@ export const getArgumentCoefficients = function (useDecimals: boolean = true): (
   })
 }
 
-export const getLongitudeCoefficients = function (useDecimals: boolean = true): (CoordsCoefficient | CoordsCoefficientNum)[] {
+export const getLongitudeCoefficients = function (): (CoordsCoefficient | CoordsCoefficientNum)[] {
   return [
     [-19799805, 19850055],
     [897144, -4954829],
@@ -117,7 +117,7 @@ export const getLongitudeCoefficients = function (useDecimals: boolean = true): 
   })
 }
 
-export const getLatitudeCoefficients = function (useDecimals: boolean = true): (CoordsCoefficient | CoordsCoefficientNum)[] {
+export const getLatitudeCoefficients = function (): (CoordsCoefficient | CoordsCoefficientNum)[] {
   return [
     [-5452852, -14974862],
     [3527812, 1672790],
@@ -169,7 +169,7 @@ export const getLatitudeCoefficients = function (useDecimals: boolean = true): (
   })
 }
 
-export const getRadiusCoefficients = function (useDecimals: boolean = true): (CoordsCoefficient | CoordsCoefficientNum)[] {
+export const getRadiusCoefficients = function (): (CoordsCoefficient | CoordsCoefficientNum)[] {
   return [
     [66865439, 68951812],
     [-11827535, -332538],

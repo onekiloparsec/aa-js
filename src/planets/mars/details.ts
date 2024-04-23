@@ -1,4 +1,4 @@
-import Decimal from '@/decimal'
+
 import { ArcSecond, Degree, JulianDay, Magnitude } from '@/types'
 import { ONE, TWO } from '@/constants'
 import { fmod360 } from '@/utils'
@@ -12,7 +12,7 @@ import { getGeocentricDistance } from './elliptical'
  * @return {Degree}
  * @memberof module:Mars
  */
-export function getPhaseAngle (jd: JulianDay | number): Degree {
+export function getPhaseAngle (jd: JulianDay): Degree {
   const r = getRadiusVector(jd)
   const R = Earth.getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
@@ -28,9 +28,9 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
  * @returns {number}
  * @memberof module:Mars
  */
-export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
-  const i = getPhaseAngle(jd).degreesToRadians()
-  return (ONE.plus(Decimal.cos(i))).dividedBy(2)
+export function getIlluminatedFraction (jd: JulianDay): number {
+  const i = getPhaseAngle(jd)* DEG2RAD
+  return (ONE.plus(Math.cos(i))).dividedBy(2)
 }
 
 /**
@@ -42,7 +42,7 @@ export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
  * @returns {Magnitude}
  * @memberof module:Mars
  */
-export function getMagnitude (jd: JulianDay | number): Magnitude {
+export function getMagnitude (jd: JulianDay): Magnitude {
   const r = getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
   const i = getPhaseAngle(jd)
@@ -62,7 +62,7 @@ export function getMagnitude (jd: JulianDay | number): Magnitude {
  * @returns {ArcSecond}
  * @memberof module:Mars
  */
-export function getEquatorialSemiDiameter (jd: JulianDay | number): ArcSecond {
+export function getEquatorialSemiDiameter (jd: JulianDay): ArcSecond {
   const Delta = getGeocentricDistance(jd)
   return new Decimal('4.68').dividedBy(Delta)
 }
@@ -76,6 +76,6 @@ export function getEquatorialSemiDiameter (jd: JulianDay | number): ArcSecond {
  * @returns {ArcSecond}
  * @memberof module:Mars
  */
-export function getPolarSemiDiameter (jd: JulianDay | number): ArcSecond {
+export function getPolarSemiDiameter (jd: JulianDay): ArcSecond {
   return getEquatorialSemiDiameter(jd)
 }

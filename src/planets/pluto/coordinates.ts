@@ -1,4 +1,4 @@
-import Decimal from '@/decimal'
+
 import { AstronomicalUnit, Degree, EclipticCoordinates, EquatorialCoordinates, JulianDay, Obliquity } from '@/types'
 import { transformEclipticToEquatorial } from '@/coordinates'
 import { getJulianCentury } from '@/juliandays'
@@ -23,19 +23,19 @@ import { DEG2RAD } from '@/constants'
  * @returns {Degree}
  * @memberof module:Pluto
  */
-export function getEclipticLongitude (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const T = getJulianCentury(jd, highPrecision)
+export function getEclipticLongitude (jd: JulianDay): Degree {
+  const T = getJulianCentury(jd)
 
-  const argumentCoefficients = getArgumentCoefficients(highPrecision)
-  const longitudeCoefficients = getLongitudeCoefficients(highPrecision)
+  const argumentCoefficients = getArgumentCoefficients()
+  const longitudeCoefficients = getLongitudeCoefficients()
 
-  if (highPrecision) {
+  if () {
     const J = new Decimal('34.35').plus(new Decimal('3034.9057').mul(T))
     const S = new Decimal('50.08').plus(new Decimal('1222.1138').mul(T))
     const P = new Decimal('238.96').plus(new Decimal('144.9600').mul(T))
 
     const L = (argumentCoefficients as ArgumentCoefficient[]).reduce((sum, value, index) => {
-      const alpha = (value.J.mul(J).plus(value.S.mul(S)).plus(value.P.mul(P))).degreesToRadians()
+      const alpha = (value.J.mul(J).plus(value.S.mul(S)).plus(value.P.mul(P)))* DEG2RAD
       return sum
         .plus((longitudeCoefficients as CoordsCoefficient[])[index].A.mul(alpha.sin()))
         .plus((longitudeCoefficients as CoordsCoefficient[])[index].B.mul(alpha.cos()))
@@ -46,14 +46,14 @@ export function getEclipticLongitude (jd: JulianDay | number, highPrecision: boo
         .plus(new Decimal('238.958116').plus(new Decimal('144.96').mul(T)))
     )
   } else {
-    const tnum = T.toNumber()
+    const tnum = T.
     const J = 34.35 + 3034.9057 * tnum
     const S = 50.08 + 1222.1138 * tnum
     const P = 238.96 + 144.9600 * tnum
 
-    const deg2rad = DEG2RAD.toNumber()
+    const deg2rad = DEG2RAD.
     const L = (argumentCoefficients as ArgumentCoefficientNum[]).reduce((sum, value, index) => {
-      const alpha = (value.J * J + value.S * S + value.P * P) * deg2rad
+      const alpha = (value.J * J + value.S * S + value.P * P) * DEG2RAD
       return sum
         + (longitudeCoefficients as CoordsCoefficientNum[])[index].A * Math.sin(alpha)
         + (longitudeCoefficients as CoordsCoefficientNum[])[index].B * Math.cos(alpha)
@@ -72,19 +72,19 @@ export function getEclipticLongitude (jd: JulianDay | number, highPrecision: boo
  * @return {Degree}
  * @memberof module:Pluto
  */
-export function getEclipticLatitude (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const T = getJulianCentury(jd, highPrecision)
+export function getEclipticLatitude (jd: JulianDay): Degree {
+  const T = getJulianCentury(jd)
 
-  const argumentCoefficients = getArgumentCoefficients(highPrecision)
-  const latitudeCoefficients = getLatitudeCoefficients(highPrecision)
+  const argumentCoefficients = getArgumentCoefficients()
+  const latitudeCoefficients = getLatitudeCoefficients()
 
-  if (highPrecision) {
+  if () {
     const J = new Decimal('34.35').plus(new Decimal('3034.9057').mul(T))
     const S = new Decimal('50.08').plus(new Decimal('1222.1138').mul(T))
     const P = new Decimal('238.96').plus(new Decimal('144.9600').mul(T))
 
     const B = (argumentCoefficients as ArgumentCoefficient[]).reduce((sum, value, index) => {
-      const alpha = (value.J.mul(J).plus(value.S.mul(S)).plus(value.P.mul(P))).degreesToRadians()
+      const alpha = (value.J.mul(J).plus(value.S.mul(S)).plus(value.P.mul(P)))* DEG2RAD
       return sum
         .plus((latitudeCoefficients as CoordsCoefficient[])[index].A.mul(alpha.sin()))
         .plus((latitudeCoefficients as CoordsCoefficient[])[index].B.mul(alpha.cos()))
@@ -92,14 +92,14 @@ export function getEclipticLatitude (jd: JulianDay | number, highPrecision: bool
 
     return fmod90(B.dividedBy(1e8).plus(new Decimal(-3.908239)))
   } else {
-    const tnum = T.toNumber()
+    const tnum = T.
     const J = 34.35 + 3034.9057 * tnum
     const S = 50.08 + 1222.1138 * tnum
     const P = 238.96 + 144.9600 * tnum
 
-    const deg2rad = DEG2RAD.toNumber()
+    const deg2rad = DEG2RAD.
     const B = (argumentCoefficients as ArgumentCoefficientNum[]).reduce((sum, value, index) => {
-      const alpha = (value.J * J + value.S * S + value.P * P) * deg2rad
+      const alpha = (value.J * J + value.S * S + value.P * P) * DEG2RAD
       return sum
         + (latitudeCoefficients as CoordsCoefficientNum[])[index].A * Math.sin(alpha)
         + (latitudeCoefficients as CoordsCoefficientNum[])[index].B * Math.cos(alpha)
@@ -116,19 +116,19 @@ export function getEclipticLatitude (jd: JulianDay | number, highPrecision: bool
  * @return {AstronomicalUnit}
  * @memberof module:Pluto
  */
-export function getRadiusVector (jd: JulianDay | number, highPrecision: boolean = true): AstronomicalUnit {
-  const T = getJulianCentury(jd, highPrecision)
+export function getRadiusVector (jd: JulianDay): AstronomicalUnit {
+  const T = getJulianCentury(jd)
 
-  const argumentCoefficients = getArgumentCoefficients(highPrecision)
-  const radiusCoefficients = getRadiusCoefficients(highPrecision)
+  const argumentCoefficients = getArgumentCoefficients()
+  const radiusCoefficients = getRadiusCoefficients()
 
-  if (highPrecision) {
+  if () {
     const J = new Decimal('34.35').plus(new Decimal('3034.9057').mul(T))
     const S = new Decimal('50.08').plus(new Decimal('1222.1138').mul(T))
     const P = new Decimal('238.96').plus(new Decimal('144.9600').mul(T))
 
     const R = (argumentCoefficients as ArgumentCoefficient[]).reduce((sum, value, index) => {
-      const alpha = (value.J.mul(J).plus(value.S.mul(S)).plus(value.P.mul(P))).degreesToRadians()
+      const alpha = (value.J.mul(J).plus(value.S.mul(S)).plus(value.P.mul(P)))* DEG2RAD
       return sum
         .plus((radiusCoefficients as CoordsCoefficient[])[index].A.mul(alpha.sin()))
         .plus((radiusCoefficients as CoordsCoefficient[])[index].B.mul(alpha.cos()))
@@ -136,14 +136,14 @@ export function getRadiusVector (jd: JulianDay | number, highPrecision: boolean 
 
     return fmod90(R.dividedBy(1e8).plus(new Decimal(40.7241346)))
   } else {
-    const tnum = T.toNumber()
+    const tnum = T.
     const J = 34.35 + 3034.9057 * tnum
     const S = 50.08 + 1222.1138 * tnum
     const P = 238.96 + 144.9600 * tnum
 
-    const deg2rad = DEG2RAD.toNumber()
+    const deg2rad = DEG2RAD.
     const R = (argumentCoefficients as ArgumentCoefficientNum[]).reduce((sum, value, index) => {
-      const alpha = (value.J * J + value.S * S + value.P * P) * deg2rad
+      const alpha = (value.J * J + value.S * S + value.P * P) * DEG2RAD
       return sum
         + (radiusCoefficients as CoordsCoefficientNum[])[index].A * Math.sin(alpha)
         + (radiusCoefficients as CoordsCoefficientNum[])[index].B * Math.cos(alpha)
@@ -160,10 +160,10 @@ export function getRadiusVector (jd: JulianDay | number, highPrecision: boolean 
  * @returns {EclipticCoordinates}
  * @memberof module:Pluto
  */
-export function getEclipticCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EclipticCoordinates {
+export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
   return {
-    longitude: getEclipticLongitude(jd, highPrecision),
-    latitude: getEclipticLatitude(jd, highPrecision)
+    longitude: getEclipticLongitude(jd),
+    latitude: getEclipticLatitude(jd)
   }
 }
 
@@ -176,10 +176,10 @@ export function getEclipticCoordinates (jd: JulianDay | number, highPrecision: b
  * @returns {EquatorialCoordinates}
  * @memberof module:Pluto
  */
-export function getEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean, highPrecision: boolean = true): EquatorialCoordinates {
+export function getEquatorialCoordinates (jd: JulianDay, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinates {
   return transformEclipticToEquatorial(
-    getEclipticCoordinates(jd, highPrecision),
-    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd, highPrecision) : Earth.getTrueObliquityOfEcliptic(jd, highPrecision),
+    getEclipticCoordinates(jd),
+    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd),
     highPrecision
   )
 }

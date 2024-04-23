@@ -27,8 +27,8 @@ import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './co
  * @returns {AstronomicalUnit}
  * @memberof module:Pluto
  */
-export function getGeocentricDistance (jd: JulianDay | number, highPrecision: boolean = true): AstronomicalUnit {
-  return getPlanetGeocentricDistance(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector, highPrecision)
+export function getGeocentricDistance (jd: JulianDay): AstronomicalUnit {
+  return getPlanetGeocentricDistance(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
 }
 
 /**
@@ -41,8 +41,8 @@ export function getGeocentricDistance (jd: JulianDay | number, highPrecision: bo
  * @returns {EclipticCoordinates}
  * @memberof module:Pluto
  */
-export function getGeocentricEclipticCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EclipticCoordinates {
-  return getPlanetGeocentricEclipticCoordinates(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector, highPrecision)
+export function getGeocentricEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
+  return getPlanetGeocentricEclipticCoordinates(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
 }
 
 /**
@@ -55,8 +55,8 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay | number, highPr
  * @returns {EclipticCoordinates}
  * @memberof module:Pluto
  */
-export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EclipticCoordinates {
-  return getPlanetApparentGeocentricEclipticCoordinates(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector, highPrecision)
+export function getApparentGeocentricEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
+  return getPlanetApparentGeocentricEclipticCoordinates(jd, getEclipticLongitude, getEclipticLatitude, getRadiusVector)
 }
 
 /**
@@ -70,10 +70,10 @@ export function getApparentGeocentricEclipticCoordinates (jd: JulianDay | number
  * @returns {EquatorialCoordinates}
  * @memberof module:Pluto
  */
-export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean, highPrecision: boolean = true): EquatorialCoordinates {
+export function getGeocentricEquatorialCoordinates (jd: JulianDay, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinates {
   return transformEclipticToEquatorial(
-    getGeocentricEclipticCoordinates(jd, highPrecision),
-    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd, highPrecision) : Earth.getTrueObliquityOfEcliptic(jd, highPrecision),
+    getGeocentricEclipticCoordinates(jd),
+    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd),
     highPrecision
   )
 }
@@ -88,10 +88,10 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay | number, obli
  * @returns {EquatorialCoordinates}
  * @memberof module:Pluto
  */
-export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EquatorialCoordinates {
+export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates {
   return transformEclipticToEquatorial(
-    getApparentGeocentricEclipticCoordinates(jd, highPrecision),
-    Earth.getTrueObliquityOfEcliptic(jd, highPrecision),
+    getApparentGeocentricEclipticCoordinates(jd),
+    Earth.getTrueObliquityOfEcliptic(jd),
     highPrecision
   )
 }
@@ -103,7 +103,7 @@ export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay | numb
  * @returns {RiseTransitSet} The rise, transit and set times
  * @memberof module:Pluto
  */
-export function getRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates): RiseTransitSet {
+export function getRiseTransitSet (jd: JulianDay, geoCoords: GeographicCoordinates): RiseTransitSet {
   return getPlanetRiseTransitSet(jd, geoCoords, getGeocentricEquatorialCoordinates)
 }
 
@@ -114,7 +114,7 @@ export function getRiseTransitSet (jd: JulianDay | number, geoCoords: Geographic
  * @returns {RiseTransitSet} The rise, transit and set times
  * @memberof module:Pluto
  */
-export function getAccurateRiseTransitSet (jd: JulianDay | number, geoCoords: GeographicCoordinates): RiseTransitSet {
+export function getAccurateRiseTransitSet (jd: JulianDay, geoCoords: GeographicCoordinates): RiseTransitSet {
   return getPlanetAccurateRiseTransitSet(jd, geoCoords, getGeocentricEquatorialCoordinates)
 }
 

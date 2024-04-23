@@ -1,4 +1,4 @@
-import Decimal from '@/decimal'
+
 import { AstronomicalUnit, Degree, JulianCentury, JulianDay, Radian } from '@/types'
 import { MINUSONE, ZERO } from '@/constants'
 import { getLightTimeFromDistance } from '@/distances'
@@ -6,7 +6,7 @@ import { getJulianCentury } from '@/juliandays'
 import { Earth } from '@/earth'
 import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './coordinates'
 
-function computeMarsDetails (jd: JulianDay | number): {
+function computeMarsDetails (jd: JulianDay): {
   T: JulianCentury,
   Lambda0: Radian,
   Beta0: Radian,
@@ -20,12 +20,12 @@ function computeMarsDetails (jd: JulianDay | number): {
   const T = getJulianCentury(jd)
 
   // See AA, Equ 42.1, p.288
-  const Lambda0 = (new Decimal('352.9065').plus(new Decimal('1.173_30').mul(T))).degreesToRadians()
-  const Beta0 = (new Decimal('63.2818').minus(new Decimal('0.003_94').mul(T))).degreesToRadians()
+  const Lambda0 = (new Decimal('352.9065').plus(new Decimal('1.173_30').mul(T)))* DEG2RAD
+  const Beta0 = (new Decimal('63.2818').minus(new Decimal('0.003_94').mul(T)))* DEG2RAD
 
   // Step 2
-  const l0 = Earth.getEclipticLongitude(jd).degreesToRadians()
-  const b0 = Earth.getEclipticLatitude(jd).degreesToRadians()
+  const l0 = Earth.getEclipticLongitude(jd)* DEG2RAD
+  const b0 = Earth.getEclipticLatitude(jd)* DEG2RAD
   const R = Earth.getRadiusVector(jd)
 
   let previousLightTravelTime = ZERO
@@ -43,8 +43,8 @@ function computeMarsDetails (jd: JulianDay | number): {
     let JD2 = new Decimal(jd).minus(lightTravelTime)
 
     // Step 3
-    l = getEclipticLongitude(JD2).degreesToRadians()
-    b = getEclipticLatitude(JD2).degreesToRadians()
+    l = getEclipticLongitude(JD2)* DEG2RAD
+    b = getEclipticLatitude(JD2)* DEG2RAD
     r = getRadiusVector(JD2)
 
     // Step 4
@@ -63,8 +63,8 @@ function computeMarsDetails (jd: JulianDay | number): {
   }
 
   // Step 5
-  const lambda = Decimal.atan2(y, x)
-  const beta = Decimal.atan2(z, Decimal.sqrt(x.pow(2).plus(y.pow(2))))
+  const lambda = Math.atan2(y, x)
+  const beta = Math.atan2(z, Decimal.sqrt(x.pow(2).plus(y.pow(2))))
 
   return { T, Lambda0, Beta0, lambda, beta, l, b, r, Delta }
 }
@@ -75,16 +75,16 @@ function computeMarsDetails (jd: JulianDay | number): {
  * @param {JulianDay} jd The julian day
  * @memberof module:Mars
  */
-export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay | number): Degree {
+export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay): Degree {
   const { Lambda0, Beta0, lambda, beta } = computeMarsDetails(jd)
 
   const value1 = MINUSONE
-    .mul(Decimal.sin(Beta0))
-    .mul(Decimal.sin(beta))
+    .mul(Math.sin(Beta0))
+    .mul(Math.sin(beta))
 
-  const value2 = Decimal.cos(Beta0)
-    .mul(Decimal.cos(beta))
-    .mul(Decimal.cos(Lambda0.minus(lambda)))
+  const value2 = Math.cos(Beta0)
+    .mul(Math.cos(beta))
+    .mul(Math.cos(Lambda0.minus(lambda)))
 
   // details.DE
   return Decimal.asin(value1.minus(value2)).radiansToDegrees()
@@ -96,7 +96,7 @@ export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay | number):
  * @param jd
  * @memberof module:Mars
  */
-export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay | number): Degree {
+export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay): Degree {
   const { T, Lambda0, Beta0, l, b, r } = computeMarsDetails(jd)
 
   // Step 7
@@ -104,16 +104,16 @@ export function getPlanetocentricDeclinationOfTheSun (jd: JulianDay | number): D
   const [ldeg, bdeg] = [l.radiansToDegrees(), b.radiansToDegrees()]
   const ldash: Degree = ldeg.minus(new Decimal('0.00697').dividedBy(r))
   const bdash: Degree = bdeg.minus(new Decimal('0.000225')
-    .mul(Decimal.cos((ldeg.minus(N)).degreesToRadians()))
+    .mul(Math.cos((ldeg.minus(N))* DEG2RAD))
     .dividedBy(r))
 
   // Step 8
-  const value1 = MINUSONE.mul(Decimal.sin(Beta0))
-    .mul(Decimal.sin(bdash.degreesToRadians()))
+  const value1 = MINUSONE.mul(Math.sin(Beta0))
+    .mul(Math.sin(bdash* DEG2RAD))
 
-  const value2 = Decimal.cos(Beta0)
-    .mul(Decimal.cos(bdash.degreesToRadians()))
-    .mul(Decimal.cos(Lambda0.minus(ldash.degreesToRadians())))
+  const value2 = Math.cos(Beta0)
+    .mul(Math.cos(bdash* DEG2RAD))
+    .mul(Math.cos(Lambda0.minus(ldash* DEG2RAD)))
 
   // details.DS
   return Decimal.asin(value1.minus(value2)).radiansToDegrees()

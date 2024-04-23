@@ -1,4 +1,4 @@
-import Decimal from '@/decimal'
+
 import {
   AstronomicalUnit,
   Degree,
@@ -38,24 +38,24 @@ import {
  * @returns {Degree}
  * @memberof module:Uranus
  */
-export function getEclipticLongitude (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const tau = getJulianMillenium(jd, highPrecision)
+export function getEclipticLongitude (jd: JulianDay): Degree {
+  const tau = getJulianMillenium(jd)
 
-  const coeffs0 = getCoefficientsL0(highPrecision)
-  const coeffs1 = getCoefficientsL1(highPrecision)
-  const coeffs2 = getCoefficientsL2(highPrecision)
-  const coeffs3 = getCoefficientsL3(highPrecision)
-  const coeffs4 = getCoefficientsL4(highPrecision)
+  const coeffs0 = getCoefficientsL0()
+  const coeffs1 = getCoefficientsL1()
+  const coeffs2 = getCoefficientsL2()
+  const coeffs3 = getCoefficientsL3()
+  const coeffs4 = getCoefficientsL4()
 
   let value: Decimal
 
-  if (highPrecision) {
+  if () {
     // AA p.218: Values A are expressed in 10^-8 radians, while B and C values are in radians.
-    const L0 = (coeffs0 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
-    const L1 = (coeffs1 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
-    const L2 = (coeffs2 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
-    const L3 = (coeffs3 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
-    const L4 = (coeffs4 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+    const L0 = (coeffs0 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+    const L1 = (coeffs1 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+    const L2 = (coeffs2 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+    const L3 = (coeffs3 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+    const L4 = (coeffs4 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
     value = (L0
         .plus(L1.mul(tau))
         .plus(L2.mul(tau.pow(2)))
@@ -63,12 +63,12 @@ export function getEclipticLongitude (jd: JulianDay | number, highPrecision: boo
         .plus(L4.mul(tau.pow(4)))
     )
   } else {
-    const taunum = tau.toNumber()
-    const L0 = (coeffs0 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
-    const L1 = (coeffs1 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
-    const L2 = (coeffs2 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
-    const L3 = (coeffs3 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
-    const L4 = (coeffs4 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const taunum = tau.
+    const L0 = (coeffs0 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const L1 = (coeffs1 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const L2 = (coeffs2 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const L3 = (coeffs3 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const L4 = (coeffs4 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
     value = new Decimal(
       L0 + L1 * taunum + L2 * Math.pow(taunum, 2) + L3 * Math.pow(taunum, 3) + L4 * Math.pow(taunum, 4)
     )
@@ -84,23 +84,23 @@ export function getEclipticLongitude (jd: JulianDay | number, highPrecision: boo
  * @return {Degree}
  * @memberof module:Uranus
  */
-export function getEclipticLatitude (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const tau = getJulianMillenium(jd, highPrecision)
+export function getEclipticLatitude (jd: JulianDay): Degree {
+  const tau = getJulianMillenium(jd)
 
-  const coeffs0 = getCoefficientsB0(highPrecision)
-  const coeffs1 = getCoefficientsB1(highPrecision)
-  const coeffs2 = getCoefficientsB2(highPrecision)
-  const coeffs3 = getCoefficientsB3(highPrecision)
-  const coeffs4 = getCoefficientsB4(highPrecision)
+  const coeffs0 = getCoefficientsB0()
+  const coeffs1 = getCoefficientsB1()
+  const coeffs2 = getCoefficientsB2()
+  const coeffs3 = getCoefficientsB3()
+  const coeffs4 = getCoefficientsB4()
 
   let value: Decimal
 
-  if (highPrecision) {
-    const B0 = (coeffs0 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
-    const B1 = (coeffs1 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
-    const B2 = (coeffs2 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
-    const B3 = (coeffs3 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
-    const B4 = (coeffs4 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  if () {
+    const B0 = (coeffs0 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+    const B1 = (coeffs1 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+    const B2 = (coeffs2 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+    const B3 = (coeffs3 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+    const B4 = (coeffs4 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
     value = (B0
         .plus(B1.mul(tau))
         .plus(B2.mul(tau.pow(2)))
@@ -108,12 +108,12 @@ export function getEclipticLatitude (jd: JulianDay | number, highPrecision: bool
         .plus(B4.mul(tau.pow(4)))
     )
   } else {
-    const taunum = tau.toNumber()
-    const B0 = (coeffs0 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
-    const B1 = (coeffs1 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
-    const B2 = (coeffs2 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
-    const B3 = (coeffs3 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
-    const B4 = (coeffs4 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const taunum = tau.
+    const B0 = (coeffs0 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const B1 = (coeffs1 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const B2 = (coeffs2 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const B3 = (coeffs3 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const B4 = (coeffs4 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
     value = new Decimal(
       B0 + B1 * taunum + B2 * Math.pow(taunum, 2) + B3 * Math.pow(taunum, 3) + B4 * Math.pow(taunum, 4)
     )
@@ -129,23 +129,23 @@ export function getEclipticLatitude (jd: JulianDay | number, highPrecision: bool
  * @return {AstronomicalUnit}
  * @memberof module:Uranus
  */
-export function getRadiusVector (jd: JulianDay | number, highPrecision: boolean = true): AstronomicalUnit {
-  const tau = getJulianMillenium(jd, highPrecision)
+export function getRadiusVector (jd: JulianDay): AstronomicalUnit {
+  const tau = getJulianMillenium(jd)
 
-  const coeffs0 = getCoefficientsR0(highPrecision)
-  const coeffs1 = getCoefficientsR1(highPrecision)
-  const coeffs2 = getCoefficientsR2(highPrecision)
-  const coeffs3 = getCoefficientsR3(highPrecision)
-  const coeffs4 = getCoefficientsR4(highPrecision)
+  const coeffs0 = getCoefficientsR0()
+  const coeffs1 = getCoefficientsR1()
+  const coeffs2 = getCoefficientsR2()
+  const coeffs3 = getCoefficientsR3()
+  const coeffs4 = getCoefficientsR4()
 
   let value: Decimal
 
-  if (highPrecision) {
-    const R0 = (coeffs0 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
-    const R1 = (coeffs1 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
-    const R2 = (coeffs2 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
-    const R3 = (coeffs3 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
-    const R4 = (coeffs4 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Decimal.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+  if () {
+    const R0 = (coeffs0 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+    const R1 = (coeffs1 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+    const R2 = (coeffs2 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+    const R3 = (coeffs3 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
+    const R4 = (coeffs4 as PlanetCoefficient[]).reduce((sum, val) => sum.plus(val.A.mul(Math.cos(val.B.plus(val.C.mul(tau))))), new Decimal(0))
     value = (R0
         .plus(R1.mul(tau))
         .plus(R2.mul(tau.pow(2)))
@@ -153,12 +153,12 @@ export function getRadiusVector (jd: JulianDay | number, highPrecision: boolean 
         .plus(R4.mul(tau.pow(4)))
     )
   } else {
-    const taunum = tau.toNumber()
-    const R0 = (coeffs0 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
-    const R1 = (coeffs1 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
-    const R2 = (coeffs2 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
-    const R3 = (coeffs3 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
-    const R4 = (coeffs4 as PlanetCoefficientNum[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const taunum = tau.
+    const R0 = (coeffs0 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const R1 = (coeffs1 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const R2 = (coeffs2 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const R3 = (coeffs3 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
+    const R4 = (coeffs4 as PlanetCoefficient[]).reduce((sum, val) => sum + (val.A * Math.cos(val.B + val.C * taunum)), 0)
     value = new Decimal(
       R0 + R1 * taunum + R2 * Math.pow(taunum, 2) + R3 * Math.pow(taunum, 3) + R4 * Math.pow(taunum, 4)
     )
@@ -174,10 +174,10 @@ export function getRadiusVector (jd: JulianDay | number, highPrecision: boolean 
  * @returns {EclipticCoordinates}
  * @memberof module:Uranus
  */
-export function getEclipticCoordinates (jd: JulianDay | number, highPrecision: boolean = true): EclipticCoordinates {
+export function getEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
   return {
-    longitude: getEclipticLongitude(jd, highPrecision),
-    latitude: getEclipticLatitude(jd, highPrecision)
+    longitude: getEclipticLongitude(jd),
+    latitude: getEclipticLatitude(jd)
   }
 }
 
@@ -190,10 +190,10 @@ export function getEclipticCoordinates (jd: JulianDay | number, highPrecision: b
  * @returns {EquatorialCoordinates}
  * @memberof module:Uranus
  */
-export function getEquatorialCoordinates (jd: JulianDay | number, obliquity: Obliquity = Obliquity.Mean, highPrecision: boolean = true): EquatorialCoordinates {
+export function getEquatorialCoordinates (jd: JulianDay, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinates {
   return transformEclipticToEquatorial(
-    getEclipticCoordinates(jd, highPrecision),
-    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd, highPrecision) : Earth.getTrueObliquityOfEcliptic(jd, highPrecision),
+    getEclipticCoordinates(jd),
+    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd),
     highPrecision
   )
 }

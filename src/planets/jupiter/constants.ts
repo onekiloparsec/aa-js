@@ -1,7 +1,7 @@
 /**
  @module Jupiter
  */
-import Decimal from '@/decimal'
+
 import { AstronomicalUnit, Degree, Equinox, LengthArray, PlanetConstants, PlanetOrbitalElements } from '@/types'
 
 /**
