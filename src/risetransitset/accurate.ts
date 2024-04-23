@@ -1,7 +1,7 @@
 /**
  @module RiseTransitSet
  */
-import Decimal from '@/decimal'
+
 import { Degree, EquatorialCoordinates, GeographicCoordinates, JulianDay, LengthArray, RiseTransitSet } from '@/types'
 import { getJulianDayMidnight, getLocalSiderealTime } from '@/juliandays'
 import { STANDARD_ALTITUDE_STARS } from '@/constants'
@@ -27,10 +27,10 @@ import { getJDatUTC } from './utils'
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @return {RiseTransitSet}
  */
-export function getAccurateRiseTransitSetTimes (jd: JulianDay | number,
+export function getAccurateRiseTransitSetTimes (jd: JulianDay,
                                                 equCoords: LengthArray<EquatorialCoordinates, 3>,
                                                 geoCoords: GeographicCoordinates,
-                                                alt: Degree | number = STANDARD_ALTITUDE_STARS,
+                                                alt: Degree = STANDARD_ALTITUDE_STARS,
                                                 iterations: number = 1,
                                                 highPrecision: boolean = true): RiseTransitSet {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
@@ -64,7 +64,7 @@ export function getAccurateRiseTransitSetTimes (jd: JulianDay | number,
   const jd0 = getJulianDayMidnight(jd)
 
   // Calculate the Greenwich sidereal time in degrees
-  const Theta0 = getLocalSiderealTime(jd0, 0, highPrecision).hoursToDegrees()
+  const Theta0 = getLocalSiderealTime(jd0, 0).hoursToDegrees()
   const mTimes = getMTimes(jd, equCoords[1], geoCoords, alt) as MTimes
 
   result.transit.utc = mTimes.m0!.mul(24)
@@ -81,9 +81,9 @@ export function getAccurateRiseTransitSetTimes (jd: JulianDay | number,
   if (!mTimes.isCircumpolar) {
     const DeltaT = getDeltaT(jd)
     for (let i = 0; i < iterations; i++) {
-      const deltaMTimes0 = getDeltaMTimes(mTimes.m0!, true, Theta0, DeltaT, equCoords, geoCoords, alt, highPrecision)
-      const deltaMTimes1 = getDeltaMTimes(mTimes.m1!, false, Theta0, DeltaT, equCoords, geoCoords, alt, highPrecision)
-      const deltaMTimes2 = getDeltaMTimes(mTimes.m2!, false, Theta0, DeltaT, equCoords, geoCoords, alt, highPrecision)
+      const deltaMTimes0 = getDeltaMTimes(mTimes.m0!, true, Theta0, DeltaT, equCoords, geoCoords, alt)
+      const deltaMTimes1 = getDeltaMTimes(mTimes.m1!, false, Theta0, DeltaT, equCoords, geoCoords, alt)
+      const deltaMTimes2 = getDeltaMTimes(mTimes.m2!, false, Theta0, DeltaT, equCoords, geoCoords, alt)
       mTimes.altitude = mTimes.m0!.plus(deltaMTimes0.localAltitude)
       mTimes.m0 = mTimes.m0!.plus(deltaMTimes0.Deltam)
       mTimes.m1 = mTimes.m1!.plus(deltaMTimes1.Deltam)

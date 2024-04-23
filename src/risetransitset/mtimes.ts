@@ -1,7 +1,7 @@
 /**
  @module RiseTransitSet
  */
-import Decimal from '@/decimal'
+
 import {
   Degree,
   EquatorialCoordinates,
@@ -34,21 +34,21 @@ export type MTimesNum = {
 }
 
 // See AA, p102
-export function getMTimes (jd: JulianDay | number,
-                           equCoords: EquatorialCoordinates | EquatorialCoordinatesNum,
-                           geoCoords: GeographicCoordinates | GeographicCoordinatesNum,
-                           alt: Degree | number = STANDARD_ALTITUDE_STARS,
+export function getMTimes (jd: JulianDay,
+                           equCoords: EquatorialCoordinates ,
+                           geoCoords: GeographicCoordinates,
+                           alt: Degree = STANDARD_ALTITUDE_STARS,
                            highPrecision: boolean = true): MTimes | MTimesNum {
   // Getting the UT 0h on day D. See AA p.102.
   // It is not equal to the expected "0h Dynamical Time" of the coordinates ra and dec.
   const jd0: JulianDay = getJulianDayMidnight(jd)
 
   // Calculate the Greenwich sidereal time in degrees
-  const Theta0: Degree = getLocalSiderealTime(jd0, 0, highPrecision).hoursToDegrees()
+  const Theta0: Degree = getLocalSiderealTime(jd0, 0).hoursToDegrees()
 
   let result: MTimes | MTimesNum
 
-  if (highPrecision) {
+  if () {
     result = {
       m0: undefined, // transit
       m1: undefined,  // rise
@@ -64,15 +64,15 @@ export function getMTimes (jd: JulianDay | number,
     // "const m0 = (alpha2 + Longitude - Theta0) / 360" thus becomes:
     result.m0 = fmod((decRa.minus(geoCoords.longitude).minus(Theta0)).dividedBy(360), 1)
 
-    const sinh0: Radian = Decimal.sin(new Decimal(alt).degreesToRadians())
-    const sinPhi: Radian = Decimal.sin(new Decimal(geoCoords.latitude).degreesToRadians())
-    const sinDelta: Radian = Decimal.sin(new Decimal(equCoords.declination).degreesToRadians())
-    const cosPhi: Radian = Decimal.cos(new Decimal(geoCoords.latitude).degreesToRadians())
-    const cosDelta: Radian = Decimal.cos(new Decimal(equCoords.declination).degreesToRadians())
+    const sinh0: Radian = Math.sin(new Decimal(alt)* DEG2RAD)
+    const sinPhi: Radian = Math.sin(new Decimal(geoCoords.latitude)* DEG2RAD)
+    const sinDelta: Radian = Math.sin(new Decimal(equCoords.declination)* DEG2RAD)
+    const cosPhi: Radian = Math.cos(new Decimal(geoCoords.latitude)* DEG2RAD)
+    const cosDelta: Radian = Math.cos(new Decimal(equCoords.declination)* DEG2RAD)
 
     // Calculate cosH0. See AA Eq.15.1, p.102
     result.cosH0 = (sinh0.minus(sinPhi.mul(sinDelta))).dividedBy(cosPhi.mul(cosDelta))
-    result.isCircumpolar = (Decimal.abs(result.cosH0).toNumber() > 1)
+    result.isCircumpolar = (Decimal.abs(result.cosH0). > 1)
 
     // Transit altitude: Equ 13.6, AA p93, with cosH = 1, that is H (hour angle) = 0
     // It is the altitude of the transit, when object is in its highest point, when Hour angle is zero.
@@ -93,20 +93,20 @@ export function getMTimes (jd: JulianDay | number,
       cosH0: undefined
     } as MTimesNum
 
-    const ra = Decimal.isDecimal(equCoords.rightAscension) ? equCoords.rightAscension.toNumber() : equCoords.rightAscension
-    const lng = Decimal.isDecimal(geoCoords.longitude) ? geoCoords.longitude.toNumber() : geoCoords.longitude
-    result.m0 = fmod((ra - lng - Theta0.toNumber()) / 360, 1).toNumber()
+    const ra = Decimal.isDecimal(equCoords.rightAscension) ? equCoords.rightAscension. : equCoords.rightAscension
+    const lng = Decimal.isDecimal(geoCoords.longitude) ? geoCoords.longitude. : geoCoords.longitude
+    result.m0 = fmod((ra - lng - Theta0) / 360, 1).
 
-    const dec = Decimal.isDecimal(equCoords.declination) ? equCoords.declination.toNumber() : equCoords.declination
-    const lat = Decimal.isDecimal(geoCoords.latitude) ? geoCoords.latitude.toNumber() : geoCoords.latitude
-    const nalt = Decimal.isDecimal(alt) ? alt.toNumber() : alt
-    const deg2rad = DEG2RAD.toNumber()
+    const dec = Decimal.isDecimal(equCoords.declination) ? equCoords.declination. : equCoords.declination
+    const lat = Decimal.isDecimal(geoCoords.latitude) ? geoCoords.latitude. : geoCoords.latitude
+    const nalt = Decimal.isDecimal(alt) ? alt. : alt
+    const deg2rad = DEG2RAD.
 
-    const sinh0 = Math.sin(nalt * deg2rad)
-    const sinPhi = Math.sin(lat * deg2rad)
-    const sinDelta = Math.sin(dec * deg2rad)
-    const cosPhi = Math.cos(lat * deg2rad)
-    const cosDelta = Math.cos(dec * deg2rad)
+    const sinh0 = Math.sin(nalt * DEG2RAD)
+    const sinPhi = Math.sin(lat * DEG2RAD)
+    const sinDelta = Math.sin(dec * DEG2RAD)
+    const cosPhi = Math.cos(lat * DEG2RAD)
+    const cosDelta = Math.cos(dec * DEG2RAD)
 
     // Calculate cosH0. See AA Eq.15.1, p.102
     result.cosH0 = (sinh0 - (sinPhi * sinDelta)) / (cosPhi * cosDelta)
@@ -118,8 +118,8 @@ export function getMTimes (jd: JulianDay | number,
 
     if (!result.isCircumpolar) {
       const H0 = Math.acos(result.cosH0!) / deg2rad / 360
-      result.m1 = fmod(result.m0! - H0, 1).toNumber()
-      result.m2 = fmod(result.m0! + H0, 1).toNumber()
+      result.m1 = fmod(result.m0! - H0, 1).
+      result.m2 = fmod(result.m0! + H0, 1).
     }
   }
 

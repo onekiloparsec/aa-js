@@ -1,4 +1,4 @@
-import Decimal from '@/decimal'
+
 import { STANDARD_ALTITUDE_STARS } from '@/constants'
 import {
   Degree,
@@ -27,10 +27,10 @@ import { getJDatUTC } from './utils'
  * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @return {RiseTransitSet}
  */
-export function getRiseTransitSetTimes (jd: JulianDay | number,
-                                        equCoords: EquatorialCoordinates | EquatorialCoordinatesNum,
-                                        geoCoords: GeographicCoordinates | GeographicCoordinatesNum,
-                                        alt: Degree | number = STANDARD_ALTITUDE_STARS,
+export function getRiseTransitSetTimes (jd: JulianDay,
+                                        equCoords: EquatorialCoordinates ,
+                                        geoCoords: GeographicCoordinates,
+                                        alt: Degree = STANDARD_ALTITUDE_STARS,
                                         highPrecision: boolean = true): RiseTransitSet {
   // We assume the target coordinates are the mean equatorial coordinates for the epoch and equinox J2000.0.
   // Furthermore, we assume we don't need to take proper motion to take into account. See AA p135.
@@ -60,7 +60,7 @@ export function getRiseTransitSetTimes (jd: JulianDay | number,
   }
 
   // Calculate the Greenwich sidereal time in degrees
-  const mTimes = getMTimes(jd, equCoords, geoCoords, alt, highPrecision) as MTimesNum
+  const mTimes = getMTimes(jd, equCoords, geoCoords, alt) as MTimesNum
   result.transit.altitude = new Decimal(mTimes.altitude!)
   result.transit.utc = new Decimal(mTimes.m0! * 24)
   result.transit.julianDay = getJDatUTC(jd, result.transit.utc!)
@@ -69,8 +69,8 @@ export function getRiseTransitSetTimes (jd: JulianDay | number,
   result.transit.internals.cosH0 = new Decimal(mTimes.cosH0!)
 
   result.transit.isCircumpolar = mTimes.isCircumpolar!
-  result.transit.isAboveHorizon = (mTimes.altitude! > STANDARD_ALTITUDE_STARS.toNumber())
-  result.transit.isAboveAltitude = (mTimes.altitude! > (Decimal.isDecimal(alt) ? alt.toNumber() : alt))
+  result.transit.isAboveHorizon = (mTimes.altitude! > STANDARD_ALTITUDE_STARS)
+  result.transit.isAboveAltitude = (mTimes.altitude! > (Decimal.isDecimal(alt) ? alt. : alt))
 
   if (!mTimes.isCircumpolar) {
     result.rise.utc = new Decimal(mTimes.m1! * 24)

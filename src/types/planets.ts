@@ -136,14 +136,14 @@ export interface JupiterPlanet extends Planet {
 }
 
 
-export type LengthArray<T, N extends number, R extends T[] = []> = Decimal extends N ? T[] : R['length'] extends N ? R : LengthArray<T, N, [T, ...R]>;
+export type LengthArray<T, N extends number, R extends T[] = []> = number extends N ? T[] : R['length'] extends N ? R : LengthArray<T, N, [T, ...R]>;
 
 /**
  * Elements of Planetary Orbits
  */
 export type PlanetOrbitalElements = {
   semiMajorAxis: LengthArray<AstronomicalUnit, 4>
-  eccentricity: LengthArray<Decimal, 4>,
+  eccentricity: LengthArray<number, 4>,
   [Equinox.MeanOfTheDate]: {
     meanLongitude: LengthArray<Degree, 4>
     inclination: LengthArray<Degree, 4>
@@ -172,5 +172,4 @@ export type SolarSystemName =
   | 'Neptune'
   | 'Pluto'
 
-export type PlanetCoefficient = { A: Decimal, B: Decimal, C: Decimal }
-export type PlanetCoefficientNum = { A: number, B: number, C: number }
+export type PlanetCoefficient = { A: number, B: number, C: number }

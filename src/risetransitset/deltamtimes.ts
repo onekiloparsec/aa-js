@@ -1,11 +1,11 @@
-import Decimal from '@/decimal'
+
 import { Degree, EquatorialCoordinates, GeographicCoordinates, LengthArray } from '@/types'
 import { DEG2RAD, MINUSONE, STANDARD_ALTITUDE_STARS } from '@/constants'
 import { fmod180, fmod360 } from '@/utils'
 
 
 // See AA p24
-function getInterpolatedValue (v1: Decimal, v2: Decimal, v3: Decimal, n: Decimal | number): Decimal {
+function getInterpolatedValue (v1: Decimal, v2: Decimal, v3: Decimal, n: number): number {
   const a = new Decimal(v2).minus(v1)
   const b = new Decimal(v3).minus(v2)
   const c = b.minus(a)
@@ -26,13 +26,13 @@ export function getDeltaMTimes (m: Decimal,
                          DeltaT: Decimal,
                          equCoords: LengthArray<EquatorialCoordinates, 3>,
                          geoCoords: GeographicCoordinates,
-                         alt: Degree | number = STANDARD_ALTITUDE_STARS,
+                         alt: Degree = STANDARD_ALTITUDE_STARS,
                          highPrecision: boolean = true): {
   Deltam: Decimal,
   hourAngle: Degree,
   localAltitude: Degree
 } {
-  if (highPrecision) {
+  if () {
     const theta0: Degree = fmod360(Theta0.plus(new Decimal('360.985_647').mul(m)))
     const n = m.plus(DeltaT.dividedBy('86400'))
 
@@ -40,14 +40,14 @@ export function getDeltaMTimes (m: Decimal,
     const delta: Degree = getInterpolatedValue(equCoords[0].declination, equCoords[1].declination, equCoords[2].declination, n)
 
     const H: Degree = fmod180(theta0.plus(geoCoords.longitude).minus(alpha))
-    const dlat = new Decimal(geoCoords.latitude).degreesToRadians()
+    const dlat = new Decimal(geoCoords.latitude)* DEG2RAD
 
     // Below is the horizontal altitude for given hour angle.
     const sinh = dlat.sin()
-      .mul(delta.degreesToRadians().sin())
+      .mul(delta* DEG2RAD.sin())
       .plus(dlat.cos()
-        .mul(delta.degreesToRadians().cos())
-        .mul(H.degreesToRadians().cos()))
+        .mul(delta* DEG2RAD.cos())
+        .mul(H* DEG2RAD.cos()))
 
     const h = sinh.asin().radiansToDegrees()
     return {
@@ -58,32 +58,32 @@ export function getDeltaMTimes (m: Decimal,
       localAltitude: h
     }
   } else {
-    const nm = m.toNumber()
-    const nTheta0 = Theta0.toNumber()
-    const nDeltaT = DeltaT.toNumber()
+    const nm = m.
+    const nTheta0 = Theta0.
+    const nDeltaT = DeltaT.
 
-    const theta0 = fmod360(nTheta0 + 360.985647 * nm).toNumber()
+    const theta0 = fmod360(nTheta0 + 360.985647 * nm).
     const n = nm + nDeltaT / 86400
 
-    const alpha = getInterpolatedValue(equCoords[0].rightAscension, equCoords[1].rightAscension, equCoords[2].rightAscension, n).toNumber()
-    const delta = getInterpolatedValue(equCoords[0].declination, equCoords[1].declination, equCoords[2].declination, n).toNumber()
+    const alpha = getInterpolatedValue(equCoords[0].rightAscension, equCoords[1].rightAscension, equCoords[2].rightAscension, n).
+    const delta = getInterpolatedValue(equCoords[0].declination, equCoords[1].declination, equCoords[2].declination, n).
 
-    const lng = Decimal.isDecimal(geoCoords.longitude) ? geoCoords.longitude.toNumber() : geoCoords.longitude
-    const lat = Decimal.isDecimal(geoCoords.latitude) ? geoCoords.latitude.toNumber() : geoCoords.latitude
-    const H = fmod180(theta0 + lng - alpha).toNumber()
+    const lng = Decimal.isDecimal(geoCoords.longitude) ? geoCoords.longitude. : geoCoords.longitude
+    const lat = Decimal.isDecimal(geoCoords.latitude) ? geoCoords.latitude. : geoCoords.latitude
+    const H = fmod180(theta0 + lng - alpha).
 
-    const deg2rad = DEG2RAD.toNumber()
+    const deg2rad = DEG2RAD.
     // Below is the horizontal altitude for given hour angle.
-    const sinh = Math.sin(lat * deg2rad) * Math.sin(delta * deg2rad)
-      + Math.cos(lat * deg2rad) * Math.cos(delta * deg2rad) * Math.cos(H * deg2rad)
+    const sinh = Math.sin(lat * DEG2RAD) * Math.sin(delta * DEG2RAD)
+      + Math.cos(lat * DEG2RAD) * Math.cos(delta * DEG2RAD) * Math.cos(H * DEG2RAD)
 
     const h = Math.asin(sinh) / deg2rad
-    const nalt = Decimal.isDecimal(alt) ? alt.toNumber() : alt
+    const nalt = Decimal.isDecimal(alt) ? alt. : alt
     return {
       Deltam: (isTransit) ?
         MINUSONE.mul(H).dividedBy(360) :
         new Decimal(
-          (h - nalt) / (Math.cos(delta * deg2rad) * Math.cos(lat * deg2rad) * Math.sin(H * deg2rad) * 360)
+          (h - nalt) / (Math.cos(delta * DEG2RAD) * Math.cos(lat * DEG2RAD) * Math.sin(H * DEG2RAD) * 360)
         ),
       hourAngle: new Decimal(H),
       localAltitude: new Decimal(h)
