@@ -1,10 +1,9 @@
 /**
  @module Coordinates
  */
-import Decimal from '@/decimal'
 import { fmod360 } from '@/utils'
-import { J2000, JULIAN_DAY_B1950_0 } from '@/constants'
-import { Degree, EquatorialCoordinates, EquatorialCoordinatesNum, GalacticCoordinates, JulianDay } from '@/types'
+import { DEG2RAD, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from '@/constants'
+import { Degree, EquatorialCoordinates, GalacticCoordinates, JulianDay } from '@/types'
 import { precessEquatorialCoordinates } from './precession'
 
 // --- galactic coordinates
@@ -12,49 +11,49 @@ import { precessEquatorialCoordinates } from './precession'
 /**
  * Galactic longitude from equatorial coordinates.
  * See AA p.94
- * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords The equatorial coordinates (in degrees)
+ * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
  * @param {JulianDay} epoch The epoch (default = J2000)
  */
-export function getGalacticLongitudeFromEquatorial (coords: EquatorialCoordinates | EquatorialCoordinatesNum, epoch: JulianDay | number = J2000): Degree {
+export function getGalacticLongitudeFromEquatorial (coords: EquatorialCoordinates, epoch: JulianDay = J2000): Degree {
   const equCoordsB1950 = precessEquatorialCoordinates(coords, epoch, JULIAN_DAY_B1950_0)
   const rcoords = {
-    rightAscension: (equCoordsB1950.rightAscension as Degree).degreesToRadians(),
-    declination: (equCoordsB1950.declination as Degree).degreesToRadians(),
+    rightAscension: equCoordsB1950.rightAscension * DEG2RAD,
+    declination: equCoordsB1950.declination * DEG2RAD,
   }
-  const c1 = new Decimal(192.25).degreesToRadians()
-  const c2 = new Decimal(27.4).degreesToRadians()
-  const y = Decimal.sin(c1.minus(rcoords.rightAscension))
-  const x1 = Decimal.cos(c1.minus(rcoords.rightAscension)).mul(Decimal.sin(c2))
-  const x2 = Decimal.tan(rcoords.declination).mul(Decimal.cos(c2))
-  return fmod360(new Decimal(303).minus(Decimal.atan2(y, x1.minus(x2)).radiansToDegrees()))
+  const c1 = 192.25 * DEG2RAD
+  const c2 = 27.4 * DEG2RAD
+  const y = Math.sin(c1 - rcoords.rightAscension)
+  const x1 = Math.cos(c1 - rcoords.rightAscension) * Math.sin(c2)
+  const x2 = Math.tan(rcoords.declination) * Math.cos(c2)
+  return fmod360(303 - Math.atan2(y, x1 - x2) * RAD2DEG)
 }
 
 /**
  * Galactic latitude from equatorial coordinates.
  * See AA p.94
- * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords The equatorial coordinates (in degrees)
+ * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
  * @param {JulianDay} epoch The epoch (default = J2000)
  */
-export function getGalacticLatitudeFromEquatorial (coords: EquatorialCoordinates | EquatorialCoordinatesNum, epoch: JulianDay | number = J2000): Degree {
+export function getGalacticLatitudeFromEquatorial (coords: EquatorialCoordinates, epoch: JulianDay = J2000): Degree {
   const equCoordsB1950 = precessEquatorialCoordinates(coords, epoch, JULIAN_DAY_B1950_0)
   const rcoords = {
-    rightAscension: (equCoordsB1950.rightAscension as Degree).degreesToRadians(),
-    declination: (equCoordsB1950.declination as Degree).degreesToRadians(),
+    rightAscension: equCoordsB1950.rightAscension * DEG2RAD,
+    declination: equCoordsB1950.declination * DEG2RAD,
   }
-  const c1 = new Decimal(192.25).degreesToRadians()
-  const c2 = new Decimal(27.4).degreesToRadians()
+  const c1 = 192.25 * DEG2RAD
+  const c2 = 27.4 * DEG2RAD
   return fmod360(
-    Decimal.sin(rcoords.declination).mul(Decimal.sin(c2))
-      .plus(Decimal.cos(rcoords.declination).mul(Decimal.cos(c2)).mul(c1.minus(rcoords.rightAscension)))
+    Math.sin(rcoords.declination) * Math.sin(c2)
+    + Math.cos(rcoords.declination) * Math.cos(c2) * (c1 - rcoords.rightAscension)
   )
 }
 
 /**
  * Transform equatorial coordinates to galactic coordinates.
- * @param {EquatorialCoordinates | EquatorialCoordinatesNum} coords The equatorial coordinates (in degrees)
+ * @param {EquatorialCoordinates} coords The equatorial coordinates (in degrees)
  * @param {Degree} epoch The epoch of the equatorial coordinates. By default, J2000.
  */
-export function transformEquatorialToGalactic (coords: EquatorialCoordinates | EquatorialCoordinatesNum, epoch: JulianDay | number = J2000): GalacticCoordinates {
+export function transformEquatorialToGalactic (coords: EquatorialCoordinates, epoch: JulianDay = J2000): GalacticCoordinates {
   return {
     longitude: getGalacticLongitudeFromEquatorial(coords, epoch),
     latitude: getGalacticLatitudeFromEquatorial(coords, epoch)

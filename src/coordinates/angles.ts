@@ -9,7 +9,7 @@ import { Degree, EquatorialCoordinates, GeographicCoordinates, JulianDay, Radian
  * @param {EquatorialCoordinates} equCoords The object equatorial coordinates
  * @returns {Degree} The paralactic angle
  */
-export function getParallacticAngle (jd: JulianDay | number, equCoords: EquatorialCoordinates, geoCoords: GeographicCoordinates): Degree {
+export function getParallacticAngle (jd: JulianDay, equCoords: EquatorialCoordinates, geoCoords: GeographicCoordinates): Degree {
   const lmst: Degree = getLocalSiderealTime(jd, geoCoords.longitude) * H2DEG
   const HA: Radian = (lmst - equCoords.rightAscension) * DEG2RAD
   

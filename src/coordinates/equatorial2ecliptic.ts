@@ -16,7 +16,7 @@ import { fmod360, fmod90 } from '@/utils'
  * If R.A. and Dec. are referred to the standard equinox of J2000, epsilon must be that of ECLIPTIC_OBLIQUITY_J2000_0.
  * @returns {Degree}
  */
-export function getEclipticLongitudeFromEquatorial (coords: EquatorialCoordinates, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0): Degree {
+export function getEclipticLongitudeFromEquatorial (coords: EquatorialCoordinates, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): Degree {
   const rcoords = {
     rightAscension: coords.rightAscension * DEG2RAD,
     declination: coords.declination * DEG2RAD
@@ -38,7 +38,7 @@ export function getEclipticLongitudeFromEquatorial (coords: EquatorialCoordinate
  * true obliquity epsilon + Delta epsilon should be used. One can use nutation.getTrueObliquityOfEcliptic(jd)
  * If R.A. and Dec. are referred to the standard equinox of J2000, epsilon must be that of ECLIPTIC_OBLIQUITY_J2000_0.
  */
-export function getEclipticLatitudeFromEquatorial (coords: EquatorialCoordinates, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0): Degree {
+export function getEclipticLatitudeFromEquatorial (coords: EquatorialCoordinates, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): Degree {
   const rcoords = {
     rightAscension: coords.rightAscension * DEG2RAD,
     declination: coords.declination * DEG2RAD
@@ -62,7 +62,7 @@ export function getEclipticLatitudeFromEquatorial (coords: EquatorialCoordinates
  * true obliquity epsilon + Delta epsilon should be used. One can use nutation.getTrueObliquityOfEcliptic(jd)
  * If R.A. and Dec. are referred to the standard equinox of J2000, epsilon must be that of ECLIPTIC_OBLIQUITY_J2000_0.
  */
-export function transformEquatorialToEcliptic (coords: EquatorialCoordinates, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0): EclipticCoordinates {
+export function transformEquatorialToEcliptic (coords: EquatorialCoordinates, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): EclipticCoordinates {
   return {
     longitude: getEclipticLongitudeFromEquatorial(coords, epsilon),
     latitude: getEclipticLatitudeFromEquatorial(coords, epsilon)

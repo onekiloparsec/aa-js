@@ -11,7 +11,7 @@ import { fmod360, fmod90 } from '@/utils'
  * @param {Degree} epsilon The ecliptic obliquity (default = obliquity of J2000)
  * @returns {Degree} Degree (v3.2+), not HOURS (< v3.2)
  */
-export function getRightAscensionFromEcliptic (coords: EclipticCoordinates, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0): Degree {
+export function getRightAscensionFromEcliptic (coords: EclipticCoordinates, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): Degree {
   const rcoords = {
     longitude: coords.longitude * DEG2RAD,
     latitude: coords.latitude * DEG2RAD
@@ -34,7 +34,7 @@ export function getRightAscensionFromEcliptic (coords: EclipticCoordinates, epsi
  * If R.A. and Dec. are referred to the standard equinox of J2000, epsilon must be that of ECLIPTIC_OBLIQUITY_J2000_0.
  * @return {Degree}
  */
-export function getDeclinationFromEcliptic (coords: EclipticCoordinates, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0): Degree {
+export function getDeclinationFromEcliptic (coords: EclipticCoordinates, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): Degree {
   const rcoords = {
     longitude: coords.longitude * DEG2RAD,
     latitude: coords.latitude * DEG2RAD
@@ -57,7 +57,7 @@ export function getDeclinationFromEcliptic (coords: EclipticCoordinates, epsilon
  * If R.A. and Dec. are referred to the standard equinox of J2000, epsilon must be that of ECLIPTIC_OBLIQUITY_J2000_0.
  * @returns {EquatorialCoordinates}
  */
-export function transformEclipticToEquatorial (coords: EclipticCoordinates, epsilon: Degree | number = ECLIPTIC_OBLIQUITY_J2000_0): EquatorialCoordinates {
+export function transformEclipticToEquatorial (coords: EclipticCoordinates, epsilon: Degree = ECLIPTIC_OBLIQUITY_J2000_0): EquatorialCoordinates {
   return {
     rightAscension: getRightAscensionFromEcliptic(coords, epsilon),
     declination: getDeclinationFromEcliptic(coords, epsilon)
