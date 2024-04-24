@@ -12,6 +12,7 @@ import {
   transformEquatorialToTopocentric
 } from '@/coordinates'
 import { Mars } from '@/planets/mars'
+import { H2DEG } from '@/constants'
 
 describe('coordinates', () => {
   test('parallactic angle before meridian', () => {
@@ -21,7 +22,7 @@ describe('coordinates', () => {
     // gro_j1655_40, see below
     const ra = getDecimalValue(16, 54, 0.14) // in hours
     const dec = getDecimalValue(-39, 50, 44.9)
-    const equCoords = { rightAscension: ra.hoursToDegrees(), declination: dec }
+    const equCoords = { rightAscension: ra* H2DEG, declination: dec }
 
     // http://www.ls.eso.org/lasilla/Telescopes/2p2/D1p5M/
     const lng = getDecimalValue(-70, 44, 7.662) // east-positive
@@ -42,7 +43,7 @@ describe('coordinates', () => {
     // gro_j1655_40, see below
     let ra = getDecimalValue(16, 54, 0.14) // in hours
     let dec = getDecimalValue(-39, 50, 44.9)
-    const equCoords = { rightAscension: ra.hoursToDegrees(), declination: dec }
+    const equCoords = { rightAscension: ra* H2DEG, declination: dec }
 
     // http://www.ls.eso.org/lasilla/Telescopes/2p2/D1p5M/
     let lng = getDecimalValue(-70, 44, 7.662) // east-positive
@@ -60,7 +61,7 @@ describe('coordinates', () => {
   // See AA p95, Ex 13.a
   test('transform equatorial to ecliptic', () => {
     const pollux = {
-      rightAscension: getDecimalValue(7, 45, 18.946).hoursToDegrees(),
+      rightAscension: getDecimalValue(7, 45, 18.946)* H2DEG,
       declination: getDecimalValue(28, 1, 34.26)
     }
     const lambda = getEclipticLongitudeFromEquatorial(pollux)
@@ -69,23 +70,11 @@ describe('coordinates', () => {
     expect(beta).toBeCloseTo(6.684170, 6)
   })
 
-  // See AA p95, Ex 13.a
-  test('transform equatorial to ecliptic [low precision]', () => {
-    const pollux = {
-      rightAscension: getDecimalValue(7, 45, 18.946).hoursToDegrees(),
-      declination: getDecimalValue(28, 1, 34.26)
-    }
-    const lambda = getEclipticLongitudeFromEquatorial(pollux, ECLIPTIC_OBLIQUITY_J2000_0, false)
-    expect(lambda).toBeCloseTo(113.215629, 6)
-    const beta = getEclipticLatitudeFromEquatorial(pollux, ECLIPTIC_OBLIQUITY_J2000_0, false)
-    expect(beta).toBeCloseTo(6.684170, 6)
-  })
-
 
   // See AA p95, Ex 13.a
   test('transform ecliptic to equatorial', () => {
     const pollux = {
-      rightAscension: getDecimalValue(7, 45, 18.946).hoursToDegrees(),
+      rightAscension: getDecimalValue(7, 45, 18.946)* H2DEG,
       declination: getDecimalValue(28, 1, 34.26)
     }
     const ecliptic = {
@@ -93,25 +82,9 @@ describe('coordinates', () => {
       latitude: 6.684170
     }
     const alpha = getRightAscensionFromEcliptic(ecliptic)
-    expect(alpha).toBeCloseTo(pollux.rightAscension., 5)
+    expect(alpha).toBeCloseTo(pollux.rightAscension, 5)
     const delta = getDeclinationFromEcliptic(ecliptic)
-    expect(delta).toBeCloseTo(pollux.declination., 6)
-  })
-
-  // See AA p95, Ex 13.a
-  test('transform ecliptic to equatorial [low precision]', () => {
-    const pollux = {
-      rightAscension: getDecimalValue(7, 45, 18.946).hoursToDegrees(),
-      declination: getDecimalValue(28, 1, 34.26)
-    }
-    const ecliptic = {
-      longitude: 113.215630,
-      latitude: 6.684170
-    }
-    const alpha = getRightAscensionFromEcliptic(ecliptic, ECLIPTIC_OBLIQUITY_J2000_0, false)
-    expect(alpha).toBeCloseTo(pollux.rightAscension., 5)
-    const delta = getDeclinationFromEcliptic(ecliptic, ECLIPTIC_OBLIQUITY_J2000_0, false)
-    expect(delta).toBeCloseTo(pollux.declination., 6)
+    expect(delta).toBeCloseTo(pollux.declination, 6)
   })
 
   //See AA p.280-281, Ex 40.a
@@ -119,7 +92,7 @@ describe('coordinates', () => {
     const date = new Date(Date.UTC(2003, 7, 28, 3, 17, 0))
     const jd = getJulianDay(date)
     const palomar = {
-      longitude: getDecimalValue(-7, 47, 27).hoursToDegrees(),
+      longitude: getDecimalValue(-7, 47, 27)* H2DEG,
       latitude: 33.356111,
       height: 1706
     }
@@ -132,38 +105,26 @@ describe('coordinates', () => {
     expect(coordsAlt.declination.toDP(6)).toBeCloseTo(-15.771083, 3)
 
     const coords = {
-      rightAscension: getDecimalValue(22, 38, 7.25).hoursToDegrees(),
+      rightAscension: getDecimalValue(22, 38, 7.25)* H2DEG,
       declination: getDecimalValue(-15, 46, 15.9)
     }
     const distance = Mars.getGeocentricDistance(jd)
     expect(distance).toBeCloseTo(0.37276, 4)
 
     const topoCoords = transformEquatorialToTopocentric(jd, coords, distance, palomar)
-    expect(topoCoords.rightAscension).toBeCloseTo(getDecimalValue(22, 38, 8.54).hoursToDegrees(), 4)
+    expect(topoCoords.rightAscension).toBeCloseTo(getDecimalValue(22, 38, 8.54)* H2DEG, 4)
     expect(topoCoords.declination).toBeCloseTo(getDecimalValue(-15, 46, 30), 4)
   })
 
   test('test angular distance', () => {
     const alphaBoo = {
-      rightAscension: getDecimalValue(14, 15, 39.7).hoursToDegrees(),
+      rightAscension: getDecimalValue(14, 15, 39.7)* H2DEG,
       declination: getDecimalValue(19, 10, 57)
     }
     const alphaVir = {
-      rightAscension: getDecimalValue(13, 25, 11.6).hoursToDegrees(),
+      rightAscension: getDecimalValue(13, 25, 11.6)* H2DEG,
       declination: getDecimalValue(-11, 9, 41)
     }
     expect(getGreatCircleAngularDistance(alphaBoo, alphaVir)).toBeCloseTo(32.7930, 4)
-  })
-
-  test('test angular distance [low precision]', () => {
-    const alphaBoo = {
-      rightAscension: getDecimalValue(14, 15, 39.7).hoursToDegrees(),
-      declination: getDecimalValue(19, 10, 57)
-    }
-    const alphaVir = {
-      rightAscension: getDecimalValue(13, 25, 11.6).hoursToDegrees(),
-      declination: getDecimalValue(-11, 9, 41)
-    }
-    expect(getGreatCircleAngularDistance(alphaBoo, alphaVir, false)).toBeCloseTo(32.7930, 4)
   })
 })

@@ -4,6 +4,7 @@ import { getNutationInLongitude, getNutationInObliquity } from '@/earth/nutation
 import { getEccentricity, getLongitudeOfPerihelion } from '@/earth/coordinates'
 import { transformUTC2TT } from '@/times'
 import { getDecimalValue } from '@/sexagesimal'
+import { H2DEG } from '@/constants'
 
 describe('aberration', () => {
   // See AA p152 & 153, Ex 23.a
@@ -12,7 +13,7 @@ describe('aberration', () => {
     const utcDate = new Date(Date.UTC(2028, 10, 13, 19 / 24))
     const jd = transformUTC2TT(getJulianDay(utcDate))
     const coords = {
-      rightAscension: getDecimalValue(2, 46, 11.331).hoursToDegrees(),
+      rightAscension: getDecimalValue(2, 46, 11.331)* H2DEG,
       declination: getDecimalValue(49, 20, 54.54)
     }
 
@@ -37,7 +38,7 @@ describe('aberration', () => {
     const utcDate = new Date(Date.UTC(2028, 10, 13, 19 / 24))
     const jd = transformUTC2TT(getJulianDay(utcDate))
     const coords = {
-      rightAscension: getDecimalValue(2, 46, 11.331).hoursToDegrees(),
+      rightAscension: getDecimalValue(2, 46, 11.331)* H2DEG,
       declination: getDecimalValue(49, 20, 54.54)
     }
     const annual = getAnnualEquatorialAberration(jd, coords)
@@ -50,7 +51,7 @@ describe('aberration', () => {
     const utcDate = new Date(Date.UTC(2028, 10, 13, 19 / 24))
     const jd = transformUTC2TT(getJulianDay(utcDate))
     const coords = {
-      rightAscension: getDecimalValue(2, 46, 11.331).hoursToDegrees(),
+      rightAscension: getDecimalValue(2, 46, 11.331)* H2DEG,
       declination: getDecimalValue(49, 20, 54.54)
     }
 
@@ -75,7 +76,7 @@ describe('aberration', () => {
     const utcDate = new Date(Date.UTC(2028, 10, 13, 19 / 24))
     const jd = transformUTC2TT(getJulianDay(utcDate))
     const coords = {
-      rightAscension: getDecimalValue(2, 46, 11.331).hoursToDegrees(),
+      rightAscension: getDecimalValue(2, 46, 11.331)* H2DEG,
       declination: getDecimalValue(49, 20, 54.54)
     }
     const annual = getAnnualEquatorialAberration(jd, coords, false)

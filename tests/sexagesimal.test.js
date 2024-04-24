@@ -22,85 +22,43 @@ describe('sexagesimal', () => {
   })
 
   it('makes correct basic sexagesimal', () => {
-    expect(sexagesimal.makeSexagesimal({
-      value: 9.87654321
-    })).toEqual('+9º 52\' 35.556"')
-    expect(sexagesimal.makeSexagesimal({
-      value: -9.87654321
-    })).toEqual('-9º 52\' 35.556"')
+    expect(sexagesimal.makeSexagesimal({ value: 9.87654321 })).toEqual('+9º 52\' 35.556"')
+    expect(sexagesimal.makeSexagesimal({ value: -9.87654321 })).toEqual('-9º 52\' 35.556"')
   })
 
   it('makes correct basic sexagesimal when sign is false', () => {
-    expect(sexagesimal.makeSexagesimal({
-      value: 9.87654321,
-      showSign: false
-    })).toEqual('9º 52\' 35.556"')
-    expect(sexagesimal.makeSexagesimal({
-      value: -9.87654321,
-      showSign: false
-    })).toEqual('-9º 52\' 35.556"')
+    expect(sexagesimal.makeSexagesimal({ value: 9.87654321, showSign: false })).toEqual('9º 52\' 35.556"')
+    expect(sexagesimal.makeSexagesimal({ value: -9.87654321, showSign: false })).toEqual('-9º 52\' 35.556"')
   })
 
   it('makes correct basic sexagesimal when separator is different', () => {
-    expect(sexagesimal.makeSexagesimal({
-      value: 9.87654321,
-      separator: '$'
-    })).toEqual('+9º$52\'$35.556"')
-    expect(sexagesimal.makeSexagesimal({
-      value: -9.87654321,
-      separator: '$'
-    })).toEqual('-9º$52\'$35.556"')
+    expect(sexagesimal.makeSexagesimal({ value: 9.87654321, separator: '$' })).toEqual('+9º$52\'$35.556"')
+    expect(sexagesimal.makeSexagesimal({ value: -9.87654321, separator: '$' })).toEqual('-9º$52\'$35.556"')
   })
 
   it('makes correct basic sexagesimal when decimal is large', () => {
-    expect(sexagesimal.makeSexagesimal({
-      value: 9.87654321,
-      decimal: 7
-    })).toEqual('+9º 52\' 35.556"')
-    expect(sexagesimal.makeSexagesimal({
-      value: -9.87654321,
-      decimal: 7
-    })).toEqual('-9º 52\' 35.556"')
+    expect(sexagesimal.makeSexagesimal({ value: 9.87654321, decimal: 7 })).toEqual('+9º 52\' 35.556"')
+    expect(sexagesimal.makeSexagesimal({ value: -9.87654321, decimal: 7 })).toEqual('-9º 52\' 35.556"')
   })
 
   it('makes correct basic sexagesimal when zeroPads is false but value is large', () => {
-    expect(sexagesimal.makeSexagesimal({
-      value: 9.87654321
-    })).toEqual('+9º 52\' 35.556"')
-    expect(sexagesimal.makeSexagesimal({
-      value: -9.87654321
-    })).toEqual('-9º 52\' 35.556"')
+    expect(sexagesimal.makeSexagesimal({ value: 9.87654321 })).toEqual('+9º 52\' 35.556"')
+    expect(sexagesimal.makeSexagesimal({ value: -9.87654321 })).toEqual('-9º 52\' 35.556"')
   })
 
   it('makes correct basic sexagesimal when zeroPads is true but value is large', () => {
-    expect(sexagesimal.makeSexagesimal({
-      value: 9.87654321,
-      zeroPads: true
-    })).toEqual('+09º 52\' 35.556"')
-    expect(sexagesimal.makeSexagesimal({
-      value: -9.87654321,
-      zeroPads: true
-    })).toEqual('-09º 52\' 35.556"')
+    expect(sexagesimal.makeSexagesimal({ value: 9.87654321, zeroPads: true })).toEqual('+09º 52\' 35.556"')
+    expect(sexagesimal.makeSexagesimal({ value: -9.87654321, zeroPads: true })).toEqual('-09º 52\' 35.556"')
   })
 
   it('makes correct basic sexagesimal when zeroPads is false and value is very small', () => {
-    expect(sexagesimal.makeSexagesimal({
-      value: 0.01654321
-    })).toEqual('+0º 0\' 59.556"')
-    expect(sexagesimal.makeSexagesimal({
-      value: -0.01654321
-    })).toEqual('-0º 0\' 59.556"')
+    expect(sexagesimal.makeSexagesimal({ value: 0.01654321 })).toEqual('+0º 0\' 59.556"')
+    expect(sexagesimal.makeSexagesimal({ value: -0.01654321 })).toEqual('-0º 0\' 59.556"')
   })
 
   it('makes correct basic sexagesimal when zeroPads is true and value is very small', () => {
-    expect(sexagesimal.makeSexagesimal({
-      value: 0.01654321,
-      zeroPads: true
-    })).toEqual('+00º 00\' 59.556"')
-    expect(sexagesimal.makeSexagesimal({
-      value: -0.01654321,
-      zeroPads: true
-    })).toEqual('-00º 00\' 59.556"')
+    expect(sexagesimal.makeSexagesimal({ value: 0.01654321, zeroPads: true })).toEqual('+00º 00\' 59.556"')
+    expect(sexagesimal.makeSexagesimal({ value: -0.01654321, zeroPads: true })).toEqual('-00º 00\' 59.556"')
   })
 
   it('makes correct compact sexagesimal', () => {
