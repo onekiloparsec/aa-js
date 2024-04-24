@@ -155,8 +155,8 @@ export function getPlanetApparentGeocentricEclipticCoordinates (jd: JulianDay,
   
   // Adjust for Aberration
   const aberration = Earth.getAnnualEclipticAberration(jd, geocentricEclipticCoordinates)
-  geocentricEclipticCoordinates.longitude = geocentricEclipticCoordinates.longitude + aberration.DeltaLongitude.dividedBy(3600)
-  geocentricEclipticCoordinates.latitude = geocentricEclipticCoordinates.latitude + aberration.DeltaLatitude.dividedBy(3600)
+  geocentricEclipticCoordinates.longitude = geocentricEclipticCoordinates.longitude + aberration.DeltaLongitude / 3600
+  geocentricEclipticCoordinates.latitude = geocentricEclipticCoordinates.latitude + aberration.DeltaLatitude / 3600
   
   // Convert to the FK5 system
   const deltaLong = getCorrectionInLongitude(jd, geocentricEclipticCoordinates.longitude, geocentricEclipticCoordinates.latitude)
