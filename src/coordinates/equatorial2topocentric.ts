@@ -29,7 +29,8 @@ export function transformEquatorialToTopocentric (jd: JulianDay,
                                                   distance: AstronomicalUnit,
                                                   geoCoords: GeographicCoordinates): TopocentricCoordinates {
   if (geoCoords.height === undefined) {
-    throw new Error('The geographic coordinates must contain a value for "height".  }
+    throw new Error('The geographic coordinates must contain a value for "height".')
+  }
   const corrections = getFlatteningCorrections(geoCoords.height, geoCoords.latitude)
   
   const factor: ArcSecond = 8.794

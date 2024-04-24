@@ -1,14 +1,13 @@
-
 import { AstronomicalUnit, Degree, JulianDay, LengthArray } from '@/types'
 import { getJulianCentury } from '@/juliandays'
 
 /** @private */
-function getValue (jd: JulianDay, elementValues: LengthArray<Decimal, 4>) {
+function getValue (jd: JulianDay, elementValues: LengthArray<number, 4>) {
   const T = getJulianCentury(jd)
-  return new Decimal(elementValues[0])
-     + new Decimal(elementValues[1]) * T))
-     + new Decimal(elementValues[2]) * T.pow(2)))
-     + new Decimal(elementValues[3]) * T.pow(3)))
+  return elementValues[0]
+    + elementValues[1] * T
+    + elementValues[2] * T * T
+    + elementValues[3] * T * T * T
 }
 
 /** @private */
@@ -22,7 +21,7 @@ export function getPlanetSemiMajorAxis (jd: JulianDay, semiMajorAxis: LengthArra
 }
 
 /** @private */
-export function getPlanetEccentricity (jd: JulianDay, eccentricity: LengthArray<Decimal, 4>): number {
+export function getPlanetEccentricity (jd: JulianDay, eccentricity: LengthArray<number, 4>): number {
   return getValue(jd, eccentricity)
 }
 
