@@ -19,9 +19,9 @@ export function getPlanetAccurateRiseTransitSet (jd: JulianDay, geoCoords: Geogr
   // See AA p 102. Theta0 is computed inside 'getAccurateRiseTransitSetTimes' function using 0h UT
   // But coordinates must be computed at 0h Dynamical Time.
   const jd0 = getJulianDayMidnightDynamicalTime(jd)
-  const coords0 = getCoordsFunc(new Decimal(jd0).minus(1))
+  const coords0 = getCoordsFunc(new Decimal(jd0) - 1))
   const coords1 = getCoordsFunc(new Decimal(jd0))
-  const coords2 = getCoordsFunc(new Decimal(jd0).plus(1))
+  const coords2 = getCoordsFunc(new Decimal(jd0) + 1))
   // Input jd, not jd0!
   return getAccurateRiseTransitSetTimes(jd, [coords0, coords1, coords2], geoCoords, STANDARD_ALTITUDE_STARS, 1)
 }

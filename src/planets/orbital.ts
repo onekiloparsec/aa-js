@@ -6,9 +6,9 @@ import { getJulianCentury } from '@/juliandays'
 function getValue (jd: JulianDay, elementValues: LengthArray<Decimal, 4>) {
   const T = getJulianCentury(jd)
   return new Decimal(elementValues[0])
-    .plus(new Decimal(elementValues[1]).mul(T))
-    .plus(new Decimal(elementValues[2]).mul(T.pow(2)))
-    .plus(new Decimal(elementValues[3]).mul(T.pow(3)))
+     + new Decimal(elementValues[1]) * T))
+     + new Decimal(elementValues[2]) * T.pow(2)))
+     + new Decimal(elementValues[3]) * T.pow(3)))
 }
 
 /** @private */

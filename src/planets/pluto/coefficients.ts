@@ -1,19 +1,11 @@
-
-
 export type ArgumentCoefficient = {
-  J: Decimal, S: Decimal, P: Decimal
-}
-export type ArgumentCoefficientNum = {
   J: number, S: number, P: number
 }
 export type CoordsCoefficient = {
-  A: Decimal, B: Decimal
-}
-export type CoordsCoefficientNum = {
   A: number, B: number
 }
 
-export const getArgumentCoefficients = function (): (ArgumentCoefficient | ArgumentCoefficientNum)[] {
+export const getArgumentCoefficients = function (): (ArgumentCoefficient)[] {
   return [
     [0, 0, 1],
     [0, 0, 2],
@@ -59,13 +51,11 @@ export const getArgumentCoefficients = function (): (ArgumentCoefficient | Argum
     [3, 0, -1],
     [3, 0, 0]
   ].map((a) => {
-    return useDecimals ?
-      { J: new Decimal(a[0]), S: new Decimal(a[1]), P: new Decimal(a[2]) } :
-      { J: a[0], S: a[1], P: a[2] }
+    return { J: a[0], S: a[1], P: a[2] }
   })
 }
 
-export const getLongitudeCoefficients = function (): (CoordsCoefficient | CoordsCoefficientNum)[] {
+export const getLongitudeCoefficients = function (): (CoordsCoefficient)[] {
   return [
     [-19799805, 19850055],
     [897144, -4954829],
@@ -111,13 +101,11 @@ export const getLongitudeCoefficients = function (): (CoordsCoefficient | Coords
     [5, -3],
     [0, 0]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]) } :
-      { A: a[0], B: a[1] }
+    return { A: a[0], B: a[1] }
   })
 }
 
-export const getLatitudeCoefficients = function (): (CoordsCoefficient | CoordsCoefficientNum)[] {
+export const getLatitudeCoefficients = function (): (CoordsCoefficient)[] {
   return [
     [-5452852, -14974862],
     [3527812, 1672790],
@@ -163,13 +151,11 @@ export const getLatitudeCoefficients = function (): (CoordsCoefficient | CoordsC
     [0, 0],
     [1, 0]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]) } :
-      { A: a[0], B: a[1] }
+    return { A: a[0], B: a[1] }
   })
 }
 
-export const getRadiusCoefficients = function (): (CoordsCoefficient | CoordsCoefficientNum)[] {
+export const getRadiusCoefficients = function (): (CoordsCoefficient)[] {
   return [
     [66865439, 68951812],
     [-11827535, -332538],
@@ -215,8 +201,6 @@ export const getRadiusCoefficients = function (): (CoordsCoefficient | CoordsCoe
     [19, 35],
     [10, 3]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]) } :
-      { A: a[0], B: a[1] }
+    return { A: a[0], B: a[1] }
   })
 }

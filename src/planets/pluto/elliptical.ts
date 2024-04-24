@@ -23,7 +23,6 @@ import { getEclipticLatitude, getEclipticLongitude, getRadiusVector } from './co
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {AstronomicalUnit}
  * @memberof module:Pluto
  */
@@ -37,7 +36,6 @@ export function getGeocentricDistance (jd: JulianDay): AstronomicalUnit {
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EclipticCoordinates}
  * @memberof module:Pluto
  */
@@ -51,7 +49,6 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay): EclipticCoordi
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EclipticCoordinates}
  * @memberof module:Pluto
  */
@@ -66,15 +63,13 @@ export function getApparentGeocentricEclipticCoordinates (jd: JulianDay): Eclipt
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
  * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EquatorialCoordinates}
  * @memberof module:Pluto
  */
 export function getGeocentricEquatorialCoordinates (jd: JulianDay, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getGeocentricEclipticCoordinates(jd),
-    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd),
-    highPrecision
+    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd)
   )
 }
 
@@ -84,15 +79,12 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay, obliquity: Ob
  * @see getEquatorialCoordinates
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EquatorialCoordinates}
  * @memberof module:Pluto
  */
 export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates {
   return transformEclipticToEquatorial(
-    getApparentGeocentricEclipticCoordinates(jd),
-    Earth.getTrueObliquityOfEcliptic(jd),
-    highPrecision
+    getApparentGeocentricEclipticCoordinates(jd), Earth.getTrueObliquityOfEcliptic(jd)
   )
 }
 

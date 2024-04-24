@@ -29,7 +29,6 @@ import { getEccentricity, getSemiMajorAxis } from './orbital'
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {AstronomicalUnit}
  * @memberof module:Mars
  */
@@ -43,7 +42,6 @@ export function getGeocentricDistance (jd: JulianDay): AstronomicalUnit {
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EclipticCoordinates}
  * @memberof module:Mars
  */
@@ -57,7 +55,6 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay): EclipticCoordi
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EclipticCoordinates}
  * @memberof module:Mars
  */
@@ -72,15 +69,13 @@ export function getApparentGeocentricEclipticCoordinates (jd: JulianDay): Eclipt
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
  * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EquatorialCoordinates}
  * @memberof module:Mars
  */
 export function getGeocentricEquatorialCoordinates (jd: JulianDay, obliquity: Obliquity = Obliquity.Mean): EquatorialCoordinates {
   return transformEclipticToEquatorial(
     getGeocentricEclipticCoordinates(jd),
-    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd),
-    highPrecision
+    (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd)
   )
 }
 
@@ -90,22 +85,18 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay, obliquity: Ob
  * @see getEquatorialCoordinates
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EquatorialCoordinates}
  * @memberof module:Mars
  */
 export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay): EquatorialCoordinates {
   return transformEclipticToEquatorial(
-    getApparentGeocentricEclipticCoordinates(jd),
-    Earth.getTrueObliquityOfEcliptic(jd),
-    highPrecision
+    getApparentGeocentricEclipticCoordinates(jd), Earth.getTrueObliquityOfEcliptic(jd)
   )
 }
 
 /**
  * Computes the object instantaneous velocity in the orbit
  * @param  {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {KilometerPerSecond} The velocity
  * @memberof module:Mars
  */
@@ -147,7 +138,6 @@ export function getLengthOfEllipse (jd: JulianDay): AstronomicalUnit {
  * Computes the (low-accuracy but fast) times of the rise, transit and set of the planet.
  * @param  {JulianDay} jd The julian day
  * @param {GeographicCoordinates} geoCoords The observer location.
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {RiseTransitSet} The rise, transit and set times
  * @memberof module:Mars
  */
@@ -159,7 +149,6 @@ export function getRiseTransitSet (jd: JulianDay, geoCoords: GeographicCoordinat
  * Computes the accurate (better than a minute) times of the rise, transit and set of the planet.
  * @param  {JulianDay} jd The julian day
  * @param {GeographicCoordinates} geoCoords The observer location.
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {RiseTransitSet} The rise, transit and set times
  * @memberof module:Mars
  */

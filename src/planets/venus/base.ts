@@ -1,12 +1,11 @@
-
 import { JulianDay } from '@/types'
 import { getDecimalYear } from '@/times'
 
 // The value of K must be an integer
 function getK (jd: JulianDay): number {
   const decimalYear = getDecimalYear(jd)
-  const decimalK = new Decimal('1.62549').mul(decimalYear.minus('2000.53'))
-  return decimalK.isPositive() ? Decimal.floor(decimalK) : Decimal.ceil(decimalK)
+  const decimalK = 1.62549 * decimalYear - 2000.53
+  return decimalK > 0 ? Math.floor(decimalK) : Math.ceil(decimalK)
 }
 
 /**
@@ -16,10 +15,8 @@ function getK (jd: JulianDay): number {
  * @memberof module:Venus
  */
 export function getAphelion (jd: JulianDay): JulianDay {
-  const kdash = getK(jd).plus('0.5')
-  return new Decimal('2451738.233')
-    .plus(new Decimal('224.700_8188').mul(kdash))
-    .minus(new Decimal('0.000_000_0327').mul(kdash.pow(2)))
+  const kdash = getK(jd) + 0.5
+  return 2451738.233 + 224.700_8188 * kdash - 0.000_000_0327 * Math.pow(kdash, 2)
 }
 
 /**
@@ -30,7 +27,5 @@ export function getAphelion (jd: JulianDay): JulianDay {
  */
 export function getPerihelion (jd: JulianDay): JulianDay {
   const k = getK(jd)
-  return new Decimal('2451738.233')
-    .plus(new Decimal('224.7008188').mul(k))
-    .minus(new Decimal('0.000_000_0327').mul(k.pow(2)))
+  return 2451738.233 + 224.7008188 * k - 0.000_000_0327 * Math.pow(k, 2)
 }

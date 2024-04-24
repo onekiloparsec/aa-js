@@ -18,8 +18,7 @@ export function getNutationInLongitude (jd: JulianDay): ArcSecond {
   const Mprime = Moon.getMeanAnomaly(jd)
   const F = Moon.getArgumentOfLatitude(jd)
   const omega = Moon.getMeanLongitudeAscendingNode(jd)
-  return getReducedValue(T, D, M, Mprime, F, omega, 'sin')
-}
+  return getReducedValue(T, D, M, Mprime, F, omega, 'sin}
 
 /**
  * Nutation in obliquity
@@ -34,8 +33,7 @@ export function getNutationInObliquity (jd: JulianDay): ArcSecond {
   const Mprime = Moon.getMeanAnomaly(jd)
   const F = Moon.getArgumentOfLatitude(jd)
   const omega = Moon.getMeanLongitudeAscendingNode(jd)
-  return getReducedValue(T, D, M, Mprime, F, omega, 'cos')
-}
+  return getReducedValue(T, D, M, Mprime, F, omega, 'cos}
 
 /**
  * Mean obliquity of the ecliptic.

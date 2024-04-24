@@ -1,5 +1,4 @@
-
-import { PlanetCoefficient, PlanetCoefficientNum } from '@/types'
+import { PlanetCoefficient } from '@/types'
 
 export const getCoefficientsL0 = function (): (PlanetCoefficient)[] {
   return [

@@ -1,4 +1,3 @@
-
 import { Degree, Equinox, JulianDay } from '@/types'
 import {
   getPlanetEccentricity,

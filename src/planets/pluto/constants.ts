@@ -20,14 +20,14 @@ import { PlanetConstants } from '@/types'
  * @memberof module:Pluto
  */
 export const constants: PlanetConstants = {
-  equatorialRadius: new Decimal(1188.3),
-  meanRadius: new Decimal(1188.3),
-  mass: new Decimal(0.013030),
-  bulkDensity: new Decimal(1.89),
-  siderealRotationPeriod: new Decimal(-6.3872),
-  siderealOrbitPeriod: new Decimal(247.92065),
-  visualMagnitude: new Decimal(-1.0),
-  geometricAlbedo: new Decimal(0.3),
-  equatorialGravity: new Decimal(0.62),
-  escapeVelocity: new Decimal(1.21)
+  equatorialRadius: 1188.3,
+  meanRadius: 1188.3,
+  mass: 0.013030,
+  bulkDensity: 1.89,
+  siderealRotationPeriod: -6.3872,
+  siderealOrbitPeriod: 247.92065,
+  visualMagnitude: -1.0,
+  geometricAlbedo: 0.3,
+  equatorialGravity: 0.62,
+  escapeVelocity: 1.21
 }

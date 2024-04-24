@@ -29,7 +29,6 @@ import { getEccentricity, getSemiMajorAxis } from './orbital'
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {AstronomicalUnit}
  * @memberof module:Jupiter
  */
@@ -43,7 +42,6 @@ import { getEccentricity, getSemiMajorAxis } from './orbital'
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EclipticCoordinates}
  * @memberof module:Jupiter
  */
@@ -57,7 +55,6 @@ export function getGeocentricEclipticCoordinates (jd: JulianDay): EclipticCoordi
  * @see getEclipticCoordinates
  * @see getGeocentricEquatorialCoordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EclipticCoordinates}
  * @memberof module:Jupiter
  */
@@ -72,7 +69,6 @@ export function getApparentGeocentricEclipticCoordinates (jd: JulianDay): Eclipt
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
  * @param {Obliquity} obliquity The obliquity of the ecliptic: Mean (default) or True.
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EquatorialCoordinates}
  * @memberof module:Jupiter
  */
@@ -80,7 +76,6 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay, obliquity: Ob
   return transformEclipticToEquatorial(
     getGeocentricEclipticCoordinates(jd),
     (obliquity === Obliquity.Mean) ? Earth.getMeanObliquityOfEcliptic(jd) : Earth.getTrueObliquityOfEcliptic(jd),
-    highPrecision
   )
 }
 
@@ -90,7 +85,6 @@ export function getGeocentricEquatorialCoordinates (jd: JulianDay, obliquity: Ob
  * @see getEquatorialCoordinates
  * @see getGeocentricEclipticCoordinates
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {EquatorialCoordinates}
  * @memberof module:Jupiter
  */
@@ -98,14 +92,12 @@ export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay): Equa
   return transformEclipticToEquatorial(
     getApparentGeocentricEclipticCoordinates(jd),
     Earth.getTrueObliquityOfEcliptic(jd),
-    highPrecision
   )
 }
 
 /**
  * Computes the object instantaneous velocity in the orbit
  * @param  {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {KilometerPerSecond} The velocity
  * @memberof module:Jupiter
  */
@@ -147,7 +139,6 @@ export function getLengthOfEllipse (jd: JulianDay): AstronomicalUnit {
  * Computes the (low-accuracy but fast) times of the rise, transit and set of the planet.
  * @param  {JulianDay} jd The julian day
  * @param {GeographicCoordinates} geoCoords The observer location.
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {RiseTransitSet} The rise, transit and set times
  * @memberof module:Jupiter
  */
@@ -159,7 +150,6 @@ export function getRiseTransitSet (jd: JulianDay, geoCoords: GeographicCoordinat
  * Computes the accurate (better than a minute) times of the rise, transit and set of the planet.
  * @param  {JulianDay} jd The julian day
  * @param {GeographicCoordinates} geoCoords The observer location.
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {RiseTransitSet} The rise, transit and set times
  * @memberof module:Jupiter
  */
