@@ -17,11 +17,11 @@ import { DEG2RAD, RAD2DEG } from '@/constants'
 export function getMeanLongitude (jd: JulianDay): Degree {
   const T = getJulianCentury(jd)
   
-  const value = 218.3164477
-    + 481267.88123421 * T
-    - 0.0015786 * T * T
-    + T * T * T / 538841
-    - T * T * T * T / 65194000
+  const value = 218.316_447_7
+    + 481_267.881_234_21 * T
+    - 0.001_578_6 * T * T
+    + T * T * T / 538_841
+    - T * T * T * T / 65_194_000
   
   return fmod360(value)
 }
