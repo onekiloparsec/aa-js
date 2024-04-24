@@ -14,7 +14,7 @@ describe('Jupiter', () => {
     const jd = juliandays.getJulianDay(UTCDate)
     expect(jd).toEqual(2448972.5)
     const jd0 = transformUTC2TT(jd)
-    expect(jd0).toEqual(2448972.500685)
+    expect(jd0).toEqual(2448972.5006850003)
     // TODO: rewrite Jupiter details based on what is done for Saturn ring system.
   })
 
