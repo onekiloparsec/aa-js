@@ -6,7 +6,7 @@ import { fmod } from '@/utils'
 // The value of K must be an integer
 function getK (jd: JulianDay): number {
   const decimalYear = getDecimalYear(jd)
-  const decimalK = 12.3685 * decimalYear - 2000
+  const decimalK = 12.3685 * (decimalYear - 2000)
   return decimalK >= 0 ? Math.floor(decimalK) : Math.ceil(decimalK)
 }
 
