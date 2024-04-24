@@ -99,7 +99,8 @@ export function getGeocentricEclipticLongitude (jd: JulianDay): Degree {
   const A1 = fmod360(119.75 + 131.849 * T) * DEG2RAD
   const A2 = fmod360(53.09 + 479264.290 * T) * DEG2RAD
   
-  let SigmaL = getSigma(E, D, M, Mdash, F, getCoefficients1, getCoefficients2, 'A', 'sin  SigmaL += 3958 * Math.sin(A1) + 1962 * Math.sin(Ldash - F) + 318 * Math.sin(A2)
+  let SigmaL = getSigma(E, D, M, Mdash, F, getCoefficients1, getCoefficients2, 'A', 'sin')
+  SigmaL += 3958 * Math.sin(A1) + 1962 * Math.sin(Ldash - F) + 318 * Math.sin(A2)
   
   return fmod360(Ldash * RAD2DEG + SigmaL / 1000000)
 }
@@ -123,7 +124,8 @@ export function getGeocentricEclipticLatitude (jd: JulianDay): Degree {
   const A1 = fmod360(119.75 + 131.849 * T) * DEG2RAD
   const A3 = fmod360(313.45 + 481266.484 * T) * DEG2RAD
   
-  let SigmaB = getSigma(E, D, M, Mdash, F, getCoefficients3, getCoefficients4, '', 'sin  
+  let SigmaB = getSigma(E, D, M, Mdash, F, getCoefficients3, getCoefficients4, '', 'sin')
+
   SigmaB = SigmaB
     - 2235 * Math.sin(Ldash)
     + 382 * Math.sin(A3)
@@ -191,7 +193,8 @@ export function getRadiusVectorInKilometer (jd: JulianDay): Kilometer {
   
   const T = getJulianCentury(jd)
   const E = 1 - T * 0.002_516 - T * T * 0.000_0074
-  const SigmaR = getSigma(E, D, M, Mdash, F, getCoefficients1, getCoefficients2, 'B', 'cos  
+  const SigmaR = getSigma(E, D, M, Mdash, F, getCoefficients1, getCoefficients2, 'B', 'cos')
+
   return 385000.56 + SigmaR / 1000
 }
 
