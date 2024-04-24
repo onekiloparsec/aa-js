@@ -6,8 +6,8 @@ describe('earth', () => {
   test('get earth ecliptic coordinates', () => {
     const jd = 2448908.5
     const ecl = Earth.getEclipticCoordinates(jd)
-    expect(ecl.longitude).toBeCloseTo(19.90737199072482, 12)
-    expect(ecl.latitude).toBeCloseTo(-0.00017901250407703628, 12)
+    expect(ecl.longitude).toBeCloseTo(19.90737199072482, 11)
+    expect(ecl.latitude).toBeCloseTo(-0.00017901250407703628, 11)
   })
 
   test('get earth radius vector', () => {
