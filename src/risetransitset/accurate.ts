@@ -65,7 +65,7 @@ export function getAccurateRiseTransitSetTimes (jd: JulianDay,
   const Theta0 = getLocalSiderealTime(jd0, 0) * H2DEG
   const mTimes = getMTimes(jd, equCoords[1], geoCoords, alt) as MTimes
   
-  result.transit.utc = mTimes.m0!.mul(24)
+  result.transit.utc = mTimes.m0! * 24
   result.transit.julianDay = getJDatUTC(jd, result.transit.utc!)
   result.transit.altitude = mTimes.altitude
   
@@ -82,16 +82,16 @@ export function getAccurateRiseTransitSetTimes (jd: JulianDay,
       const deltaMTimes0 = getDeltaMTimes(mTimes.m0!, true, Theta0, DeltaT, equCoords, geoCoords, alt)
       const deltaMTimes1 = getDeltaMTimes(mTimes.m1!, false, Theta0, DeltaT, equCoords, geoCoords, alt)
       const deltaMTimes2 = getDeltaMTimes(mTimes.m2!, false, Theta0, DeltaT, equCoords, geoCoords, alt)
-      mTimes.altitude = mTimes.m0!.plus(deltaMTimes0.localAltitude)
-      mTimes.m0 = mTimes.m0!.plus(deltaMTimes0.Deltam)
-      mTimes.m1 = mTimes.m1!.plus(deltaMTimes1.Deltam)
-      mTimes.m2 = mTimes.m2!.plus(deltaMTimes2.Deltam)
+      mTimes.altitude = mTimes.m0! + deltaMTimes0.localAltitude
+      mTimes.m0 = mTimes.m0! + deltaMTimes0.Deltam
+      mTimes.m1 = mTimes.m1! + deltaMTimes1.Deltam
+      mTimes.m2 = mTimes.m2! + deltaMTimes2.Deltam
     }
     
     result.transit.altitude = mTimes.altitude
-    result.transit.utc = mTimes.m0!.mul(24)
-    result.rise.utc = mTimes.m1!.mul(24)
-    result.set.utc = mTimes.m2!.mul(24)
+    result.transit.utc = mTimes.m0! * 24
+    result.rise.utc = mTimes.m1! * 24
+    result.set.utc = mTimes.m2! * 24
     
     result.transit.julianDay = getJDatUTC(jd, result.transit.utc!)
     result.rise.julianDay = getJDatUTC(jd, result.rise.utc!)
