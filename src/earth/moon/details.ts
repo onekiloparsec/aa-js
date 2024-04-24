@@ -40,7 +40,7 @@ export function getPhaseAngle (jd: JulianDay): Degree {
   const Delta: Kilometer = getRadiusVectorInKilometer(jd) // kilometer!!!
   // Distance Earth-Sun
   const R: Kilometer = getEarthRadiusVector(jd) * ONE_UA_IN_KILOMETERS
-  return Math.atan2(R * Math.sin(psi), Delta - (R * Math.cos(psi))) * RAD2DEG
+  return Math.atan2(R * Math.sin(psi), Delta - R * Math.cos(psi)) * RAD2DEG
 }
 
 /**
@@ -77,7 +77,7 @@ export function getPositionAngleOfTheBrightLimb (jd: JulianDay): Degree {
  */
 export function getIlluminatedFraction (jd: JulianDay): number {
   const phaseAngle = getPhaseAngle(jd) * DEG2RAD
-  return 1 + Math.cos(phaseAngle) / 2
+  return (1 + Math.cos(phaseAngle)) / 2
 }
 
 /**
