@@ -1,6 +1,6 @@
 import { STANDARD_ALTITUDE_STARS } from '@/constants'
 import { Degree, EquatorialCoordinates, GeographicCoordinates, JulianDay, RiseTransitSet } from '@/types'
-import { getMTimes, MTimesNum } from './mtimes'
+import { getMTimes } from './mtimes'
 import { getJDatUTC } from './utils'
 
 /**
@@ -49,7 +49,7 @@ export function getRiseTransitSetTimes (jd: JulianDay,
   }
   
   // Calculate the Greenwich sidereal time in degrees
-  const mTimes = getMTimes(jd, equCoords, geoCoords, alt) as MTimesNum
+  const mTimes = getMTimes(jd, equCoords, geoCoords, alt)
   result.transit.altitude = mTimes.altitude!
   result.transit.utc = mTimes.m0! * 24
   result.transit.julianDay = getJDatUTC(jd, result.transit.utc!)
