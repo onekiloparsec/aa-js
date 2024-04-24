@@ -1,4 +1,5 @@
 /// <reference types="vitest" />
+// @ts-ignore
 import path from 'path'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
@@ -10,17 +11,7 @@ export default defineConfig({
       name: 'aa-js',
       entry: path.resolve(__dirname, 'src/index.ts'),
       fileName: 'aa-js'
-    },
-    rollupOptions: {
-      external: [
-        'decimal.js'
-      ],
-      output: {
-        globals: {
-          'decimal.js': 'Decimal'
-        }
-      }
-    },
+    }
   },
   plugins: [dts({
       include: ['src/index.ts', 'src/**/*.ts'],
@@ -43,9 +34,7 @@ export default defineConfig({
     dedupe: [
       'vue',
       'lodash',
-      'luxon',
       'dayjs',
-      'decimal.js'
     ],
   },
   test: {
