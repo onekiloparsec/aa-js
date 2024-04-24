@@ -54,9 +54,6 @@
   "dependencies": {
     "dayjs": "^1.11.6"
   },
-  "peerDependencies": {
-    "decimal.js": "^10.4.3"
-  },
   "devDependencies": {
     "@types/eslint": "^8.44.7",
     "@vitest/coverage-v8": "^0.34.2",
@@ -72,8 +69,8 @@
     "ts-loader": "^9.5.0",
     "typedoc": "^0.25.2",
     "typescript": "^5.2.2",
-    "vite": "^5.0.10",
-    "vite-plugin-dts": "^3.6.3",
+    "vite": "^5.1.7",
+    "vite-plugin-dts": "^3.8.3",
     "vitest": "^0.34.6"
   },
   "ts-node": {

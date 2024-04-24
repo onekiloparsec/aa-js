@@ -1,73 +1,41 @@
 import { Earth, juliandays, Sun, times } from '@'
 import { getDecimalValue } from '@/sexagesimal'
-import { MOON_SYNODIC_PERIOD, MoonPhase, MoonPhaseQuarter } from '@/constants'
+import { H2DEG, MOON_SYNODIC_PERIOD, MoonPhase, MoonPhaseQuarter } from '@/constants'
 
 describe('moon', () => {
   test('get moon mean longitude', () => {
-    expect(Earth.Moon.getMeanLongitude(245123456).toNumber()).toBeCloseTo(182.1252505089, 9)
-  })
-
-  test('get moon mean longitude [low precision]', () => {
-    expect(Earth.Moon.getMeanLongitude(245123456, false).toNumber()).toBeCloseTo(182.1252505089, 6)
+    expect(Earth.Moon.getMeanLongitude(245123456)).toBeCloseTo(182.125250, 6)
   })
 
   test('get moon mean elongation', () => {
-    expect(Earth.Moon.getMeanElongation(245123456).toNumber()).toBeCloseTo(175.566305716, 9)
-  })
-
-  test('get moon mean elongation [low precision]', () => {
-    expect(Earth.Moon.getMeanElongation(245123456, false).toNumber()).toBeCloseTo(175.566305716, 6)
+    expect(Earth.Moon.getMeanElongation(245123456)).toBeCloseTo(175.566306, 6)
   })
 
   test('get moon mean anomaly', () => {
-    expect(Earth.Moon.getMeanAnomaly(245123456).toNumber()).toBeCloseTo(343.8983220482618, 9)
-  })
-
-  test('get moon mean anomaly [low precision]', () => {
-    expect(Earth.Moon.getMeanAnomaly(245123456, false).toNumber()).toBeCloseTo(343.8983220482618, 6)
+    expect(Earth.Moon.getMeanAnomaly(245123456)).toBeCloseTo(343.898322, 6)
   })
 
   // See example 47.a, AA p 343.
   test('get moon equatorial coordinates', () => {
     const UTCDate = new Date(Date.UTC(1992, 3, 12))
     const jd = juliandays.getJulianDay(UTCDate)
-    expect(jd.toNumber()).toEqual(2448724.5)
+    expect(jd).toEqual(2448724.5)
 
-    expect(Earth.Moon.getGeocentricEclipticLongitude(jd).toNumber()).toBeCloseTo(133.162_655, 6)
-    expect(Earth.Moon.getGeocentricEclipticLatitude(jd).toNumber()).toBeCloseTo(-3.229_126, 6)
+    expect(Earth.Moon.getGeocentricEclipticLongitude(jd)).toBeCloseTo(133.162_655, 6)
+    expect(Earth.Moon.getGeocentricEclipticLatitude(jd)).toBeCloseTo(-3.229_126, 6)
 
     const equ = Earth.Moon.getApparentGeocentricEquatorialCoordinates(jd)
-    expect(equ.rightAscension.toNumber()).toBeCloseTo(getDecimalValue(8, 58, 45.12).hoursToDegrees().toNumber(), 3)
-    expect(equ.declination.toNumber()).toBeCloseTo(13.768_368, 4)
+    expect(equ.rightAscension).toBeCloseTo(getDecimalValue(8, 58, 45.12) * H2DEG, 3)
+    expect(equ.declination).toBeCloseTo(13.768_368, 4)
   })
 
-  test('get moon equatorial coordinates [low precision]', () => {
-    const UTCDate = new Date(Date.UTC(1992, 3, 12))
-    const jd = juliandays.getJulianDay(UTCDate)
-    expect(jd.toNumber()).toEqual(2448724.5)
-
-    expect(Earth.Moon.getGeocentricEclipticLongitude(jd, false).toNumber()).toBeCloseTo(133.162_655, 6)
-    expect(Earth.Moon.getGeocentricEclipticLatitude(jd, false).toNumber()).toBeCloseTo(-3.229_126, 6)
-
-    const equ = Earth.Moon.getApparentGeocentricEquatorialCoordinates(jd, false)
-    expect(equ.rightAscension.toNumber()).toBeCloseTo(getDecimalValue(8, 58, 45.12).hoursToDegrees().toNumber(), 3)
-    expect(equ.declination.toNumber()).toBeCloseTo(13.768_368, 4)
-  })
 
   // See example 48.a, AA p 347.
   test('get moon radius vector', () => {
     const UTCDate = new Date(Date.UTC(1992, 3, 12))
     const jd = juliandays.getJulianDay(UTCDate)
     const rv = Earth.Moon.getRadiusVectorInKilometer(jd)
-    expect(rv.toNumber()).toBeCloseTo(368409.68, 1) // km, second param is number of digits checked.
-  })
-
-  // See example 48.a, AA p 347.
-  test('get moon radius vector [low precision]', () => {
-    const UTCDate = new Date(Date.UTC(1992, 3, 12))
-    const jd = juliandays.getJulianDay(UTCDate)
-    const rv = Earth.Moon.getRadiusVectorInKilometer(jd, false)
-    expect(rv.toNumber()).toBeCloseTo(368409.68, 1) // km, second param is number of digits checked.
+    expect(rv).toBeCloseTo(368409.68, 1) // km, second param is number of digits checked.
   })
 
   // See example 48.a, AA p 347.
@@ -77,41 +45,19 @@ describe('moon', () => {
     const jd = times.transformUTC2TT(juliandays.getJulianDay(UTCDate))
 
     const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd)
-    expect(sunCoords.rightAscension.toNumber()).toBeCloseTo(20.6579, 2)
-    expect(sunCoords.declination.toNumber()).toBeCloseTo(8.697, 3)
+    expect(sunCoords.rightAscension).toBeCloseTo(20.6579, 2)
+    expect(sunCoords.declination).toBeCloseTo(8.697, 3)
 
     const moonCoords = Earth.Moon.getGeocentricEquatorialCoordinates(jd)
-    expect(moonCoords.rightAscension.toNumber()).toBeCloseTo(134.69, 1)
-    expect(moonCoords.declination.toNumber()).toBeCloseTo(13.7684, 2)
+    expect(moonCoords.rightAscension).toBeCloseTo(134.69, 1)
+    expect(moonCoords.declination).toBeCloseTo(13.7684, 2)
 
-    expect(Earth.Moon.getRadiusVectorInKilometer(jd).toNumber()).toBeCloseTo(368409.0, 1)
-
-    const i = Earth.Moon.getPhaseAngle(jd)
-    expect(i.toNumber()).toBeCloseTo(69.0756, 2)
-    const k = Earth.Moon.getIlluminatedFraction(jd)
-    expect(k.toNumber()).toBeCloseTo(0.6786, 3)
-  })
-
-  // See example 48.a, AA p 347.
-  test('get moon illumination fraction [low precision]', () => {
-    // Month is April, but JS date month is [0-11].
-    const UTCDate = new Date(Date.UTC(1992, 3, 12))
-    const jd = times.transformUTC2TT(juliandays.getJulianDay(UTCDate))
-
-    const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd, false)
-    expect(sunCoords.rightAscension.toNumber()).toBeCloseTo(20.76, 2)
-    expect(sunCoords.declination.toNumber()).toBeCloseTo(8.737, 2)
-
-    const moonCoords = Earth.Moon.getGeocentricEquatorialCoordinates(jd, false)
-    expect(moonCoords.rightAscension.toNumber()).toBeCloseTo(134.69, 1)
-    expect(moonCoords.declination.toNumber()).toBeCloseTo(13.7684, 2)
-
-    expect(Earth.Moon.getRadiusVectorInKilometer(jd, false).toNumber()).toBeCloseTo(368409.0, 1)
+    expect(Earth.Moon.getRadiusVectorInKilometer(jd)).toBeCloseTo(368409.0, 1)
 
     const i = Earth.Moon.getPhaseAngle(jd)
-    expect(i.toNumber()).toBeCloseTo(69.0756, 2)
+    expect(i).toBeCloseTo(69.0756, 2)
     const k = Earth.Moon.getIlluminatedFraction(jd)
-    expect(k.toNumber()).toBeCloseTo(0.6786, 3)
+    expect(k).toBeCloseTo(0.6786, 3)
   })
 
   // See example 49.a, AA p 353.
@@ -119,22 +65,22 @@ describe('moon', () => {
     // Mid-february
     const UTCDate = new Date(Date.UTC(1977, 1, 12))
     const T = juliandays.getJulianCentury(juliandays.getJulianDay(UTCDate))
-    expect(T.toNumber()).toBeCloseTo(-0.228_81, 4)
+    expect(T).toBeCloseTo(-0.228_81, 4)
     const newMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhase.New)
-    expect(newMoonJD.toNumber()).toBeCloseTo(2443_192.941_02, 5)
+    expect(newMoonJD).toBeCloseTo(2443_192.941_02, 5)
   })
 
   // See example 49.a, AA p 353.
   test('get moon age', () => {
     const UTCDate = new Date(Date.UTC(1977, 1, 12))
     const newMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhaseQuarter.New)
-    expect(Earth.Moon.getAge(newMoonJD).toNumber()).toEqual(0)
+    expect(Earth.Moon.getAge(newMoonJD)).toEqual(0)
     const fqMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhaseQuarter.FirstQuarter)
-    expect(Earth.Moon.getAge(fqMoonJD).toNumber()).toBeCloseTo(MOON_SYNODIC_PERIOD.dividedBy(4).toNumber(), 6)
+    expect(Earth.Moon.getAge(fqMoonJD)).toBeCloseTo(MOON_SYNODIC_PERIOD / 4, 6)
     const fullMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhaseQuarter.Full)
-    expect(Earth.Moon.getAge(fullMoonJD).toNumber()).toBeCloseTo(MOON_SYNODIC_PERIOD.dividedBy(2).toNumber(), 5)
+    expect(Earth.Moon.getAge(fullMoonJD)).toBeCloseTo(MOON_SYNODIC_PERIOD / 2, 5)
     const lqMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhaseQuarter.LastQuarter)
-    expect(Earth.Moon.getAge(lqMoonJD).toNumber()).toBeCloseTo(MOON_SYNODIC_PERIOD.mul(3).dividedBy(4).toNumber(), 5)
+    expect(Earth.Moon.getAge(lqMoonJD)).toBeCloseTo(MOON_SYNODIC_PERIOD * 3 / 4, 5)
   })
 
   // See example 49.a, AA p 353.

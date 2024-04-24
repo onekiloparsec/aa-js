@@ -1,4 +1,3 @@
-import Decimal from '@/decimal'
 import { Equinox } from './earth'
 import {
   Albedo,
@@ -16,21 +15,19 @@ import {
   Year
 } from './units'
 import {
-  EclipticCoordinatesAtJulianDayWithPrecisionFunction,
-  EquatorialCoordinatesAtJulianDayWithObliquityWithPrecisionFunction,
-  EquatorialCoordinatesAtJulianDayWithPrecisionFunction,
+  EclipticCoordinatesAtJulianDayFunction,
+  EquatorialCoordinatesAtJulianDayWithObliquityFunction,
+  EquatorialCoordinatesAtJulianDayFunction,
   JulianDayForJulianDayFunction,
   QuantityAtJulianDayFunction,
   QuantityInArcSecondAtJulianDayFunction,
   QuantityInAstronomicalUnitAtJulianDayFunction,
-  QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction,
   QuantityInDegreeAtJulianDayFunction,
   QuantityInDegreeAtJulianDayWithEquinoxFunction,
   QuantityInKilometerPerSecondAtJulianDayFunction,
-  QuantityInKilometerPerSecondAtJulianDayWithPrecisionFunction,
   QuantityInMagnitudeAtJulianDayFunction,
-  RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesWithPrecisionFunction,
-  SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
+  RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction,
+  SingleCoordinateDegreeAtJulianDayFunction
 } from './funcs'
 
 
@@ -61,20 +58,20 @@ export type PlanetConstants = {
 
 export interface PlanetBase {
   // Heliocentric coordinates (coordinates.ts)
-  getEclipticLongitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
-  getEclipticLatitude: SingleCoordinateDegreeAtJulianDayWithPrecisionFunction
-  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction
-  getEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
-  getEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithObliquityWithPrecisionFunction
+  getEclipticLongitude: SingleCoordinateDegreeAtJulianDayFunction
+  getEclipticLatitude: SingleCoordinateDegreeAtJulianDayFunction
+  getRadiusVector: QuantityInAstronomicalUnitAtJulianDayFunction
+  getEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
+  getEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithObliquityFunction
   // Geocentric coordinates (elliptical.ts)
-  getGeocentricDistance: QuantityInAstronomicalUnitAtJulianDayWithPrecisionFunction
-  getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
-  getApparentGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayWithPrecisionFunction
-  getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithObliquityWithPrecisionFunction
-  getApparentGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithPrecisionFunction
+  getGeocentricDistance: QuantityInAstronomicalUnitAtJulianDayFunction
+  getGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
+  getApparentGeocentricEclipticCoordinates: EclipticCoordinatesAtJulianDayFunction
+  getGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayWithObliquityFunction
+  getApparentGeocentricEquatorialCoordinates: EquatorialCoordinatesAtJulianDayFunction
   // Rise Transit Set (additions to elliptical.ts)
-  getRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesWithPrecisionFunction
-  getAccurateRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesWithPrecisionFunction
+  getRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction
+  getAccurateRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction
   // Planet base properties (details.ts)
   getPhaseAngle: JulianDayForJulianDayFunction
   getIlluminatedFraction: QuantityAtJulianDayFunction
@@ -90,7 +87,7 @@ export interface DwarfPlanet extends PlanetBase {
 
 export interface Planet extends PlanetBase {
   // Planet elliptical properties (elliptical.ts)
-  getInstantaneousVelocity: QuantityInKilometerPerSecondAtJulianDayWithPrecisionFunction
+  getInstantaneousVelocity: QuantityInKilometerPerSecondAtJulianDayFunction
   getVelocityAtPerihelion: QuantityInKilometerPerSecondAtJulianDayFunction
   getVelocityAtAphelion: QuantityInKilometerPerSecondAtJulianDayFunction
   getLengthOfEllipse: QuantityInAstronomicalUnitAtJulianDayFunction
@@ -139,14 +136,14 @@ export interface JupiterPlanet extends Planet {
 }
 
 
-export type LengthArray<T, N extends number, R extends T[] = []> = Decimal extends N ? T[] : R['length'] extends N ? R : LengthArray<T, N, [T, ...R]>;
+export type LengthArray<T, N extends number, R extends T[] = []> = number extends N ? T[] : R['length'] extends N ? R : LengthArray<T, N, [T, ...R]>;
 
 /**
  * Elements of Planetary Orbits
  */
 export type PlanetOrbitalElements = {
   semiMajorAxis: LengthArray<AstronomicalUnit, 4>
-  eccentricity: LengthArray<Decimal, 4>,
+  eccentricity: LengthArray<number, 4>,
   [Equinox.MeanOfTheDate]: {
     meanLongitude: LengthArray<Degree, 4>
     inclination: LengthArray<Degree, 4>
@@ -175,5 +172,4 @@ export type SolarSystemName =
   | 'Neptune'
   | 'Pluto'
 
-export type PlanetCoefficient = { A: Decimal, B: Decimal, C: Decimal }
-export type PlanetCoefficientNum = { A: number, B: number, C: number }
+export type PlanetCoefficient = { A: number, B: number, C: number }

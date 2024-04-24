@@ -1,6 +1,5 @@
-import Decimal from '@/decimal'
 import { ArcSecond, Degree, JulianDay, Magnitude } from '@/types'
-import { FIVE, ONE, TWO } from '@/constants'
+import { DEG2RAD, RAD2DEG } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
 import { getRadiusVector } from './coordinates'
@@ -12,13 +11,12 @@ import { getGeocentricDistance } from './elliptical'
  * @return {Degree}
  * @memberof module:Neptune
  */
-export function getPhaseAngle (jd: JulianDay | number): Degree {
+export function getPhaseAngle (jd: JulianDay): Degree {
   const r = getRadiusVector(jd)
   const R = Earth.getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
   return fmod360(
-    Decimal.acos((r.pow(2).plus(Delta.pow(2)).minus(R.pow(2)))
-      .dividedBy(TWO.mul(r).mul(Delta))).radiansToDegrees()
+    RAD2DEG * (Math.acos((r * r + Delta * Delta - R * R) / (2 * r * Delta)))
   )
 }
 
@@ -28,9 +26,9 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
  * @returns {number}
  * @memberof module:Neptune
  */
-export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
-  const i = getPhaseAngle(jd).degreesToRadians()
-  return (ONE.plus(Decimal.cos(i))).dividedBy(2)
+export function getIlluminatedFraction (jd: JulianDay): number {
+  const i = getPhaseAngle(jd) * DEG2RAD
+  return (1 + Math.cos(i)) / 2
 }
 
 /**
@@ -42,10 +40,10 @@ export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
  * @returns {Magnitude}
  * @memberof module:Neptune
  */
-export function getMagnitude (jd: JulianDay | number): Magnitude {
+export function getMagnitude (jd: JulianDay): Magnitude {
   const r = getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
-  return new Decimal('-6.87').plus(FIVE.mul(Decimal.log10(r.mul(Delta))))
+  return -6.87 + 5 * Math.log10(r * Delta)
 }
 
 /**
@@ -59,9 +57,9 @@ export function getMagnitude (jd: JulianDay | number): Magnitude {
  * @returns {ArcSecond}
  * @memberof module:Neptune
  */
-export function getEquatorialSemiDiameter (jd: JulianDay | number): ArcSecond {
+export function getEquatorialSemiDiameter (jd: JulianDay): ArcSecond {
   const Delta = getGeocentricDistance(jd)
-  return new Decimal('33.50').dividedBy(Delta)
+  return 33.50 / Delta
 }
 
 /**
@@ -73,6 +71,6 @@ export function getEquatorialSemiDiameter (jd: JulianDay | number): ArcSecond {
  * @returns {ArcSecond}
  * @memberof module:Neptune
  */
-export function getPolarSemiDiameter (jd: JulianDay | number): ArcSecond {
+export function getPolarSemiDiameter (jd: JulianDay): ArcSecond {
   return getEquatorialSemiDiameter(jd)
 }

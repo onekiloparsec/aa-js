@@ -1,142 +1,144 @@
-import Decimal from 'decimal.js'
-
 /**
  * Angular degree
  */
-export type Degree = Decimal
+export type Degree = number
 /**
  * Angular radian
  */
-export type Radian = Decimal;
+export type Radian = number;
 /**
  * Giga-year = 10^9 terrestrial years.
  */
-export type GYr = Decimal;
+export type GYr = number;
 /**
  * Terrestrial year = (365 or 366 Days)
  */
-export type Year = Decimal;
+export type Year = number;
+/**
+ * Terrestrial month
+ */
+export type Month = number;
 /**
  * Terrestrial day (= 24 Hours)
  */
-export type Day = Decimal;
+export type Day = number;
 /**
  * Time hour
  */
-export type Hour = Decimal;
+export type Hour = number;
 /**
  * Time second
  */
-export type Minute = Decimal;
+export type Minute = number;
 /**
  * Time minute
  */
-export type Second = Decimal;
+export type Second = number;
 /**
  * Time milisecond
  */
-export type MiliSecond = Decimal;
+export type MiliSecond = number;
 /**
  * Pixel
  */
-export type Pixel = Decimal;
+export type Pixel = number;
 /**
  * Julian day
  * The Julian Day is a continuous count of days and fractions thereof from the beginning of the year -4712.
  * By tradition, the Julian Day begins at Greenwich mean noon, that is, 12h Universal Time.
  */
-export type JulianDay = Decimal;
+export type JulianDay = number;
 /**
  * Julian century (= time interval of 36525 days)
  */
-export type JulianCentury = Decimal;
+export type JulianCentury = number;
 /**
  * Julian millenium (= time interval of 365250 days)
  */
-export type JulianMillenium = Decimal;
+export type JulianMillenium = number;
 /**
  * Julian Ephemeris Day
  */
-export type JulianEphemerisDay = Decimal;
-export type ArcMinute = Decimal;
-export type ArcSecond = Decimal;
+export type JulianEphemerisDay = number;
+export type ArcMinute = number;
+export type ArcSecond = number;
 /**
  * Mean radius of Jupiter
  */
-export type JupiterRadius = Decimal
+export type JupiterRadius = number
 /**
  * Mean radius of the Sun
  */
-export type SolarRadius = Decimal
+export type SolarRadius = number
 /**
  * Astronomical unit, that is mean distance between the centers of the Sun and the Earth.
  */
-export type AstronomicalUnit = Decimal
+export type AstronomicalUnit = number
 /**
  * Parsec
  */
-export type Parsec = Decimal
+export type Parsec = number
 /**
  * Kiloparsec. Of course.
  */
-export type KiloParsec = Decimal
+export type KiloParsec = number
 /**
  * Megaparsec.
  */
-export type MegaParsec = Decimal
+export type MegaParsec = number
 /**
  * Gpc^3.
  */
-export type GigaParsec3 = Decimal
+export type GigaParsec3 = number
 /**
  * kpc/".
  */
-export type KiloparsecPerArcsecond = Decimal
+export type KiloparsecPerArcsecond = number
 /**
  * Logarithmic scale of luminosity
  */
-export type Magnitude = Decimal;
+export type Magnitude = number;
 /**
  * KilometerPerSecondPerMegaParsec (for the Hubble constant)
  */
-export type KilometerPerSecondPerMegaParsec = Decimal;
+export type KilometerPerSecondPerMegaParsec = number;
 /**
  * Albedo
  */
-export type Albedo = Decimal
+export type Albedo = number
 /**
  * Meter
  */
-export type Meter = Decimal;
+export type Meter = number;
 /**
  * Kilometer
  */
-export type Kilometer = Decimal;
+export type Kilometer = number;
 /**
  * Light-Year
  */
-export type LightYear = Decimal;
+export type LightYear = number;
 /**
  * Kilogram
  */
-export type Kilogram = Decimal;
+export type Kilogram = number;
 /**
  * 10^24 kilograms
  */
-export type Kilogram24 = Decimal;
+export type Kilogram24 = number;
 /**
  * g cm^-3
  */
-export type GramPerCubicCentimeter = Decimal;
+export type GramPerCubicCentimeter = number;
 /**
  * m s^-2
  */
-export type MeterPerSquareSecond = Decimal;
+export type MeterPerSquareSecond = number;
 /**
  * km s^-1
  */
-export type KilometerPerSecond = Decimal;
+export type KilometerPerSecond = number;
 /**
  * Celsius degrees
  */
-export type Celsius = Decimal;
+export type Celsius = number;

@@ -1,6 +1,5 @@
-import Decimal from '@/decimal'
 import { ArcSecond, Degree, JulianDay, Magnitude } from '@/types'
-import { FIVE, ONE, TWO } from '@/constants'
+import { DEG2RAD, RAD2DEG } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
 import { getRingSystemDetails } from './ringSystem'
@@ -13,14 +12,11 @@ import { getGeocentricDistance } from './elliptical'
  * @return {Degree}
  * @memberof module:Saturn
  */
-export function getPhaseAngle (jd: JulianDay | number): Degree {
+export function getPhaseAngle (jd: JulianDay): Degree {
   const r = getRadiusVector(jd)
   const R = Earth.getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
-  return fmod360(
-    Decimal.acos((r.pow(2).plus(Delta.pow(2)).minus(R.pow(2)))
-      .dividedBy(TWO.mul(r).mul(Delta))).radiansToDegrees()
-  )
+  return fmod360(RAD2DEG * (Math.acos((r * r + Delta * Delta - R * R) / (2 * r * Delta))))
 }
 
 /**
@@ -29,9 +25,9 @@ export function getPhaseAngle (jd: JulianDay | number): Degree {
  * @returns {number}
  * @memberof module:Saturn
  */
-export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
-  const i = getPhaseAngle(jd).degreesToRadians()
-  return (ONE.plus(Decimal.cos(i))).dividedBy(2)
+export function getIlluminatedFraction (jd: JulianDay): number {
+  const i = getPhaseAngle(jd) * DEG2RAD
+  return (1 + Math.cos(i)) / 2
 }
 
 /**
@@ -43,20 +39,16 @@ export function getIlluminatedFraction (jd: JulianDay | number): Decimal {
  * @returns {Magnitude}
  * @memberof module:Saturn
  */
-export function getMagnitude (jd: JulianDay | number): Magnitude {
+export function getMagnitude (jd: JulianDay): Magnitude {
   const r = getRadiusVector(jd)
   const Delta = getGeocentricDistance(jd)
-
+  
   const ringSystem = getRingSystemDetails(jd)
-  const B = ringSystem.earthCoordinates.latitude.degreesToRadians()
-  const sinB = Decimal.sin(B)
+  const B = ringSystem.earthCoordinates.latitude * DEG2RAD
+  const sinB = Math.sin(B)
   const DeltaU = ringSystem.saturnicentricSunEarthLongitudesDifference
-
-  return new Decimal('-8.88')
-    .plus(FIVE.mul(Decimal.log10(r.mul(Delta))))
-    .plus(new Decimal('0.044').mul(DeltaU.abs()))
-    .minus(new Decimal('2.60').mul(B.abs().sin()))
-    .plus(new Decimal('1.25').mul(sinB.pow(2)))
+  
+  return -8.88 + 5 * Math.log10(r * Delta) + 0.044 * Math.abs(DeltaU) - 2.60 * Math.sin(Math.abs(B)) + 1.25 * Math.pow(sinB, 2)
 }
 
 /**
@@ -70,9 +62,9 @@ export function getMagnitude (jd: JulianDay | number): Magnitude {
  * @returns {ArcSecond}
  * @memberof module:Saturn
  */
-export function getEquatorialSemiDiameter (jd: JulianDay | number): ArcSecond {
+export function getEquatorialSemiDiameter (jd: JulianDay): ArcSecond {
   const Delta = getGeocentricDistance(jd)
-  return new Decimal('8.34').dividedBy(Delta)
+  return 8.34 / Delta
 }
 
 /**
@@ -84,6 +76,6 @@ export function getEquatorialSemiDiameter (jd: JulianDay | number): ArcSecond {
  * @returns {ArcSecond}
  * @memberof module:Saturn
  */
-export function getPolarSemiDiameter (jd: JulianDay | number): ArcSecond {
+export function getPolarSemiDiameter (jd: JulianDay): ArcSecond {
   return getEquatorialSemiDiameter(jd)
 }

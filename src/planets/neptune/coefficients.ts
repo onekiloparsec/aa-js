@@ -1,7 +1,6 @@
-import Decimal from '@/decimal'
-import { PlanetCoefficient, PlanetCoefficientNum } from '@/types'
+import { PlanetCoefficient } from '@/types'
 
-export const getCoefficientsL0 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsL0 = function (): (PlanetCoefficient)[] {
   return [
     [531188633, 0, 0],
     [1798476, 2.9010127, 38.1330356],
@@ -42,13 +41,11 @@ export const getCoefficientsL0 = function (useDecimals: boolean = true): (Planet
     [103, 4.404, 70.328],
     [102, 5.705, 0.112]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }
 
-export const getCoefficientsL1 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsL1 = function (): (PlanetCoefficient)[] {
   return [
     [3837687717.0, 0, 0],
     [16604, 4.86319, 1.48447],
@@ -69,13 +66,11 @@ export const getCoefficientsL1 = function (useDecimals: boolean = true): (Planet
     [29, 5.17, 2.45],
     [26, 5.25, 168.05]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }
 
-export const getCoefficientsL2 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsL2 = function (): (PlanetCoefficient)[] {
   return [
     [53893, 0, 0],
     [296, 1.855, 1.484],
@@ -85,36 +80,30 @@ export const getCoefficientsL2 = function (useDecimals: boolean = true): (Planet
     [9, 4.43, 35.16],
     [7, 0.54, 2.45]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }
 
-export const getCoefficientsL3 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsL3 = function (): (PlanetCoefficient)[] {
   return [
     [31, 0, 0],
     [15, 1.35, 76.27],
     [12, 6.04, 1.48],
     [12, 6.11, 38.13]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }
 
-export const getCoefficientsL4 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsL4 = function (): (PlanetCoefficient)[] {
   return [
     [114, 3.142, 0]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }
 
-export const getCoefficientsB0 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsB0 = function (): (PlanetCoefficient)[] {
   return [
     [3088623, 1.4410437, 38.1330356],
     [27780, 5.91272, 76.26607],
@@ -134,13 +123,11 @@ export const getCoefficientsB0 = function (useDecimals: boolean = true): (Planet
     [206, 4.257, 529.691],
     [140, 3.530, 137.033]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }
 
-export const getCoefficientsB1 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsB1 = function (): (PlanetCoefficient)[] {
   return [
     [227279, 3.807931, 38.133036],
     [1803, 1.9758, 76.2661],
@@ -156,13 +143,11 @@ export const getCoefficientsB1 = function (useDecimals: boolean = true): (Planet
     [37, 5.76, 2.97],
     [26, 5.22, 213.30]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }
 
-export const getCoefficientsB2 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsB2 = function (): (PlanetCoefficient)[] {
   return [
     [9691, 5.5712, 38.1330],
     [79, 3.63, 76.27],
@@ -171,36 +156,30 @@ export const getCoefficientsB2 = function (useDecimals: boolean = true): (Planet
     [30, 1.61, 39.62],
     [6, 5.61, 74.78]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }
 
-export const getCoefficientsB3 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsB3 = function (): (PlanetCoefficient)[] {
   return [
     [273, 1.017, 38.133],
     [2, 0, 0],
     [2, 2.37, 36.65],
     [2, 5.33, 76.27]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }
 
-export const getCoefficientsB4 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsB4 = function (): (PlanetCoefficient)[] {
   return [
     [6, 2.67, 38.13]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }
 
-export const getCoefficientsR0 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsR0 = function (): (PlanetCoefficient)[] {
   return [
     [3007013206.0, 0, 0],
     [27062259, 1.32999459, 38.13303564],
@@ -235,13 +214,11 @@ export const getCoefficientsR0 = function (useDecimals: boolean = true): (Planet
     [2306, 2.8096, 70.3282],
     [2087, 0.6186, 33.9402]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }
 
-export const getCoefficientsR1 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsR1 = function (): (PlanetCoefficient)[] {
   return [
     [236339, 0.704980, 38.133036],
     [13220, 3.32015, 1.48447],
@@ -259,13 +236,11 @@ export const getCoefficientsR1 = function (useDecimals: boolean = true): (Planet
     [572, 3.401, 484.444],
     [561, 2.887, 498.671]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }
 
-export const getCoefficientsR2 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsR2 = function (): (PlanetCoefficient)[] {
   return [
     [4247, 5.8991, 38.1330],
     [218, 0.346, 1.484],
@@ -273,18 +248,14 @@ export const getCoefficientsR2 = function (useDecimals: boolean = true): (Planet
     [156, 4.594, 182.280],
     [127, 2.848, 35.164]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }
 
-export const getCoefficientsR3 = function (useDecimals: boolean = true): (PlanetCoefficient | PlanetCoefficientNum)[] {
+export const getCoefficientsR3 = function (): (PlanetCoefficient)[] {
   return [
     [166, 4.552, 38.133]
   ].map((a) => {
-    return useDecimals ?
-      { A: new Decimal(a[0]), B: new Decimal(a[1]), C: new Decimal(a[2]) } :
-      { A: a[0], B: a[1], C: a[2] }
+    return { A: a[0], B: a[1], C: a[2] }
   })
 }

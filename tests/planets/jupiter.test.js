@@ -12,9 +12,9 @@ describe('Jupiter', () => {
   test('check physical details', () => {
     const UTCDate = new Date(Date.UTC(1992, 11, 16))
     const jd = juliandays.getJulianDay(UTCDate)
-    expect(jd.toNumber()).toEqual(2448972.5)
+    expect(jd).toEqual(2448972.5)
     const jd0 = transformUTC2TT(jd)
-    expect(jd0.toNumber()).toEqual(2448972.500685)
+    expect(jd0).toEqual(2448972.5006850003)
     // TODO: rewrite Jupiter details based on what is done for Saturn ring system.
   })
 
@@ -23,8 +23,8 @@ describe('Jupiter', () => {
     const r1 = Jupiter.getRadiusVector(jd)
     const r2 = Jupiter.getRadiusVector(jd, false)
     expect(r1).toBeCloseTo(r2, 6)
-    expect(r1.toNumber()).toBeGreaterThan(4)
-    expect(r1.toNumber()).toBeLessThan(6.5)
+    expect(r1).toBeGreaterThan(4)
+    expect(r1).toBeLessThan(6.5)
   })
 })
 

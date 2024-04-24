@@ -1,35 +1,5 @@
-import Decimal from '@/decimal'
-import { Radian } from '@/types'
-
 /** @private */
 export type AberrationCoefficient = {
-  L2: Radian
-  L3: Radian
-  L4: Radian
-  L5: Radian
-  L6: Radian
-  L7: Radian
-  L8: Radian
-  Ldash: Radian
-  D: Radian
-  Mdash: Radian
-  F: Radian
-  xsin: Radian
-  xsint: Radian
-  xcos: Radian
-  xcost: Radian
-  ysin: Radian
-  ysint: Radian
-  ycos: Radian
-  ycost: Radian
-  zsin: Radian
-  zsint: Radian
-  zcos: Radian
-  zcost: Radian
-}
-
-/** @private */
-export type AberrationCoefficientNum = {
   L2: number
   L3: number
   L4: number
@@ -55,7 +25,7 @@ export type AberrationCoefficientNum = {
   zcost: number
 }
 
-export const getAberrationCoefficients = function (useDecimals: boolean = true): (AberrationCoefficient | AberrationCoefficientNum)[] {
+export const getAberrationCoefficients = function (): AberrationCoefficient[] {
   return [
     //L2   L3   L4  L5  L6  L7  L8  Ldash D   Mdash F   xsin      xsint xcos    xcost ysin   ysint ycos     ycost zsin   zsint zcos    zcost
     [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, -1719914, -2, -25, 0, 25, -13, 1578089, 156, 10, 32, 684185, -358],
@@ -95,31 +65,7 @@ export const getAberrationCoefficients = function (useDecimals: boolean = true):
     [0, 2, -2, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, -5, 0, -4, 0, -5, 0, -2, 0, -2, 0],
     [0, 0, 0, 0, 0, 0, 0, 1, -2, 0, 0, 5, 0, 0, 0, 0, 0, -5, 0, 0, 0, -2, 0],
   ].map(a => {
-    return useDecimals ? {
-      L2: new Decimal(a[0]),
-      L3: new Decimal(a[1]),
-      L4: new Decimal(a[2]),
-      L5: new Decimal(a[3]),
-      L6: new Decimal(a[4]),
-      L7: new Decimal(a[5]),
-      L8: new Decimal(a[6]),
-      Ldash: new Decimal(a[7]),
-      D: new Decimal(a[8]),
-      Mdash: new Decimal(a[9]),
-      F: new Decimal(a[10]),
-      xsin: new Decimal(a[11]),
-      xsint: new Decimal(a[12]),
-      xcos: new Decimal(a[13]),
-      xcost: new Decimal(a[14]),
-      ysin: new Decimal(a[15]),
-      ysint: new Decimal(a[16]),
-      ycos: new Decimal(a[17]),
-      ycost: new Decimal(a[18]),
-      zsin: new Decimal(a[19]),
-      zsint: new Decimal(a[20]),
-      zcos: new Decimal(a[21]),
-      zcost: new Decimal(a[22])
-    } : {
+    return {
       L2: a[0],
       L3: a[1],
       L4: a[2],

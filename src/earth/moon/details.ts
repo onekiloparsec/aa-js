@@ -1,55 +1,46 @@
-import Decimal from '@/decimal'
 import { Sun } from '@/sun'
-import { ONE_UA_IN_KILOMETERS } from '@/constants'
+import { DEG2RAD, ONE_UA_IN_KILOMETERS, RAD2DEG } from '@/constants'
 import { ArcSecond, Degree, Equinox, JulianDay, Kilometer, Obliquity, Radian } from '@/types'
 import { getRadiusVector as getEarthRadiusVector } from '@/earth/coordinates'
 import { getGeocentricEquatorialCoordinates, getRadiusVectorInKilometer } from './coordinates'
 
 /**
  * The geocentric elongation of the moon
- * @param {JulianDay | number} jd
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
+ * @param {JulianDay} jd
  * @returns {Degree}
  * @memberof module:Earth
  */
-export function getGeocentricElongation (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd, Equinox.MeanOfTheDate, highPrecision)
-  const moonCoords = getGeocentricEquatorialCoordinates(jd, Obliquity.Mean, highPrecision)
+export function getGeocentricElongation (jd: JulianDay): Degree {
+  const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd, Equinox.MeanOfTheDate)
+  const moonCoords = getGeocentricEquatorialCoordinates(jd, Obliquity.Mean)
   
-  const decRadSun = sunCoords.declination.degreesToRadians()
-  const decRadMoon = moonCoords.declination.degreesToRadians()
+  const decRadSun = sunCoords.declination * DEG2RAD
+  const decRadMoon = moonCoords.declination * DEG2RAD
   
-  const raRadSun = sunCoords.rightAscension.degreesToRadians()
-  const raRadMoon = moonCoords.rightAscension.degreesToRadians()
+  const raRadSun = sunCoords.rightAscension * DEG2RAD
+  const raRadMoon = moonCoords.rightAscension * DEG2RAD
   
-  if (highPrecision) {
-    const sins = decRadSun.sin().mul(decRadMoon.sin())
-    const coss = decRadSun.cos().mul(decRadMoon.cos()).mul(Decimal.cos(raRadSun.minus(raRadMoon)))
-    // See first equation 48.2 of AA, p. 345.
-    return Decimal.acos(sins.plus(coss)).radiansToDegrees()
-  } else {
-    const sins = Math.sin(decRadSun.toNumber()) * Math.sin(decRadMoon.toNumber())
-    const coss = Math.cos(decRadSun.toNumber()) * Math.cos(decRadMoon.toNumber()) * Math.cos(raRadSun.toNumber() - raRadMoon.toNumber())
-    // See first equation 48.2 of AA, p. 345.
-    return new Decimal(Math.acos(sins + coss)).radiansToDegrees()
-  }
+  const sins = Math.sin(decRadSun) * Math.sin(decRadMoon)
+  const coss = Math.cos(decRadSun) * Math.cos(decRadMoon) * Math.cos(raRadSun - raRadMoon)
+  
+  // See first equation 48.2 of AA, p. 345.
+  return Math.acos(sins + coss) * RAD2DEG
 }
 
 /**
  * The phase angle (angle Sun-Moon-Earth)
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @return {Degree}
  * @memberof module:Earth
  */
-export function getPhaseAngle (jd: JulianDay | number, highPrecision: boolean = true): Degree {
+export function getPhaseAngle (jd: JulianDay): Degree {
   // Geocentric elongation of the Moon from the Sun
-  const psi: Radian = getGeocentricElongation(jd, highPrecision).degreesToRadians()
+  const psi: Radian = getGeocentricElongation(jd) * DEG2RAD
   // Distance Earth-Moon
-  const Delta: Kilometer = getRadiusVectorInKilometer(jd, highPrecision) // kilometer!!!
+  const Delta: Kilometer = getRadiusVectorInKilometer(jd) // kilometer!!!
   // Distance Earth-Sun
-  const R: Kilometer = getEarthRadiusVector(jd, highPrecision).mul(ONE_UA_IN_KILOMETERS)
-  return Decimal.atan2(R.mul(psi.sin()), Delta.minus(R.mul(psi.cos()))).radiansToDegrees()
+  const R: Kilometer = getEarthRadiusVector(jd) * ONE_UA_IN_KILOMETERS
+  return Math.atan2(R * Math.sin(psi), Delta - R * Math.cos(psi)) * RAD2DEG
 }
 
 /**
@@ -57,59 +48,55 @@ export function getPhaseAngle (jd: JulianDay | number, highPrecision: boolean = 
  * The position angle of the Moon's bright limb is the position angle of the midpoint of the illuminated limb of
  * the Moon, reckoned eastward from the North Point of the disk (not from the axis of rotation of the lunar globe).
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @return {Degree}
  * @memberof module:Earth
  */
-export function getPositionAngleOfTheBrightLimb (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd, Equinox.MeanOfTheDate, highPrecision)
-  const moonCoords = getGeocentricEquatorialCoordinates(jd, Obliquity.Mean, highPrecision)
+export function getPositionAngleOfTheBrightLimb (jd: JulianDay): Degree {
+  const sunCoords = Sun.getGeocentricEquatorialCoordinates(jd, Equinox.MeanOfTheDate)
+  const moonCoords = getGeocentricEquatorialCoordinates(jd, Obliquity.Mean)
   
-  const alpha0 = (sunCoords.rightAscension as Degree).degreesToRadians()
-  const alpha = (moonCoords.rightAscension as Degree).degreesToRadians()
-  const delta0 = (sunCoords.declination as Degree).degreesToRadians()
-  const delta = (moonCoords.declination as Degree).degreesToRadians()
+  const alpha0 = (sunCoords.rightAscension as Degree) * DEG2RAD
+  const alpha = (moonCoords.rightAscension as Degree) * DEG2RAD
+  const delta0 = (sunCoords.declination as Degree) * DEG2RAD
+  const delta = (moonCoords.declination as Degree) * DEG2RAD
   
-  const y = delta0.cos().mul((alpha0.minus(alpha)).sin())
+  const y = Math.cos(delta0) * Math.sin(alpha0 - alpha)
   
-  const x = delta0.sin().mul(delta.cos())
-    .minus(delta0.cos().mul(delta.sin()).mul((alpha0.minus(alpha)).cos()))
+  const x = Math.sin(delta0) * Math.cos(delta)
+    - (Math.cos(delta0) * Math.sin(delta) * Math.cos(alpha0 - alpha))
   
-  return Decimal.atan2(y, x).radiansToDegrees()
+  return Math.atan2(y, x) * RAD2DEG
 }
 
 /**
  * The illuminated fraction of the Moon as seen from the Earth.
  * Between 0 and 1.
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {number}
  * @memberof module:Earth
  */
-export function getIlluminatedFraction (jd: JulianDay | number, highPrecision: boolean = true): Decimal {
-  const phaseAngle = getPhaseAngle(jd, highPrecision).degreesToRadians()
-  return (new Decimal(1).plus(Decimal.cos(phaseAngle))).dividedBy(2)
+export function getIlluminatedFraction (jd: JulianDay): number {
+  const phaseAngle = getPhaseAngle(jd) * DEG2RAD
+  return (1 + Math.cos(phaseAngle)) / 2
 }
 
 /**
  * Equatorial horizontal parallax
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  * @memberof module:Earth
  */
-export function getEquatorialHorizontalParallax (jd: JulianDay | number, highPrecision: boolean = true): Degree {
-  return Decimal.asin(new Decimal('6378.14').dividedBy(getRadiusVectorInKilometer(jd, highPrecision))).radiansToDegrees()
+export function getEquatorialHorizontalParallax (jd: JulianDay): Degree {
+  return Math.asin(6378.14 / getRadiusVectorInKilometer(jd)) * RAD2DEG
 }
 
 /**
  * Geocentric Moon semi-diameter.
  * Error is less than 0.0005 arcsecond (see AA p391).
  * @param {JulianDay} jd The julian day
- * @param {boolean} highPrecision Use (slower) arbitrary-precision decimal computations. default = true.
  * @returns {Degree}
  * @memberof module:Earth
  */
-export function getGeocentricSemiDiameter (jd: JulianDay | number, highPrecision: boolean = true): ArcSecond {
-  return new Decimal('358_473_400').dividedBy(getRadiusVectorInKilometer(jd, highPrecision))
+export function getGeocentricSemiDiameter (jd: JulianDay): ArcSecond {
+  return 358_473_400 / getRadiusVectorInKilometer(jd)
 }

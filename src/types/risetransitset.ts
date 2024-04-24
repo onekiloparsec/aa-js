@@ -1,10 +1,9 @@
-import Decimal from '@/decimal'
 import { Degree, Hour, JulianDay } from './units'
 
 
 export type TransitInternals = {
-  m0: Decimal | number | undefined
-  cosH0: Decimal | number | undefined
+  m0: number | undefined
+  cosH0: number | undefined
 }
 
 /**
