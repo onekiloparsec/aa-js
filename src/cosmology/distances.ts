@@ -1,7 +1,7 @@
 import { SPEED_OF_LIGHT } from '@/constants'
 import { KilometerPerSecondPerMegaParsec, KiloparsecPerArcsecond, MegaParsec } from '@/types'
 import { getDCMRIntegral } from './utils'
-import { getOmegaK } from './omegas'
+import { getOmegaK, getOmegaR } from './omegas'
 
 /**
  * Comoving radial distance
@@ -42,8 +42,8 @@ export function getTangentialComovingDistance (H0: KilometerPerSecondPerMegaPars
     y = -y
   }
   const ratio = 1 + y / 6 + y * y / 120
-  return ratio * DCMR
   
+  return ratio * DCMR
 }
 
 /**

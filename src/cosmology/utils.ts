@@ -5,7 +5,7 @@ export const INTEGRAL_POINTS_NUMBER = 2000
 export const Tyr = 977.8 // coefficient for converting 1/H into Gyr
 
 export function getADot (a: number, omegaK: number, omegaMat: number, omegaR: number, omegaVac: number): number {
-  return Math.sqrt(omegaK + omegaMat / a + omegaR / (a * a) + omegaVac / (a * a))
+  return Math.sqrt(omegaK + (omegaMat / a) + (omegaR / (a * a)) + (omegaVac * a * a))
 }
 
 export type AccumulatorFunction = (a: number, adot: number) => number
