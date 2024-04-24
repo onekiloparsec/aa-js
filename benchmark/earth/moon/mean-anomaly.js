@@ -4,11 +4,8 @@ import { Earth } from '@'
 export default b.suite(
   'moon coordinates getMeanAnomaly',
 
-  b.add('getMeanAnomaly high', () => {
+  b.add('getMeanAnomaly', () => {
     Earth.Moon.getMeanElongation(2451234.56)
-  }),
-  b.add('getMeanAnomaly low', () => {
-    Earth.Moon.getMeanElongation(2451234.56, false)
   }),
 
   b.cycle(),

@@ -4,11 +4,8 @@ import { Jupiter } from '@'
 export default b.suite(
   'Jupiter coordinates getEclipticLatitude',
 
-  b.add('getEclipticLatitude high', () => {
+  b.add('getEclipticLatitude', () => {
     Jupiter.getEclipticLatitude(2451234.56)
-  }),
-  b.add('getEclipticLatitude low', () => {
-    Jupiter.getEclipticLatitude(2451234.56, false)
   }),
 
   b.cycle(),

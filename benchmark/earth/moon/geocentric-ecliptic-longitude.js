@@ -4,11 +4,8 @@ import { Earth } from '@'
 export default b.suite(
   'moon coordinates getGeocentricEclipticLongitude',
 
-  b.add('getEclipticLongitude high', () => {
+  b.add('getEclipticLongitude', () => {
     Earth.Moon.getGeocentricEclipticLongitude(2451234.56)
-  }),
-  b.add('getEclipticLongitude low', () => {
-    Earth.Moon.getGeocentricEclipticLongitude(2451234.56, false)
   }),
 
   b.cycle(),

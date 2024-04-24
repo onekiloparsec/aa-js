@@ -4,11 +4,8 @@ import { Uranus } from '@'
 export default b.suite(
   'Uranus coordinates getApparentGeocentricEclipticCoordinates',
 
-  b.add('getApparentGeocentricEclipticCoordinates high', () => {
+  b.add('getApparentGeocentricEclipticCoordinates', () => {
     Uranus.getApparentGeocentricEclipticCoordinates(2448972)
-  }),
-  b.add('getApparentGeocentricEclipticCoordinates low', () => {
-    Uranus.getApparentGeocentricEclipticCoordinates(2448972, false)
   }),
 
   b.cycle(),

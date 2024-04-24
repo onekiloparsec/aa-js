@@ -11,11 +11,8 @@ const coordsVenus = { rightAscension: 41.73129, declination: 18.44092 }
 b.suite(
   'rise transit set',
 
-  b.add('getRiseTransitSetTimes high', () => {
+  b.add('getRiseTransitSetTimes', () => {
     getRiseTransitSetTimes(jd, coordsVenus, coordsBoston)
-  }),
-  b.add('getRiseTransitSetTimes low', () => {
-    getRiseTransitSetTimes(jd, coordsVenus, coordsBoston, STANDARD_ALTITUDE_STARS, false)
   }),
 
   b.cycle(),

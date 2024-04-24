@@ -4,11 +4,8 @@ import { Mars } from '@'
 export default b.suite(
   'Mars coordinates getRadiusVector',
 
-  b.add('getRadiusVector high', () => {
+  b.add('getRadiusVector', () => {
     Mars.getRadiusVector(2451234.56)
-  }),
-  b.add('getRadiusVector low', () => {
-    Mars.getRadiusVector(2451234.56, false)
   }),
 
   b.cycle(),

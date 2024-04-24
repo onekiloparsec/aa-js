@@ -9,11 +9,8 @@ const eclCoords = coordinates.transformEquatorialToEcliptic(equCoords)
 export default b.suite(
   'Earth aberration getAnnualEclipticAberration',
 
-  b.add('getAnnualEclipticAberration high', () => {
+  b.add('getAnnualEclipticAberration', () => {
     Earth.getAnnualEclipticAberration(2451234.56, eclCoords)
-  }),
-  b.add('getAnnualEclipticAberration low', () => {
-    Earth.getAnnualEclipticAberration(2451234.56, eclCoords, false)
   }),
 
   b.cycle(),

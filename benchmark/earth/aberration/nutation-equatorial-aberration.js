@@ -9,11 +9,8 @@ const equCoords = { rightAscension: ra* H2DEG, declination: dec }
 export default b.suite(
   'Earth aberration getNutationEquatorialAberration',
 
-  b.add('getNutationEquatorialAberration high', () => {
+  b.add('getNutationEquatorialAberration', () => {
     Earth.getNutationEquatorialAberration(2451234.56, equCoords)
-  }),
-  b.add('getNutationEquatorialAberration low', () => {
-    Earth.getNutationEquatorialAberration(2451234.56, equCoords, false)
   }),
 
   b.cycle(),

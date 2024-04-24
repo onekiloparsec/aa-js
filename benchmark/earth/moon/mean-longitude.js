@@ -4,11 +4,8 @@ import { Earth } from '@'
 export default b.suite(
   'moon coordinates getMeanLongitude',
 
-  b.add('getMeanLongitude high', () => {
+  b.add('getMeanLongitude', () => {
     Earth.Moon.getMeanLongitude(2451234.56)
-  }),
-  b.add('getMeanLongitude low', () => {
-    Earth.Moon.getMeanLongitude(2451234.56, false)
   }),
 
   b.cycle(),

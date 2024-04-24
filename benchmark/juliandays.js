@@ -6,18 +6,12 @@ const jd = juliandays.getJulianDay()
 b.suite(
   'juliandays',
 
-  b.add('getLocalSiderealTime high', () => {
+  b.add('getLocalSiderealTime', () => {
     juliandays.getLocalSiderealTime(jd, 10)
   }),
-  b.add('getLocalSiderealTime low', () => {
-    juliandays.getLocalSiderealTime(jd, 10, false)
-  }),
 
-  b.add('getJulianCentury high', () => {
+  b.add('getJulianCentury', () => {
     juliandays.getJulianCentury(jd)
-  }),
-  b.add('getJulianCentury low', () => {
-    juliandays.getJulianCentury(jd, false)
   }),
 
   b.cycle(),

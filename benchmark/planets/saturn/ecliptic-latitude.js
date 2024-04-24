@@ -4,7 +4,7 @@ import { Saturn } from '@'
 export default b.suite(
   'Saturn coordinates getEclipticLatitude',
 
-  b.add('getEclipticLatitude high', () => {
+  b.add('getEclipticLatitude', () => {
     Saturn.getEclipticLatitude(2451234.56)
   }),
   b.add('getEclipticLatitude low', () => {

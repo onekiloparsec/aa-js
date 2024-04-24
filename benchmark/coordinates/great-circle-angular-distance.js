@@ -7,11 +7,8 @@ const coordsVenus = { rightAscension: 41.73129, declination: 18.44092 }
 b.suite(
   'coordinates getGreatCircleAngularDistance',
 
-  b.add('getGreatCircleAngularDistance high', () => {
+  b.add('getGreatCircleAngularDistance', () => {
     coordinates.getGreatCircleAngularDistance(thetaPersei, coordsVenus)
-  }),
-  b.add('getGreatCircleAngularDistance low', () => {
-    coordinates.getGreatCircleAngularDistance(thetaPersei, coordsVenus, false)
   }),
 
   b.cycle(),

@@ -9,11 +9,8 @@ const equCoords = { rightAscension: ra* H2DEG, declination: dec }
 export default b.suite(
   'Earth aberration getAccurateAnnualEquatorialAberration',
 
-  b.add('getAccurateAnnualEquatorialAberration high', () => {
+  b.add('getAccurateAnnualEquatorialAberration', () => {
     Earth.getAccurateAnnualEquatorialAberration(2451234.56, equCoords)
-  }),
-  b.add('getAccurateAnnualEquatorialAberration low', () => {
-    Earth.getAccurateAnnualEquatorialAberration(2451234.56, equCoords, false)
   }),
 
   b.cycle(),

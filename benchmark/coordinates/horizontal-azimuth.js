@@ -9,11 +9,8 @@ const coordsVenus = { rightAscension: 41.73129, declination: 18.44092 }
 b.suite(
   'coordinates',
 
-  b.add('getHorizontalAzimuth high', () => {
+  b.add('getHorizontalAzimuth', () => {
     coordinates.getHorizontalAzimuth(jd, coordsBoston, coordsVenus)
-  }),
-  b.add('getHorizontalAzimuth low', () => {
-    coordinates.getHorizontalAzimuth(jd, coordsBoston, coordsVenus, false)
   }),
 
   b.cycle(),

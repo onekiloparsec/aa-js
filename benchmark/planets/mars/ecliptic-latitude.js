@@ -4,11 +4,8 @@ import { Mars } from '@'
 export default b.suite(
   'Mars coordinates getEclipticLatitude',
 
-  b.add('getEclipticLatitude high', () => {
+  b.add('getEclipticLatitude', () => {
     Mars.getEclipticLatitude(2451234.56)
-  }),
-  b.add('getEclipticLatitude low', () => {
-    Mars.getEclipticLatitude(2451234.56, false)
   }),
 
   b.cycle(),

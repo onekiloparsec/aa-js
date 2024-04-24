@@ -4,11 +4,8 @@ import { Earth } from '@'
 export default b.suite(
   'Earth coordinates getRadiusVector',
 
-  b.add('getRadiusVector high', () => {
+  b.add('getRadiusVector', () => {
     Earth.getRadiusVector(2451234.56)
-  }),
-  b.add('getRadiusVector low', () => {
-    Earth.getRadiusVector(2451234.56, false)
   }),
 
   b.cycle(),

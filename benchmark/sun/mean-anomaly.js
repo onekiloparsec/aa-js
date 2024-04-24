@@ -4,11 +4,8 @@ import { Sun } from '@'
 b.suite(
   'sun getMeanAnomaly',
 
-  b.add('getMeanAnomaly high', () => {
+  b.add('getMeanAnomaly', () => {
     Sun.getMeanAnomaly(2451234.56)
-  }),
-  b.add('getMeanLongitude low', () => {
-    Sun.getMeanAnomaly(2451234.56, false)
   }),
 
   b.cycle(),

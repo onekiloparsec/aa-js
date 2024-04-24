@@ -4,11 +4,8 @@ import { Neptune } from '@'
 export default b.suite(
   'Neptune coordinates getApparentGeocentricEquatorialCoordinates',
 
-  b.add('getApparentGeocentricEquatorialCoordinates high', () => {
+  b.add('getApparentGeocentricEquatorialCoordinates', () => {
     Neptune.getApparentGeocentricEquatorialCoordinates(2448972)
-  }),
-  b.add('getApparentGeocentricEquatorialCoordinates low', () => {
-    Neptune.getApparentGeocentricEquatorialCoordinates(2448972, false)
   }),
 
   b.cycle(),

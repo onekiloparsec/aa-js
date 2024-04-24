@@ -4,11 +4,8 @@ import { Uranus } from '@'
 export default b.suite(
   'Uranus coordinates getRadiusVector',
 
-  b.add('getRadiusVector high', () => {
+  b.add('getRadiusVector', () => {
     Uranus.getRadiusVector(2451234.56)
-  }),
-  b.add('getRadiusVector low', () => {
-    Uranus.getRadiusVector(2451234.56, false)
   }),
 
   b.cycle(),
