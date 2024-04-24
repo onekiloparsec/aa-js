@@ -13,7 +13,7 @@ describe('aberration', () => {
     const utcDate = new Date(Date.UTC(2028, 10, 13, 19 / 24))
     const jd = transformUTC2TT(getJulianDay(utcDate))
     const coords = {
-      rightAscension: getDecimalValue(2, 46, 11.331)* H2DEG,
+      rightAscension: getDecimalValue(2, 46, 11.331) * H2DEG,
       declination: getDecimalValue(49, 20, 54.54)
     }
 
@@ -38,7 +38,7 @@ describe('aberration', () => {
     const utcDate = new Date(Date.UTC(2028, 10, 13, 19 / 24))
     const jd = transformUTC2TT(getJulianDay(utcDate))
     const coords = {
-      rightAscension: getDecimalValue(2, 46, 11.331)* H2DEG,
+      rightAscension: getDecimalValue(2, 46, 11.331) * H2DEG,
       declination: getDecimalValue(49, 20, 54.54)
     }
     const annual = getAnnualEquatorialAberration(jd, coords)

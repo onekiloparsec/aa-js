@@ -101,8 +101,8 @@ describe('coordinates', () => {
     expect(corrections.rhosinphi).toBeCloseTo(0.546861, 6)
 
     const coordsAlt = Mars.getGeocentricEquatorialCoordinates(jd)
-    expect(coordsAlt.rightAscension.toDP(6)).toBeCloseTo(339.530208, 2)
-    expect(coordsAlt.declination.toDP(6)).toBeCloseTo(-15.771083, 3)
+    expect(coordsAlt.rightAscension).toBeCloseTo(339.530208, 2)
+    expect(coordsAlt.declination).toBeCloseTo(-15.771083, 3)
 
     const coords = {
       rightAscension: getDecimalValue(22, 38, 7.25)* H2DEG,

@@ -1,4 +1,4 @@
-import { fmod, juliandays, STANDARD_ALTITUDE_STARS, Sun, Venus } from '@'
+import { fmod, H2DEG, juliandays, STANDARD_ALTITUDE_STARS, Sun, Venus } from '@'
 import { getAccurateRiseTransitSetTimes, getRiseTransitSetTimes } from '@/risetransitset'
 import { getDecimalValue, getSexagesimalValue } from '@/sexagesimal'
 import { getJulianDayMidnight } from '@/juliandays'
@@ -48,8 +48,8 @@ describe('rise transit & sets', () => {
     expect(results.rise.utc).toBeCloseTo(24 * 0.51766, 1)
     expect(results.transit.utc).toBeCloseTo(24 * 0.81980, 1)
     expect(results.set.utc).toBeCloseTo(24 * 0.12130, 2)
-    expect(results.rise.julianDay.lessThan(results.transit.julianDay)).toBeTruthy()
-    expect(results.transit.julianDay.lessThan(results.set.julianDay)).toBeTruthy()
+    expect(results.rise.julianDay < results.transit.julianDay).toBeTruthy()
+    expect(results.transit.julianDay < results.set.julianDay).toBeTruthy()
   })
 
   // See AA, pp 103 & 104
@@ -65,8 +65,8 @@ describe('rise transit & sets', () => {
     expect(results.rise.utc).toBeCloseTo(24 * 0.51766, 1)
     expect(results.transit.utc).toBeCloseTo(24 * 0.81980, 1)
     expect(results.set.utc).toBeCloseTo(24 * 0.12130, 2)
-    expect(results.rise.julianDay.lessThan(results.transit.julianDay)).toBeTruthy()
-    expect(results.transit.julianDay.lessThan(results.set.julianDay)).toBeTruthy()
+    expect(results.rise.julianDay < results.transit.julianDay).toBeTruthy()
+    expect(results.transit.julianDay < results.set.julianDay).toBeTruthy()
   })
 
   // See AA, pp 103 & 104
@@ -75,14 +75,14 @@ describe('rise transit & sets', () => {
     const jd = juliandays.getJulianDay(date)
     const coordsBoston = { latitude: 42.3333, longitude: -71.0833 }
 
-    const Theta0 = juliandays.getLocalSiderealTime(getJulianDayMidnight(jd), 0)* H2DEG
+    const Theta0 = juliandays.getLocalSiderealTime(getJulianDayMidnight(jd), 0) * H2DEG
     expect(Theta0).toBeCloseTo(177.742_08, 2)
 
     // In TD not UT, see AA p.103
     const venus = [
-      { rightAscension: getDecimalValue(2, 42, 43.25)* H2DEG, declination: getDecimalValue(18, 2, 54.4) },
-      { rightAscension: getDecimalValue(2, 46, 55.51)* H2DEG, declination: getDecimalValue(18, 26, 27.3) },
-      { rightAscension: getDecimalValue(2, 51, 7.69)* H2DEG, declination: getDecimalValue(18, 18, 49, 38.7) }
+      { rightAscension: getDecimalValue(2, 42, 43.25) * H2DEG, declination: getDecimalValue(18, 2, 54.4) },
+      { rightAscension: getDecimalValue(2, 46, 55.51) * H2DEG, declination: getDecimalValue(18, 26, 27.3) },
+      { rightAscension: getDecimalValue(2, 51, 7.69) * H2DEG, declination: getDecimalValue(18, 18, 49, 38.7) }
     ]
     const results = getAccurateRiseTransitSetTimes(jd, venus, coordsBoston, STANDARD_ALTITUDE_STARS, 2)
     expect(results.transit.isCircumpolar).toBeFalsy()
@@ -150,8 +150,8 @@ describe('rise transit & sets', () => {
     expect(results.transit.isCircumpolar).toBeFalsy()
     expect(results.transit.isAboveHorizon).toBeTruthy()
     expect(results.transit.isAboveAltitude).toBeTruthy()
-    expect(results.rise.julianDay.lessThan(results.transit.julianDay)).toBeTruthy()
-    expect(results.transit.julianDay.lessThan(results.set.julianDay)).toBeTruthy()
+    expect(results.rise.julianDay < results.transit.julianDay).toBeTruthy()
+    expect(results.transit.julianDay < results.set.julianDay).toBeTruthy()
   })
 
   test('sun rise transit set', () => {
