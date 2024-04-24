@@ -37,7 +37,7 @@ export function getJulianDay (...args: any[]): JulianDay {
     } else if (isNumber(value)) {
       const year = Math.floor(value)
       const month = Math.floor(value - year) * 12 // the month is 0-indexed
-      const day = Math.floor((value - year) * 12 - month) * 365
+      const day = Math.floor(((value - year) * 12 - month) * 365)
       const UTCDate = new Date(Date.UTC(year, month, day))
       return UTCDate.valueOf() / DAYMS - 0.5 + J1970
     } else {
