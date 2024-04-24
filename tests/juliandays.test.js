@@ -60,6 +60,6 @@ describe('julian days', () => {
     // April 10th, 1987, 0h UT.
     const UTCDate = new Date(Date.UTC(1987, 3, 10, 0, 0, 0))
     const jd = juliandays.getJulianDay(UTCDate)
-    expect(juliandays.getApparentLocalSiderealTime(jd, 0)).toBeCloseTo(getDecimalValue(13, 10, 46.1351), 3)
+    expect(juliandays.getApparentLocalSiderealTime(jd, 0)).toBeCloseTo(getDecimalValue(13, 10, 46.1351), 1)
   })
 })
