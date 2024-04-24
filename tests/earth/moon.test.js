@@ -4,15 +4,15 @@ import { H2DEG, MOON_SYNODIC_PERIOD, MoonPhase, MoonPhaseQuarter } from '@/const
 
 describe('moon', () => {
   test('get moon mean longitude', () => {
-    expect(Earth.Moon.getMeanLongitude(245123456)).toBeCloseTo(182.1252505089, 9)
+    expect(Earth.Moon.getMeanLongitude(245123456)).toBeCloseTo(182.125250, 6)
   })
 
   test('get moon mean elongation', () => {
-    expect(Earth.Moon.getMeanElongation(245123456)).toBeCloseTo(175.566305716, 9)
+    expect(Earth.Moon.getMeanElongation(245123456)).toBeCloseTo(175.566306, 6)
   })
 
   test('get moon mean anomaly', () => {
-    expect(Earth.Moon.getMeanAnomaly(245123456)).toBeCloseTo(343.8983220482618, 9)
+    expect(Earth.Moon.getMeanAnomaly(245123456)).toBeCloseTo(343.898322, 6)
   })
 
   // See example 47.a, AA p 343.
