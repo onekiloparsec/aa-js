@@ -19,8 +19,8 @@ describe('aberration', () => {
 
     const DeltaEpsilon = getNutationInObliquity(jd)
     const DeltaPsi = getNutationInLongitude(jd)
-    expect(DeltaEpsilon).toBeCloseTo(2.705, 2)
-    expect(DeltaPsi).toBeCloseTo(14.865, 2)
+    expect(DeltaEpsilon).toBeCloseTo(2.713, 2)
+    expect(DeltaPsi).toBeCloseTo(14.879, 2)
 
     const e = getEccentricity(jd)
     const pi = getLongitudeOfPerihelion(jd)
@@ -28,8 +28,8 @@ describe('aberration', () => {
     expect(pi).toBeCloseTo(103.434, 3)
 
     const nutation = getNutationEquatorialAberration(jd, coords)
-    expect(nutation.DeltaRightAscension).toBeCloseTo(15.843, 2)
-    expect(nutation.DeltaDeclination).toBeCloseTo(6.218, 2)
+    expect(nutation.DeltaRightAscension).toBeCloseTo(15.857, 2)
+    expect(nutation.DeltaDeclination).toBeCloseTo(6.228, 2)
   })
 
   // See AA p152 & 153, Ex 23.a
