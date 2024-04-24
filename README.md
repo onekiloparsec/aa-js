@@ -5,13 +5,10 @@ aa-js
 
 The most comprehensive collection of accurate astronomical algorithms (AA) in JavaScript (TypeScript).
 
-**The new v3+ offers arbitrary-precision computations, thanks to [decimal.js](https://github.com/MikeMcl/decimal.js).**
-
-**The new v3.2 offers in various places the choice between the low-precision standard Javascript Math
-implementation and the new arbitrary-precision but a lot slower implementation.** The speed between the two
-implementation can vary with a factor of 10 to 1000 times! See benchmark tests included in the project.
-
-**Whatever precision is chosen, the outputs will always contain `Decimal` (not `number`).**
+The v3 offered arbitrary-precision computations, thanks to [decimal.js](https://github.com/MikeMcl/decimal.js).
+But it was thousands (if not millions) of times slower than the original implementation, making its usage in a browser
+very difficult. After some nightly hours to optimise it and having most of both implementations side-by-side, we decided
+to remove decimal.js entirely.
 
 Other AA
 implementations: [Swift (SwiftAA)](https://github.com/onekiloparsec/SwiftAA), [C# (AASharp)](https://github.com/jsauve/AASharp).
@@ -27,16 +24,26 @@ in AA+.
 `aa-js` is the backbone of scientific algorithms used
 in [Arcsecond.io](https://www.arcsecond.io).
 
+Main Changes in V4
+================
+
+No big API changes, except there are no more Decimal.js at all, and thus no `highPrecision` parameter. The method
+signatures have not changed, but all return types are based on `number`.
+
+Small changes:
+
+- The return type of `getJulianDay` is now always `JulianDay` and not `JulianDay | undefined`. If really the build of a
+  JD is not correct, `J2000` is returned with a warning.
 
 Main Changes in V3
 ================
 
-- **All algorithms based on arbitrary-precision operations thanks
-  to [decimal.js](https://github.com/MikeMcl/decimal.js).**
+- ~~All algorithms based on arbitrary-precision operations thanks
+  to [decimal.js](https://github.com/MikeMcl/decimal.js).~~
 - **BREAKING** (since v3.2) Equatorial coordinates uses right ascension expressed in `Degree` not `Hour`.
 - **BREAKING** (since v3.2) Input parameters of the `coordinates` modules now use complete coordinates objects, rather
   than individual members to reduce the number of parameters in the functions.
-- **BREAKING** (since v3.4) The precision of Decimal.js is not set to a default value. It is left to the consumer.
+- ~~**BREAKING** (since v3.4) The precision of Decimal.js is not set to a default value. It is left to the consumer.~~
 - Moved all (non-Earth) planets modules inside a `planets` folder.
 - **Addition of numerous orbital getters for planets** (mean longitude, semi-major axis, inclination, eccentricity...)
 - Much easier and cleaner distinction between *heliocentric* and *geocentric* coordinates of planets.
