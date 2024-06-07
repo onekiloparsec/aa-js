@@ -12,7 +12,7 @@ import { DEG2RAD, H2DEG, RAD2DEG } from '@/constants'
  * @returns {Degree}
  */
 export function getRightAscensionFromHorizontal (jd: JulianDay, horCoords: HorizontalCoordinates, geoCoords: GeographicCoordinates): Degree {
-  const lmst = getLocalSiderealTime(jd, geoCoords.longitude) * H2DEG
+  const lmst: Degree = getLocalSiderealTime(jd, geoCoords.longitude) * H2DEG
   const rHorCoords = {
     azimuth: horCoords.azimuth * DEG2RAD,
     altitude: horCoords.altitude * DEG2RAD
@@ -25,9 +25,9 @@ export function getRightAscensionFromHorizontal (jd: JulianDay, horCoords: Horiz
   const x = Math.cos(rHorCoords.azimuth) * Math.sin(rGeoCoords.latitude)
     + Math.tan(rHorCoords.altitude) * Math.cos(rGeoCoords.latitude)
   
-  const value = lmst - Math.atan2(y, x)
+  const value: Degree = lmst - Math.atan2(y, x) * RAD2DEG
   
-  return fmod360(value * RAD2DEG)
+  return fmod360(value)
 }
 
 /**
