@@ -44,7 +44,7 @@ export function getParallacticAngle (jd: JulianDay, equCoords: EquatorialCoordin
  * @param {EquatorialCoordinates} coords2
  * @returns {Degree}
  */
-export function getGreatCircleAngularDistance (coords1: EquatorialCoordinates, coords2: EquatorialCoordinates) {
+export function getGreatCircleAngularDistance (coords1: EquatorialCoordinates, coords2: EquatorialCoordinates): Degree {
   const alpha1 = coords1.rightAscension * DEG2RAD
   const alpha2 = coords2.rightAscension * DEG2RAD
   const delta1 = coords1.declination * DEG2RAD
