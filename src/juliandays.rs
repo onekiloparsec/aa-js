@@ -1,5 +1,6 @@
 // src/juliandays.rs
 
+use crate::utils::{fmod24, fmod360};
 use wasm_bindgen::prelude::*;
 
 // Constants
@@ -7,6 +8,7 @@ const DAYMS: f64 = 86400000.0;
 const J1970: f64 = 2440588.0;
 const J2000: f64 = 2451545.0;
 const MJD_START: f64 = 2400000.5;
+const DEG2H: f64 = 24f64 / 360f64;
 
 // Function to compute the date timestamp corresponding to the Julian Day
 #[wasm_bindgen]
@@ -44,4 +46,14 @@ pub fn get_julian_millennium(jd: f64) -> f64 {
     (jd - J2000) / 365250.0
 }
 
-// Additional functions would need to be implemented similarly...
+// Function to compute the Local Mean Sidereal Time
+#[wasm_bindgen]
+pub fn get_local_sidereal_time(jd: f64, lng: f64) -> f64 {
+    let t = get_julian_century(jd);
+
+    // Greenwich SiderealTime in degrees! Equ. 12.4 of AA, p. 88
+    let gmst = 280.460_618_37 + 360.985_647_366_29 * (jd - 2451545f64) + 0.000_387_933 * t * t
+        - t * t * t / 38_710_000f64;
+
+    fmod24(fmod360(gmst + lng) * DEG2H)
+}
