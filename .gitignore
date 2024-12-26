@@ -7,3 +7,4 @@ dist
 /coverage
 /docs
 /benchmark/results
+/target
