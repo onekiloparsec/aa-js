@@ -1,5 +1,5 @@
-import * as exoplanets from '@/exoplanets'
-import * as constants from '@/constants'
+import * as exoplanets from '@/js/exoplanets'
+import * as constants from '@/js/constants'
 
 describe.skip('transits of exoplanets', () => {
   it('get transit for H = 0', () => {

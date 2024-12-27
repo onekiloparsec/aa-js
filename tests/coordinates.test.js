@@ -1,7 +1,7 @@
-import { getJulianDay } from '@/juliandays'
-import { ECLIPTIC_OBLIQUITY_J2000_0 } from '@/constants'
-import { getFlatteningCorrections } from '@/earth/coordinates'
-import { getDecimalValue } from '@/sexagesimal'
+import { getJulianDay } from '@/js/juliandays'
+import { ECLIPTIC_OBLIQUITY_J2000_0 } from '@/js/constants'
+import { getFlatteningCorrections } from '@/js/earth/coordinates'
+import { getDecimalValue } from '@/js/sexagesimal'
 import {
   getDeclinationFromEcliptic,
   getEclipticLatitudeFromEquatorial,
@@ -10,9 +10,9 @@ import {
   getParallacticAngle,
   getRightAscensionFromEcliptic,
   transformEquatorialToTopocentric
-} from '@/coordinates'
-import { Mars } from '@/planets/mars'
-import { H2DEG } from '@/constants'
+} from '@/js/coordinates'
+import { Mars } from '@/js/planets/mars'
+import { H2DEG } from '@/js/constants'
 
 describe('coordinates', () => {
   test('parallactic angle before meridian', () => {

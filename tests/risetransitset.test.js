@@ -1,7 +1,7 @@
 import { fmod, H2DEG, juliandays, STANDARD_ALTITUDE_STARS, Sun, Venus } from '@'
-import { getAccurateRiseTransitSetTimes, getRiseTransitSetTimes } from '@/risetransitset'
-import { getDecimalValue, getSexagesimalValue } from '@/sexagesimal'
-import { getJulianDayMidnight } from '@/juliandays'
+import { getAccurateRiseTransitSetTimes, getRiseTransitSetTimes } from '@/js/risetransitset'
+import { getDecimalValue, getSexagesimalValue } from '@/js/sexagesimal'
+import { getJulianDayMidnight } from '@/js/juliandays'
 
 describe('rise transit & sets', () => {
   test('circumpolar transit', () => {

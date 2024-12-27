@@ -1,5 +1,5 @@
-import * as sexagesimal from '@/sexagesimal'
-import { isPositive } from '@/utils'
+import * as sexagesimal from '@/js/sexagesimal'
+import { isPositive } from '@/js/utils'
 
 describe('sexagesimal', () => {
   it('get decimal values for positive numbers', () => {

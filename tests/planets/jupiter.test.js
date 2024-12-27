@@ -1,5 +1,5 @@
 import { juliandays, Jupiter } from '@'
-import { transformUTC2TT } from '@/times'
+import { transformUTC2TT } from '@/js/times'
 
 describe('Jupiter', () => {
   test('check apparent diameter', () => {

@@ -1,4 +1,4 @@
-import * as distances from '@/distances'
+import * as distances from '@/js/distances'
 
 describe('distances', () => {
   it('can convert parsecs to parallaxes', () => {

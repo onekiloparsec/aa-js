@@ -1,5 +1,5 @@
 import { juliandays } from '@'
-import { getDecimalValue } from '@/sexagesimal'
+import { getDecimalValue } from '@/js/sexagesimal'
 
 describe('julian days', () => {
   test('build julianday with date', () => {

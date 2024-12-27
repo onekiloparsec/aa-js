@@ -1,6 +1,6 @@
 import { Earth, juliandays, Sun, times } from '@'
-import { getDecimalValue } from '@/sexagesimal'
-import { H2DEG, MOON_SYNODIC_PERIOD, MoonPhase, MoonPhaseQuarter } from '@/constants'
+import { getDecimalValue } from '@/js/sexagesimal'
+import { H2DEG, MOON_SYNODIC_PERIOD, MoonPhase, MoonPhaseQuarter } from '@/js/constants'
 
 describe('moon', () => {
   test('get moon mean longitude', () => {

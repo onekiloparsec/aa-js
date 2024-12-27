@@ -1,10 +1,10 @@
-import { getJulianDay } from '@/juliandays'
-import { getAnnualEquatorialAberration, getNutationEquatorialAberration } from '@/earth/aberration'
-import { getNutationInLongitude, getNutationInObliquity } from '@/earth/nutation'
-import { getEccentricity, getLongitudeOfPerihelion } from '@/earth/coordinates'
-import { transformUTC2TT } from '@/times'
-import { getDecimalValue } from '@/sexagesimal'
-import { H2DEG } from '@/constants'
+import { getJulianDay } from '@/js/juliandays'
+import { getAnnualEquatorialAberration, getNutationEquatorialAberration } from '@/js/earth/aberration'
+import { getNutationInLongitude, getNutationInObliquity } from '@/js/earth/nutation'
+import { getEccentricity, getLongitudeOfPerihelion } from '@/js/earth/coordinates'
+import { transformUTC2TT } from '@/js/times'
+import { getDecimalValue } from '@/js/sexagesimal'
+import { H2DEG } from '@/js/constants'
 
 describe('aberration', () => {
   // See AA p152 & 153, Ex 23.a

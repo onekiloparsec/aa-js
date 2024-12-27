@@ -1,4 +1,4 @@
-import * as cosmology from '@/cosmology'
+import * as cosmology from '@/js/cosmology'
 
 describe('cosmology', () => {
   test('get age of the Universe (Gyr)', () => {

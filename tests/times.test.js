@@ -1,4 +1,4 @@
-import * as times from '@/times'
+import * as times from '@/js/times'
 
 describe('times', () => {
   // See AA p.78, Ex 10.a

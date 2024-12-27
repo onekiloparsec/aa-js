@@ -1,4 +1,4 @@
-import * as utils from '@/utils'
+import * as utils from '@/js/utils'
 
 describe('utils', () => {
   it('fmod works for positive values', () => {

@@ -1,5 +1,5 @@
 import { juliandays, times, Venus } from '@'
-import { getDecimalYear } from '@/times'
+import { getDecimalYear } from '@/js/times'
 
 describe('Venus', () => {
   test('check that polar and equatorial semi diameters are identical', () => {

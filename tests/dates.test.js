@@ -1,5 +1,5 @@
-import { getDecimalYear } from '@/times'
-import * as juliandays from '@/juliandays'
+import { getDecimalYear } from '@/js/times'
+import * as juliandays from '@/js/juliandays'
 
 describe('dates', () => {
   test('decimal year', () => {

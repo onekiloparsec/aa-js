@@ -1,5 +1,5 @@
 import { Earth, juliandays } from '@'
-import { transformUTC2TT } from '@/times'
+import { transformUTC2TT } from '@/js/times'
 
 describe('earth', () => {
 
