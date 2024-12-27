@@ -1,6 +1,6 @@
 import * as b from 'benny'
 import { Earth } from '@'
-import { getDecimalValue } from '@/sexagesimal'
+import { getDecimalValue } from '@/js/sexagesimal'
 
 const ra = getDecimalValue(16, 54, 0.14) // in hours
 const dec = getDecimalValue(-39, 50, 44.9)

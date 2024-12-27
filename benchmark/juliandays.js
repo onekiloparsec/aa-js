@@ -1,5 +1,5 @@
 import * as b from 'benny'
-import * as juliandays from '@/juliandays.ts'
+import * as juliandays from '@/js/juliandays.ts'
 
 const jd = juliandays.getJulianDay()
 

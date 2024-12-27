@@ -1,5 +1,5 @@
 import * as b from 'benny'
-import * as coordinates from '@/coordinates.ts'
+import * as coordinates from '@/js/coordinates.ts'
 
 const thetaPersei = { rightAscension: 41.511331, declination: 49.3545 }
 const coordsVenus = { rightAscension: 41.73129, declination: 18.44092 }
