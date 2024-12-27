@@ -1,5 +1,7 @@
 // src/juliandays.rs
 
+// This module is mostly useful for pure WASM-computations.
+
 use crate::utils::{fmod24, fmod360};
 use wasm_bindgen::prelude::*;
 
@@ -10,7 +12,7 @@ const J2000: f64 = 2451545.0;
 const MJD_START: f64 = 2400000.5;
 const DEG2H: f64 = 24f64 / 360f64;
 
-// Function to compute the date timestamp corresponding to the Julian Day
+// Function to compute the date timestamp corresponding to the Julian Day.
 #[wasm_bindgen]
 pub fn get_milliseconds(jd: f64) -> i32 {
     ((jd + 0.5 - J1970) * DAYMS) as i32
