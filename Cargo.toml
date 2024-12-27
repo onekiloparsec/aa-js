@@ -3,6 +3,9 @@ name = "aa-js"
 version = "4.1.0"
 authors = ["Cédric Foellmi <cedric@onekiloparsec.dev>"]
 edition = "2021"
+description = "Astronomical Algorithms in Javascript (and Rust/WASM)."
+license = "MIT"
+repository = "git+ssh://git@github.com/onekiloparsec/aa-js.git"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
