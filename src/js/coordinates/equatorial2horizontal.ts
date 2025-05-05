@@ -48,7 +48,8 @@ export function getHorizontalAzimuth (jd: JulianDay, equCoords: EquatorialCoordi
   }
   const value = Math.atan2(
     Math.sin(hourAngle),
-    Math.cos(hourAngle) * Math.sin(rGeoCoords.latitude) - Math.tan(rEquCoords.declination) * Math.cos(rGeoCoords.latitude))
+    Math.cos(hourAngle) * Math.sin(rGeoCoords.latitude) - Math.tan(rEquCoords.declination) * Math.cos(rGeoCoords.latitude)
+  )
   return fmod360(value * RAD2DEG)
 }
 
