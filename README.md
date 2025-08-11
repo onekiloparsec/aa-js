@@ -3,15 +3,8 @@ aa-js
 
 ![build and test](https://github.com/onekiloparsec/aa-js/actions/workflows/nodejs.yml/badge.svg?branch=master) [![codecov](https://codecov.io/gh/onekiloparsec/aa-js/graph/badge.svg?token=EfRJpZ4OTu)](https://codecov.io/gh/onekiloparsec/aa-js)
 
-The most comprehensive collection of accurate astronomical algorithms (AA) in JavaScript (TypeScript).
-
-The v3 offered arbitrary-precision computations, thanks to [decimal.js](https://github.com/MikeMcl/decimal.js).
-But it was thousands (if not millions) of times slower than the original implementation, making its usage in a browser
-very difficult. After some nightly hours to optimise it and having most of both implementations side-by-side, we decided
-to remove decimal.js entirely.
-
-Other AA
-implementations: [Swift (SwiftAA)](https://github.com/onekiloparsec/SwiftAA), [C# (AASharp)](https://github.com/jsauve/AASharp).
+A fairly comprehensive collection of accurate astronomical algorithms (AA) in JavaScript (TypeScript). 
+It started as an implementation of AA, but it is not yet complete.
 
 At the beginning, `aa-js` is the port in javascript of the C++ implementation of Astronomical
 Algorithms by J.P. Naughter, called [AA+](http://www.naughter.com/aa.html),
@@ -21,14 +14,24 @@ of the algorithms. Tests are inspired from Jean Meeus' book and those written in
 SwiftAA, and are much more extended than what is available
 in AA+.
 
+Other AA
+implementations: [Swift (SwiftAA)](https://github.com/onekiloparsec/SwiftAA), [C# (AASharp)](https://github.com/jsauve/AASharp).
+
+
 `aa-js` is the backbone of scientific algorithms used
 in [Arcsecond.io](https://www.arcsecond.io).
+
 
 Main Changes in V4
 ================
 
+The v3 offered arbitrary-precision computations, thanks to [decimal.js](https://github.com/MikeMcl/decimal.js).
+But it was thousands (if not millions) of times slower than the original implementation, making its usage in a browser
+very difficult. After some nightly hours to optimise it and having most of both implementations side-by-side, we decided
+to remove decimal.js entirely.
+
 No big API changes, except there are no more Decimal.js at all, and thus no `highPrecision` parameter. The method
-signatures have not changed, but all return types are based on `number`.
+signatures have not changed, but all return types are based on `number` instead of Decimal.
 
 Small changes:
 
