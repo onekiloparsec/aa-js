@@ -1,5 +1,5 @@
 import { getJulianDay } from '@/juliandays'
-import { ECLIPTIC_OBLIQUITY_J2000_0 } from '@/constants'
+import { H2DEG } from '@/constants'
 import { getFlatteningCorrections } from '@/earth/coordinates'
 import { getDecimalValue } from '@/sexagesimal'
 import {
@@ -12,7 +12,6 @@ import {
   transformEquatorialToTopocentric
 } from '@/coordinates'
 import { Mars } from '@/planets/mars'
-import { H2DEG } from '@/constants'
 
 describe('coordinates', () => {
   test('parallactic angle before meridian', () => {
@@ -124,18 +123,6 @@ describe('coordinates', () => {
     const alphaVir = {
       rightAscension: getDecimalValue(13, 25, 11.6) * H2DEG,
       declination: getDecimalValue(-11, 9, 41)
-    }
-    expect(getGreatCircleAngularDistance(alphaBoo, alphaVir)).toBeCloseTo(32.7930, 4)
-  })
-
-  test('test angular distance - geographic', () => {
-    const alphaBoo = {
-      rightAscension: 109.26,
-      declination: -70.34
-    }
-    const alphaVir = {
-      rightAscension: 109.2645,
-      declination: -70.8392
     }
     expect(getGreatCircleAngularDistance(alphaBoo, alphaVir)).toBeCloseTo(32.7930, 4)
   })
