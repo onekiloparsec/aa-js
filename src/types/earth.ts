@@ -1,8 +1,8 @@
 import {
-  EclipticCoordinatesAtJulianDayWithEquinoxFunction,
   EclipticCoordinatesAtJulianDayFunction,
-  EquatorialCoordinatesAtJulianDayWithObliquityFunction,
+  EclipticCoordinatesAtJulianDayWithEquinoxFunction,
   EquatorialCoordinatesAtJulianDayFunction,
+  EquatorialCoordinatesAtJulianDayWithObliquityFunction,
   QuantityAtJulianDayFunction,
   QuantityInArcSecondAtJulianDayFunction,
   QuantityInAstronomicalUnitAtJulianDayFunction,
