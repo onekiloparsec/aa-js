@@ -1,5 +1,7 @@
 /**
- @module Distances
+ * Functions to convert geometric distances between different units and scales.
+ *
+ * @module Distances
  */
 import { HUBBLE_CONSTANT, ONE_UA_IN_KILOMETERS, PC2LY, PC2UA, SPEED_OF_LIGHT } from '@/constants'
 import {

@@ -1,5 +1,8 @@
 /**
- @module Cosmology
+ * Function to computes various cosmological quantities.
+ * Deeply inspired by Edward L. Wright's CosmoCalc, but improved with types & tests.
+ *
+ * @module Cosmology
  */
 // ************************************************************************************
 // Original Copyright Notice

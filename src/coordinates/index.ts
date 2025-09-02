@@ -1,3 +1,8 @@
+/**
+ * Provide numerous coordinates transformation methods, as well as helpers for precessions.
+ *
+ * @module Coordinates
+ */
 export * from './angles'
 export * from './ecliptic2equatorial'
 export * from './equatorial2ecliptic'

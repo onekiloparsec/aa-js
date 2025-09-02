@@ -1,6 +1,3 @@
-/**
- @module Precession
- */
 import { EquatorialCoordinates, JulianDay } from '@/types'
 import { DEG2RAD, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from '@/constants'
 

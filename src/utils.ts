@@ -1,3 +1,7 @@
+/**
+ * @module Utils
+ */
+
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import { Degree, Hour } from '@/types'

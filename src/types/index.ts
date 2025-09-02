@@ -1,3 +1,6 @@
+/**
+ * @module Types
+ */
 export * from './coordinates'
 export * from './earth'
 export * from './funcs'

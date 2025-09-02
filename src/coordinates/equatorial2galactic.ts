@@ -1,6 +1,3 @@
-/**
- @module Coordinates
- */
 import { fmod360 } from '@/utils'
 import { DEG2RAD, J2000, JULIAN_DAY_B1950_0, RAD2DEG } from '@/constants'
 import { Degree, EquatorialCoordinates, GalacticCoordinates, JulianDay } from '@/types'

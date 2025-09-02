@@ -1,6 +1,3 @@
-/**
- @module Coordinates
- */
 import { HorizontalCoordinates, Point } from '@/types'
 import { DEG2RAD, RAD2DEG } from '@/constants'
 import { fmod360 } from '@/utils'

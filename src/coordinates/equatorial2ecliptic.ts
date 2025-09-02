@@ -1,6 +1,3 @@
-/**
- @module Coordinates
- */
 import { Degree, EclipticCoordinates, EquatorialCoordinates } from '@/types'
 import { DEG2RAD, ECLIPTIC_OBLIQUITY_J2000_0, RAD2DEG } from '@/constants'
 import { fmod360, fmod90 } from '@/utils'

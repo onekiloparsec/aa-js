@@ -1,5 +1,5 @@
 /**
- @module Exoplanets
+ * @module Exoplanets
  */
 import {
   AstronomicalUnit,

@@ -1,6 +1,3 @@
-/**
- @module Coordinates
- */
 import {
   ArcSecond,
   AstronomicalUnit,

@@ -1,3 +1,8 @@
+/**
+ * Utility functions to display, format and convert decimals into sexagesimals and inversely.
+ *
+ * @module Sexagesimals
+ */
 import { Sexagesimal } from '@/types'
 import { isNegative, isPositive } from '@/utils'
 import { DEG2H } from '@/constants'

@@ -1,5 +1,7 @@
 /**
- @module JulianDays
+ * Functions to convert dates and julian days, as well as compute the sidereal times, and julian day-related quantities.
+ *
+ * @module Julian Days
  */
 import dayjs from 'dayjs'
 import { DAYMS, DEG2H, J1970, J2000, MJD_START } from './constants'
