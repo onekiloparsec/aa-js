@@ -58,11 +58,5 @@
     "node_modules",
     "dist",
     "tests"
-  ],
-  "typedocOptions": {
-    "entryPoints": [
-      "src/index.ts"
-    ],
-    "out": "docs"
-  }
+  ]
 }

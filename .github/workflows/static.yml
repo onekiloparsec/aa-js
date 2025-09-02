@@ -36,7 +36,7 @@ jobs:
       - name: generate doc
         run: |
           npm ci --ignore-scripts
-          npm run bdocs
+          npm run tdocs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
