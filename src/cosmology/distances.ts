@@ -10,7 +10,6 @@ import { getOmegaK, getOmegaR } from './omegas'
  * @param {number} omegaVac Omega Vacuum
  * @param {number} z The redshift
  * @returns {MegaParsec}
- * @memberof module:Cosmology
  */
 export function getComovingRadialDistance (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): MegaParsec {
   const DCMR = getDCMRIntegral(H0, omegaMat, omegaVac, z, (a, adot) => 1 / (a * adot))
@@ -24,7 +23,6 @@ export function getComovingRadialDistance (H0: KilometerPerSecondPerMegaParsec, 
  * @param {number} omegaVac Omega Vacuum
  * @param {number} z The redshift
  * @returns {number}
- * @memberof module:Cosmology
  */
 export function getTangentialComovingDistance (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): number {
   const DCMR = getDCMRIntegral(H0, omegaMat, omegaVac, z, (a, adot) => 1 / (a * adot))
@@ -53,7 +51,6 @@ export function getTangentialComovingDistance (H0: KilometerPerSecondPerMegaPars
  * @param {number} omegaVac Omega Vacuum
  * @param {number} z The redshift
  * @returns {MegaParsec}
- * @memberof module:Cosmology
  */
 export function getAngularSizeDistance (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): MegaParsec {
   const az = 1 / (1 + z)
@@ -68,7 +65,6 @@ export function getAngularSizeDistance (H0: KilometerPerSecondPerMegaParsec, ome
  * @param {number} omegaVac Omega Vacuum
  * @param {number} z The redshift
  * @returns {number} Megaparsec / arcsecond
- * @memberof module:Cosmology
  */
 export function getAngularSizeScale (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): KiloparsecPerArcsecond {
   const DA_Mpc = getAngularSizeDistance(H0, omegaMat, omegaVac, z)
@@ -82,7 +78,6 @@ export function getAngularSizeScale (H0: KilometerPerSecondPerMegaParsec, omegaM
  * @param {number} omegaVac Omega Vacuum
  * @param {number} z The redshift
  * @returns {MegaParsec}
- * @memberof module:Cosmology
  */
 export function getLuminosityDistance (H0: KilometerPerSecondPerMegaParsec, omegaMat: number, omegaVac: number, z: number): MegaParsec {
   const az = 1 / (1 + z)
