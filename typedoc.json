@@ -1,43 +1,29 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": [
-    "./src/constants.ts",
-    "./src/distances.ts",
-    "./src/exoplanets.ts",
-    "./src/juliandays.ts",
-    "./src/sexagesimal.ts",
-    "./src/coordinates/index.ts",
-    "./src/cosmology/index.ts",
-    "./src/earth/index.ts",
-    "./src/earth/aberration/index.ts",
-    "./src/planets/index.ts",
-    "./src/risetransitset/index.ts",
-    "./src/sun/index.ts",
-    "./src/times/index.ts",
-    "./src/types/index.ts",
-    "./src/utils.ts"
+    "./src/index.ts"
   ],
-  "out": "docs",
+  "plugin": [
+    "typedoc-plugin-markdown",
+    "typedoc-vitepress-theme"
+  ],
+  "out": "docs/api",
+  "readme": "none",
   "includeVersion": true,
-  "categorizeByGroup": true,
-  "categoryOrder": [
-    "Constants",
-    "Coordinates",
-    "Planets",
-    "*"
-  ],
-  "navigationLinks": {
-    "GitHub": "https://github.com/onekiloparsec/aa-js"
-  },
-  "cleanOutputDir": true,
   "excludePrivate": true,
   "excludeProtected": true,
-  "excludeExternals": true,
-  "readme": "./README.md",
-  "name": "aa-js Documentation",
-  "sort": [
-    "source-order"
+  "excludeInternal": true,
+  "hideBreadcrumbs": true,
+  "hidePageTitle": true,
+  "name": "aa-js",
+  "categoryOrder": [
+    "Classes",
+    "Interfaces",
+    "Type Aliases",
+    "Functions",
+    "Variables"
   ],
+  "defaultCategory": "Other",
   "visibilityFilters": {
     "protected": false,
     "private": false,
