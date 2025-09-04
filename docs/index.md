@@ -4,7 +4,7 @@ layout: home
 
 hero:
   name: "aa-js"
-  text: "Astronomical Algorithms in Javascript"
+  text: "Astronomical algorithms in Javascript"
   actions:
     - theme: brand
       text: Guide
