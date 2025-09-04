@@ -36,12 +36,11 @@ jobs:
       - name: generate doc
         run: |
           npm ci --ignore-scripts
-          npm run tdocs
+          npm run docs:build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # Upload entire repository
-          path: './docs'
+          path: './.vitepress/dist'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
