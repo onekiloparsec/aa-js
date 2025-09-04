@@ -5,6 +5,7 @@ import apiSidebar from './sidebar-api.json'
 export default defineConfig({
   title: 'aa-js',
   description: 'Astronomical Algorithms in Javascript',
+  base: "/aa-js/", // Only needed if deploying to GitHub Pages
   themeConfig: {
     nav: [
       { text: 'Home', link: '/' },
