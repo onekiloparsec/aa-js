@@ -1,5 +1,6 @@
 {
   "$schema": "https://typedoc.org/schema.json",
+  "entryPointStrategy": "expand",
   "entryPoints": [
     "./src/index.ts"
   ],
@@ -14,20 +15,36 @@
   "excludeProtected": true,
   "excludeInternal": true,
   "hideBreadcrumbs": true,
-  "hidePageTitle": true,
+  "hidePageTitle": false,
   "name": "aa-js",
+  "router": "kind",
+  "navigation": {
+    "includeCategories": true,
+    "includeGroups": true,
+    "includeFolders": true
+  },
   "categoryOrder": [
-    "Classes",
-    "Interfaces",
-    "Type Aliases",
-    "Functions",
-    "Variables"
+    "index",
+    "modules",
+    "classes",
+    "interfaces",
+    "functions",
+    "variables",
+    "types",
+    "enums"
   ],
   "defaultCategory": "Other",
-  "visibilityFilters": {
-    "protected": false,
-    "private": false,
-    "inherited": true,
-    "external": false
+  "indexFormat": "list",
+  "parametersFormat": "table",
+  "interfacePropertiesFormat": "table",
+  "classPropertiesFormat": "table",
+  "typeAliasPropertiesFormat": "list",
+  "enumMembersFormat": "table",
+  "propertyMembersFormat": "table",
+  "typeDeclarationFormat": "table",
+  "useCustomAnchors": true,
+  "headings": {
+    "readme": true,
+    "document": false
   }
 }
