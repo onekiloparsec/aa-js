@@ -12,6 +12,7 @@
   "module": "./dist/aa-js.js",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/aa-js.js",
       "require": "./dist/aa-js.umd.cjs"
     }
@@ -72,7 +73,7 @@
     "typedoc-plugin-markdown": "^4.8.1",
     "typedoc-vitepress-theme": "^1.1.2",
     "typescript": "^5.9.2",
-    "vite": "^7.1.4",
+    "vite": "^7.3.1",
     "vite-plugin-dts": "^4.5.4",
     "vitepress": "^1.6.4",
     "vitest": "^3.2.4"

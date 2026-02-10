@@ -13,14 +13,14 @@ export default defineConfig({
       fileName: 'aa-js'
     }
   },
-  plugins: [dts({
-      include: ['src/index.ts', 'src/**/*.ts'],
-      beforeWriteFile: (filePath, content) => ({
-        filePath: filePath.replace('/src', ''),
-        content
-      })
-    }
-  )],
+  plugins: [
+    dts({
+      entryRoot: 'src',
+      outDir: 'dist',
+      include: ['src/**/*.ts'],
+      insertTypesEntry: true
+    })
+  ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src')
