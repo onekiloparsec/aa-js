@@ -26,6 +26,7 @@ import {
   getPositionAngleOfTheBrightLimb
 } from './details'
 import { getAge, getAgeName, getTimeOfMeanPhase } from './phases'
+import { getTopocentricRadialVelocity } from './velocity'
 
 export const Moon: NaturalMoon = {
   getGeocentricElongation,
@@ -52,5 +53,6 @@ export const Moon: NaturalMoon = {
   getPositionAngleOfTheBrightLimb,
   getTimeOfMeanPhase,
   getAge,
-  getAgeName
+  getAgeName,
+  getTopocentricRadialVelocity
 }

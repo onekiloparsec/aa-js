@@ -45,7 +45,8 @@ export interface NaturalMoon {
   getPositionAngleOfTheBrightLimb: QuantityInDegreeAtJulianDayFunction
   getTimeOfMeanPhase: Function
   getAge: QuantityAtJulianDayFunction,
-  getAgeName: Function
+  getAgeName: Function,
+  getTopocentricRadialVelocity: Function
 }
 
 export interface NaturalEarth {

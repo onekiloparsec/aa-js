@@ -1,6 +1,7 @@
 import { Earth, juliandays, Sun, times } from '@'
 import { getDecimalValue } from '@/sexagesimal'
 import { H2DEG, MOON_SYNODIC_PERIOD, MoonPhase, MoonPhaseQuarter } from '@/constants'
+import { getTopocentricRadialVelocity } from '@/earth/moon/velocity'
 
 describe('moon', () => {
   test('get moon mean longitude', () => {
@@ -28,7 +29,6 @@ describe('moon', () => {
     expect(equ.rightAscension).toBeCloseTo(getDecimalValue(8, 58, 45.12) * H2DEG, 3)
     expect(equ.declination).toBeCloseTo(13.768_368, 4)
   })
-
 
   // See example 48.a, AA p 347.
   test('get moon radius vector', () => {
@@ -94,5 +94,52 @@ describe('moon', () => {
     expect(Earth.Moon.getAgeName(fullMoonJD)).toEqual(MoonPhase.Full)
     const lqMoonJD = Earth.Moon.getTimeOfMeanPhase(juliandays.getJulianDay(UTCDate), MoonPhaseQuarter.LastQuarter)
     expect(Earth.Moon.getAgeName(lqMoonJD)).toEqual(MoonPhase.LastQuarter)
+  })
+
+  test('topocentric moon radial velocity: sanity magnitude (|RV| ~< a few km/s)', () => {
+    const dates = [
+      new Date(Date.UTC(1992, 3, 12, 0, 0, 0)),
+      new Date(Date.UTC(2017, 5, 14, 2, 0, 0)),
+      new Date(Date.UTC(2023, 9, 14, 0, 0, 0)),
+    ]
+
+    const observers = [
+      { longitude: 0, latitude: 0, height: 0 }, // equator, Greenwich
+      { longitude: 10, latitude: 45, height: 0 }, // mid-latitude
+      { longitude: -70, latitude: -30, height: 0 }, // southern mid-latitude
+    ]
+
+    for (const d of dates) {
+      const jd = juliandays.getJulianDay(d)
+      for (const obs of observers) {
+        const rv = getTopocentricRadialVelocity(jd, obs)
+        expect(Number.isFinite(rv)).toBeTruthy()
+        expect(Math.abs(rv)).toBeLessThan(2.5) // very loose, but catches unit/sign/rotation bugs
+      }
+    }
+  })
+
+  test('topocentric moon radial velocity: height has negligible effect at km/s scale', () => {
+    const jd = juliandays.getJulianDay(new Date(Date.UTC(2023, 9, 14, 0, 0, 0)))
+    const base = { longitude: -70, latitude: -30, height: 0 }
+    const high = { longitude: -70, latitude: -30, height: 4000 }
+
+    const rv0 = getTopocentricRadialVelocity(jd, base)
+    const rv4k = getTopocentricRadialVelocity(jd, high)
+
+    // 4 km change in radius is tiny; difference should be way below 0.1 km/s in any sane implementation.
+    expect(Math.abs(rv4k - rv0)).toBeLessThan(0.05)
+  })
+
+  test('topocentric moon radial velocity: changes with longitude (earth rotation term present)', () => {
+    const jd = juliandays.getJulianDay(new Date(Date.UTC(2023, 9, 14, 0, 0, 0)))
+    const obsA = { longitude: 0, latitude: 0, height: 0 }
+    const obsB = { longitude: 90, latitude: 0, height: 0 }
+
+    const rvA = getTopocentricRadialVelocity(jd, obsA)
+    const rvB = getTopocentricRadialVelocity(jd, obsB)
+
+    // Not asserting sign, just that it's not identical (if LST/longitude were ignored, they'd match).
+    expect(Math.abs(rvB - rvA)).toBeGreaterThan(0.01)
   })
 })
