@@ -2,7 +2,8 @@ name: Node.js Package
 
 on:
   release:
-    types: [ published ]
+    types: [published]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -11,19 +12,25 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
 
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           registry-url: "https://registry.npmjs.org"
+
+      - run: node -v
+      - run: npm -v
+      - run: npm i -g npm@latest
+      - run: npm -v
 
       - run: npm ci
       - run: npm run build --if-present
       - run: npm test --if-present
 
-      # OIDC publish (no token)
       - run: npm publish --provenance --access public
-        
