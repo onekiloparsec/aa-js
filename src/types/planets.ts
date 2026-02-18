@@ -94,9 +94,9 @@ export interface Planet extends PlanetBase {
   // Planet orbital properties (orbital.ts)
   getMeanLongitude: QuantityInDegreeAtJulianDayWithEquinoxFunction
   getEccentricity: QuantityAtJulianDayFunction
-  getInclination: QuantityInDegreeAtJulianDayFunction
-  getLongitudeOfAscendingNode: QuantityInDegreeAtJulianDayFunction
-  getLongitudeOfPerihelion: QuantityInDegreeAtJulianDayFunction
+  getInclination: QuantityInDegreeAtJulianDayWithEquinoxFunction
+  getLongitudeOfAscendingNode: QuantityInDegreeAtJulianDayWithEquinoxFunction
+  getLongitudeOfPerihelion: QuantityInDegreeAtJulianDayWithEquinoxFunction
   getSemiMajorAxis: QuantityInDegreeAtJulianDayFunction
   // Extended planet base properties (details.ts)
   getAphelion: JulianDayForJulianDayFunction
