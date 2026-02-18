@@ -97,6 +97,7 @@ export interface Planet extends PlanetBase {
   getInclination: QuantityInDegreeAtJulianDayWithEquinoxFunction
   getLongitudeOfAscendingNode: QuantityInDegreeAtJulianDayWithEquinoxFunction
   getLongitudeOfPerihelion: QuantityInDegreeAtJulianDayWithEquinoxFunction
+  getSemiMajorAxis: QuantityInDegreeAtJulianDayFunction
   // Extended planet base properties (details.ts)
   getAphelion: JulianDayForJulianDayFunction
   getPerihelion: JulianDayForJulianDayFunction

@@ -36,7 +36,8 @@ import {
   getInclination,
   getLongitudeOfAscendingNode,
   getLongitudeOfPerihelion,
-  getMeanLongitude
+  getMeanLongitude,
+  getSemiMajorAxis
 } from './orbital'
 import { getRingSystemDetails } from './ringSystem'
 
@@ -66,6 +67,7 @@ export const Saturn: SaturnPlanet = {
   getInclination,
   getLongitudeOfAscendingNode,
   getLongitudeOfPerihelion,
+  getSemiMajorAxis,
   // Planet base properties
   getAphelion,
   getPerihelion,
