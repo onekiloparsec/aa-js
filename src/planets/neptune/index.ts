@@ -36,7 +36,8 @@ import {
   getInclination,
   getLongitudeOfAscendingNode,
   getLongitudeOfPerihelion,
-  getMeanLongitude
+  getMeanLongitude,
+  getSemiMajorAxis
 } from './orbital'
 
 export const Neptune: Planet = {
@@ -65,6 +66,7 @@ export const Neptune: Planet = {
   getInclination,
   getLongitudeOfAscendingNode,
   getLongitudeOfPerihelion,
+  getSemiMajorAxis,
   // Planet base properties
   getAphelion,
   getPerihelion,
