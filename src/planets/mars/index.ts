@@ -36,7 +36,8 @@ import {
   getInclination,
   getLongitudeOfAscendingNode,
   getLongitudeOfPerihelion,
-  getMeanLongitude
+  getMeanLongitude,
+  getSemiMajorAxis
 } from './orbital'
 import { getPlanetocentricDeclinationOfTheEarth, getPlanetocentricDeclinationOfTheSun } from './specific'
 
@@ -66,6 +67,7 @@ export const Mars: MarsPlanet = {
   getInclination,
   getLongitudeOfAscendingNode,
   getLongitudeOfPerihelion,
+  getSemiMajorAxis,
   // Planet base properties
   getAphelion,
   getPerihelion,

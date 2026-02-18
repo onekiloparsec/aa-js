@@ -36,7 +36,8 @@ import {
   getInclination,
   getLongitudeOfAscendingNode,
   getLongitudeOfPerihelion,
-  getMeanLongitude
+  getMeanLongitude,
+  getSemiMajorAxis
 } from './orbital'
 import {
   getCentralMeridianLongitudes,
@@ -70,6 +71,7 @@ export const Jupiter: JupiterPlanet = {
   getInclination,
   getLongitudeOfAscendingNode,
   getLongitudeOfPerihelion,
+  getSemiMajorAxis,
   // Planet base properties
   getAphelion,
   getPerihelion,
