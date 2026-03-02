@@ -171,4 +171,26 @@ describe('rise transit & sets', () => {
     expect(resultsManual.rise.julianDay).toEqual(resultsSun.rise.julianDay)
     expect(resultsManual.transit.julianDay).toEqual(resultsSun.transit.julianDay)
   })
+
+  test('accurate sun rise transit set at equator on 2025 March 20', () => {
+    const geoCoords = { longitude: 0, latitude: 0, altitude: 0 }
+    const date = new Date(Date.UTC(2025, 2, 20, 9, 1, 0))
+    const jd = juliandays.getJulianDay(date)
+    const jd0 = juliandays.getJulianDayMidnightDynamicalTime(jd)
+
+    const coords0 = Sun.getApparentGeocentricEquatorialCoordinates(jd0 - 1)
+    const coords1 = Sun.getApparentGeocentricEquatorialCoordinates(jd0)
+    const coords2 = Sun.getApparentGeocentricEquatorialCoordinates(jd0 + 1)
+    const results = getAccurateRiseTransitSetTimes(jd, [coords0, coords1, coords2], geoCoords, -0.8333, 2)
+    
+
+    expect(coords1.rightAscension).toBeCloseTo(359.652359867422, 2)
+    expect(coords1.declination).toBeCloseTo( -0.15092212633498955, 2)
+    expect(results.rise.utc).toBeCloseTo(6.0684, 1)
+    expect(results.transit.utc).toBeCloseTo( 12.1227, 1)
+    expect(results.set.utc).toBeCloseTo(18.1767759, 1)
+    expect(results.transit.isCircumpolar).toBeFalsy()
+    expect(results.transit.isAboveHorizon).toBeTruthy()
+    expect(results.transit.isAboveAltitude).toBeTruthy()
+  })
 })
