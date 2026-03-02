@@ -9,6 +9,54 @@ import { getDeltaT } from '@/times'
 import { getDeltaMTimes } from './deltamtimes'
 import { getMTimes, MTimes } from './mtimes'
 import { getJDatUTC } from './utils'
+import { fmod360 } from '@/utils'
+
+/** @private */
+/**
+ * Adjusts a sequence of three equatorial coordinates' right ascensions for interpolation,
+ * ensuring continuity across the 0h/24h boundary, per AA 2ed pg 30 "Important Remark 2"
+ * notes for interpolation, 
+ *
+ * **This function modifies the input array in place** 
+ * 
+ * > As remarked in PJ Naughter's release notes for  -  an RA sequence must account for the jump to 0h at 24 hours
+ * The solution here, based on soln from AA+ v1.36 & v1.79, assumes
+ * - the coords are in chronological order, jd-1, jd, jd+1
+ * - that the true ra step is <= 12 hours (true for most astronomical objects)
+ *
+ * @param {LengthArray<EquatorialCoordinates, 3>} eqCoords 
+ */
+function correctCoordsForInterpolation(eqCoords: LengthArray<EquatorialCoordinates, 3>) {
+  
+  let ra1 = fmod360(eqCoords[0].rightAscension)
+  let ra2 = fmod360(eqCoords[1].rightAscension)
+  let ra3 = fmod360(eqCoords[2].rightAscension)
+  let changed = false
+  function unwrapCoords(alpha1: number, alpha2: number) {
+    if (Math.abs(alpha2 - alpha1) <= 180) return [alpha1, alpha2]
+    changed = true
+    if (alpha2 > alpha1) {
+      alpha1 += 360
+    } else {
+      alpha2 += 360
+    }
+    return [alpha1, alpha2]
+  }
+  
+  [ra1, ra2] = unwrapCoords(ra1, ra2);
+  [ra2, ra3] = unwrapCoords(ra2, ra3);
+  if (!changed) return; // don't do the loop again if we don't need to
+  // need to run again, because ra2 may have
+  // shifted relative to the others
+  [ra1, ra2] = unwrapCoords(ra1, ra2);
+  [ra2, ra3] = unwrapCoords(ra2, ra3);
+  
+  // modify the coordinates inplace
+  eqCoords[0].rightAscension = ra1
+  eqCoords[1].rightAscension = ra2
+  eqCoords[2].rightAscension = ra3
+  
+}
 
 
 /**
@@ -57,6 +105,8 @@ export function getAccurateRiseTransitSetTimes (jd: JulianDay,
       }
     }
   }
+  
+  correctCoordsForInterpolation(equCoords)
   
   // Getting the UT 0h on day D. See AA p.102.
   const jd0 = getJulianDayMidnight(jd)
