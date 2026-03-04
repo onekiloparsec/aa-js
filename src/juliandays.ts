@@ -81,6 +81,15 @@ export function getLocalSiderealTime (jd: JulianDay, lng: Degree): Hour {
  * @param {Degree} lng The longitude
  * @return {Hour}
  */
+/**
+ * The Greenwich mean sidereal time for a given julian day
+ * @param {JulianDay} jd The julian day
+ * @return {Hour}
+ */
+export function getGreenwichSiderealTime (jd: JulianDay): Hour {
+  return getLocalSiderealTime(jd, 0)
+}
+
 export function getApparentLocalSiderealTime (jd: JulianDay, lng: Degree): Hour {
   const epsilon: Degree = Earth.getTrueObliquityOfEcliptic(jd)
   const deltaPsi: ArcSecond = Earth.getNutationInLongitude(jd)
