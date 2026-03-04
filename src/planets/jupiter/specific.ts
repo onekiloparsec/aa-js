@@ -1,4 +1,4 @@
-import { Degree, JulianDay } from '@/types'
+import { Degree, JulianDay, JupiterCentralMeridianLongitudes } from '@/types'
 import { DEG2RAD, RAD2DEG } from '@/constants'
 import { fmod360 } from '@/utils'
 import { Earth } from '@/earth'
@@ -104,7 +104,7 @@ export function getPlanetocentricDeclinationOfTheEarth (jd: JulianDay): Degree {
  * @returns {Object}
  * @memberof module:Jupiter
  */
-export function getCentralMeridianLongitudes (jd: JulianDay): Object {
+export function getCentralMeridianLongitudes (jd: JulianDay): JupiterCentralMeridianLongitudes {
   const d = jd - 2433282.5
   const T1 = d / 36525
   
