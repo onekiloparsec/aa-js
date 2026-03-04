@@ -4,7 +4,7 @@
  * @module Julian Days
  */
 import dayjs from 'dayjs'
-import { DAYMS, DEG2H, J1970, J2000, MJD_START } from './constants'
+import { DAYMS, DEG2H, DEG2RAD, J1970, J2000, MJD_START } from './constants'
 import { ArcSecond, Degree, Hour, JulianCentury, JulianDay, JulianMillenium, Radian } from './types'
 import { transformUTC2TT } from '@/times'
 import { Earth } from '@/earth'
@@ -82,9 +82,10 @@ export function getLocalSiderealTime (jd: JulianDay, lng: Degree): Hour {
  * @return {Hour}
  */
 export function getApparentLocalSiderealTime (jd: JulianDay, lng: Degree): Hour {
-  const epsilon: Radian = Earth.getTrueObliquityOfEcliptic(jd)
+  const epsilon: Degree = Earth.getTrueObliquityOfEcliptic(jd)
   const deltaPsi: ArcSecond = Earth.getNutationInLongitude(jd)
-  return getLocalSiderealTime(jd, lng) + deltaPsi * Math.cos(epsilon) * DEG2H
+  // deltaPsi is in arcseconds: convert to degrees (/3600) then to hours (*DEG2H)
+  return getLocalSiderealTime(jd, lng) + (deltaPsi / 3600) * Math.cos(epsilon * DEG2RAD) * DEG2H
 }
 
 /**
