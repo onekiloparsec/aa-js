@@ -27,6 +27,7 @@ import {
 } from './details'
 import { getAge, getAgeName, getTimeOfMeanPhase } from './phases'
 import { getTopocentricRadialVelocity } from './velocity'
+import { getRiseTransitSet } from './risetransitset'
 
 export const Moon: NaturalMoon = {
   getGeocentricElongation,
@@ -54,5 +55,6 @@ export const Moon: NaturalMoon = {
   getTimeOfMeanPhase,
   getAge,
   getAgeName,
-  getTopocentricRadialVelocity
+  getTopocentricRadialVelocity,
+  getRiseTransitSet
 }
