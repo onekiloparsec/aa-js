@@ -7,6 +7,7 @@ import {
   QuantityInArcSecondAtJulianDayFunction,
   QuantityInAstronomicalUnitAtJulianDayFunction,
   QuantityInDegreeAtJulianDayFunction,
+  RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction,
   SingleCoordinateDegreeAtJulianDayWithEquinoxFunction
 } from './funcs'
 
@@ -46,7 +47,8 @@ export interface NaturalMoon {
   getTimeOfMeanPhase: Function
   getAge: QuantityAtJulianDayFunction,
   getAgeName: Function,
-  getTopocentricRadialVelocity: Function
+  getTopocentricRadialVelocity: Function,
+  getRiseTransitSet: RiseTransitSetTimesAtJulianDayAndGeographicCoordinatesFunction
 }
 
 export interface NaturalEarth {

@@ -130,8 +130,17 @@ export interface SaturnPlanet extends Planet {
   getRingSystemDetails: SaturnRingSystemFunction
 }
 
+export type JupiterCentralMeridianLongitudes = {
+  geometricSystemI: Degree
+  geometricSystemII: Degree
+  apparentSystemI: Degree
+  apparentSystemII: Degree
+}
+
+export type JupiterCentralMeridianLongitudesFunction = (jd: JulianDay) => JupiterCentralMeridianLongitudes
+
 export interface JupiterPlanet extends Planet {
-  getCentralMeridianLongitudes: Function
+  getCentralMeridianLongitudes: JupiterCentralMeridianLongitudesFunction
   getPlanetocentricDeclinationOfTheSun: QuantityInDegreeAtJulianDayFunction
   getPlanetocentricDeclinationOfTheEarth: QuantityInDegreeAtJulianDayFunction
 }
