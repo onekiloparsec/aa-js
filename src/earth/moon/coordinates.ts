@@ -4,9 +4,51 @@ import { getJulianCentury } from '@/juliandays'
 import { fmod360 } from '@/utils'
 import { Sun } from '@/sun'
 import { getMeanObliquityOfEcliptic, getNutationInLongitude, getTrueObliquityOfEcliptic } from '../nutation'
-import { getCoefficients1, getCoefficients2, getCoefficients3, getCoefficients4 } from './coefficients'
+import { coefficients1, coefficients2, coefficients3, coefficients4 } from './coefficients'
 import { getSigma } from './reducers'
 import { DEG2RAD, RAD2DEG } from '@/constants'
+
+// ---------------------------------------------------------------------------
+// Internal helper: compute T, Ldash, D, M, Mdash, F, E, A1, A2, A3 in one shot
+// so that functions called together don't each independently recompute T.
+// ---------------------------------------------------------------------------
+function getMoonFundamentals (jd: JulianDay) {
+  const T = getJulianCentury(jd)
+  const Ldash = fmod360(
+    218.316_447_7
+    + 481_267.881_234_21 * T
+    - 0.001_578_6 * T * T
+    + T * T * T / 538_841
+    - T * T * T * T / 65_194_000
+  )
+  const D = fmod360(
+    297.8501921
+    + 445267.1114034 * T
+    - 0.0018819 * T * T
+    + T * T * T / 545868
+    - T * T * T * T / 113065000
+  )
+  const M = Sun.getMeanAnomaly(jd)
+  const Mdash = fmod360(
+    134.963_3964
+    + 477198.867_5055 * T
+    + 0.008_7414 * T * T
+    + T * T * T / 69699
+    - T * T * T * T / 14712000
+  )
+  const F = fmod360(
+    93.272_0950
+    + 483202.017_5233 * T
+    - 0.003_6539 * T * T
+    - T * T * T / 3526_000
+    - T * T * T * T / 863_310_000
+  )
+  const E = 1 - T * 0.002_516 - T * T * 0.000_0074
+  const A1 = fmod360(119.75 + 131.849 * T)
+  const A2 = fmod360(53.09 + 479264.290 * T)
+  const A3 = fmod360(313.45 + 481266.484 * T)
+  return { T, Ldash, D, M, Mdash, F, E, A1, A2, A3 }
+}
 
 /**
  * Mean longitude
@@ -16,14 +58,13 @@ import { DEG2RAD, RAD2DEG } from '@/constants'
  */
 export function getMeanLongitude (jd: JulianDay): Degree {
   const T = getJulianCentury(jd)
-  
-  const value = 218.316_447_7
+  return fmod360(
+    218.316_447_7
     + 481_267.881_234_21 * T
     - 0.001_578_6 * T * T
     + T * T * T / 538_841
     - T * T * T * T / 65_194_000
-  
-  return fmod360(value)
+  )
 }
 
 /**
@@ -34,14 +75,13 @@ export function getMeanLongitude (jd: JulianDay): Degree {
  */
 export function getMeanElongation (jd: JulianDay): Degree {
   const T = getJulianCentury(jd)
-  
-  const value = 297.8501921
+  return fmod360(
+    297.8501921
     + 445267.1114034 * T
     - 0.0018819 * T * T
     + T * T * T / 545868
     - T * T * T * T / 113065000
-  
-  return fmod360(value)
+  )
 }
 
 /**
@@ -52,14 +92,13 @@ export function getMeanElongation (jd: JulianDay): Degree {
  */
 export function getMeanAnomaly (jd: JulianDay): Degree {
   const T = getJulianCentury(jd)
-  
-  const value = 134.963_3964
+  return fmod360(
+    134.963_3964
     + 477198.867_5055 * T
     + 0.008_7414 * T * T
     + T * T * T / 69699
     - T * T * T * T / 14712000
-  
-  return fmod360(value)
+  )
 }
 
 /**
@@ -70,14 +109,13 @@ export function getMeanAnomaly (jd: JulianDay): Degree {
  */
 export function getArgumentOfLatitude (jd: JulianDay): Degree {
   const T = getJulianCentury(jd)
-  
-  const value = 93.272_0950
+  return fmod360(
+    93.272_0950
     + 483202.017_5233 * T
     - 0.003_6539 * T * T
     - T * T * T / 3526_000
     - T * T * T * T / 863_310_000
-  
-  return fmod360(value)
+  )
 }
 
 /**
@@ -87,22 +125,17 @@ export function getArgumentOfLatitude (jd: JulianDay): Degree {
  * @memberof module:Earth
  */
 export function getGeocentricEclipticLongitude (jd: JulianDay): Degree {
-  const Ldash = getMeanLongitude(jd) * DEG2RAD
-  const D = getMeanElongation(jd) * DEG2RAD
-  const M = Sun.getMeanAnomaly(jd) * DEG2RAD
-  const Mdash = getMeanAnomaly(jd) * DEG2RAD
-  const F = getArgumentOfLatitude(jd) * DEG2RAD
-  
-  const T = getJulianCentury(jd)
-  const E = 1 - T * 0.002_516 - T * T * 0.000_0074
-  
-  const A1 = fmod360(119.75 + 131.849 * T) * DEG2RAD
-  const A2 = fmod360(53.09 + 479264.290 * T) * DEG2RAD
-  
-  let SigmaL = getSigma(E, D, M, Mdash, F, getCoefficients1, getCoefficients2, 'A', 'sin')
-  SigmaL += 3958 * Math.sin(A1) + 1962 * Math.sin(Ldash - F) + 318 * Math.sin(A2)
-  
-  return fmod360(Ldash * RAD2DEG + SigmaL / 1000000)
+  const { Ldash, D, M, Mdash, F, E, A1, A2 } = getMoonFundamentals(jd)
+  const LdashR = Ldash * DEG2RAD
+  const DR = D * DEG2RAD
+  const MR = M * DEG2RAD
+  const MdashR = Mdash * DEG2RAD
+  const FR = F * DEG2RAD
+
+  let SigmaL = getSigma(E, DR, MR, MdashR, FR, coefficients1, coefficients2, 'A', 'sin')
+  SigmaL += 3958 * Math.sin(A1 * DEG2RAD) + 1962 * Math.sin(LdashR - FR) + 318 * Math.sin(A2 * DEG2RAD)
+
+  return fmod360(Ldash + SigmaL / 1000000)
 }
 
 /**
@@ -112,28 +145,22 @@ export function getGeocentricEclipticLongitude (jd: JulianDay): Degree {
  * @memberof module:Earth
  */
 export function getGeocentricEclipticLatitude (jd: JulianDay): Degree {
-  const Ldash = getMeanLongitude(jd) * DEG2RAD
-  const D = getMeanElongation(jd) * DEG2RAD
-  const M = Sun.getMeanAnomaly(jd) * DEG2RAD
-  const Mdash = getMeanAnomaly(jd) * DEG2RAD
-  const F = getArgumentOfLatitude(jd) * DEG2RAD
-  
-  const T = getJulianCentury(jd)
-  const E = 1 - T * 0.002_516 - T * T * 0.000_0074
-  
-  const A1 = fmod360(119.75 + 131.849 * T) * DEG2RAD
-  const A3 = fmod360(313.45 + 481266.484 * T) * DEG2RAD
-  
-  let SigmaB = getSigma(E, D, M, Mdash, F, getCoefficients3, getCoefficients4, '', 'sin')
+  const { Ldash, D, M, Mdash, F, E, A1, A3 } = getMoonFundamentals(jd)
+  const LdashR = Ldash * DEG2RAD
+  const DR = D * DEG2RAD
+  const MR = M * DEG2RAD
+  const MdashR = Mdash * DEG2RAD
+  const FR = F * DEG2RAD
 
+  let SigmaB = getSigma(E, DR, MR, MdashR, FR, coefficients3, coefficients4, '', 'sin')
   SigmaB = SigmaB
-    - 2235 * Math.sin(Ldash)
-    + 382 * Math.sin(A3)
-    + 175 * Math.sin(A1 - F)
-    + 175 * Math.sin(A1 + F)
-    + 127 * Math.sin(Ldash - Mdash)
-    - 115 * Math.sin(Ldash + Mdash)
-  
+    - 2235 * Math.sin(LdashR)
+    + 382 * Math.sin(A3 * DEG2RAD)
+    + 175 * Math.sin(A1 * DEG2RAD - FR)
+    + 175 * Math.sin(A1 * DEG2RAD + FR)
+    + 127 * Math.sin(LdashR - MdashR)
+    - 115 * Math.sin(LdashR + MdashR)
+
   return SigmaB / 1000000
 }
 
@@ -144,9 +171,31 @@ export function getGeocentricEclipticLatitude (jd: JulianDay): Degree {
  * @memberof module:Earth
  */
 export function getGeocentricEclipticCoordinates (jd: JulianDay): EclipticCoordinates {
+  const { Ldash, D, M, Mdash, F, E, A1, A2, A3 } = getMoonFundamentals(jd)
+  const LdashR = Ldash * DEG2RAD
+  const DR = D * DEG2RAD
+  const MR = M * DEG2RAD
+  const MdashR = Mdash * DEG2RAD
+  const FR = F * DEG2RAD
+  const A1R = A1 * DEG2RAD
+  const A2R = A2 * DEG2RAD
+  const A3R = A3 * DEG2RAD
+
+  let SigmaL = getSigma(E, DR, MR, MdashR, FR, coefficients1, coefficients2, 'A', 'sin')
+  SigmaL += 3958 * Math.sin(A1R) + 1962 * Math.sin(LdashR - FR) + 318 * Math.sin(A2R)
+
+  let SigmaB = getSigma(E, DR, MR, MdashR, FR, coefficients3, coefficients4, '', 'sin')
+  SigmaB = SigmaB
+    - 2235 * Math.sin(LdashR)
+    + 382 * Math.sin(A3R)
+    + 175 * Math.sin(A1R - FR)
+    + 175 * Math.sin(A1R + FR)
+    + 127 * Math.sin(LdashR - MdashR)
+    - 115 * Math.sin(LdashR + MdashR)
+
   return {
-    longitude: getGeocentricEclipticLongitude(jd),
-    latitude: getGeocentricEclipticLatitude(jd)
+    longitude: fmod360(Ldash + SigmaL / 1000000),
+    latitude: SigmaB / 1000000
   }
 }
 
@@ -186,15 +235,8 @@ export function getApparentGeocentricEquatorialCoordinates (jd: JulianDay): Equa
  * @memberof module:Earth
  */
 export function getRadiusVectorInKilometer (jd: JulianDay): Kilometer {
-  const D = getMeanElongation(jd) * DEG2RAD
-  const M = Sun.getMeanAnomaly(jd) * DEG2RAD
-  const Mdash = getMeanAnomaly(jd) * DEG2RAD
-  const F = getArgumentOfLatitude(jd) * DEG2RAD
-  
-  const T = getJulianCentury(jd)
-  const E = 1 - T * 0.002_516 - T * T * 0.000_0074
-  const SigmaR = getSigma(E, D, M, Mdash, F, getCoefficients1, getCoefficients2, 'B', 'cos')
-
+  const { D, M, Mdash, F, E } = getMoonFundamentals(jd)
+  const SigmaR = getSigma(E, D * DEG2RAD, M * DEG2RAD, Mdash * DEG2RAD, F * DEG2RAD, coefficients1, coefficients2, 'B', 'cos')
   return 385000.56 + SigmaR / 1000
 }
 
@@ -238,14 +280,13 @@ export function horizontalParallaxToRadiusVector (horizontalParallax: Degree): K
  */
 export function getMeanLongitudeAscendingNode (jd: JulianDay): Degree {
   const T = getJulianCentury(jd)
-  
-  const value = 125.044_5479
+  return fmod360(
+    125.044_5479
     - 1934.136_2891 * T
     + 0.002_0754 * T * T
     + T * T * T / 467_441
     - T * T * T * T / 60_616_000
-  
-  return fmod360(value)
+  )
 }
 
 /**
@@ -256,14 +297,13 @@ export function getMeanLongitudeAscendingNode (jd: JulianDay): Degree {
  */
 export function getMeanLongitudePerigee (jd: JulianDay): Degree {
   const T = getJulianCentury(jd)
-  
-  const value = 83.353_2465
+  return fmod360(
+    83.353_2465
     + 4069.013_7287 * T
     - 0.010_3200 * T * T
     - T * T * T / 80_053
     + T * T * T * T / 18_999_000
-  
-  return fmod360(value)
+  )
 }
 
 /**
@@ -273,21 +313,14 @@ export function getMeanLongitudePerigee (jd: JulianDay): Degree {
  * @memberof module:Earth
  */
 export function trueLongitudeOfAscendingNode (jd: JulianDay): Degree {
-  let TrueAscendingNode = getMeanLongitudeAscendingNode(jd)
-  
-  const D = getMeanElongation(jd) * DEG2RAD
-  const M = Sun.getMeanAnomaly(jd) * DEG2RAD
-  const Mdash = getMeanAnomaly(jd) * DEG2RAD
-  const F = getArgumentOfLatitude(jd) * DEG2RAD
-  
-  // Add the principal additive terms
-  const value = TrueAscendingNode
-    - 1.4979 * Math.sin(2 * (D - F))
-    - 0.1500 * Math.sin(M)
-    - 0.1226 * Math.sin(2 * D)
-    + 0.1176 * Math.sin(2 * F)
-    - 0.0801 * Math.sin(2 * (Mdash - F))
-  
-  return fmod360(value)
+  const { D, M, Mdash, F } = getMoonFundamentals(jd)
+  const TrueAscendingNode = getMeanLongitudeAscendingNode(jd)
+  return fmod360(
+    TrueAscendingNode
+    - 1.4979 * Math.sin(2 * (D - F) * DEG2RAD)
+    - 0.1500 * Math.sin(M * DEG2RAD)
+    - 0.1226 * Math.sin(2 * D * DEG2RAD)
+    + 0.1176 * Math.sin(2 * F * DEG2RAD)
+    - 0.0801 * Math.sin(2 * (Mdash - F) * DEG2RAD)
+  )
 }
-
