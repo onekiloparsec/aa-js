@@ -10,3 +10,4 @@ dist
 .vitepress/cache
 .vitepress/sidebar-api.json
 docs/api
+/.claude
