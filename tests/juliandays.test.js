@@ -15,8 +15,8 @@ describe('julian days', () => {
     expect(juliandays.getJulianDay('2023-11-11T12:00:00.000Z')).toEqual(2460260)
   })
 
-  test('build julianday with one value', () => {
-    const UTCDate = new Date(Date.UTC(2016, 0, 0))
+  test('build julianday with one value (integer year = Jan 1)', () => {
+    const UTCDate = new Date(Date.UTC(2016, 0, 1))
     expect(juliandays.getJulianDay(2016)).toEqual(juliandays.getJulianDay(UTCDate))
   })
 
