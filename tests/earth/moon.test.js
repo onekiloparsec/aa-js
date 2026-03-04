@@ -96,6 +96,28 @@ describe('moon', () => {
     expect(Earth.Moon.getAgeName(lqMoonJD)).toEqual(MoonPhase.LastQuarter)
   })
 
+  test('getRiseTransitSet ordering is preserved', () => {
+    const jd = juliandays.getJulianDay(new Date(Date.UTC(2023, 9, 14)))
+    const geoCoords = { longitude: -70, latitude: -29.25 }
+    const rts = Earth.Moon.getRiseTransitSet(jd, geoCoords)
+    expect(rts).toBeDefined()
+    expect(rts.transit).toBeDefined()
+    if (rts.rise.julianDay !== undefined && rts.set.julianDay !== undefined) {
+      expect(rts.rise.julianDay).toBeLessThan(rts.transit.julianDay)
+      expect(rts.transit.julianDay).toBeLessThan(rts.set.julianDay)
+    }
+  })
+
+  test('getRiseTransitSet transit altitude is in valid range', () => {
+    const jd = juliandays.getJulianDay(new Date(Date.UTC(2023, 9, 14)))
+    const geoCoords = { longitude: 0, latitude: 48 }
+    const rts = Earth.Moon.getRiseTransitSet(jd, geoCoords)
+    if (rts.transit.altitude !== undefined) {
+      expect(rts.transit.altitude).toBeGreaterThan(0)
+      expect(rts.transit.altitude).toBeLessThanOrEqual(90)
+    }
+  })
+
   test('topocentric moon radial velocity: sanity magnitude (|RV| ~< a few km/s)', () => {
     const dates = [
       new Date(Date.UTC(1992, 3, 12, 0, 0, 0)),

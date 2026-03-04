@@ -3,6 +3,28 @@ import { getAccurateRiseTransitSetTimes, getRiseTransitSetTimes } from '@/risetr
 import { getDecimalValue, getSexagesimalValue } from '@/sexagesimal'
 import { getJulianDayMidnight } from '@/juliandays'
 
+describe('rise/transit/set edge cases', () => {
+  test('object that never rises from high-latitude site is handled gracefully', () => {
+    const jd = juliandays.getJulianDay(new Date(Date.UTC(2023, 5, 21)))
+    const coords = { rightAscension: 180, declination: -30 }
+    const geoCoords = { longitude: 0, latitude: 80 }
+    const rts = getRiseTransitSetTimes(jd, coords, geoCoords, STANDARD_ALTITUDE_STARS)
+    expect(rts.rise.utc).toBeUndefined()
+    expect(rts.set.utc).toBeUndefined()
+    expect(rts.transit.isAboveHorizon).toBe(false)
+  })
+
+  test('circumpolar object from southern high-latitude site has no rise or set', () => {
+    const jd = juliandays.getJulianDay()
+    const coords = { rightAscension: 0, declination: -89.5 }
+    const geoCoords = { longitude: 0, latitude: -70 }
+    const rts = getRiseTransitSetTimes(jd, coords, geoCoords, STANDARD_ALTITUDE_STARS)
+    expect(rts.transit.isCircumpolar).toBe(true)
+    expect(rts.rise.utc).toBeUndefined()
+    expect(rts.set.utc).toBeUndefined()
+  })
+})
+
 describe('rise transit & sets', () => {
   test('circumpolar transit', () => {
     const jd = juliandays.getJulianDay()

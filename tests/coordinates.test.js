@@ -9,8 +9,10 @@ import {
   getGreatCircleAngularDistance,
   getParallacticAngle,
   getRightAscensionFromEcliptic,
+  precessEquatorialCoordinates,
   transformEquatorialToTopocentric
 } from '@/coordinates'
+import { Earth } from '@/earth'
 import { Mars } from '@/planets/mars'
 
 describe('coordinates', () => {
@@ -115,6 +117,16 @@ describe('coordinates', () => {
     expect(topoCoords.declination).toBeCloseTo(getDecimalValue(-15, 46, 30), 4)
   })
 
+  test('topocentric Moon RA differs from geocentric (Moon parallax ~1°)', () => {
+    const jd = getJulianDay(new Date(Date.UTC(2003, 7, 28)))
+    const geocentric = Earth.Moon.getApparentGeocentricEquatorialCoordinates(jd)
+    const moonDist = Earth.Moon.getRadiusVectorInKilometer(jd) / 149597870.7 // km to AU
+    const geoCoords = { longitude: -70, latitude: -29.25, height: 2400 }
+    const topo = transformEquatorialToTopocentric(jd, geocentric, moonDist, geoCoords)
+    expect(Math.abs(topo.rightAscension - geocentric.rightAscension)).toBeGreaterThan(0)
+    expect(Math.abs(topo.rightAscension - geocentric.rightAscension)).toBeLessThan(2)
+  })
+
   test('test angular distance', () => {
     const alphaBoo = {
       rightAscension: getDecimalValue(14, 15, 39.7) * H2DEG,
@@ -125,5 +137,26 @@ describe('coordinates', () => {
       declination: getDecimalValue(-11, 9, 41)
     }
     expect(getGreatCircleAngularDistance(alphaBoo, alphaVir)).toBeCloseTo(32.7930, 4)
+  })
+})
+
+describe('precession', () => {
+  test('precession over 50 years moves Polaris RA by a detectable amount', () => {
+    const coords = { rightAscension: 37.95, declination: 89.264 }
+    const jd2000 = getJulianDay(new Date(Date.UTC(2000, 0, 1)))
+    const jd2050 = getJulianDay(new Date(Date.UTC(2050, 0, 1)))
+    const precessed = precessEquatorialCoordinates(coords, jd2000, jd2050)
+    expect(precessed.rightAscension).not.toBeCloseTo(coords.rightAscension, 0)
+  })
+
+  test('precession applied then reversed recovers original coordinates', () => {
+    const coords = { rightAscension: 180, declination: 45 }
+    const jd2000 = getJulianDay(new Date(Date.UTC(2000, 0, 1)))
+    const jd2050 = getJulianDay(new Date(Date.UTC(2050, 0, 1)))
+    const forward = precessEquatorialCoordinates(coords, jd2000, jd2050)
+    const back = precessEquatorialCoordinates(forward, jd2050, jd2000)
+    const normalizeRA = (ra) => ((ra % 360) + 360) % 360
+    expect(normalizeRA(back.rightAscension)).toBeCloseTo(normalizeRA(coords.rightAscension), 3)
+    expect(back.declination).toBeCloseTo(coords.declination, 3)
   })
 })

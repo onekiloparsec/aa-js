@@ -32,4 +32,12 @@ describe('sun', () => {
     expect(equ.rightAscension).toBeCloseTo(20.6589, 3)
     expect(equ.declination).toBeCloseTo(8.6964, 3)
   })
+
+  test('getVariationGeometricEclipticLongitude returns a finite number', () => {
+    const jd = juliandays.getJulianDay(new Date(Date.UTC(1992, 9, 13)))
+    const v = Sun.getVariationGeometricEclipticLongitude(jd)
+    expect(typeof v).toBe('number')
+    expect(isFinite(v)).toBe(true)
+    expect(Math.abs(v)).toBeGreaterThan(0)
+  })
 })

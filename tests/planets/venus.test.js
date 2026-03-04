@@ -57,4 +57,9 @@ describe('Venus', () => {
     // Old formula gives -3.8. No value provided in AA for new formulae.
     expect(Venus.getMagnitude(jd)).toBeCloseTo(-4.21, 1)
   })
+
+  test('check aphelion is a real JD (after 1800)', () => {
+    const jd = juliandays.getJulianDay(new Date(Date.UTC(2020, 0, 1)))
+    expect(Venus.getAphelion(jd)).toBeGreaterThan(2378497)
+  })
 })
