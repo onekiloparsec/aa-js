@@ -85,7 +85,7 @@ export function getTransitAltitude (equCoords: EquatorialCoordinates, geoCoords:
     cosH = Math.cos((lmst - equCoords.rightAscension) * DEG2RAD)
   }
   const dlat = geoCoords.latitude * DEG2RAD
-  const ddec = geoCoords.latitude * DEG2RAD
+  const ddec = equCoords.declination * DEG2RAD
   return Math.asin(
     Math.sin(dlat) * Math.sin(ddec) + Math.cos(dlat) * Math.cos(ddec) * cosH
   ) * RAD2DEG
