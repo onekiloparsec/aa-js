@@ -3,7 +3,6 @@
  *
  * @module Julian Days
  */
-import dayjs from 'dayjs'
 import { DAYMS, DEG2H, DEG2RAD, J1970, J2000, MJD_START } from './constants'
 import { ArcSecond, Degree, Hour, JulianCentury, JulianDay, JulianMillenium, Radian } from './types'
 import { transformUTC2TT } from '@/times'
@@ -35,7 +34,7 @@ export function getJulianDay (...args: any[]): JulianDay {
       return value.valueOf() / DAYMS - 0.5 + J1970
     } else if (value instanceof String || typeof value === 'string') {
       // @ts-ignore
-      return dayjs(value).toDate().valueOf() / DAYMS - 0.5 + J1970
+      return new Date(value).valueOf() / DAYMS - 0.5 + J1970
     } else if (isNumber(value)) {
       const year = Math.floor(value)
       const month = Math.floor((value - year) * 12) // the month is 0-indexed

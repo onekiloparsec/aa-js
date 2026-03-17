@@ -54,9 +54,6 @@
     "url": "https://github.com/onekiloparsec/aa-js/issues"
   },
   "homepage": "https://github.com/onekiloparsec/aa-js#readme",
-  "dependencies": {
-    "dayjs": "^1.11.19"
-  },
   "devDependencies": {
     "@vitest/coverage-v8": "^4.0.18",
     "chokidar-cli": "^3.0.0",

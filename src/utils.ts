@@ -2,11 +2,7 @@
  * @module Utils
  */
 
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
 import { Degree, Hour } from '@/types'
-
-dayjs.extend(utc)
 
 export function isNumber (v: any): boolean {
   return !isNaN(parseFloat(v)) && isFinite(v)

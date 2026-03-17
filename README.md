@@ -3,8 +3,10 @@ aa-js
 
 ![build and test](https://github.com/onekiloparsec/aa-js/actions/workflows/nodejs.yml/badge.svg?branch=master) [![codecov](https://codecov.io/gh/onekiloparsec/aa-js/graph/badge.svg?token=EfRJpZ4OTu)](https://codecov.io/gh/onekiloparsec/aa-js)
 
-A fairly comprehensive collection of accurate astronomical algorithms (AA) in JavaScript (TypeScript). 
+A fairly comprehensive collection of accurate astronomical algorithms (AA) in JavaScript (TypeScript).
 It started as an implementation of AA, but it is not yet complete.
+
+`aa-js` has **zero runtime dependencies**.
 
 At the beginning, `aa-js` is the port in javascript of the C++ implementation of Astronomical
 Algorithms by J.P. Naughter, called [AA+](http://www.naughter.com/aa.html),
