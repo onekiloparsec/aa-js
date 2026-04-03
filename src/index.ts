@@ -2,7 +2,7 @@
  * AA
  * @namespace
  */
-import { AllPlanetName, NaturalEarth, DwarfPlanet, NaturalSun, Planet, PlanetName, SolarSystemName } from '@/types'
+import type { AllPlanetName, NaturalEarth, DwarfPlanet, NaturalSun, Planet, PlanetName, SolarSystemName } from '@/types'
 
 import { Earth } from './earth'
 import { Sun } from './sun'

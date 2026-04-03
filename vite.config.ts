@@ -18,7 +18,8 @@ export default defineConfig({
       entryRoot: 'src',
       outDir: 'dist',
       include: ['src/**/*.ts'],
-      insertTypesEntry: true
+      insertTypesEntry: true,
+      rollupTypes: true
     })
   ],
   resolve: {

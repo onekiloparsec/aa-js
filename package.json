@@ -1,12 +1,11 @@
 {
   "name": "aa-js",
-  "version": "4.2.1",
+  "version": "4.2.2",
   "description": "Astronomical Algorithms in Javascript",
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.ts",
-    "dist/**/*.d.ts"
+    "dist"
   ],
+  "sideEffects": false,
   "type": "module",
   "main": "./dist/aa-js.umd.cjs",
   "module": "./dist/aa-js.js",

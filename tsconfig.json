@@ -7,7 +7,7 @@
     "target": "esnext",
     "module": "esnext",
     "declaration": true,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "emitDeclarationOnly": true,
     "declarationMap": true,
     "allowJs": false,
