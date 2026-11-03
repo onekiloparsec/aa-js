@@ -2,6 +2,9 @@ name: CI Build & Tests
 
 on: [ push ]
 
+permissions:
+  contents: read
+
 jobs:
   build:
 
