@@ -15,9 +15,9 @@ jobs:
         node-version: [ 20.x, 22.x, 24.x ]
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: ${{ matrix.node-version }}
       - name: npm install, build, and test
@@ -28,6 +28,6 @@ jobs:
         env:
           CI: true
       - name: codecov report
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v7
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
